@@ -1,6 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
 // require("dotenv").config();
-import { configDotenv } from "dotenv";
 
 // const SUPABASE_URL = "https://vakmfwtcbdeaigysjgch.supabase.co";
 // const SUPABASE_ANON_KEY =

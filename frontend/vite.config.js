@@ -12,6 +12,22 @@ export default ({ mode }) => {
         VITE_SUPABASE_URL: JSON.stringify(env.VITE_SUPABASE_URL),
         VITE_SUPABASE_ANON_KEY: JSON.stringify(env.VITE_SUPABASE_ANON_KEY)
       }
+    },
+    build: {
+      rollupOptions: {
+        external: ['dotenv'],
+        output: {
+          manualChunks: {
+            vendor: ['react', 'react-dom'],
+            router: ['react-router-dom'],
+            ui: ['@radix-ui/themes', '@radix-ui/react-icons']
+          }
+        }
+      },
+      chunkSizeWarningLimit: 1000
+    },
+    optimizeDeps: {
+      exclude: ['dotenv']
     }
   });
 };
