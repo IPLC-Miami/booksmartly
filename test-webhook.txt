@@ -1,0 +1,5 @@
+This is a test file to verify auto-deployment webhook functionality.
+Created on: 2025-05-31
+Purpose: Testing GitHub webhook integration with VPS deployment
+
+If you see this file on the VPS after push, the auto-deployment is working!
