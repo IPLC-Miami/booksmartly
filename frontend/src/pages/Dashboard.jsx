@@ -1,7 +1,6 @@
 import ClinicianDashboard from "../components/ClinicianDashboard/ClinicianDashboard";
 import PatientDashboard from "../components/PatientDashboard/PatientDashboard";
 import ReceptionDashboard from "../components/ReceptionDashboard/ReceptionDashboard";
-import MultiClinicianDashboard from "./MultiClinicianDashboard";
 import { useState, useEffect } from "react";
 import { supabase } from "../utils/supabaseClient";
 import useUserRoleById from "../hooks/useUserRoleById";

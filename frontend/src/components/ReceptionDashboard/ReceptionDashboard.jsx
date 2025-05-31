@@ -2,7 +2,7 @@ import { Box, Separator, Tabs } from "@radix-ui/themes";
 import ReceptionProfileTab from "./ReceptionProfileTab";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import MultiClinicianDashboard from "../../pages/MultiClinicianDashboard";
+import MultiDoctorDashboard from "../../pages/MultiDoctorDashboard";
 
 function ReceptionDashboard() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -43,7 +43,7 @@ function ReceptionDashboard() {
         {/* </Tabs.Root> */}
         <Box pt="3">
           <Tabs.Content value="Queues">
-            <MultiClinicianDashboard />
+            <MultiDoctorDashboard />
           </Tabs.Content>
         </Box>
       </Tabs.Root>

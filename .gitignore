@@ -57,3 +57,6 @@ package-lock.json
 # Temporary files
 .tmp/
 .temp/
+
+# Project documentation with sensitive information
+PROJECT_STATUS.md

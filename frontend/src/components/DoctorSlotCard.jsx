@@ -25,7 +25,7 @@ function capitalizeFirstLetter(val) {
 //           <DataList.Label minWidth="88px">Name</DataList.Label>
 //           <DataList.Value>
 //             <Code variant="ghost">{data?.clinician_name}</Code>
-          </DataList.Value>
+//           </DataList.Value>
 //         </DataList.Item>
 //         <DataList.Item align="">
 //           <DataList.Label minWidth="88px">Specialization</DataList.Label>
@@ -50,7 +50,7 @@ function capitalizeFirstLetter(val) {
 //                 {moment(data?.available_to, "HH:mm:ss").format("hh:mm A")}
 //               </Code>
 //             )} */}
-//             {data?.available_slots.map((slot => {
+//             {data?.available_slots.map((slot) => {
 //               const startTime = moment(slot.start_time, "HH:mm:ss").format("hh:mm A");
 //               const endTime = moment(slot.end_time, "HH:mm:ss").format("hh:mm A");
 //               return (
