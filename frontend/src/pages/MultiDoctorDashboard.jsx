@@ -27,7 +27,7 @@ const NoAppointmentsView = () => (
       <h3 className="text-2xl font-semibold text-gray-700">
         No appointments scheduled
       </h3>
-      <p className="mt-3 text-gray-500">All doctors have clear schedules</p>
+      <p className="mt-3 text-gray-500">All clinicians have clear schedules</p>
       <div className="mt-6 inline-flex items-center rounded-full bg-blue-50 px-4 py-2 text-sm text-blue-600">
         <span className="mr-2 h-2 w-2 rounded-full bg-blue-500"></span>
         Monitoring active - System ready
@@ -43,7 +43,7 @@ const MultiDoctorDashboard = () => {
   const data = JSON.parse(token);
 
   const [receptionId, setReceptionId] = useState(data?.user?.id);
-  const [doctorQueues, setDoctorQueues] = useState({});
+  const [clinicianQueues, setClinicianQueues] = useState({});
   const [lastUpdate, setLastUpdate] = useState(new Date());
   const [isLoading, setIsLoading] = useState(true);
 
@@ -61,26 +61,26 @@ const MultiDoctorDashboard = () => {
     fetchUser();
   }, [token]);
 
-  const fetchCompleteReceptionDoctorQueue = async (receptionId) => {
+  const fetchCompleteReceptionClinicianQueue = async (receptionId) => {
     setIsLoading(true);
     try {
       const response = await axios.get(
         `${api}/api/multiDoctorDashboardRoutes/allNextAppointments/${receptionId}`,
       );
-      const doctorData = response.data;
-      console.log(doctorData);
-      // Create a new object with update timestamps for each doctor
-      const updatedDoctorQueues = {};
+      const clinicianData = response.data;
+      console.log(clinicianData);
+      // Create a new object with update timestamps for each clinician
+      const updatedClinicianQueues = {};
       const currentTime = new Date();
 
-      Object.entries(doctorData).forEach(([doctorId, patients]) => {
-        updatedDoctorQueues[doctorId] = {
+      Object.entries(clinicianData).forEach(([clinicianId, patients]) => {
+        updatedClinicianQueues[clinicianId] = {
           patients,
           lastUpdate: currentTime,
         };
       });
 
-      setDoctorQueues(updatedDoctorQueues);
+      setClinicianQueues(updatedClinicianQueues);
       setLastUpdate(currentTime); // Keep this for the global refresh indicator
     } catch (error) {
       console.error(
@@ -95,18 +95,18 @@ const MultiDoctorDashboard = () => {
   useEffect(() => {
     const socket = io(SOCKET_SERVER_URL);
     socket.emit("joinReception", receptionId);
-    fetchCompleteReceptionDoctorQueue(receptionId);
+    fetchCompleteReceptionClinicianQueue(receptionId);
 
-    socket.on("doctorQueueChanged", (data) => {
-      const { doctorId, receptionIdFromSocket } = data;
+    socket.on("clinicianQueueChanged", (data) => {
+      const { clinicianId, receptionIdFromSocket } = data;
       if (receptionIdFromSocket == receptionId) {
-        fetchDoctorQueue(doctorId);
+        fetchClinicianQueue(clinicianId);
       }
     });
 
     // Set up refresh interval
     const intervalId = setInterval(() => {
-      fetchCompleteReceptionDoctorQueue(receptionId);
+      fetchCompleteReceptionClinicianQueue(receptionId);
     }, 60000); // Refresh every minute
 
     return () => {
@@ -115,20 +115,20 @@ const MultiDoctorDashboard = () => {
     };
   }, [receptionId]);
 
-  const fetchDoctorQueue = async (doctorId) => {
-    const onlyId = doctorId.split("+")[0];
+  const fetchClinicianQueue = async (clinicianId) => {
+    const onlyId = clinicianId.split("+")[0];
 
     try {
       const response = await axios.get(
         `${api}/api/multiDoctorDashboardRoutes/nextAppointments/${onlyId}`,
       );
-      const doctorData = response.data;
+      const clinicianData = response.data;
       const currentTime = new Date();
 
-      setDoctorQueues((prevQueues) => ({
+      setClinicianQueues((prevQueues) => ({
         ...prevQueues,
-        [doctorId]: {
-          patients: doctorData,
+        [clinicianId]: {
+          patients: clinicianData,
           lastUpdate: currentTime,
         },
       }));
@@ -136,14 +136,14 @@ const MultiDoctorDashboard = () => {
       // Global update time remains unchanged for overall system status
       setLastUpdate(new Date());
     } catch (error) {
-      console.error(`Error fetching queue for doctor ${doctorId}:`, error);
+      console.error(`Error fetching queue for clinician ${clinicianId}:`, error);
     }
   };
 
-  // Extract doctor name from doctorId
-  const extractDoctorName = (doctorId) => {
-    const parts = doctorId.split("+");
-    return parts.length > 1 ? parts[1] : doctorId;
+  // Extract clinician name from clinicianId
+  const extractClinicianName = (clinicianId) => {
+    const parts = clinicianId.split("+");
+    return parts.length > 1 ? parts[1] : clinicianId;
   };
 
   // Format time
@@ -220,13 +220,13 @@ const MultiDoctorDashboard = () => {
     }
   };
 
-  // Check if all doctors have empty queues
-  const allDoctorsHaveNoAppointments = Object.entries(doctorQueues).every(
+  // Check if all clinicians have empty queues
+  const allCliniciansHaveNoAppointments = Object.entries(clinicianQueues).every(
     ([_, info]) => info.patients.length === 0,
   );
 
   // Calculate total patients
-  const totalPatients = Object.values(doctorQueues).reduce(
+  const totalPatients = Object.values(clinicianQueues).reduce(
     (sum, info) => sum + info.patients.length,
     0,
   );
@@ -269,7 +269,7 @@ const MultiDoctorDashboard = () => {
               </div>
               <button
                 className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                onClick={() => fetchCompleteReceptionDoctorQueue(receptionId)}
+                onClick={() => fetchCompleteReceptionClinicianQueue(receptionId)}
               >
                 Refresh
               </button>
@@ -336,10 +336,10 @@ const MultiDoctorDashboard = () => {
                 <div className="ml-5 w-0 flex-1">
                   <dl>
                     <dt className="truncate text-sm font-medium text-gray-500">
-                      Active Doctors
+                      Active Clinicians
                     </dt>
                     <dd className="text-2xl font-semibold text-gray-900">
-                      {Object.keys(doctorQueues).length}
+                      {Object.keys(clinicianQueues).length}
                     </dd>
                   </dl>
                 </div>
@@ -412,12 +412,12 @@ const MultiDoctorDashboard = () => {
           Patient Queue Monitor
         </h2>
 
-        {allDoctorsHaveNoAppointments ? (
+        {allCliniciansHaveNoAppointments ? (
           <NoAppointmentsView />
         ) : (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {Object.entries(doctorQueues).map(([doctorId, doctorInfo]) => {
-              const { patients, lastUpdate: doctorLastUpdate } = doctorInfo;
+            {Object.entries(clinicianQueues).map(([clinicianId, clinicianInfo]) => {
+              const { patients, lastUpdate: clinicianLastUpdate } = clinicianInfo;
 
               // Sort patients to ensure Q1 is first
               const sortedPatients = [...patients].sort(
@@ -429,7 +429,7 @@ const MultiDoctorDashboard = () => {
 
               return (
                 <div
-                  key={doctorId}
+                  key={clinicianId}
                   className="overflow-hidden rounded-lg bg-white shadow-lg transition-all duration-200 hover:shadow-xl"
                 >
                   <div
@@ -457,7 +457,7 @@ const MultiDoctorDashboard = () => {
                         </div>
                         <div className="ml-4">
                           <h3 className="text-lg font-medium text-gray-900">
-                            {extractDoctorName(doctorId)}
+                            {extractClinicianName(clinicianId)}
                           </h3>
                           <div className="mt-1 flex items-center">
                             <span
@@ -497,7 +497,7 @@ const MultiDoctorDashboard = () => {
                           d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
                         />
                       </svg>
-                      Updated {getRelativeTime(doctorLastUpdate)}
+                      Updated {getRelativeTime(clinicianLastUpdate)}
                     </div>
                   </div>
 
@@ -544,7 +544,7 @@ const MultiDoctorDashboard = () => {
                                   }`}
                                 >
                                   {index === 0
-                                    ? "Currently with doctor"
+                                    ? "Currently with clinician"
                                     : `Queue position ${index + 1}`}
                                 </p>
                               </div>

@@ -7,7 +7,7 @@
 // function HistoryAppointmentCard({ data, refetch, setShowLoader }) {
 //   // console.log("HistoryAppointmentCard data: ", data);
 //   const {
-//     doctor,
+//     clinician,
 //     specialization,
 //     hospital,
 //     appointment_time,
@@ -47,9 +47,9 @@
 //           }}
 //         >
 //           <DataList.Item>
-//             <DataList.Label minWidth="88px">Doctor</DataList.Label>
+//             <DataList.Label minWidth="88px">Clinician</DataList.Label>
 //             <DataList.Value>
-//               <Code variant="ghost">{doctor}</Code>
+//               <Code variant="ghost">{clinician}</Code>
 //             </DataList.Value>
 //           </DataList.Item>
 //           <DataList.Item align="">
@@ -184,7 +184,7 @@ function HistoryAppointmentCard({ data, refetch, setShowLoader }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const {
-    doctor,
+    clinician,
     specialization,
     hospital,
     appointment_time,
@@ -258,7 +258,7 @@ function HistoryAppointmentCard({ data, refetch, setShowLoader }) {
         <div className="flex flex-col gap-3 md:flex-row md:items-center">
           <div className="flex items-center gap-2">
             <UserIcon className="h-5 w-5 text-gray-600" />
-            <h3 className="font-semibold text-gray-800">{doctor}</h3>
+            <h3 className="font-semibold text-gray-800">{clinician}</h3>
           </div>
 
           <Badge

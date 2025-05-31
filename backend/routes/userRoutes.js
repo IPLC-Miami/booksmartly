@@ -76,7 +76,7 @@ router.get("/validateOtp/:id", async (req, res) => {
   res.json({ info });
 });
 router.get("/allusers", async (req, res) => {
-  const { data, error } = await supabase.from("user").select("*");
+  const { data, error } = await supabase.from("profiles").select("*"); // Changed "user" to "profiles"
 
   if (error) return res.status(400).json({ error: error.message });
 
@@ -261,7 +261,7 @@ router.put("/update-auth-email-pass", async (req, res) => {
 });
 
 router.get("/user", async (req, res) => {
-  const { data, error } = await supabase.from("user").select("*");
+  const { data, error } = await supabase.from("profiles").select("*"); // Changed "user" to "profiles"
 
   if (error) return res.status(400).json({ error: error.message });
 
@@ -564,7 +564,7 @@ router.post("/validateQR", async (req, res) => {
     // 1. Get the appointment record to retrieve the doctor_id
     let { data: appointment, error: appointmentError } = await supabase
       .from("appointments2")
-      .select("doctor_id")
+      .select("clinician_id") // Changed doctor_id to clinician_id
       .eq("id", appointmentId)
       .single();
 
@@ -572,24 +572,24 @@ router.post("/validateQR", async (req, res) => {
       return res.status(400).json({ error: "Appointment not found" });
     }
 
-    const doctorId = appointment.doctor_id;
+    const clinicianId = appointment.clinician_id; // Changed doctorId to clinicianId
 
-    // 2. Get the doctor record to retrieve the reception_id
-    let { data: doctor, error: doctorError } = await supabase
-      .from("doctors2")
+    // 2. Get the clinician record to retrieve the reception_id
+    let { data: clinicianRecord, error: clinicianError } = await supabase // Renamed doctor to clinicianRecord
+      .from("clinicians2") // Changed doctors2 to clinicians2
       .select("reception_id")
-      .eq("id", doctorId)
+      .eq("id", clinicianId) // Changed doctorId to clinicianId
       .single();
 
-    if (doctorError || !doctor) {
-      return res.status(400).json({ error: "Doctor not found" });
+    if (clinicianError || !clinicianRecord) { // Renamed doctorError and doctor
+      return res.status(400).json({ error: "Clinician not found" }); // Changed message
     }
 
-    const receptionId = doctor.reception_id;
+    const receptionId = clinicianRecord.reception_id; // Renamed doctor to clinicianRecord
 
     // 3. Get the reception record to retrieve the stored qr code
     let { data: reception, error: receptionError } = await supabase
-      .from("reception")
+      .from("receptions") // Changed reception to receptions
       .select("qrcode")
       .eq("id", receptionId)
       .single();

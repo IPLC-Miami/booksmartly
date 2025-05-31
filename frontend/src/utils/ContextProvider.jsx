@@ -1,13 +1,13 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { supabase } from "../utils/supabaseClient";
 
-const CureitContext = createContext();
+const BookSmartlyContext = createContext();
 const AuthContext = createContext();
 
-export function useCureitContext() {
-  const context = useContext(CureitContext);
+export function useBookSmartlyContext() {
+  const context = useContext(BookSmartlyContext);
   if (!context) {
-    throw new Error("useCureitContext must be used within a CureitProvider");
+    throw new Error("useBookSmartlyContext must be used within a BookSmartlyProvider");
   }
   return context;
 }
@@ -23,7 +23,7 @@ export function useAuthContext() {
   return context;
 }
 
-export default function CureitProvider({ children }) {
+export default function BookSmartlyProvider({ children }) {
   const [theme, setTheme] = useState("light");
   const [profile, setProfile] = useState(null);
 
@@ -35,7 +35,7 @@ export default function CureitProvider({ children }) {
   }, []);
 
   return (
-    <CureitContext.Provider
+    <BookSmartlyContext.Provider
       value={{
         theme,
         setTheme,
@@ -44,7 +44,7 @@ export default function CureitProvider({ children }) {
       }}
     >
       {children}
-    </CureitContext.Provider>
+    </BookSmartlyContext.Provider>
   );
 }
 export function AuthContextProvider({ children }) {

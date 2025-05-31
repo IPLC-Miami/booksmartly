@@ -73,7 +73,7 @@ const HealthCampsList = ({
     if (onVolunteer) onVolunteer(campInfo);
   };
 
-  // Fixed function to check if the doctor has already volunteered for a specific camp
+  // Fixed function to check if the clinician has already volunteered for a specific camp
   const hasVolunteered = (campId) => {
     // Ensure volunteeredCamps is an array and not undefined
     if (!Array.isArray(volunteeredCamps)) return false;
@@ -391,7 +391,7 @@ const HealthCampsList = ({
                         </div>
 
                         <div className="flex items-center space-x-3">
-                          {userRole === "doctor" &&
+                          {userRole === "clinician" &&
                             (isVolunteered ? (
                               <div className="flex items-center rounded-lg bg-green-50 px-4 py-2 text-green-700">
                                 <Check

@@ -13,7 +13,7 @@ const getQueuePosition = async (appointmentId) => {
   const { data: appointment, error: appointmentError } = await supabase
     .from("appointments2")
     .select(
-      "doctor_id, appointment_date, chosen_slot->>start_time, chosen_slot->>end_time, created_at"
+      "clinician_id, appointment_date, chosen_slot->>start_time, chosen_slot->>end_time, created_at" // Changed doctor_id to clinician_id
     )
     .eq("id", appointmentId)
     .single();
@@ -23,14 +23,14 @@ const getQueuePosition = async (appointmentId) => {
     return -1;
   }
   console.log("appointment: ", appointment);
-  const { doctor_id, appointment_date, created_at, start_time, end_time } =
+  const { clinician_id, appointment_date, created_at, start_time, end_time } = // Changed doctor_id to clinician_id
     appointment;
   console.log("start_time: ", start_time);
   console.log("end_time: ", end_time);
   const { data, error } = await supabase
     .from("appointments2")
     .select("id")
-    .eq("doctor_id", doctor_id)
+    .eq("clinician_id", clinician_id) // Changed doctor_id to clinician_id
     .eq("appointment_date", appointment_date)
     .eq("chosen_slot->>start_time", start_time)
     .eq("chosen_slot->>end_time", end_time)
@@ -49,7 +49,7 @@ const getQueuePositionPostCheckin = async (appointmentId) => {
   const { data: appointment, error: appointmentError } = await supabase
     .from("appointments2")
     .select(
-      "doctor_id, appointment_date, chosen_slot->>start_time, chosen_slot->>end_time, created_at"
+      "clinician_id, appointment_date, chosen_slot->>start_time, chosen_slot->>end_time, created_at" // Changed doctor_id to clinician_id
     )
     .eq("id", appointmentId)
     .single();
@@ -59,14 +59,14 @@ const getQueuePositionPostCheckin = async (appointmentId) => {
     return -1;
   }
   console.log("appointment: ", appointment);
-  const { doctor_id, appointment_date, created_at, start_time, end_time } =
+  const { clinician_id, appointment_date, created_at, start_time, end_time } = // Changed doctor_id to clinician_id
     appointment;
   console.log("start_time: ", start_time);
   console.log("end_time: ", end_time);
   const { data, error } = await supabase
     .from("appointments2")
     .select("id")
-    .eq("doctor_id", doctor_id)
+    .eq("clinician_id", clinician_id) // Changed doctor_id to clinician_id
     .eq("appointment_date", appointment_date)
     .eq("chosen_slot->>start_time", start_time)
     .eq("chosen_slot->>end_time", end_time)
@@ -83,8 +83,8 @@ const getQueuePositionPostCheckin = async (appointmentId) => {
 };
 router.post("/book", async (req, res) => {
   const {
-    patientId,
-    doctorId,
+    patientId,    // This should be client_id to match table structure if patientId is auth.users.id
+    clinicianId,  // Changed from doctorId
     appointment_date,
     chosen_slot,
     book_status,
@@ -94,15 +94,15 @@ router.post("/book", async (req, res) => {
   const { data: removedData, error: removePendingError } = await supabase
     .from("appointments2")
     .delete()
-    .eq("patient_id", patientId)
+    .eq("client_id", patientId) // Assuming patientId from req.body is the client's auth.users.id, matching client_id
     .eq("book_status", "pending");
 
   if (removePendingError) {
-    return res.status(400).json({ error: removePendingError });
+    return res.status(400).json({ error: removePendingError.message }); // Added .message
   }
 
   let parsedPersonalDetails;
-  try {
+  try { // Added try block here
     parsedPersonalDetails =
       typeof personal_details === "string"
         ? JSON.parse(personal_details)
@@ -159,8 +159,8 @@ router.post("/book", async (req, res) => {
     .from("appointments2")
     .insert([
       {
-        patient_id: patientId,
-        doctor_id: doctorId,
+        client_id: patientId, // Changed patient_id to client_id
+        clinician_id: clinicianId, // Changed doctor_id to clinician_id
         book_status: book_status,
         appointment_date: appointment_date,
         personal_details: parsedPersonalDetails,
@@ -168,7 +168,7 @@ router.post("/book", async (req, res) => {
         meeting_link: googleMeetLink,
       },
     ])
-    .select("*")
+    .select() // Select all by default
     .single();
 
   if (error) {
@@ -262,29 +262,32 @@ router.post("/updateStatus/:appointmentId", async (req, res) => {
 
   // console.log(data2?.dpctor, " ", err)
   const { data: data2, error: error2 } = await supabase
-    .from("profiles")
+    .from("profiles") // This fetches profile of the clinician using clinician_id from appointments2
     .select("name")
-    .eq("id", data?.doctor_id);
+    .eq("id", (await supabase.from("clinicians2").select("user_id").eq("id", data?.clinician_id).single())?.data?.user_id ); // Get auth.users.id from clinicians2
   const { data: data3, error: error3 } = await supabase
-    .from("doctors2")
+    .from("clinicians2") // Changed from doctors2
     .select("reception_id")
-    .eq("id", data?.doctor_id);
+    .eq("id", data?.clinician_id); // data.clinician_id is the clinicians2.id
   console.log(data2, " ", data3);
 
-  if (error) {
+  if (error) { // This 'error' is from the update operation, not data2/data3 fetch
     return res.status(400).json({ error: error.message });
   }
-  const doctorId = `${data?.doctor_id}+${data2[0]?.name}`;
+  // Construct clinicianIdentifier using clinicians2.id and name from profiles
+  const clinicianAuthId = (await supabase.from("clinicians2").select("user_id").eq("id", data?.clinician_id).single())?.data?.user_id;
+  const clinicianProfileName = clinicianAuthId ? (await supabase.from("profiles").select("name").eq("id", clinicianAuthId).single())?.data?.name : "Unknown Clinician";
+  const clinicianIdentifier = `${data?.clinician_id}+${clinicianProfileName}`;
 
-  console.log(doctorId);
+  console.log(clinicianIdentifier);
   console.log("reaching end");
   const receptionId = data3[0]?.reception_id;
-  if (doctorId) {
+  if (clinicianIdentifier) { // Changed from doctorId to clinicianIdentifier
     const io = getIo();
-    console.log("doctor queue changed");
-    io.to(receptionId).emit("doctorQueueChanged", {
-      doctorId: doctorId,
-      receptionIdFromSocket: data3[0]?.reception_id,
+    console.log("clinician queue changed");
+    io.to(receptionId).emit("clinicianQueueChanged", {
+      clinicianId: clinicianIdentifier,
+      receptionIdFromSocket: data3 && data3.length > 0 ? data3[0]?.reception_id : null, // Added null check for data3
     });
   }
 
@@ -295,8 +298,8 @@ router.get("/upcomingAppointments/:patientId", async (req, res) => {
   const { date } = req.query;
   const { data: appointments, error } = await supabase
     .from("appointments2")
-    .select("*")
-    .eq("patient_id", patientId)
+    .select("*, clinicians2 ( user_id )") // Select user_id from clinicians2, aliased as clinician_user_id by Supabase
+    .eq("client_id", patientId) // Changed patient_id to client_id
     .gte("appointment_date", date)
     .eq("book_status", "completed")
     .eq("status", "scheduled");
@@ -325,22 +328,28 @@ router.get("/completedAppointments/:patientId", async (req, res) => {
   const { patientId } = req.params;
   const { data: appointments, error } = await supabase
     .from("appointments2")
-    .select("*")
-    .eq("patient_id", patientId)
+    .select("*, clinicians2 ( user_id )") // Select user_id from clinicians2
+    .eq("client_id", patientId) // Changed patient_id to client_id
     .in("status", ["completed", "missed"]);
   if (error) {
     return res.status(400).json({ error: error.message });
   }
-  console.log(appointments);
-  return res.json(appointments);
+  // Rename clinicians2.user_id to clinician_user_id for frontend consistency
+  const processedAppointments = appointments.map(app => ({
+    ...app,
+    clinician_user_id: app.clinicians2?.user_id,
+    clinicians2: undefined // remove the nested clinicians2 object
+  }));
+  console.log(processedAppointments);
+  return res.json(processedAppointments);
 });
-router.get("/doctorUpcomingAppointments/:doctorId", async (req, res) => {
-  const { doctorId } = req.params;
+router.get("/clinicianUpcomingAppointments/:clinicianId", async (req, res) => { // Renamed route and param
+  const { clinicianId } = req.params; // Renamed param
   const { date, endTime, startTime } = req.query;
   const { data: appointments, error } = await supabase
     .from("appointments2")
-    .select("*")
-    .eq("doctor_id", doctorId)
+    .select("*, clinicians2 ( user_id )") // Select user_id from clinicians2
+    .eq("clinician_id", clinicianId) // Changed doctor_id to clinician_id
     .eq("appointment_date", date)
     .eq("book_status", "completed")
     .eq("status", "scheduled")
@@ -351,35 +360,41 @@ router.get("/doctorUpcomingAppointments/:doctorId", async (req, res) => {
   }
   const updatedAppointments = await Promise.all(
     appointments.map(async (appointment) => {
-      const position = await getQueuePosition(appointment.id);
-      if (appointment.checked_in_status) {
-        // console.log("checked in appointment: ", appointment);
-        const pos2 = await getQueuePositionPostCheckin(appointment.id);
-        // console.log("checked in appointment position: ", pos2);
-        return {
-          ...appointment,
-          queuePosition: position,
-          queuePositionPostCheckin: pos2,
-        };
-      }
+      const position = await getQueuePosition(appointment.id); // getQueuePosition uses clinician_id internally
+      let processedAppointment = {
+        ...appointment,
+        queuePosition: position,
+        clinician_user_id: appointment.clinicians2?.user_id, // Add clinician_user_id
+      };
+      delete processedAppointment.clinicians2; // Clean up nested object
 
-      return { ...appointment, queuePosition: position };
+      if (appointment.checked_in_status) {
+        const pos2 = await getQueuePositionPostCheckin(appointment.id);
+        processedAppointment.queuePositionPostCheckin = pos2;
+      }
+      return processedAppointment;
     })
   );
   return res.json(updatedAppointments);
 });
-router.get("/doctorCompletedAppointments/:doctorId", async (req, res) => {
-  const { doctorId } = req.params;
+router.get("/clinicianCompletedAppointments/:clinicianId", async (req, res) => { // Renamed route and param
+  const { clinicianId } = req.params; // Renamed param
   const { data: appointments, error } = await supabase
     .from("appointments2")
-    .select("*")
-    .eq("doctor_id", doctorId)
+    .select("*, clinicians2 ( user_id )") // Select user_id from clinicians2
+    .eq("clinician_id", clinicianId) // Changed doctor_id to clinician_id
     .eq("status", "completed");
   if (error) {
     return res.status(400).json({ error: error.message });
   }
-  console.log(appointments);
-  return res.json(appointments);
+  // Rename clinicians2.user_id to clinician_user_id for frontend consistency
+  const processedAppointments = appointments.map(app => ({
+    ...app,
+    clinician_user_id: app.clinicians2?.user_id,
+    clinicians2: undefined // remove the nested clinicians2 object
+  }));
+  console.log(processedAppointments);
+  return res.json(processedAppointments);
 });
 router.delete("/delete/:appointmentId", async (req, res) => {
   const { appointmentId } = req.params;

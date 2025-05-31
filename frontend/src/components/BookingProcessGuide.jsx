@@ -1,11 +1,11 @@
-import CureitLogo from "../assets/CureitLogo";
-import CureitLogoWhite from "../assets/CureitLogoWhite.png";
+import BookSmartlyLogo from "../assets/BookSmartlyLogo";
+import BookSmartlyLogoWhite from "../assets/BookSmartlyLogoWhite.png";
 
 function BookingProcessGuide() {
   return (
     <div className="animate-fade-up">
       <div className="my-2 flex w-full justify-center">
-        <img src={CureitLogoWhite} alt="" className="h-12 md:h-16 w-auto" />
+        <img src={BookSmartlyLogoWhite} alt="" className="h-12 md:h-16 w-auto" />
       </div>
       <div className="mb-4 flex select-none justify-center text-center font-noto text-base font-semibold md:text-lg">
         Welcome to CureIt Appointment Booking

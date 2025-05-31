@@ -7,7 +7,7 @@ function SingleFeaturePageFeedback() {
         AI-powered Feedback System
       </div>
       <div className="mb-6 w-9/12 text-center font-noto font-medium">
-        It analyzes patient reviews and generates insightful tags for doctors,
+        It analyzes patient reviews and generates insightful tags for clinicians,
         helping users quickly identify expertise and patient satisfaction for
         informed healthcare choices.
       </div>

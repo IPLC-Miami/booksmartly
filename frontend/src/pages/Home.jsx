@@ -4,9 +4,9 @@ import React, { useEffect, useState } from "react";
 import { Typewriter } from "react-simple-typewriter";
 // import jwt_decode from "jwt-decode";
 
-import CureitLogoWhite from "../assets/CureitLogoWhite.png";
-import docotorsImage from "../assets/doctors.png";
-import { useCureitContext, useAuthContext } from "../utils/ContextProvider";
+import BookSmartlyLogoWhite from "../assets/BookSmartlyLogoWhite.png";
+import cliniciansImage from "../assets/clinicians.png";
+import { useBookSmartlyContext, useAuthContext } from "../utils/ContextProvider";
 import { Button } from "@radix-ui/themes";
 import Features from "../components/Features";
 import { useNavigate } from "react-router-dom";
@@ -17,7 +17,7 @@ import ChatBot from "../components/ChatBot/ChatBot";
 // imprt useState
 
 function Home() {
-  const { theme, profile } = useCureitContext();
+  const { theme, profile } = useBookSmartlyContext();
 
   const navigate = useNavigate();
   const token = localStorage.getItem("sb-vakmfwtcbdeaigysjgch-auth-token");
@@ -345,8 +345,8 @@ function Home() {
 
         <div className="flex flex-col items-center justify-center p-8">
           <img
-            src={CureitLogoWhite}
-            alt="Cureit Logo"
+            src={BookSmartlyLogoWhite}
+            alt="BookSmartly Logo"
             className="h-20 md:h-28 lg:h-32"
           />
           <div class="my-4 h-[1px] w-full bg-gradient-to-r from-transparent via-[#79797949] to-transparent"></div>
@@ -382,7 +382,7 @@ function Home() {
                 Sign Up
               </Button>
             )}
-            {profile?.role !== "doctor" && (
+            {profile?.role !== "clinician" && (
               <Button
                 color="iris"
                 size="3"
@@ -420,8 +420,8 @@ function Home() {
         </div>
         <div className="relative">
           <img
-            src={docotorsImage}
-            alt="doctors"
+            src={cliniciansImage}
+            alt="clinicians"
             className="h-64 object-cover md:h-72 lg:h-96"
           />
           {/* <div className="gradient left-10 top-[-90px] opacity-50"></div> */}
@@ -436,9 +436,9 @@ export default Home;
 
 // import React, { useEffect, useState } from "react";
 // import { Typewriter } from "react-simple-typewriter";
-// import CureitLogoWhite from "../assets/CureitLogoWhite.png";
-// import docotorsImage from "../assets/doctors.png";
-// import { useCureitContext, useAuthContext } from "../utils/ContextProvider";
+// import BookSmartlyLogoWhite from "../assets/BookSmartlyLogoWhite.png";
+// import cliniciansImage from "../assets/clinicians.png";
+// import { useBookSmartlyContext, useAuthContext } from "../utils/ContextProvider";
 // import { Button } from "@radix-ui/themes";
 // import Features from "../components/Features";
 // import { useNavigate } from "react-router-dom";
@@ -446,7 +446,7 @@ export default Home;
 // import ChatBot from "../components/ChatBot/ChatBot";
 
 // function Home() {
-//   const { theme, profile } = useCureitContext();
+//   const { theme, profile } = useBookSmartlyContext();
 
 //   const navigate = useNavigate();
 //   const token = localStorage.getItem("sb-vakmfwtcbdeaigysjgch-auth-token");
@@ -491,8 +491,8 @@ export default Home;
 
 //         <div className="flex flex-col items-center justify-center p-8">
 //           <img
-//             src={CureitLogoWhite}
-//             alt="Cureit Logo"
+//             src={BookSmartlyLogoWhite}
+//             alt="BookSmartly Logo"
 //             className="h-20 md:h-28 lg:h-32"
 //           />
 //           <div className="my-4 h-[1px] w-full bg-gradient-to-r from-transparent via-[#79797949] to-transparent"></div>
@@ -528,7 +528,7 @@ export default Home;
 //                 Sign Up
 //               </Button>
 //             )}
-//             {profile?.role !== "doctor" && (
+//             {profile?.role !== "clinician" && (
 //               <Button
 //                 color="iris"
 //                 size="3"
@@ -561,8 +561,8 @@ export default Home;
 
 //         <div className="relative">
 //           <img
-//             src={docotorsImage}
-//             alt="doctors"
+//             src={cliniciansImage}
+//             alt="clinicians"
 //             className="h-64 object-cover md:h-72 lg:h-96"
 //           />
 //         </div>

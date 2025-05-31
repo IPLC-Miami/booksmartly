@@ -5,7 +5,7 @@ import moment from "moment";
 function capitalizeFirstLetter(val) {
   return String(val).charAt(0).toUpperCase() + String(val).slice(1);
 }
-// function DoctorSlotCard({ data, formData, setFormData }) {
+// function ClinicianSlotCard({ data, formData, setFormData }) {
 //   const tags = data?.tags;
 //   // iterate over key value pairs in tags
 //   return (
@@ -24,8 +24,8 @@ function capitalizeFirstLetter(val) {
 //         <DataList.Item>
 //           <DataList.Label minWidth="88px">Name</DataList.Label>
 //           <DataList.Value>
-//             <Code variant="ghost">{data?.doctor_name}</Code>
-//           </DataList.Value>
+//             <Code variant="ghost">{data?.clinician_name}</Code>
+          </DataList.Value>
 //         </DataList.Item>
 //         <DataList.Item align="">
 //           <DataList.Label minWidth="88px">Specialization</DataList.Label>
@@ -97,10 +97,10 @@ function capitalizeFirstLetter(val) {
 //       </DataList.Root>
 //       <div className="ml-4 flex items-center justify-center">
 //         <Checkbox
-//           checked={formData?.selectedDoctor?.doctor_id === data?.doctor_id}
+//           checked={formData?.selectedClinician?.clinician_id === data?.clinician_id}
 //           onCheckedChange={(checked) => {
-//             checked && setFormData({ ...formData, selectedDoctor: data });
-//             !checked && setFormData({ ...formData, selectedDoctor: null });
+//             checked && setFormData({ ...formData, selectedClinician: data });
+//             !checked && setFormData({ ...formData, selectedClinician: null });
 //           }}
 //           size={"3"}
 //         />
@@ -110,14 +110,14 @@ function capitalizeFirstLetter(val) {
 // }
 const tagColors = ["blue", "green", "purple", "orange", "red"];
 
-function DoctorSlotCard({ data, formData, setFormData, mode}) {
+function ClinicianSlotCard({ data, formData, setFormData, mode}) {
   return (
     <div className="flex flex-col gap-4 rounded-md border-2 p-4 font-noto shadow-md">
       <DataList.Root size={{ initial: "1", md: "2" }}>
         <DataList.Item>
           <DataList.Label>Name</DataList.Label>
           <DataList.Value>
-            <Code variant="ghost">{data?.doctor_name}</Code>
+            <Code variant="ghost">{data?.clinician_name}</Code>
           </DataList.Value>
         </DataList.Item>
 
@@ -146,8 +146,8 @@ function DoctorSlotCard({ data, formData, setFormData, mode}) {
                 const endTime = moment(slot.end_time, "HH:mm:ss").format("hh:mm A");
 
                 const isSelected =
-                  formData?.selectedDoctor?.doctor_id === data?.doctor_id &&
-                  formData?.selectedDoctor?.selectedSlot?.start_time === slot.start_time;
+                  formData?.selectedClinician?.clinician_id === data?.clinician_id &&
+                  formData?.selectedClinician?.selectedSlot?.start_time === slot.start_time;
 
                 return (
                   <div
@@ -165,10 +165,10 @@ function DoctorSlotCard({ data, formData, setFormData, mode}) {
                           if (checked) {
                             setFormData({
                               ...formData,
-                              selectedDoctor: { ...data, selectedSlot: slot , mode: mode },
+                              selectedClinician: { ...data, selectedSlot: slot , mode: mode },
                             });
                           } else {
-                            setFormData({ ...formData, selectedDoctor: null });
+                            setFormData({ ...formData, selectedClinician: null });
                           }
                         }}
                         size="3"
@@ -205,4 +205,4 @@ function DoctorSlotCard({ data, formData, setFormData, mode}) {
   );
 }
 
-export default DoctorSlotCard;
+export default ClinicianSlotCard;

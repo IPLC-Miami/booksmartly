@@ -16,7 +16,7 @@ import UserDashboard from "./pages/UserDashboard.jsx";
 import ResetPasswordEmailSent from "./pages/ResetPasswordEmailSent";
 import ResetPassword from "./pages/ResetPassword";
 import { ToastContainer } from "react-toastify";
-import { useCureitContext } from "./utils/ContextProvider";
+import { useBookSmartlyContext } from "./utils/ContextProvider";
 import ProtectedRoutes from "./utils/ProtectedRoutes";
 import SingleFeaturePageChatbot from "./pages/SingleFeaturePageChatbot";
 import SingleFeaturePageMedSpecRec from "./pages/SingleFeaturePageMedSpecRec";

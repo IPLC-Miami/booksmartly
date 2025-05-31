@@ -2,12 +2,12 @@ const express = require('express');
 const router = express.Router();
 const supabase = require('../config/supabaseClient');
 router.post('/generate', async (req, res) => {
-  const { appointmentId, medicines, doctorNotes } = req.body;
+  const { appointmentId, medicines, clinicianNotes } = req.body;
   const {data , error} = await supabase.from('prescriptions').insert([
     {
       appointment_id: appointmentId,
       medicines: medicines,
-      doctor_notes: doctorNotes
+      clinician_notes: clinicianNotes
     }
   ]).select('*').single();
   if (error) {

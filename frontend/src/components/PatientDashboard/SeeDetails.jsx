@@ -57,16 +57,16 @@ function SeeDetails({ data, refetch , prescriptionData}) {
   // console.log("see details data: " , data);
   const [isPaneOpen, setIsPaneOpen] = useState(false);
 
-const [doctoRemarks , setDoctorRemarks]=useState("");
-const [doctorPrescription , setDoctorPrescription]=useState("");
+const [clinicianRemarks , setClinicianRemarks]=useState("");
+const [clinicianPrescription , setClinicianPrescription]=useState("");
 useEffect(() => {
   if (!prescriptionData || prescriptionData.length === 0) {
-    setDoctorRemarks("No remarks provided");
-    setDoctorPrescription("No prescription provided"); 
+    setClinicianRemarks("No remarks provided");
+    setClinicianPrescription("No prescription provided");
     return;
   }
 
-  setDoctorRemarks(prescriptionData[0]?.doctor_notes || "No remarks provided");
+  setClinicianRemarks(prescriptionData[0]?.clinician_notes || "No remarks provided");
 
   // let markdown = "### Prescription Details\n\n";
   // markdown += "| Medicine Name  | Dosage  | Frequency    | Duration  |\n";
@@ -78,10 +78,10 @@ useEffect(() => {
   //   });
   // }
 
-  setDoctorPrescription(prescriptionData[0]?.medicines || "No prescription provided");
+  setClinicianPrescription(prescriptionData[0]?.medicines || "No prescription provided");
 }, [prescriptionData]);
-//   const [doctorRemarks, setDoctorRemarks] = useState(`
-// ## Doctor's Remarks  
+//   const [clinicianRemarks, setClinicianRemarks] = useState(`
+// ## Clinician's Remarks
 
 // ## Patient Information  
 // - **Name**: John Doe  
@@ -101,9 +101,9 @@ useEffect(() => {
 // - **Tests**: CBC, KFT, ECG.  
 // - **Advice**: Reduce salt, daily walking, avoid alcohol.  
 
-// **Doctor**: Dr. Alice Smith  
-// **Specialization**: Internal Medicine  
-// `); // can either debounce or use a normal variable to store the doctorRemarks to avoid unnecessary re-renders
+// **Clinician**: Dr. Alice Smith
+// **Specialization**: Internal Medicine
+// `); // can either debounce or use a normal variable to store the clinicianRemarks to avoid unnecessary re-renders
 
 // console.log("patient details: ", prescriptionData);
 
@@ -209,13 +209,13 @@ useEffect(() => {
 
               <label className="flex flex-col gap-3">
                 <Text as="div" size="2" mb="1" weight="bold">
-                  Doctor Remarks:
+                  Clinician Remarks:
                 </Text>
               </label>
               <MDXEditor
                 readOnly={true}
                 contentEditableClassName="prose max-w-none h-full mb-4 border-2"
-                markdown={ doctoRemarks || "hello"}
+                markdown={ clinicianRemarks || "hello"}
                 placeholder="Nothing to show here..."
                 plugins={[
                   toolbarPlugin({
@@ -241,7 +241,7 @@ useEffect(() => {
               <MDXEditor
                 readOnly={true}
                 contentEditableClassName="prose max-w-none mb-4 h-full border-2 "
-                markdown={ doctorPrescription || ""}
+                markdown={ clinicianPrescription || ""}
                 placeholder="Nothing to show here..."
                 plugins={[
                   toolbarPlugin({

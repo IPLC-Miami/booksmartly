@@ -2,18 +2,18 @@
 // import { useNavigate } from "react-router-dom";
 // import { Button } from "@radix-ui/themes";
 // import HealthCampList from "../pages/HealthCampList"; // Make sure path matches your project structure
-// import { useCureitContext } from "../utils/ContextProvider";
+// import { useBookSmartlyContext } from "../utils/ContextProvider";
 
 // function HealthCampsPage() {
 //   const navigate = useNavigate();
-//   const { profile } = useCureitContext();
+//   const { profile } = useBookSmartlyContext();
 
 //   // Handle volunteer function
 //   const handleVolunteer = (campId) => {
 //     // Your volunteer logic here
 //     console.log(profile?.id);
-//     //health worker doctor particiapting addition
-//     //display those doctors too
+//     //health worker clinician particiapting addition
+//     //display those clinicians too
 //     console.log("Volunteered for camp:", campId);
 //   };
 
@@ -33,7 +33,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Dialog } from "@radix-ui/themes";
 import HealthCampList from "../pages/HealthCampList"; // Make sure path matches your project structure
-import { useCureitContext } from "../utils/ContextProvider";
+import { useBookSmartlyContext } from "../utils/ContextProvider";
 import axios from "axios";
 
 // Volunteer Confirmation Modal Component
@@ -41,7 +41,7 @@ const VolunteerConfirmationModal = ({
   open,
   onOpenChange,
   campDetails,
-  doctorId,
+  clinicianId,
 }) => {
   const api = import.meta.env.VITE_API_BASE_URL;
 
@@ -70,11 +70,11 @@ const VolunteerConfirmationModal = ({
     }
     setIsSubmitting(true);
     try {
-      // Send request to backend with doctorId and campId
+      // Send request to backend with clinicianId and campId
       const res = await axios.post(
-        `${api}/api/healthWorkerRoutes/doctor-volunteer`,
+        `${api}/api/healthWorkerRoutes/clinician-volunteer`,
         {
-          doctorId: doctorId,
+          clinicianId: clinicianId,
           campId: campDetails?.id,
           camp_start_date: campDetails?.startDate,
           camp_end_date: campDetails?.endDate,
@@ -254,7 +254,7 @@ function HealthCampsPage() {
   const api = import.meta.env.VITE_API_BASE_URL;
 
   const navigate = useNavigate();
-  const { profile } = useCureitContext();
+  const { profile } = useBookSmartlyContext();
   const [showVolunteerModal, setShowVolunteerModal] = useState(false);
   const [selectedCamp, setSelectedCamp] = useState(null);
   const [myVolunteered, setMyVolunteered] = useState([]);
@@ -265,11 +265,11 @@ function HealthCampsPage() {
 
     const fetchCamps = async () => {
       console.log(
-        `${api}/api/healthWorkerRoutes/doctor/volunteered/${profile?.id}`,
+        `${api}/api/healthWorkerRoutes/clinician/volunteered/${profile?.id}`,
       );
       try {
         const res = await axios.get(
-          `${api}/api/healthWorkerRoutes/doctor/volunteered/${profile?.id}`,
+          `${api}/api/healthWorkerRoutes/clinician/volunteered/${profile?.id}`,
         );
         console.log(res);
         setMyVolunteered(res.data);
@@ -315,7 +315,7 @@ function HealthCampsPage() {
           open={showVolunteerModal}
           onOpenChange={setShowVolunteerModal}
           campDetails={selectedCamp}
-          doctorId={profile?.id}
+          clinicianId={profile?.id}
         />
       )}
     </div>

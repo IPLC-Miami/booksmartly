@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import ChatbotLogo from "../../assets/cai.jpg";
-import CureitLogo from "../../assets/CureitLogo";
+import BookSmartlyLogo from "../../assets/BookSmartlyLogo";
 import { Cross1Icon, DoubleArrowRightIcon } from "@radix-ui/react-icons";
 import { Button, Spinner, TextField } from "@radix-ui/themes";
 import useChatBot from "../../hooks/useChatBot";
@@ -91,7 +91,7 @@ function ChatBot() {
             <div className="pointer-events-auto flex h-full w-full flex-col">
               <div className="chatbot_navbar flex h-10 w-full justify-between">
                 <div className="mx-1 flex w-14 items-center">
-                  <CureitLogo fillColor="#4f4fcc" />
+                  <BookSmartlyLogo fillColor="#4f4fcc" />
                 </div>
                 <div className="flex items-center px-1">
                   <Button

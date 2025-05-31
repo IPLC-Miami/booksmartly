@@ -24,14 +24,14 @@ export default function Features() {
               linkName="Learn More"
             />
             <Card1
-              title="AI-Powered Doctor Recommendation"
-              text="Our ML-driven system analyzes symptoms and connects you with the best doctors for accurate & personalized care."
+              title="AI-Powered Clinician Recommendation"
+              text="Our ML-driven system analyzes symptoms and connects you with the best clinicians for accurate & personalized care."
               link="/featureAIRecommendation"
               linkName="Learn More"
             />
             <Card1
               title="AI-powered Feedback System"
-              text="It analyzes patient reviews and generates insightful tags for doctors, helping users quickly identify expertise and patient satisfaction for informed healthcare choices."
+              text="It analyzes patient reviews and generates insightful tags for clinicians, helping users quickly identify expertise and patient satisfaction for informed healthcare choices."
               link="/featureAIFeedback"
               linkName="Learn More"
             />

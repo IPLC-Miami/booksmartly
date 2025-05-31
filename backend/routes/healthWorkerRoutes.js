@@ -190,19 +190,18 @@ router.get("/healthcamps/:id", async (req, res) => {
   }
 });
 
-router.post("/doctor-volunteer", async (req, res) => {
+router.post("/clinician-volunteer", async (req, res) => { // Renamed route
   try {
-    const { doctorId, campId, camp_start_date, camp_end_date } = req.body;
+    const { clinicianId, campId, camp_start_date, camp_end_date } = req.body; // Renamed doctorId
 
-    // Check for overlapping camp dates for the same doctor.
+    // Check for overlapping camp dates for the same clinician.
     // This query looks for any camp where:
     //   - existing camp_start_date is on or before the new camp_end_date AND
     //   - existing camp_end_date is on or after the new camp_start_date.
-    // Adjust the query if your date columns are stored in a different format.
     const { data: overlappingCamps, error: checkError } = await supabase
-      .from("campsxdoctors")
+      .from("campsxclinicians") // Renamed table
       .select("*")
-      .eq("doctor_id", doctorId)
+      .eq("clinician_id", clinicianId) // Renamed column
       .or(
         `camp_start_date.lte.${camp_end_date},camp_end_date.gte.${camp_start_date}`
       );
@@ -213,15 +212,15 @@ router.post("/doctor-volunteer", async (req, res) => {
 
     if (overlappingCamps && overlappingCamps.length > 0) {
       return res.status(400).json({
-        error: "Camp dates conflict with an existing record for this doctor.",
+        error: "Camp dates conflict with an existing record for this clinician.", // Updated message
       });
     }
 
     // If no overlapping camps, proceed with the insert.
-    const { data, error } = await supabase.from("campsxdoctors").insert(
+    const { data, error } = await supabase.from("campsxclinicians").insert( // Renamed table
       [
         {
-          doctor_id: doctorId,
+          clinician_id: clinicianId, // Renamed column
           camp_id: campId,
           camp_start_date: camp_start_date,
           camp_end_date: camp_end_date,
@@ -245,14 +244,14 @@ router.post("/doctor-volunteer", async (req, res) => {
     });
   }
 });
-router.get("/doctor/volunteered/:doctorId", async (req, res) => {
-  const { doctorId } = req.params;
+router.get("/clinician/volunteered/:clinicianId", async (req, res) => { // Renamed route and param
+  const { clinicianId } = req.params; // Renamed doctorId
 
   try {
     const { data, error } = await supabase
-      .from("campsxdoctors")
+      .from("campsxclinicians") // Renamed table
       .select("camp_id")
-      .eq("doctor_id", doctorId);
+      .eq("clinician_id", clinicianId); // Renamed column
 
     if (error) {
       console.error("Supabase error:", error);

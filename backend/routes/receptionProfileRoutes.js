@@ -33,14 +33,14 @@ router.get(
       }
 
       const { data: profile, error: profileError } = await supabase
-        .from("reception")
+        .from("receptions") // Changed 'reception' to 'receptions'
         .select("*")
-        .eq("id", userId)
+        .eq("id", userId) // Assuming userId param is receptions.id
         .single();
       if (profileError) {
-        console.error("Supabase error:", profileError.message);
+        console.error("Supabase error fetching reception details:", profileError.message);
         return res.status(500).json({
-          error: "Profile fetch failed",
+          error: "Reception Profile fetch failed", // Updated error message
           details: profileError.message,
         });
       }
@@ -80,14 +80,14 @@ router.get("/generate-qr/:userId", async (req, res) => {
     const payloadStr = JSON.stringify(payload);
     const encryptedCode = encrypt(payloadStr);
 
-    // Store the encrypted code in the reception table (update or insert as per your schema)
+    // Store the encrypted code in the receptions table
     const { data, error } = await supabase
-      .from("reception")
+      .from("receptions") // Changed 'reception' to 'receptions'
       .update({ qrcode: encryptedCode })
-      .eq("id", userId);
+      .eq("id", userId); // Assuming userId param is receptions.id
 
     if (error) {
-      console.error("Supabase error:", error);
+      console.error("Supabase error updating reception qrcode:", error);
       return res
         .status(500)
         .json({ error: "Error storing QR code", details: error.message });

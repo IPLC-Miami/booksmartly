@@ -10,11 +10,11 @@ const { redis, setCache, getCache } = require("./config/redisClient.js");
 const { initSocket } = require("./config/socket"); // import your socket module
 
 const userRoutes = require("./routes/userRoutes");
-const doctorRoutes = require("./routes/doctorRoutes");
+const clinicianRoutes = require("./routes/clinicianRoutes"); // Updated
 const appointmentRoutes = require("./routes/appointmentRoutes");
 const prescriptionRoutes = require("./routes/prescriptionRoutes");
 const testReportsRoutes = require("./routes/testReportsRoutes");
-const doctorProfileRoutes = require("./routes/doctorProfileRoutes");
+const clinicianProfileRoutes = require("./routes/clinicianProfileRoutes"); // Updated
 const receptionProfileRoutes = require("./routes/receptionProfileRoutes.js");
 const feedbackRoutes = require("./routes/feedbackRoutes");
 const healthWorkerRoutes = require("./routes/healthWorkerRoutes.js");
@@ -22,7 +22,7 @@ const AiConsultation = require("./routes/AiConsultation.js");
 
 // connectDB();
 const profileRoutes = require("./routes/profileRoutes");
-const multiDoctorDashboardRoutes = require("./routes/multiDoctorDashboardRoutes");
+const multiClinicianDashboardRoutes = require("./routes/multiClinicianDashboardRoutes"); // Updated
 // const {getAuthUrl , getAuthToken} = require("./config/googleClient");
 // const {oauth2client} = require("./config/googleClient");
 const cors = require("cors");
@@ -58,15 +58,15 @@ app.use(async (req, res, next) => {
 app.get("/", (req, res) => res.send("Hello World"));
 
 app.use("/api/users", userRoutes);
-app.use("/api/doctors", doctorRoutes);
+app.use("/api/clinicians", clinicianRoutes); // Updated
 app.use("/api/appointments", appointmentRoutes);
 app.use("/api/prescriptions", prescriptionRoutes);
 app.use("/api/testReports", testReportsRoutes);
 app.use("/api/uploadProfiles", profileRoutes);
-app.use("/api/doctorProfileRoutes", doctorProfileRoutes);
+app.use("/api/clinicianProfileRoutes", clinicianProfileRoutes); // Updated
 app.use("/api/receptionProfileRoutes", receptionProfileRoutes);
 app.use("/api/feedback", feedbackRoutes);
-app.use("/api/multiDoctorDashboardRoutes", multiDoctorDashboardRoutes);
+app.use("/api/multiClinicianDashboardRoutes", multiClinicianDashboardRoutes); // Updated
 app.use("/api/healthWorkerRoutes", healthWorkerRoutes);
 
 // const options = {

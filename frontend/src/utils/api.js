@@ -26,14 +26,14 @@ export async function getAddressFromCoords(lat, lng) {
   }
 }
 
-export async function getDoctorSlots(date, specialization, userId, mode) {
+export async function getClinicianSlots(date, specialization, userId, mode) {
   // const userId = appointmentData.userId;
   // const specialization = appointmentData.specialization;
   // const date = appointmentData.date;
-  // console.log("Get Doctor Slots: ", date, specialization, userId);
+  // console.log("Get Clinician Slots: ", date, specialization, userId);
 
   const response = await fetch(
-    `${API_URL}/api/doctors/availableSlots2/${userId}?specialization=${specialization}&date=${date}&mode=${mode}`,
+    `${API_URL}/api/clinicians/availableSlots2/${userId}?specialization=${specialization}&date=${date}&mode=${mode}`,
     {
       method: "GET",
       headers: {
@@ -42,7 +42,7 @@ export async function getDoctorSlots(date, specialization, userId, mode) {
     },
   );
   if (!response.ok) {
-    // console.log("error in getDoctorSlots: ", response.status);
+    // console.log("error in getClinicianSlots: ", response.status);
     throw new Error(`Error: ${response.status} ${response.statusText}`);
   }
   const data = await response.json();
@@ -57,9 +57,9 @@ export async function getProfileDetails(userId) {
   const data = await response.json();
   return data;
 }
-export async function getDoctorDetails(doctorId) {
+export async function getClinicianDetails(clinicianId) {
   const response = await fetch(
-    `${API_URL}/api/doctors/doctorDetailsById/${doctorId}`,
+    `${API_URL}/api/clinicians/clinicianDetailsById/${clinicianId}`,
   );
   if (!response.ok) {
     throw new Error(`Error: ${response.status} ${response.statusText}`);
@@ -67,9 +67,9 @@ export async function getDoctorDetails(doctorId) {
   const data = await response.json();
   return data;
 }
-export async function getDoctorAvailability(doctorId) {
-  const doctorDetails = await getDoctorDetails(doctorId);
-  return doctorDetails.availability;
+export async function getClinicianAvailability(clinicianId) {
+  const clinicianDetails = await getClinicianDetails(clinicianId);
+  return clinicianDetails.availability;
 }
 export async function deleteAppointment(appointmentId) {
   const response = await fetch(
@@ -99,35 +99,44 @@ export async function getPatientAppointments(patientId) {
     const updatedData = await Promise.all(
       data.map(async (appointment) => {
         try {
-          const doctor = await getDoctorDetails(appointment.doctor_id);
-          const doctorProfileDetails = await getProfileDetails(
-            appointment.doctor_id,
-          );
-          // console.log("Doctor Details:", doctorProfileDetails);
+          // ASSUMPTION: Backend will be updated to provide clinician_user_id (auth.users.id) on appointment objects
+          // If appointment.clinician_id is the clinicians2.id (auto-generated),
+          // and getClinicianDetails/getProfileDetails expect auth.users.id, we need clinician_user_id.
+          if (!appointment.clinician_user_id) {
+            console.warn("appointment object is missing clinician_user_id:", appointment);
+            // Fallback or error handling if clinician_user_id is not present
+            // For now, try with appointment.clinician_id but expect it might be the wrong ID type
+            const clinician = await getClinicianDetails(appointment.clinician_id);
+            const clinicianProfileDetails = await getProfileDetails(appointment.clinician_id);
+            return { ...appointment, clinicianDetails: clinician, clinicianProfileDetails: clinicianProfileDetails };
+          }
+          const clinician = await getClinicianDetails(appointment.clinician_user_id);
+          const clinicianProfileDetails = await getProfileDetails(appointment.clinician_user_id);
+          // console.log("Clinician Details:", clinicianProfileDetails);
           return {
             ...appointment,
-            doctorDetails: doctor,
-            doctorProfileDetails: doctorProfileDetails,
+            clinicianDetails: clinician,
+            clinicianProfileDetails: clinicianProfileDetails,
           };
         } catch (error) {
-          console.error("Failed to fetch doctor details:", error);
-          return { ...appointment, doctorDetails: null };
+          console.error("Failed to fetch clinician details:", error);
+          return { ...appointment, clinicianDetails: null, clinicianProfileDetails: null }; // Avoid breaking the loop
         }
       }),
     );
     
     const finalAppointments = updatedData.map((appointment) => ({
       appointmentId: appointment.id,
-      doctor: appointment.doctorProfileDetails?.name || "Unknown",
-      specialization: appointment.doctorDetails?.specialization || "Unknown",
-      hospital: appointment.doctorDetails?.hospitalData?.name || "Unknown",
+      clinician: appointment.clinicianProfileDetails?.name || "Unknown", // Updated
+      specialization: appointment.clinicianDetails?.specialization || "Unknown", // Updated
+      hospital: appointment.clinicianDetails?.hospitalData?.name || "Unknown", // Updated
       meetingLink: appointment.meeting_link || "N/A",
       appointment_time: appointment?.chosen_slot || "N/A",
       appointment_date: appointment.appointment_date,
       queuePosition: appointment.queuePosition || "N/A",
-      address: appointment.doctorDetails?.hospitalData?.address || "N/A",
-      plus_code: appointment.doctorDetails?.hospitalData?.plus_code || "N/A",
-      // available_from: appointment.doctorDetails?.available_from || null,
+      address: appointment.clinicianDetails?.hospitalData?.address || "N/A", // Updated
+      plus_code: appointment.clinicianDetails?.hospitalData?.plus_code || "N/A", // Updated
+      // available_from: appointment.clinicianDetails?.available_from || null,
       checked_in_status: appointment.checked_in_status || null,
       queuePositionPostCheckin: appointment?.queuePositionPostCheckin || null,
   
@@ -153,19 +162,25 @@ export async function getPatientAppointmentHistory(patientId) {
     const updatedData = await Promise.all(
       data.map(async (appointment) => {
         try {
-          const doctor = await getDoctorDetails(appointment.doctor_id);
-          const doctorProfileDetails = await getProfileDetails(
-            appointment.doctor_id,
-          );
-          // console.log("Doctor Details:", doctorProfileDetails);
+          // ASSUMPTION: Backend will be updated to provide clinician_user_id (auth.users.id) on appointment objects
+          if (!appointment.clinician_user_id) {
+            console.warn("appointment object is missing clinician_user_id for history:", appointment);
+            // Fallback or error handling
+            const clinician = await getClinicianDetails(appointment.clinician_id);
+            const clinicianProfileDetails = await getProfileDetails(appointment.clinician_id);
+            return { ...appointment, clinicianDetails: clinician, clinicianProfileDetails: clinicianProfileDetails };
+          }
+          const clinician = await getClinicianDetails(appointment.clinician_user_id);
+          const clinicianProfileDetails = await getProfileDetails(appointment.clinician_user_id);
+          // console.log("Clinician Details:", clinicianProfileDetails);
           return {
             ...appointment,
-            doctorDetails: doctor,
-            doctorProfileDetails: doctorProfileDetails,
+            clinicianDetails: clinician,
+            clinicianProfileDetails: clinicianProfileDetails,
           };
         } catch (error) {
-          console.error("Failed to fetch doctor details:", error);
-          return { ...appointment, doctorDetails: null }; // Avoid breaking the loop
+          console.error("Failed to fetch clinician details for history:", error);
+          return { ...appointment, clinicianDetails: null, clinicianProfileDetails: null }; // Avoid breaking the loop
         }
       }),
     );
@@ -173,13 +188,13 @@ export async function getPatientAppointmentHistory(patientId) {
 
     const finalAppointments = updatedData.map((appointment) => ({
       appointmentId: appointment.id,
-      doctorId: appointment.doctor_id,
+      clinicianId: appointment.clinician_id, // Updated
       patientId: appointment.patient_id,
       patientName: appointment.personal_details.name,
       status: appointment.status,
       age: appointment.personal_details.age,
       gender: appointment.personal_details.gender,
-      hospital: appointment.doctorDetails.hospitalData.name,
+      hospital: appointment.clinicianDetails.hospitalData.name, // Updated
       appointment_date: appointment.appointment_date,
       queuePosition: "N/A",
       currentMedication: "N/A",
@@ -187,10 +202,10 @@ export async function getPatientAppointmentHistory(patientId) {
       issueDetails: appointment.personal_details.health_issue,
       chosenSlot: appointment.chosen_slot,
       appointment_time: appointment.updated_at,
-      doctor: appointment.doctorProfileDetails?.name || "Unknown",
-      specialization: appointment.doctorDetails?.specialization || "Unknown",
-      address: appointment.doctorDetails?.hospitalData.address || "N/A",
-      plus_code: appointment.doctorDetails?.hospitalData.plus_code || "N/A",
+      clinician: appointment.clinicianProfileDetails?.name || "Unknown", // Updated
+      specialization: appointment.clinicianDetails?.specialization || "Unknown", // Updated
+      address: appointment.clinicianDetails?.hospitalData.address || "N/A", // Updated
+      plus_code: appointment.clinicianDetails?.hospitalData.plus_code || "N/A", // Updated
     }));
 
     return finalAppointments;
@@ -200,20 +215,20 @@ export async function getPatientAppointmentHistory(patientId) {
   }
 }
 
-export async function getQueueForDoctor(doctorId, selectedDate, selectedSlot) {
+export async function getQueueForClinician(clinicianId, selectedDate, selectedSlot) { // Renamed
   console.log("seelctedDate", selectedDate);
   console.log("selectedSlot", selectedSlot);
   const today = new Date().toISOString().split("T")[0]; // Formats as YYYY-MM-DD
 
   try {
     const response = await fetch(
-      `${API_URL}/api/appointments/doctorUpcomingAppointments/${doctorId}?date=${selectedDate}&endTime=${selectedSlot.end_time}&startTime=${selectedSlot.start_time}`,
+      `${API_URL}/api/appointments/clinicianUpcomingAppointments/${clinicianId}?date=${selectedDate}&endTime=${selectedSlot.end_time}&startTime=${selectedSlot.start_time}`, // Updated route
     );
     if (!response.ok) {
       throw new Error(`Error: ${response.status} ${response.statusText}`);
     }
     const data = await response.json();
-    const doctorProfileDetails = await getDoctorDetails(doctorId);
+    const clinicianProfileDetails = await getClinicianDetails(clinicianId); // Updated
     const finalData = await Promise.all(
       data.map(async (appointment) => {
         return {
@@ -222,10 +237,10 @@ export async function getQueueForDoctor(doctorId, selectedDate, selectedSlot) {
           patientName: appointment.personal_details.name,
           age: appointment.personal_details.age,
           gender: appointment.personal_details.gender,
-          hospital: doctorProfileDetails.hospitalData.name,
+          hospital: clinicianProfileDetails.hospitalData.name, // Updated
           appointment_time: appointment?.chosen_slot || "N/A",
           meetingLink: appointment.meeting_link || "N/A",
-          // available_from: doctorProfileDetails?.available_from || "N/A",
+          // available_from: clinicianProfileDetails?.available_from || "N/A",
           appointment_date: appointment.appointment_date,
           queuePosition: appointment.queuePosition,
           currentMedication: "N/A",
@@ -238,22 +253,22 @@ export async function getQueueForDoctor(doctorId, selectedDate, selectedSlot) {
     );
     return finalData;
   } catch (error) {
-    console.error("Failed to fetch queue for doctor:", error);
-    throw new Error("Failed to fetch queue for doctor.");
+    console.error("Failed to fetch queue for clinician:", error); // Updated
+    throw new Error("Failed to fetch queue for clinician."); // Updated
   }
 }
 
-export async function getHistoryForDoctor(doctorId) {
+export async function getHistoryForClinician(clinicianId) { // Renamed
   try {
     const response = await fetch(
-      `${API_URL}/api/appointments/doctorCompletedAppointments/${doctorId}`,
+      `${API_URL}/api/appointments/clinicianCompletedAppointments/${clinicianId}`, // Updated route
     );
     if (!response.ok) {
       console.error(`Error: ${response.status} ${response.statusText}`);
       throw new Error(`Error: ${response.status} ${response.statusText}`);
     }
     const data = await response.json();
-    const doctorProfileDetails = await getDoctorDetails(doctorId);
+    const clinicianProfileDetails = await getClinicianDetails(clinicianId); // Updated
     const finalData = await Promise.all(
       data.map(async (appointment) => {
         return {
@@ -262,7 +277,7 @@ export async function getHistoryForDoctor(doctorId) {
           patientName: appointment.personal_details.name,
           age: appointment.personal_details.age,
           gender: appointment.personal_details.gender,
-          hospital: doctorProfileDetails.hospitalData.name,
+          hospital: clinicianProfileDetails.hospitalData.name, // Updated
           appointment_date: appointment.appointment_date,
           queuePosition: "N/A",
           currentMedication: "N/A",
@@ -299,30 +314,30 @@ export async function getHistoryForDoctor(doctorId) {
   //                           **Age:** 45
   //                           **Gender:** Male
   //                           **Date:** 2025-02-02
-
+  //
   //                           ## Diagnosis
   //                           - Hypertension
   //                           - Type 2 Diabetes Mellitus
-
+  //
   //                           ## Prescriptions
   //                           | Medication          | Dosage          | Frequency         | Duration  |
   //                           |---------------------|-----------------|-------------------|-----------|
   //                           | Amlodipine 5mg      | 1 tablet        | Once daily (AM)   | 1 month   |
   //                           | Metformin 500mg     | 1 tablet        | Twice daily (AM/PM) | 1 month   |
   //                           | Atorvastatin 10mg   | 1 tablet        | Nightly (PM)      | 1 month   |
-
+  //
   //                           ## Instructions
   //                           - Maintain a low-sodium diet.
   //                           - Monitor blood sugar levels daily.
   //                           - Engage in moderate exercise for 30 minutes/day.
-
+  //
   //                           ## Notes
   //                           - Follow up in 4 weeks with updated blood pressure and glucose readings.
-
-  //                           **Doctor's Name:** Dr. Emily Carter
+  //
+  //                           **Clinician's Name:** Dr. Emily Carter
   //                           **Contact:** (123) 456-7890
   //                           **Signature:** ______________________`,
-  //     doctorRemarks: ``
+  //     clinicianRemarks: ``
   //   },
   //   {
   //     patiendId: 2,
@@ -338,8 +353,8 @@ export async function getHistoryForDoctor(doctorId) {
   //     hospital: "CityCare General Hospital",
   //     uid: "2",
   //     queuePosition: 3,
-  //     doctorPrescription: ``,
-  //     doctorRemarks: ``
+  //     clinicianPrescription: ``,
+  //     clinicianRemarks: ``
   //   },
   //   {
   //     patiendId: 1,
@@ -355,8 +370,8 @@ export async function getHistoryForDoctor(doctorId) {
   //     hospital: "CityCare General Hospital",
   //     uid: "3",
   //     queuePosition: 141,
-  //     doctorPrescription: `Crocin 500mg, Budamate 200mg`,
-  //     doctorRemarks: ``
+  //     clinicianPrescription: `Crocin 500mg, Budamate 200mg`,
+  //     clinicianRemarks: ``
   //   },
   // ];
 }
@@ -411,8 +426,8 @@ export async function postPrescription(prescriptionData) {
   // console.log("Prescription-data:", prescriptionData);
   const val = {
     appointmentId: prescriptionData.appointmentId,
-    medicines: prescriptionData.doctorPrescription,
-    doctorNotes: prescriptionData.doctorRemarks,
+    medicines: prescriptionData.clinicianPrescription, // Updated
+    clinicianNotes: prescriptionData.clinicianRemarks, // Updated
   };
   const response = await fetch(`${API_URL}/api/prescriptions/generate`, {
     method: "POST",
@@ -429,16 +444,16 @@ export async function postPrescription(prescriptionData) {
   return data;
 }
 
-export async function postFeedback(appointmentId, feedback, doctorId) {
+export async function postFeedback(appointmentId, feedback, clinicianId) { // Renamed parameter
   // // console.log("in post Feedback")
-  // // console.log("doctorId: " , doctorId)
+  // // console.log("clinicianId: " , clinicianId)
 
   const response = await fetch(`${API_URL}/api/feedback/add/${appointmentId}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ feedback: feedback, doctorId: doctorId }),
+    body: JSON.stringify({ feedback: feedback, clinicianId: clinicianId }), // Updated
   });
   if (!response.ok) {
     throw new Error(`Error: ${response.status} ${response.statusText}`);
@@ -475,7 +490,7 @@ export async function postBookAppointment(bookingData) {
     },
     body: JSON.stringify({
       patientId: patientId, //logged in user's id will come here
-      doctorId: formData.selectedDoctor.doctor_id,
+      clinicianId: formData.selectedClinician.clinician_id, // Updated
       appointment_date: formData.selectedDate.split("-").reverse().join("-"),
       book_status: "completed",
       personal_details: JSON.stringify({
@@ -486,9 +501,9 @@ export async function postBookAppointment(bookingData) {
         health_issue: formData.healthIssue,
       }),
       chosen_slot: JSON.stringify({
-        mode: formData.selectedDoctor.mode,
-        start_time: formData.selectedDoctor.selectedSlot.start_time,
-        end_time: formData.selectedDoctor.selectedSlot.end_time,
+        mode: formData.selectedClinician.mode, // Updated
+        start_time: formData.selectedClinician.selectedSlot.start_time, // Updated
+        end_time: formData.selectedClinician.selectedSlot.end_time, // Updated
       }),
     }),
   });
@@ -498,7 +513,7 @@ export async function postBookAppointment(bookingData) {
   const data = await response.json();
   // console.log(data);
 }
-export async function getDoctorType(healthIssue) {
+export async function getClinicianType(healthIssue) { // Renamed
   // console.log("in side ml");
   // console.log(healthIssue);
   try {
@@ -519,11 +534,11 @@ export async function getDoctorType(healthIssue) {
       throw new Error(`Error: ${response.status} ${response.statusText}`);
     }
     const data = await response.json();
-    // console.log("docotor type: ", data);
+    // console.log("clinician type: ", data);
     return data.predicted_specialist;
   } catch (error) {
-    console.error("Failed to fetch doctor type:", error);
-    throw new Error("Failed to fetch doctor type.");
+    console.error("Failed to fetch clinician type:", error); // Updated
+    throw new Error("Failed to fetch clinician type."); // Updated
   }
 }
 
@@ -695,11 +710,11 @@ export async function chatBot(message) {
   return data;
 }
 
-export async function getDoctorProfileDetails(userId, accessToken) {
+export async function getClinicianProfileDetails(userId, accessToken) { // Renamed
   // // console.log(accessToken);
   // console.log("in api:", userId);
   const response = await fetch(
-    `${API_URL}/api/doctorProfileRoutes/getDoctorDetailsById/${userId}`,
+    `${API_URL}/api/clinicianProfileRoutes/getClinicianDetailsById/${userId}`, // Updated route
     {
       method: "GET",
       headers: {

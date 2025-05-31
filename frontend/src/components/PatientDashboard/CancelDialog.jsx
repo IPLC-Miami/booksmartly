@@ -14,7 +14,7 @@ import { use } from "react";
 function CancelDialog({ data, refetch }) {
   const {
     appointmentId,
-    doctor,
+    clinician,
     specialization,
     hospital,
     appointment_time,
@@ -56,9 +56,9 @@ function CancelDialog({ data, refetch }) {
               }}
             >
               <DataList.Item>
-                <DataList.Label minWidth="88px">Doctor</DataList.Label>
+                <DataList.Label minWidth="88px">Clinician</DataList.Label>
                 <DataList.Value>
-                  <Code variant="ghost">{doctor}</Code>
+                  <Code variant="ghost">{clinician}</Code>
                 </DataList.Value>
               </DataList.Item>
               <DataList.Item align="center">

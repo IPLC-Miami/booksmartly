@@ -6,10 +6,10 @@ import {
   MoonIcon,
   SunIcon,
 } from "@radix-ui/react-icons";
-import CureitLogo from "../assets/CureitLogo";
-import CureitLogoWhite from "../assets/CureitLogoWhite.png";
+import BookSmartlyLogo from "../assets/BookSmartlyLogo";
+import BookSmartlyLogoWhite from "../assets/BookSmartlyLogoWhite.png";
 
-import { useCureitContext } from "../utils/ContextProvider";
+import { useBookSmartlyContext } from "../utils/ContextProvider";
 import {
   Avatar,
   Box,
@@ -27,8 +27,8 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Brain, Home } from "lucide-react";
 
 function Header() {
-  const cureitContext = useCureitContext();
-  const { theme, setTheme, profile, setProfile } = cureitContext;
+  const bookSmartlyContext = useBookSmartlyContext();
+  const { theme, setTheme, profile, setProfile } = bookSmartlyContext;
   const queryClient = useQueryClient();
   const [userId, setUserId] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
@@ -36,7 +36,7 @@ function Header() {
 
   const [scrollPosition, setScrollPosition] = useState(0);
   const roleMenuItems = {
-    doctor: [
+    clinician: [
       { label: "Dashboard", path: "/user/dashboard" },
       { label: "Queue", path: "/user/dashboard?tab=queue" },
       { label: "History", path: "/user/dashboard?tab=history" },
@@ -136,8 +136,8 @@ function Header() {
         className="my-auto w-16 cursor-pointer"
         onClick={() => navigate("/")}
       >
-        <img src={CureitLogoWhite} alt="Cureit Logo" className="w-full" />
-        {/* <CureitLogo fillColor={"#000000"} /> */}
+        <img src={BookSmartlyLogoWhite} alt="BookSmartly Logo" className="w-full" />
+        {/* <BookSmartlyLogo fillColor={"#000000"} /> */}
       </div>
 
       <div className="mx-3 my-auto flex items-center justify-center gap-x-5">

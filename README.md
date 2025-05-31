@@ -1,32 +1,22 @@
 
 ## Introduction
 
-**Cureit** is a **smart and accessible** doctor appointment platform that **bridges healthcare gaps** for **underserved communities** by reducing wait times and streamlining scheduling. It helps patients **connect with doctors effortlessly** while enabling **efficient queue management** in hospitals and clinics. Powered by **Supabase**, Cureit ensures **secure authentication, real-time syncing, and seamless healthcare access**.
+**BookSmartly** is a **smart and accessible** clinician appointment platform that **bridges healthcare gaps** for **underserved communities** by reducing wait times and streamlining scheduling. It helps patients **connect with clinicians effortlessly** while enabling **efficient queue management** in hospitals and clinics. Powered by **Supabase**, BookSmartly ensures **secure authentication, real-time syncing, and seamless healthcare access**.
 
 🌐 **Deployed Project Link** -  [https://aryamagarwal.github.io/cureit](https://aryamagarwal.github.io/cureit)
 
 **CureIt FeedBack Form** - [https://forms.gle/7jNscB3c7jUewsaX7](https://forms.gle/7jNscB3c7jUewsaX7)
 
 ## Index
-- [Introduction](#introduction)
-- [Features and Functions](#features-and-functions)
-  - [Sign-Up and Login](#1-sign-up-and-login)
-  - [Booking Appointment](#2-booking-appointment)
-  - [Patient Dashboard](#3-patient-dashboard)
-  - [Doctor Dashboard](#4-doctor-dashboard)
-  - [Dynamic Queue Updates](#5-dynamic-queue-updates)
-  - [AI-Powered Chatbot](#6-ai-powered-chatbot)
-  - [Machine Learning Integration](#7-machine-learning-integration)
-  - [Reminder System](#8-reminder-system)
-  - [Online Prescriptions](#9-online-prescriptions)
-  - [Feedback System](#10-feedback-system)
-  - [Reception Dashboard](#11-reception-dashboard)
-  - [Health Worker Dashboard](#12-health-worker-dashboard)
-- [Tech Stack](#technology-stack)
-- [Implementation Flowchart](#implementation-flowchart)
-- [Continuous Improvement](#continuous-improvement)
-- [Conclusion](#conclusion)
 - [Application Testing Guide](#application-testing-guide)
+  - [Login Credentials for Testing Clinician Dashboard](#login-credentials-for-testing-clinician-dashboard)
+  - [Specializations Available in Database](#specializations-available-in-database)
+  - [Notes:](#notes)
+  - [Patient Dashboard Testing Guide](#patient-dashboard-testing-guide)
+  - [Reception Dashboard Testing Guide](#reception-dashboard-testing-guide)
+  - [Health Worker Dashboard Testing Guide](#health-worker-dashboard-testing-guide)
+  - [Screenshots](#screenshots)
+  - [](#)
 
 
 ## Features and Functions
@@ -35,7 +25,7 @@
 
 - Users receive an **email verification link** upon sign-up.
 - After verification, they can log in using **email-password authentication**.
-- **Role-based access control (RBAC)** for patients and doctors.
+- **Role-based access control (RBAC)** for patients and clinicians.
 - Secure session handling via **Supabase Auth**.
 - Post-login redirection to the **profile dashboard** for additional details.
 - **Forgot Password** feature for secure password recovery.
@@ -49,19 +39,19 @@ Booking an appointment follows a structured **multi-step process** ensuring accu
 - Users input **key personal details** such as **name, age, gender, address, and health issue**.
 - **Geolocation API integration** for fetching the user's **current location**.
 
-#### **AI-Powered Doctor Specialization Suggestion**
+#### **AI-Powered Clinician Specialization Suggestion**
 
-- **AI-driven model** dynamically determines the **most suitable doctor specialization** based on user symptoms.
+- **AI-driven model** dynamically determines the **most suitable clinician specialization** based on user symptoms.
 - Uses **TF-IDF** vectorization and a **Random Forest classifier** to analyze user input.
 - Preprocessing techniques like emoji removal, spell correction (TextBlob), and stopword removal (NLTK) enhance input quality.
 - If confidence is low, the ML model predicts the specialist with probability-based classification.
 
 #### **Slot Selection**
 
-- **Automated dynamic slot generation** based on real-time doctor availability.
+- **Automated dynamic slot generation** based on real-time clinician availability.
 - **Real-time slot updates** to **prevent double booking**, powered by **Supabase**.
 - **Date picker** for selecting the consultation date.
-- Displays **doctor profiles** with expertise tags, enabling users to make informed decisions.
+- Displays **clinician profiles** with expertise tags, enabling users to make informed decisions.
 
 #### **Review Booking**
 
@@ -86,25 +76,25 @@ The **Patient Dashboard** provides users with a centralized interface to manage 
 #### **Appointment History**
 
 - Comprehensive record of previous consultations.
-- Access to **digital prescriptions and doctor notes**.
+- Access to **digital prescriptions and clinician notes**.
 
-### 4. Doctor Dashboard
+### 4. Clinician Dashboard
 
-The **Doctor Dashboard** provides an intelligent scheduling system for healthcare professionals.
+The **Clinician Dashboard** provides an intelligent scheduling system for healthcare professionals.
 
 #### **Profile Section**
 
-- Doctors can **view** their **specialization, availability, and clinic details**.
+- Clinicians can **view** their **specialization, availability, and clinic details**.
 - Profile updates are **restricted to administrators** to maintain data integrity.
 
 #### **Live Queue Management**
 
 - **Real-time queue visualization** for efficient patient flow management.
-- Doctors can mark patient statuses as **checked-in, completed, or skipped**.
+- Clinicians can mark patient statuses as **checked-in, completed, or skipped**.
 
 ##### **Skipping an Appointment**
 
-- Doctors can **skip an appointment** if a patient is unavailable or late.
+- Clinicians can **skip an appointment** if a patient is unavailable or late.
 - **Automated queue updates** notify the **next patient** in line.
 
 ##### **OTP Verification**
@@ -114,7 +104,7 @@ The **Doctor Dashboard** provides an intelligent scheduling system for healthcar
 #### **History**
 
 - Maintains a **log of all past consultations**, including patient details.
-- Allows doctors to **review and manage prescriptions and notes**.
+- Allows clinicians to **review and manage prescriptions and notes**.
 
 ### 5. Dynamic Queue Updates
 
@@ -131,7 +121,7 @@ The **Doctor Dashboard** provides an intelligent scheduling system for healthcar
 
 ### 7. Machine Learning Integration
 
-- **AI-assisted diagnostic insights** for **symptom-based doctor recommendations**.
+- **AI-assisted diagnostic insights** for **symptom-based clinician recommendations**.
 - **Predictive analytics** for optimized appointment scheduling.
 
 ### 8. Reminder System
@@ -140,28 +130,28 @@ The **Doctor Dashboard** provides an intelligent scheduling system for healthcar
 
 ### 9. Online Prescriptions
 
-- Doctors can **generate, upload, and digitally sign prescriptions**.
+- Clinicians can **generate, upload, and digitally sign prescriptions**.
 - Patients can **securely access and download prescriptions** from their dashboard.
 
 ### 10. Feedback System
 
-- Patients can **submit structured feedback** for doctors.
+- Patients can **submit structured feedback** for clinicians.
 - **AI-driven sentiment analysis** extracts **meaningful insights from patient feedback** using **DistilBERT** and **Sentence Transformers**.
 - Uses precomputed embeddings for efficient similarity matching and tagging.
-- Dynamically generates relevant expertise tags for doctor profiles based on **semantic similarity (Faiss)** and **keyword-based classification**.
+- Dynamically generates relevant expertise tags for clinician profiles based on **semantic similarity (Faiss)** and **keyword-based classification**.
 - Enhances **user experience and service optimization**.
   
 ### 11. Reception Dashboard
 
  - Displays a unique QR code that patients can scan using their mobile devices to quickly check in upon arrival at the health facility.
- - Continuously monitors and displays the queue status, showcasing the next four patients scheduled for consultation with each doctor.
+ - Continuously monitors and displays the queue status, showcasing the next four patients scheduled for consultation with each clinician.
  - Facilitates streamlined coordination between patients and healthcare providers by keeping reception staff informed of current and upcoming appointments.
 
 ### 12. Health Worker Dashboard
 
   - Enables health workers and NGOs to perform preliminary health checkups and log citizen complaints, which can be escalated to relevant authorities or healthcare professionals for timely action.
   - Provides tools to organize and manage free health camps, allowing workers to schedule events, assign roles, and track participation.
-  - Allows doctors to volunteer for health camps and coordinate directly with health workers for event planning and patient support.
+  - Allows clinicians to volunteer for health camps and coordinate directly with health workers for event planning and patient support.
 
 
 ---
@@ -190,10 +180,10 @@ The **Doctor Dashboard** provides an intelligent scheduling system for healthcar
 ---
 ## Continuous Improvement
 
-### 1) Managing Doctor Absences
-- Each doctor has 5 buffer slots for emergencies.
+### 1) Managing Clinician Absences
+- Each clinician has 5 buffer slots for emergencies.
 - Patients can:
-  - Choose another available doctor.
+  - Choose another available clinician.
   - Reschedule their appointment.
 
 ### 2) MBBS Intern Contributions
@@ -208,33 +198,33 @@ These upgrades enhance efficiency, patient experience, and overall system effect
 ---
 ## Conclusion
 
-Cureit **revolutionizes doctor appointment booking** with a **high-performance, AI-powered, and real-time platform** designed for both **patients and doctors**. Utilizing **Supabase for real-time updates, authentication, and secure data management**, Cureit ensures **seamless reliability and ease of use**. With **ML-driven doctor recommendations, intelligent queue management, Redis caching for scalability, and digital prescriptions**, Cureit stands as a **cutting-edge solution improving healthcare accessibility and efficiency**.  
+BookSmartly **revolutionizes clinician appointment booking** with a **high-performance, AI-powered, and real-time platform** designed for both **patients and clinicians**. Utilizing **Supabase for real-time updates, authentication, and secure data management**, BookSmartly ensures **seamless reliability and ease of use**. With **ML-driven clinician recommendations, intelligent queue management, Redis caching for scalability, and digital prescriptions**, BookSmartly stands as a **cutting-edge solution improving healthcare accessibility and efficiency**.  
 
 
 ---
 
 # Application Testing Guide
 
-## Login Credentials for Testing Doctor Dashboard
-Use the following doctor accounts to log in and test the application:
+## Login Credentials for Testing Clinician Dashboard
+Use the following clinician accounts to log in and test the application:
 
-| Doctor Email               | Password      |
+| Clinician Email            | Password      |
 |----------------------------|--------------|
-| doctor1@example.com       | password123  |
-| doctor2@example.com       | password123  |
-| doctor3@example.com       | password123  |
-| doctor4@example.com       | password123  |
-| doctor5@example.com       | password123  |
-| doctor6@example.com       | password123  |
-| doctor7@example.com       | password123  |
-| doctor8@example.com       | password123  |
-| doctor9@example.com       | password123  |
-| doctor10@example.com      | password123  |
+| clinician1@example.com       | password123  |
+| clinician2@example.com       | password123  |
+| clinician3@example.com       | password123  |
+| clinician4@example.com       | password123  |
+| clinician5@example.com       | password123  |
+| clinician6@example.com       | password123  |
+| clinician7@example.com       | password123  |
+| clinician8@example.com       | password123  |
+| clinician9@example.com       | password123  |
+| clinician10@example.com      | password123  |
 
 
 
 ## Specializations Available in Database
-Currently, the following doctor specializations are available in the database:
+Currently, the following clinician specializations are available in the database:
 
 - Dermatologist
 - Pediatrician
@@ -248,8 +238,8 @@ Currently, the following doctor specializations are available in the database:
 - General Physician
 
 ## Notes:
-- The doctor data in the database is for **testing purposes only**.
-- The **ML model** can map doctors to a **variety of other specializations** beyond those currently available in the database.
+- The clinician data in the database is for **testing purposes only**.
+- The **ML model** can map clinicians to a **variety of other specializations** beyond those currently available in the database.
 
 
 ## Patient Dashboard Testing Guide
@@ -258,7 +248,7 @@ Currently, the following doctor specializations are available in the database:
 - After email verification, they can log in and follow the booking workflow.
 - Patients can edit their profile details, including name, age, and contact information.
 - They can book, view and cancel appointments from their dashboard.
-- Patients can access their medical history and view prescriptions and doctor's remarks (if any).
+- Patients can access their medical history and view prescriptions and clinician's remarks (if any).
 
 ## Reception Dashboard Testing Guide
 | Reception Email            | Password     |
@@ -295,24 +285,24 @@ Additionally, it displays any appointments scheduled for the current day, helpin
 This section ensures easy access to essential details while keeping track of upcoming consultations.  
     - Upcoming Booked Appointments<br>
 <img width="800" alt="Screenshot 2025-04-03 at 11 24 35 PM" src="https://github.com/user-attachments/assets/0dc1a1ee-cd04-40b7-8fa9-b9776baf9d80" /><br>
-The **Upcoming Appointments** section displays all scheduled appointments, providing users with essential details such as **`doctor’s name`, `specialization`, `hospital`, `address`, `expected time`, `appointment date`, and `queue position`.  
+The **Upcoming Appointments** section displays all scheduled appointments, providing users with essential details such as **`clinician’s name`, `specialization`, `hospital`, `address`, `expected time`, `appointment date`, and `queue position`.  
 In case of an emergency or change of plans, users have the option to **cancel their appointment** directly from this section. Additionally, a **QR code check-in system** is available, allowing users to seamlessly check in at the reception by scanning the **QR code displayed on the reception dashboard**.  
     -Past Appointments(History)<br>
 <img width="800" alt="Screenshot 2025-04-03 at 11 24 35 PM" src="https://github.com/user-attachments/assets/6056aa1d-1f35-40eb-a80a-2d5a3525416f" /><br>
-The **Appointment History** section provides users with a record of their past appointments, displaying key details such as `doctor’s name`, `specialization`, `hospital`, `address`,` appointment time`, and `date`.  
+The **Appointment History** section provides users with a record of their past appointments, displaying key details such as `clinician’s name`, `specialization`, `hospital`, `address`,` appointment time`, and `date`.  
 To enhance user experience, this section includes a **feedback feature**, allowing patients to share their experiences and provide insights for service improvement. Additionally, users can access **detailed information** about their past consultations for future reference.  
 
 <br><br>
-- **Doctor Dashboard**
+- **Clinician Dashboard**
     - Profile<br>
 <img width="800" alt="Screenshot 2025-04-03 at 11 24 35 PM" src="https://github.com/user-attachments/assets/004a3c48-6b90-42c0-844e-80e1f625c077" /><br>
-The **Doctor Profile** section provides essential details about the doctor, including `email`, `phone`, `address`, `specialization`, `age`, and `gender`. This information ensures easy access for patients and staff, facilitating smooth communication and coordination.  Additionally, this section includes a **"Download Today's Appointments"** button, allowing doctors to efficiently access a list of scheduled appointments for the day. This feature helps in managing consultations effectively and staying organized.  
+The **Clinician Profile** section provides essential details about the clinician, including `email`, `phone`, `address`, `specialization`, `age`, and `gender`. This information ensures easy access for patients and staff, facilitating smooth communication and coordination.  Additionally, this section includes a **"Download Today's Appointments"** button, allowing clinicians to efficiently access a list of scheduled appointments for the day. This feature helps in managing consultations effectively and staying organized.  
     - Excel Sheet for Displaying Current Appointments<br>
   <img width="800" alt="Screenshot 2025-04-03 at 11 24 35 PM" src="https://github.com/user-attachments/assets/e65a52a0-5bfe-43fb-b5ae-164fba94adb7" /><br>
-  Doctors can **download a backup** of all scheduled appointments for the day to handle patient queues during **power failures or system downtimes**. The downloaded file includes **patient details, appointment status, doctor, and specialization**, allowing reception staff to **manually manage check-ins** without system access. This ensures **uninterrupted workflow** and prevents delays in patient care. The backup can be **manually triggered or auto-scheduled** for reliability.
+  Clinicians can **download a backup** of all scheduled appointments for the day to handle patient queues during **power failures or system downtimes**. The downloaded file includes **patient details, appointment status, clinician, and specialization**, allowing reception staff to **manually manage check-ins** without system access. This ensures **uninterrupted workflow** and prevents delays in patient care. The backup can be **manually triggered or auto-scheduled** for reliability.
     - Appointments Queue<br>
 <img width="800" alt="Screenshot 2025-04-03 at 11 24 35 PM" src="https://github.com/user-attachments/assets/6ad52e80-a71b-40d5-b100-f6a0e94305e0" /><br>
-The **Appointment Queue** section displays a list of patients waiting for their appointments, providing key details such as `patient name`, `age & gender`, `hospital`, `expected appointment time`, `appointment date`, and `queue position`.  Each patient entry includes action buttons for **"Skip"**, **"OTP Verification"**, and **"Details"**, enabling doctors to manage the queue efficiently. The OTP verification ensures secure patient identification, while the queue system helps streamline patient flow and reduce wait times.  
+The **Appointment Queue** section displays a list of patients waiting for their appointments, providing key details such as `patient name`, `age & gender`, `hospital`, `expected appointment time`, `appointment date`, and `queue position`.  Each patient entry includes action buttons for **"Skip"**, **"OTP Verification"**, and **"Details"**, enabling clinicians to manage the queue efficiently. The OTP verification ensures secure patient identification, while the queue system helps streamline patient flow and reduce wait times.  
 
     -Past Appointments(History)<br>
 <img width="800" alt="Screenshot 2025-04-03 at 11 24 35 PM" src="https://github.com/user-attachments/assets/27c115fa-e51d-482e-8394-2b34217eacdd" /><br>
@@ -328,7 +318,7 @@ The **Reception Profile** section provides essential details about the hospital,
 The **Reception Dashboard** provides real-time insights into patient queues and doctor availability, using **WebSockets** for instant updates. It displays `total patients`, `active doctors`, `current time`, and the `last updated timestamp`, with a `refresh button` for manual updates. Each doctor has a queue status card showing their `name`, `profile icon`, `patient count`, and `queue status` (e.g., "No patients," "Active," or "Busy"). A `queue list` with patient names and positions appears if applicable, and doctors with no patients see a `"Clear" button` to reset their status. **WebSockets** enable automatic updates, ensuring patient check-ins via QR codes, doctor availability, and queue status changes reflect in real time, reducing delays and improving efficiency. 
 <br><br>
 
-- **Booking Process and AI-Powered Doctor Specialization Suggestion**
+- **Booking Process and AI-Powered Clinician Specialization Suggestion**
 <img width="800" alt="Screenshot 2025-04-03 at 11 24 35 PM" src="https://github.com/user-attachments/assets/2202309b-7c9e-4365-ac1f-a7cbc5a161c7" /><br>
 <img width="800" alt="Screenshot 2025-04-03 at 11 24 35 PM" src="https://github.com/user-attachments/assets/10d8c970-4dc2-44f6-bb70-b1e1ba08d0c5" /><br>
 <img width="800" alt="Screenshot 2025-04-03 at 11 24 35 PM" src="https://github.com/user-attachments/assets/037de507-062d-47e8-857c-f6d54e60ecaf" /><br>
@@ -337,7 +327,7 @@ The **Reception Dashboard** provides real-time insights into patient queues and 
 <br><br>
 
 - **Prescription Process**
-- Doctor Dashboard Appointments<br>
+- Clinician Dashboard Appointments<br>
 ![11)DoctorDashboard_Queue](https://github.com/user-attachments/assets/99697269-4a29-43b4-a9b8-9736519ccc39)<br>
 Doctor Views his current days schedule and confirms the presence of the patient by using OTP verification(only if the patient has not checked in) then the patient recieves the OTP 
 - Patient recieving OTP<br>

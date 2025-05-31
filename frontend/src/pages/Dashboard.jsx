@@ -1,7 +1,7 @@
-import DoctorDashboard from "../components/DoctorDashboard/DoctorDashboard";
+import ClinicianDashboard from "../components/ClinicianDashboard/ClinicianDashboard";
 import PatientDashboard from "../components/PatientDashboard/PatientDashboard";
 import ReceptionDashboard from "../components/ReceptionDashboard/ReceptionDashboard";
-import MultiDoctorDashboard from "./MultiDoctorDashboard";
+import MultiClinicianDashboard from "./MultiClinicianDashboard";
 import { useState, useEffect } from "react";
 import { supabase } from "../utils/supabaseClient";
 import useUserRoleById from "../hooks/useUserRoleById";
@@ -62,8 +62,8 @@ function Dashboard() {
     if (dataRole?.data && dataRole.data.length > 0) {
       setRole(dataRole.data[0].role);
       if (role === "PATIENT") {
-      } else if (role === "doctor") {
-        toast.success("Welcome Doctor");
+      } else if (role === "clinician") {
+        toast.success("Welcome Clinician");
       }
     }
   }, [userId, dataRole]);
@@ -78,8 +78,8 @@ function Dashboard() {
         ) : role === "HEALTH WORKER" ? (
           <HealthWorkerDashboard />
         ) : (
-          // <MultiDoctorDashboard />
-          <DoctorDashboard />
+          // <MultiClinicianDashboard />
+          <ClinicianDashboard />
         ))}
     </div>
   );

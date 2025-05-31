@@ -18,7 +18,7 @@
 // function AppointmentCard({ data, refetch, index }) {
 //   const {
 //     appointmentId,
-//     doctor,
+//     clinician,
 //     specialization,
 //     hospital,
 //     address,
@@ -166,7 +166,7 @@
 //               </div>
 //             )}
 //             <UserRound className="mr-2 text-indigo-600" size={18} />
-//             <span className="text-lg font-medium">{doctor}</span>
+//             <span className="text-lg font-medium">{clinician}</span>
 //             <Badge
 //               color="indigo"
 //               variant="soft"
@@ -377,7 +377,7 @@ import {
 function AppointmentCard({ data, refetch, index }) {
   const {
     appointmentId,
-    doctor,
+    clinician,
     specialization,
     hospital,
     address,
@@ -496,7 +496,7 @@ function AppointmentCard({ data, refetch, index }) {
               </div>
             )}
             <UserRound className="mr-2 text-indigo-600" size={18} />
-            <span className="text-lg font-medium">{doctor}</span>
+            <span className="text-lg font-medium">{clinician}</span>
             <Badge
               color="indigo"
               variant="soft"

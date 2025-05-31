@@ -9,8 +9,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BookingProcessGuide from "../components/BookingProcessGuide";
 import BookingFormPersonalDetails from "../components/BookingFormPersonalDetails";
-import useGetDoctorSlots from "../hooks/useGetDoctorSlots";
-import useGetDoctorType from "../hooks/useGetDoctorType";
+import useGetClinicianSlots from "../hooks/useGetClinicianSlots";
+import useGetClinicianType from "../hooks/useGetClinicianType";
 import { BarLoader } from "react-spinners";
 import BookingFormSelectSlots from "../components/BookingFormSelectSlots";
 import BookingFormReviewData from "../components/BookingFormReviewData";
@@ -39,11 +39,11 @@ function BookAppointment() {
     healthIssue: "",
     age: "",
     gender: "",
-    selectedDoctor: null,
+    selectedClinician: null,
     selectedDate: null,
   });
   const navigate = useNavigate();
-  const [formState, setFormState] = useState(0); // 0: Guide, 1: Personal Details, 2: Select Doctor, 3: Review Data
+  const [formState, setFormState] = useState(0); // 0: Guide, 1: Personal Details, 2: Select Clinician, 3: Review Data
 
   function handleNext() {
     setFormState((prev) => prev + 1);
@@ -53,34 +53,33 @@ function BookAppointment() {
   }
 
   const {
-    isLoading: isLoadingDoctorType,
-    data: dataDoctorType,
-    error: errorDoctorType,
-  } = useGetDoctorType(formState === 2 ? formData.healthIssue : null);
-  const [mode, setMode] = useState("offline"); // Fetch doctor type based on health issue using ML model
+    isLoading: isLoadingClinicianType,
+    data: dataClinicianType,
+    error: errorClinicianType,
+  } = useGetClinicianType(formState === 2 ? formData.healthIssue : null);
+  const [mode, setMode] = useState("offline"); // Fetch clinician type based on health issue using ML model
   const {
     isLoading: isLoadingSlots,
     data: dataSlots,
     error: errorSlots,
     refetch: refetchSlots,
     isFetching: isFetchingSlots,
-  } = useGetDoctorSlots(
-    formState === 2 ? { formData, patientId, dataDoctorType, mode } : null,
-  ); // Fetch doctor slots based on selected doctor type
+  } = useGetClinicianSlots(
+    formState === 2 ? { formData, patientId, dataClinicianType, mode } : null,
+  ); // Fetch clinician slots based on selected clinician type
+  // console.log(isLoadingClinicianType, isLoadingSlots);
 
-  // console.log(isLoadingDoctorType, isLoadingSlots);
-
-  const [doctorSlots, setDoctorSlots] = useState([]);
+  const [clinicianSlots, setClinicianSlots] = useState([]);
   const [bookingSuccessful, setBookingSuccessful] = useState(false);
 
-  // Filter doctor slots based on selected date
+  // Filter clinician slots based on selected date
   useEffect(() => {
     // && !formData.selectedDate
     if (dataSlots) {
-      setDoctorSlots(dataSlots);
+      setClinicianSlots(dataSlots);
     }
     // else {
-    //   setDoctorSlots(
+    //   setClinicianSlots(
     //     dataSlots?.filter(
     //       (slot) => slot.available_date === formData.selectedDate,
     //     ),
@@ -102,7 +101,7 @@ function BookAppointment() {
       return true;
     }
     if (formState === 2) {
-      if (!formData.selectedDoctor || !formData.selectedDate) return false;
+      if (!formData.selectedClinician || !formData.selectedDate) return false;
       return true;
     }
     if (formState === 3) return true;
@@ -121,18 +120,17 @@ function BookAppointment() {
     bookAppointment({ formData, patientId });
   };
   console.log("isLoadingBookAppointment", isLoadingBookAppointment);
-  
+
 
   // // console.log(isFetchingSlots);
-  // console.log(isLoadingDoctorType, isLoadingSlots, isFetchingSlots);
-  // console.log("isLoadingDoctorType", isLoadingDoctorType);
+  // console.log(isLoadingClinicianType, isLoadingSlots, isFetchingSlots);
+  // console.log("isLoadingClinicianType", isLoadingClinicianType);
   // console.log("isLoadingSlots", isLoadingSlots);
   // console.log("isFetchingSlots", isFetchingSlots);
 
   return (
     <>
-      {(isLoadingDoctorType || isLoadingSlots || isFetchingSlots) && <Loader />}
-
+      {(isLoadingClinicianType || isLoadingSlots || isFetchingSlots) && <Loader />}
       <div
         className="w-full border-2 border-indigo-600 transition-all duration-700"
         style={{
@@ -146,8 +144,8 @@ function BookAppointment() {
       <div className="dotted mt-0 flex min-h-screen flex-col items-center justify-center">
         <div className="relative my-24 flex w-11/12 flex-col gap-y-4 rounded-md border-2 bg-white px-6 py-4 font-inter text-sm font-medium text-[#5d5d5d] shadow-2xl shadow-indigo-300 sm:w-10/12 sm:p-8 md:w-10/12 lg:w-8/12 xl:px-12">
           <div className="absolute left-3 top-3 -z-10 h-full w-full animate-fade-up rounded-md bg-gradient-to-r from-violet-300 to-indigo-400"></div>
-          {(isLoadingDoctorType || isLoadingSlots) && (
-            <div>Loading doctor type...</div>
+          {(isLoadingClinicianType || isLoadingSlots) && (
+            <div>Loading clinician type...</div>
           )}
           {formState === 0 && <BookingProcessGuide />}
           {formState === 1 && (
@@ -155,11 +153,11 @@ function BookAppointment() {
           )}
           {formState === 2 && (
             <BookingFormSelectSlots
-              doctors={doctorSlots}
+              clinicians={clinicianSlots}
               formData={formData}
               setFormData={setFormData}
               refetchSlots={refetchSlots}
-              dataDoctorType={dataDoctorType}
+              dataClinicianType={dataClinicianType}
               setMode={setMode}
               mode={mode}
             />

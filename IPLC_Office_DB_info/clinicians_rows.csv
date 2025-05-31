@@ -1,0 +1,10 @@
+id,name,email,phone,specialty,license_number,is_active,created_at,updated_at
+0e1af2bb-81f1-47a9-aa4c-c95ed88c5192,Isabelle Areces,isabelle.areces@iplcmiami.com,(305) 333-1889,Speech-Language Pathology,SLP45678,true,2025-05-30 04:44:41.984675+00,2025-05-30 04:44:41.984675+00
+134096d7-ff53-4c89-996d-f049202f18c8,Gianna Esposito,gianna.esposito@iplcmiami.com,(305) 333-1889,Speech-Language Pathology,SLP78901,true,2025-05-30 04:44:41.984675+00,2025-05-30 04:44:41.984675+00
+234dc429-3525-4547-8ba7-6f72a4f0edb7,Jessica Dehombre,jessica.dehombre@iplcmiami.com,(305) 333-1889,Speech-Language Pathology,SLP34567,true,2025-05-30 04:44:41.984675+00,2025-05-30 04:44:41.984675+00
+674a966d-e333-4c80-9064-5e6a0a8c1bb2,Karina De La Rosa,karina.delarosa@iplcmiami.com,(305) 333-1889,Speech-Language Pathology,SLP56789,true,2025-05-30 04:44:41.984675+00,2025-05-30 04:44:41.984675+00
+8c369df6-ebeb-4bc8-9f12-27684216c20c,Sophia Fernandez,sophia.fernandez@iplcmiami.com,(305) 333-1889,Speech-Language Pathology,SLP23456,true,2025-05-30 04:44:41.984675+00,2025-05-30 04:44:41.984675+00
+9d8a4e17-0f68-42fd-bdc6-073fe49dd518,Alissa M Darley,alissa.darley@iplcmiami.com,(305) 333-1889,Speech-Language Pathology,SLP67890,true,2025-05-30 04:44:41.984675+00,2025-05-30 04:44:41.984675+00
+a73ae68b-fa01-40c4-8944-800e2a577fc8,Nancy Beato,nancy.beato@iplcmiami.com,(305) 333-1889,Occupational Therapy,OT23456,true,2025-05-30 04:44:41.984675+00,2025-05-30 04:44:41.984675+00
+c8922fbb-bd37-491e-9a58-a09673e0079f,Mariana Loys,mariana.loys@iplcmiami.com,(305) 333-1889,Speech-Language Pathology,SLP12345,true,2025-05-30 04:44:41.984675+00,2025-05-30 04:44:41.984675+00
+e205d51b-5425-4cf9-ba44-adc9d06f0d28,Isabel Guerra,isabel.guerra@iplcmiami.com,(305) 333-1889,Occupational Therapy,OT12345,true,2025-05-30 04:44:41.984675+00,2025-05-30 04:44:41.984675+00

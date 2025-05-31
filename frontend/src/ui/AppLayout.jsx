@@ -2,11 +2,11 @@ import { Theme } from "@radix-ui/themes";
 import ReactLenis from "lenis/react";
 import { Navigate, Outlet } from "react-router-dom";
 import Header from "../components/Header";
-import { useCureitContext } from "../utils/ContextProvider";
+import { useBookSmartlyContext } from "../utils/ContextProvider";
 import ChatBot from "../components/ChatBot/ChatBot";
 
 function AppLayout() {
-  const context = useCureitContext();
+  const context = useBookSmartlyContext();
   const { theme, profile } = context;
 
 
