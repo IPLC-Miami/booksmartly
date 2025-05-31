@@ -59,7 +59,6 @@ package-lock.json
 .temp/
 
 # Project documentation with sensitive information
-PROJECT_STATUS.md
 Serena_MCP_Server_Guide.md
 
 # Server configuration files (contain sensitive domain/server info)
