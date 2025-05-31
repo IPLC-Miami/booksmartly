@@ -21,7 +21,6 @@
     "@radix-ui/themes": "^3.1.1",
     "@studio-freight/react-lenis": "github:studio-freight/react-lenis",
     "@supabase/supabase-js": "^2.48.1",
-    "@tailwindcss/line-clamp": "^0.4.4",
     "@tanstack/react-query": "^5.51.1",
     "@tanstack/react-query-devtools": "^5.51.1",
     "axios": "^1.8.4",
@@ -56,6 +55,7 @@
     "three": "^0.175.0"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@tailwindcss/typography": "^0.5.16",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",

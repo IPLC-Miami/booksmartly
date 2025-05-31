@@ -1,16 +1,10 @@
 import { Theme } from "@radix-ui/themes";
 import ReactLenis from "lenis/react";
-import { Navigate, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import Header from "../components/Header";
-import { useBookSmartlyContext } from "../utils/ContextProvider";
 import ChatBot from "../components/ChatBot/ChatBot";
 
 function AppLayout() {
-  const context = useBookSmartlyContext();
-  const { theme, profile } = context;
-
-
-
   return (
     <ReactLenis root options={{ lerp: 0.15 }}>
       <Theme appearance={"light"}>

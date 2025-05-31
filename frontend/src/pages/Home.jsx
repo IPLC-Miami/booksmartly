@@ -1,39 +1,18 @@
-// import { useEffect, useState } from "react";
-import React, { useEffect, useState } from "react";
-
+import React from "react";
 import { Typewriter } from "react-simple-typewriter";
-// import jwt_decode from "jwt-decode";
 
 import BookSmartlyLogoWhite from "../assets/BookSmartlyLogoWhite.png";
 import cliniciansImage from "../assets/clinicians.png";
-import { useBookSmartlyContext, useAuthContext } from "../utils/ContextProvider";
+import { useBookSmartlyContext } from "../utils/ContextProvider";
 import { Button } from "@radix-ui/themes";
 import Features from "../components/Features";
 import { useNavigate } from "react-router-dom";
-// import { supabase } from "../utils/supabaseClient";
-import { supabase } from "../utils/supabaseClient";
-import ChatBot from "../components/ChatBot/ChatBot";
-
-// imprt useState
 
 function Home() {
-  const { theme, profile } = useBookSmartlyContext();
+  const { profile } = useBookSmartlyContext();
 
   const navigate = useNavigate();
   const token = localStorage.getItem("sb-vakmfwtcbdeaigysjgch-auth-token");
-  const userData = token;
-  const [userInfo, setUserInfo] = useState({
-    id: "",
-    name: "",
-    email: "",
-    phone: "",
-    role: " ",
-    confirmed_at: "",
-    last_sign_in_at: "",
-    phone: "",
-  });
-  // const user = useAuthContext();
-  // useEffect(()=>{// console.log(user)},[user])
 
   return (
     <div className="flex flex-col overflow-hidden font-noto">

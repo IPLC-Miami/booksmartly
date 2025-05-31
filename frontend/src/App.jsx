@@ -1,4 +1,3 @@
-import { Theme } from "@radix-ui/themes";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AppLayout from "./ui/AppLayout";
 import ErrorPage from "./pages/ErrorPage";
@@ -12,16 +11,14 @@ import AccountVerification from "./pages/AccountVerification";
 import AccountVerified from "./pages/AccountVerified";
 import Dashboard from "./pages/Dashboard";
 import ForgotPassword from "./pages/ForgotPassword";
-import UserDashboard from "./pages/UserDashboard.jsx";
 import ResetPasswordEmailSent from "./pages/ResetPasswordEmailSent";
 import ResetPassword from "./pages/ResetPassword";
 import { ToastContainer } from "react-toastify";
-import { useBookSmartlyContext } from "./utils/ContextProvider";
 import ProtectedRoutes from "./utils/ProtectedRoutes";
 import SingleFeaturePageChatbot from "./pages/SingleFeaturePageChatbot";
 import SingleFeaturePageMedSpecRec from "./pages/SingleFeaturePageMedSpecRec";
 import SingleFeaturePageFeedback from "./pages/SingleFeaturePageFeedback";
-import HealthCamps from "./pages/HealthCamps"; // Import the new page
+import HealthCamps from "./pages/HealthCamps";
 import LabResultSummary from "./components/PatientDashboard/LabResultSummary";
 import AIConsultation from "./pages/AIConsultation";
 

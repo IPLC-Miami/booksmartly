@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getDoctorSlots, getPatientAppointments } from "../utils/api";
+import { getPatientAppointments } from "../utils/api";
 
 export default function useGetUpcomingAppointments(patientId) {
   const { isLoading, data, error, status, refetch, isFetching } = useQuery({

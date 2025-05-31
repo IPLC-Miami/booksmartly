@@ -1,18 +1,9 @@
-import {
-  BellIcon,
-  ExitIcon,
-  GearIcon,
-  HomeIcon,
-  MoonIcon,
-  SunIcon,
-} from "@radix-ui/react-icons";
-import BookSmartlyLogo from "../assets/BookSmartlyLogo";
+import { ExitIcon } from "@radix-ui/react-icons";
 import BookSmartlyLogoWhite from "../assets/BookSmartlyLogoWhite.png";
 
 import { useBookSmartlyContext } from "../utils/ContextProvider";
 import {
   Avatar,
-  Box,
   Button,
   DropdownMenu,
   Separator,
@@ -20,7 +11,6 @@ import {
 } from "@radix-ui/themes";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Logout from "./logout";
 import { supabase } from "../utils/supabaseClient";
 import { useGetUserDetails } from "../hooks/useGetUserDetails";
 import { useQueryClient } from "@tanstack/react-query";
@@ -28,7 +18,7 @@ import { Brain, Home } from "lucide-react";
 
 function Header() {
   const bookSmartlyContext = useBookSmartlyContext();
-  const { theme, setTheme, profile, setProfile } = bookSmartlyContext;
+  const { profile, setProfile } = bookSmartlyContext;
   const queryClient = useQueryClient();
   const [userId, setUserId] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
@@ -103,21 +93,13 @@ function Header() {
     fetchUser();
   }, []);
 
-  const {
-    isLoading: isLoadingDetails,
-    data: dataDetails,
-    error: errorDetails,
-    refetch: refetchDetails,
-    isFetching: isFetchingDetails,
-  } = useGetUserDetails(userId, accessToken);
+  const { data: dataDetails } = useGetUserDetails(userId, accessToken);
 
   useEffect(() => {
-    // // console.log("xxxxxx", dataDetails);
-
     if (dataDetails) {
       setProfile(dataDetails.profile);
     }
-  }, [dataDetails, isLoadingDetails]);
+  }, [dataDetails, setProfile]);
 
   const name = profile?.name || "";
   const displayName = name.replace("Dr. ", "").split(" ");
