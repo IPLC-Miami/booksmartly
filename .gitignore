@@ -61,3 +61,19 @@ package-lock.json
 # Project documentation with sensitive information
 PROJECT_STATUS.md
 Serena_MCP_Server_Guide.md
+
+# Server configuration files (contain sensitive domain/server info)
+nginx_*.conf
+nginx_*.txt
+nginx_config*.txt
+nginx_booksmartly*.conf
+nginx_booksmartly*.txt
+
+# Backup/fixed files (development artifacts)
+*_fixed.html
+*_fixed.js
+index_fixed.html
+redisClient_fixed.js
+
+# Development tools
+.roo/
