@@ -1,7 +1,7 @@
 name: BookSmartly
 language: typescript
 framework: nextjs
-description: BookSmartly project for Cureit migration
+description: BookSmartly project - healthcare appointment booking platform
 version: "1.0.0"
 
 directories:
