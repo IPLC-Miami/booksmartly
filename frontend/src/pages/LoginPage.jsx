@@ -13,6 +13,7 @@ import { useLocation } from "react-router-dom";
 
 function LoginPage() {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const [loginData, setLoginData] = useState({
     email: "",
@@ -21,6 +22,7 @@ function LoginPage() {
   const queryClient = useQueryClient();
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const { mutate, onSuccess, onError } = useCheckLogin();
   const [token, setToken] = useState(
     localStorage.getItem("sb-itbxttkivivyeqnduxjb-auth-token"),
@@ -35,9 +37,6 @@ function LoginPage() {
       }, 500);
     }
   }, [token, navigate]);
-
-  const [successMessage, setSuccessMessage] = useState("");
-  const navigate = useNavigate();
 
   const handleSignIn = () => {
     mutate.mutate(loginData, {
