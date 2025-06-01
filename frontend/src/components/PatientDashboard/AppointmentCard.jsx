@@ -454,7 +454,7 @@ function AppointmentCard({ data, refetch, index }) {
     console.log("Scanned data:", scanData);
 
     if (scanData !== "fail") {
-      const audio = new Audio("/cureit/sound/Check_In_Successful.mp3");
+      const audio = new Audio("/sound/Check_In_Successful.mp3");
       audio.play().catch((err) => console.error("Audio play error:", err));
       setIsCheckedIn(true);
     }

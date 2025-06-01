@@ -26,7 +26,7 @@ function SignUpPage() {
       toast.success("Login successful! Redirecting to dashboard....");
       setSuccessMessage("Logging in....");
       setTimeout(() => {
-        window.location.href = "/cureit/user/dashboard";
+        window.location.href = "/user/dashboard";
       }, 500);
     }
   }, [token]);
@@ -44,7 +44,7 @@ function SignUpPage() {
     const frontend_base_url = import.meta.env.VITE_frontend_base_url;
 
     // Supabase requires only email and password for authentication
-    const url = `${frontend_base_url}/cureit/login/`;
+    const url = `${frontend_base_url}/login/`;
     // console.log(url);
 
     const { data, error } = await supabase.auth.signUp({
@@ -53,7 +53,7 @@ function SignUpPage() {
       phone: phoneNumber,
       options: {
         data: { display_name: name, phone: phoneNumber }, // Store display_name in metadata
-        emailRedirectTo: `${frontend_base_url}/cureit/login`, // Redirect URL after confirmation
+        emailRedirectTo: `${frontend_base_url}/login`, // Redirect URL after confirmation
       },
     });
 
