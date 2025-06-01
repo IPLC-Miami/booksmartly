@@ -119,7 +119,7 @@ function Header() {
         className="my-auto w-16 cursor-pointer"
         onClick={() => navigate("/")}
       >
-        <img src="/iplclogo.png" alt="IPLC BookSmartly Logo" className="w-full" />
+        <img src="/BookSmartly_SMALL.png" alt="BookSmartly Logo" className="w-full" />
         {/* <BookSmartlyLogo fillColor={"#000000"} /> */}
       </div>
 

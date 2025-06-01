@@ -380,28 +380,11 @@ function Home() {
               </Button>
             )}
           </div>
-          <div className="my-4">
-            <Button
-              color="violet"
-              size="3"
-              variant="outline"
-              className="my-4"
-              onClick={() => {
-                if (token) {
-                  navigate("/health-camps");
-                } else {
-                  navigate("/login");
-                }
-              }}
-            >
-              Free Health Camps
-            </Button>
-          </div>
         </div>
         <div className="relative">
           <img
-            src="/images/iplclogo.png"
-            alt="IPLC Logo"
+            src="/BookSmartly_hero_image.png"
+            alt="BookSmartly Hero"
             className="h-64 object-cover md:h-72 lg:h-96"
           />
           {/* <div className="gradient left-10 top-[-90px] opacity-50"></div> */}
