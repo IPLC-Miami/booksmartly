@@ -14,7 +14,7 @@ async function getUserProfile(userId) {
     // FIRST check if user exists in clinicians2 table (PRIORITY)
     const { data: clinicianData, error: clinicianError } = await supabase
       .from("clinicians2")
-      .select("*, 'clinician' as user_type")
+      .select("*")
       .eq("user_id", userId)
       .maybeSingle();
 
@@ -42,7 +42,7 @@ async function getUserProfile(userId) {
     // SECOND check if user exists in clients table (FALLBACK)
     const { data: clientData, error: clientError } = await supabase
       .from("clients")
-      .select("*, 'client' as user_type")
+      .select("*")
       .eq("user_id", userId)
       .maybeSingle();
 
