@@ -38,7 +38,7 @@ initSocket(server);
 app.use(cors());
 
 app.use(express.json());
-app.use("/api/AiConsultation", AiConsultation);
+app.use("/AiConsultation", AiConsultation);
 
 app.use(async (req, res, next) => {
   try {
@@ -57,17 +57,17 @@ app.use(async (req, res, next) => {
 // Routes
 app.get("/", (req, res) => res.send("Hello World"));
 
-app.use("/api/users", userRoutes);
-app.use("/api/clinicians", clinicianRoutes); // Updated
-app.use("/api/appointments", appointmentRoutes);
-app.use("/api/prescriptions", prescriptionRoutes);
-app.use("/api/testReports", testReportsRoutes);
-app.use("/api/uploadProfiles", profileRoutes);
-app.use("/api/clinicianProfileRoutes", clinicianProfileRoutes); // Updated
-app.use("/api/receptionProfileRoutes", receptionProfileRoutes);
-app.use("/api/feedback", feedbackRoutes);
-app.use("/api/multiClinicianDashboardRoutes", multiClinicianDashboardRoutes); // Updated
-app.use("/api/healthWorkerRoutes", healthWorkerRoutes);
+app.use("/users", userRoutes);
+app.use("/clinicians", clinicianRoutes); // Updated
+app.use("/appointments", appointmentRoutes);
+app.use("/prescriptions", prescriptionRoutes);
+app.use("/testReports", testReportsRoutes);
+app.use("/uploadProfiles", profileRoutes);
+app.use("/clinicianProfileRoutes", clinicianProfileRoutes); // Updated
+app.use("/receptionProfileRoutes", receptionProfileRoutes);
+app.use("/feedback", feedbackRoutes);
+app.use("/multiClinicianDashboardRoutes", multiClinicianDashboardRoutes); // Updated
+app.use("/healthWorkerRoutes", healthWorkerRoutes);
 
 // const options = {
 //   key: fs.readFileSync("certs/key.pem"),
@@ -132,3 +132,4 @@ server.listen(PORT, "0.0.0.0", () =>
 // https.createServer(options, app).listen(PORT, "0.0.0.0", () => {
 //   console.log(`Server is running on https://localhost:${PORT}`);
 // });
+
