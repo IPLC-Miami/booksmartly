@@ -385,7 +385,7 @@ function Home() {
           <img
             src="/BookSmartly_hero_image.png"
             alt="BookSmartly Hero"
-            className="h-64 object-cover md:h-72 lg:h-96"
+            className="h-80 object-cover md:h-96 lg:h-[32rem] xl:h-[36rem]"
           />
           {/* <div className="gradient left-10 top-[-90px] opacity-50"></div> */}
         </div>
