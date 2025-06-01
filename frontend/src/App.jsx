@@ -133,9 +133,10 @@ const router = createBrowserRouter(
       ],
     },
   ],
-  {
-    basename: "/cureit",
-  },
+  // Removed basename to work at root domain
+  // {
+  //   basename: "/cureit",
+  // },
 );
 
 function App() {
