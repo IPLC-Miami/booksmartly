@@ -77,3 +77,12 @@ redisClient_fixed.js
 # Development tools
 .roo/
 PROJECT_STATUS.md
+
+# Development and testing scripts (contain sensitive data)
+**/check_user.js
+**/test_api_direct.js
+**/test_endpoint_direct.js
+**/create_jwt_token.js
+**/generate_token.js
+**/generate_user_token.js
+30-fix-localhost-refs.sh
