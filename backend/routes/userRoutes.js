@@ -8,9 +8,38 @@ const validateOtp = require("../services/validateOtpService");
 const frontend_url = process.env.frontend_url;
 
 // Helper function to get user profile from appropriate table
+// FIXED: Prioritizes clinicians over clients for users who exist in both tables
 async function getUserProfile(userId) {
   try {
-    // First check if user exists in clients table
+    // FIRST check if user exists in clinicians2 table (PRIORITY)
+    const { data: clinicianData, error: clinicianError } = await supabase
+      .from("clinicians2")
+      .select("*, 'clinician' as user_type")
+      .eq("user_id", userId)
+      .maybeSingle();
+
+    if (clinicianData && !clinicianError) {
+      // Get email from auth.users since clinicians2 doesn't have email field
+      const { data: authUser, error: authError } = await supabase.auth.admin.getUserById(userId);
+      const email = authUser?.user?.email || '';
+
+      return {
+        data: {
+          id: clinicianData.user_id,
+          email: email,
+          name: clinicianData.name || '',
+          phone: clinicianData.phone || '',
+          phone_number: clinicianData.phone || '',
+          specialty: clinicianData.specialty,
+          user_type: 'clinician',
+          role: 'clinician',
+          ...clinicianData
+        },
+        error: null
+      };
+    }
+
+    // SECOND check if user exists in clients table (FALLBACK)
     const { data: clientData, error: clientError } = await supabase
       .from("clients")
       .select("*, 'client' as user_type")
@@ -32,30 +61,6 @@ async function getUserProfile(userId) {
           user_type: 'client',
           role: 'client',
           ...clientData
-        },
-        error: null
-      };
-    }
-
-    // If not found in clients, check clinicians2 table
-    const { data: clinicianData, error: clinicianError } = await supabase
-      .from("clinicians2")
-      .select("*, 'clinician' as user_type")
-      .eq("user_id", userId)
-      .maybeSingle();
-
-    if (clinicianData && !clinicianError) {
-      return {
-        data: {
-          id: clinicianData.user_id,
-          email: clinicianData.email || '', // clinicians2 doesn't have email field
-          name: clinicianData.name || '',
-          phone: clinicianData.phone || '',
-          phone_number: clinicianData.phone || '',
-          specialty: clinicianData.specialty,
-          user_type: 'clinician',
-          role: 'clinician',
-          ...clinicianData
         },
         error: null
       };

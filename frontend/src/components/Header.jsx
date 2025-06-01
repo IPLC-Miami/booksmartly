@@ -1,5 +1,6 @@
 import { ExitIcon } from "@radix-ui/react-icons";
-import BookSmartlyLogoWhite from "../assets/BookSmartlyLogoWhite.png";
+// Using IPLC logo instead of old CureIt branding
+// import BookSmartlyLogoWhite from "../assets/BookSmartlyLogoWhite.png";
 
 import { useBookSmartlyContext } from "../utils/ContextProvider";
 import {
@@ -118,7 +119,7 @@ function Header() {
         className="my-auto w-16 cursor-pointer"
         onClick={() => navigate("/")}
       >
-        <img src={BookSmartlyLogoWhite} alt="BookSmartly Logo" className="w-full" />
+        <img src="/iplclogo.png" alt="IPLC BookSmartly Logo" className="w-full" />
         {/* <BookSmartlyLogo fillColor={"#000000"} /> */}
       </div>
 

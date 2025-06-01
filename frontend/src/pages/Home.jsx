@@ -1,7 +1,8 @@
 import React from "react";
 import { Typewriter } from "react-simple-typewriter";
 
-import BookSmartlyLogoWhite from "../assets/BookSmartlyLogoWhite.png";
+// Using IPLC logo instead of old CureIt branding
+// import BookSmartlyLogoWhite from "../assets/BookSmartlyLogoWhite.png";
 // import cliniciansImage from "../assets/clinicians.png";
 import { useBookSmartlyContext } from "../utils/ContextProvider";
 import { Button } from "@radix-ui/themes";
@@ -324,8 +325,8 @@ function Home() {
 
         <div className="flex flex-col items-center justify-center p-8">
           <img
-            src={BookSmartlyLogoWhite}
-            alt="BookSmartly Logo"
+            src="/iplclogo.png"
+            alt="IPLC BookSmartly Logo"
             className="h-20 md:h-28 lg:h-32"
           />
           <div class="my-4 h-[1px] w-full bg-gradient-to-r from-transparent via-[#79797949] to-transparent"></div>
