@@ -31,7 +31,7 @@ function LoginPage() {
       toast.success("Login successful! Redirecting to dashboard....");
       setSuccessMessage("Logging in....");
       setTimeout(() => {
-        window.location.href = "/cureit/user/dashboard";
+        window.location.href = "/user/dashboard";
       }, 500);
     }
   }, [token]);
@@ -47,7 +47,7 @@ function LoginPage() {
         toast.success("Login successful! Redirecting to dashboard....");
         setSuccessMessage("Logging in....");
         setTimeout(() => {
-          window.location.href = "/cureit/user/dashboard";
+          window.location.href = "/user/dashboard";
         }, 500);
 
         // navigate("/user/dashboard"); // Redirect on success
