@@ -31,10 +31,10 @@ function LoginPage() {
       toast.success("Login successful! Redirecting to dashboard....");
       setSuccessMessage("Logging in....");
       setTimeout(() => {
-        window.location.href = "/user/dashboard";
+        navigate("/user/dashboard");
       }, 500);
     }
-  }, [token]);
+  }, [token, navigate]);
 
   const [successMessage, setSuccessMessage] = useState("");
   const navigate = useNavigate();
@@ -47,11 +47,9 @@ function LoginPage() {
         toast.success("Login successful! Redirecting to dashboard....");
         setSuccessMessage("Logging in....");
         setTimeout(() => {
-          window.location.href = "/user/dashboard";
+          navigate("/user/dashboard");
         }, 500);
 
-        // navigate("/user/dashboard"); // Redirect on success
-        // window.location.href = "/user/dashboard";
         queryClient.invalidateQueries("userDetails");
         // } else {
         //   setErrorMessage("Wrong credentials. Please Try Again.");

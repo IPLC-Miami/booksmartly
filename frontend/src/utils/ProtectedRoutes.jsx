@@ -4,7 +4,7 @@ import { Navigate, Outlet } from "react-router-dom";
 
 const ProtectedRoutes = () => {
   const tokenString = localStorage.getItem(
-    "sb-vakmfwtcbdeaigysjgch-auth-token",
+    "sb-itbxttkivivyeqnduxjb-auth-token",
   );
   return tokenString ? <Outlet /> : <Navigate to="/login" replace />;
 };
