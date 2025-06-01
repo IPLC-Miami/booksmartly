@@ -24,19 +24,10 @@ function LoginPage() {
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const { mutate, onSuccess, onError } = useCheckLogin();
-  const [token, setToken] = useState(
-    localStorage.getItem("sb-itbxttkivivyeqnduxjb-auth-token"),
-  );
+  // Removed token state - authentication check handled by ProtectedRoutes
 
-  useEffect(() => {
-    if (token) {
-      toast.success("Login successful! Redirecting to dashboard....");
-      setSuccessMessage("Logging in....");
-      setTimeout(() => {
-        navigate("/user/dashboard");
-      }, 500);
-    }
-  }, [token, navigate]);
+  // Removed problematic useEffect that was causing redirect loop
+  // Token check should be handled by ProtectedRoutes, not LoginPage
 
   const handleSignIn = () => {
     mutate.mutate(loginData, {
