@@ -14,14 +14,14 @@ function Dashboard() {
   const navigate = useNavigate();
 
   const tokenString = localStorage.getItem(
-    "sb-vakmfwtcbdeaigysjgch-auth-token",
+    "sb-itbxttkivivyeqnduxjb-auth-token",
   );
 
   const token = JSON?.parse(tokenString);
   useEffect(() => {
     if (!token) {
       toast.error("Session Expired Please Login Again.");
-      navigate("/login", { state: { sessionExpiration: true } });
+      navigate("/login", { state: { sessionExpired: true } });
     }
   }, [token, navigate]);
   
