@@ -23,7 +23,7 @@ function LoginPage() {
   const [errorMessage, setErrorMessage] = useState("");
   const { mutate, onSuccess, onError } = useCheckLogin();
   const [token, setToken] = useState(
-    localStorage.getItem("sb-vakmfwtcbdeaigysjgch-auth-token"),
+    localStorage.getItem("sb-itbxttkivivyeqnduxjb-auth-token"),
   );
 
   useEffect(() => {
@@ -85,7 +85,7 @@ function LoginPage() {
       <div className="relative my-24 flex w-11/12 flex-col gap-y-4 rounded-md border-2 bg-white p-8 font-inter text-sm font-medium text-[#5d5d5d] shadow-2xl shadow-indigo-300 sm:w-8/12 md:w-6/12 lg:w-4/12">
         <div className="absolute left-3 top-3 -z-10 h-full w-full animate-fade-up rounded-md bg-gradient-to-r from-violet-300 to-indigo-400"></div>
         <div className="mb-2 flex select-none justify-center text-center font-noto text-base font-semibold md:text-lg">
-          Welcome back to CureIt.
+          Welcome back to BookSmartly.
         </div>
 
         <div className="flex flex-col gap-y-1">
