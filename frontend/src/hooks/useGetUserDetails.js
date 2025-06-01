@@ -14,3 +14,4 @@ export function useGetUserDetails(userId, accessToken) {
   });
   return { isLoading, data, error, status, refetch, isFetching };
 }
+

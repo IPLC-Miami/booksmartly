@@ -19,3 +19,4 @@ export default function usePostPrescription(setSavePrescriptionSuccess) {
     )
     return { mutate };
 }
+

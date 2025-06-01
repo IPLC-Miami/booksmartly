@@ -52,3 +52,4 @@ function ReceptionDashboard() {
 }
 
 export default ReceptionDashboard;
+

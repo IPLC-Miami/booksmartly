@@ -57,3 +57,4 @@ const getCache = async (key) => {
 };
 
 module.exports = { redis, setCache, getCache, isRedisAvailable };
+

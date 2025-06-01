@@ -51,3 +51,4 @@ function BookSmartlyLogo({ fillColor }) {
 }
 
 export default BookSmartlyLogo;
+

@@ -42,3 +42,4 @@ export default function Card1({ title, text, link, linkName }) {
     </div>
   );
 }
+

@@ -13,3 +13,4 @@ export default function useGetHistoryAppointment(patientId) {
 
   return { isLoading, data, error, status, refetch, isFetching };
 }
+

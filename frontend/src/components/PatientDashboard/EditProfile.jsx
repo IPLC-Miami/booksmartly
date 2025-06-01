@@ -225,3 +225,4 @@ function EditProfile({ id, profile, setProfile, fetchUserProfile }) {
 }
 
 export default EditProfile;
+

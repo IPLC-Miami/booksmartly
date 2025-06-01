@@ -13,3 +13,4 @@ export default function useGetReceptionProfileDetails(receptionId, accessToken) 
   });
   return { isLoading, data, error, status, refetch, isFetching };
 }
+

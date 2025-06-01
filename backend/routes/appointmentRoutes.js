@@ -227,15 +227,15 @@ router.post("/book", async (req, res) => {
             : ""
         }
         <div class="footer">
-            <p>If you have any questions, feel free to <a href="mailto:cureitwell@gmail.com">contact us</a>.</p>
-            <p>&copy; 2025 CureIt. All rights reserved.</p>
+            <p>If you have any questions, feel free to <a href="mailto:BookSmartlywell@gmail.com">contact us</a>.</p>
+            <p>&copy; 2025 BookSmartly. All rights reserved.</p>
         </div>
     </div>
 </body>
 </html>
 `;
 
-  sendEmail(patientEmail, "Appointment Confirmed - CureIt", html);
+  sendEmail(patientEmail, "Appointment Confirmed - BookSmartly", html);
   return res.status(201).json(data);
 });
 router.post("/updateStatus/:appointmentId", async (req, res) => {
@@ -408,3 +408,4 @@ router.delete("/delete/:appointmentId", async (req, res) => {
   return res.json(data);
 });
 module.exports = router;
+

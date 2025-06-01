@@ -16,3 +16,4 @@ export default function useChatBot(message) {
 
   return { isLoading, isFetching, data, error, status, refetch  };
 }
+

@@ -1,7 +1,7 @@
 # BookSmartly Project Status Report
 
 ## Project Overview
-BookSmartly is a healthcare appointment booking and management system that was cloned from the CureIt project and modified for deployment on a VPS server at https://booksmartly.iplcmiami.com/.
+BookSmartly is a healthcare appointment booking and management system that was cloned from the BookSmartly project and modified for deployment on a VPS server at https://booksmartly.iplcmiami.com/.
 
 ## Current Status: CRITICAL DASHBOARD DEBUGGING - BRANCH CLEANUP COMPLETED!
 
@@ -20,9 +20,9 @@ BookSmartly is a healthcare appointment booking and management system that was c
    - **STATUS**: No more redirection cycle errors in nginx logs
 
 3. **Asset Path Issues Resolved**
-   - Fixed Vite configuration `base` property from "/cureit" to "/"
-   - Updated HTML template title from "CureIt" to "BookSmartly"
-   - Corrected hardcoded `/cureit/` paths in index.html
+   - Fixed Vite configuration `base` property from "/BookSmartly" to "/"
+   - Updated HTML template title from "BookSmartly" to "BookSmartly"
+   - Corrected hardcoded `/BookSmartly/` paths in index.html
    - Frontend successfully rebuilt with proper asset paths
 
 4. **Environment Variables Configured**
@@ -225,7 +225,7 @@ Internet → Nginx (443/SSL) → Static Files (/var/www/booksmartly/frontend/dis
 5. **Result**: All attempts failed - variables still not recognized
 
 #### Asset Path Resolution
-1. **Identified Root Cause**: Vite config `base: "/cureit"` property
+1. **Identified Root Cause**: Vite config `base: "/BookSmartly"` property
 2. **Fixed Source Files**: Updated vite.config.js and index.html template
 3. **Rebuilt Successfully**: Asset paths now correct
 4. **Result**: ✅ Asset loading issues resolved

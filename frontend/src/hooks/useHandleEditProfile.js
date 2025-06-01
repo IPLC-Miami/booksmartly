@@ -24,3 +24,4 @@ export default function useHandleEditProfile() {
 
   return { mutate };
 }
+

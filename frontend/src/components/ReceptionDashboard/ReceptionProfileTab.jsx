@@ -332,10 +332,10 @@ function ReceptionProfileTab() {
                     </div>
                   </div>
                   <h3 className="mb-3 text-center text-lg font-medium text-slate-800">
-                    Open CureIt App
+                    Open BookSmartly App
                   </h3>
                   <p className="text-center text-base text-slate-600">
-                    Launch the CureIt web application
+                    Launch the BookSmartly web application
                   </p>
                 </div>
 
@@ -481,3 +481,4 @@ function QRCodeIcon({ size = 24, className = "text-indigo-600" }) {
 }
 
 export default ReceptionProfileTab;
+

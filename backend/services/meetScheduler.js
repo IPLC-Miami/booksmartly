@@ -9,7 +9,7 @@ const event = {
     summary: "Online Appointment with Doctor",
     location: "Online Meet",
 
-    description: "Online Appointment booked with doctor through CureIt",
+    description: "Online Appointment booked with doctor through BookSmartly",
     start: {
         dateTime: "",
         timeZone: "Asia/Kolkata",

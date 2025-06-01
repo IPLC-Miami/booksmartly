@@ -230,7 +230,7 @@ function HealthCampRegistrationForm() {
           Health Camp Registration Form
         </h1>
         <p className="mt-2 text-center font-noto text-gray-600">
-          Complete the form below to register your health camp with CureIt
+          Complete the form below to register your health camp with BookSmartly
         </p>
       </div>
 
@@ -891,7 +891,7 @@ function HealthCampRegistrationForm() {
       {/* Footer */}
       <div className="container mx-auto mt-8 px-4 text-center">
         <p className="text-sm text-gray-600">
-          &copy; {new Date().getFullYear()} CureIt. All rights reserved.
+          &copy; {new Date().getFullYear()} BookSmartly. All rights reserved.
         </p>
       </div>
     </div>
@@ -899,3 +899,4 @@ function HealthCampRegistrationForm() {
 }
 
 export default HealthCampRegistrationForm;
+

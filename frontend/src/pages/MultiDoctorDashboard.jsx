@@ -256,7 +256,7 @@ const MultiDoctorDashboard = () => {
               </div>
               <div className="ml-4">
                 <h1 className="text-lg font-semibold text-gray-900">
-                  CureIt Monitor
+                  BookSmartly Monitor
                 </h1>
               </div>
             </div>
@@ -608,3 +608,4 @@ const MultiDoctorDashboard = () => {
 };
 
 export default MultiDoctorDashboard;
+

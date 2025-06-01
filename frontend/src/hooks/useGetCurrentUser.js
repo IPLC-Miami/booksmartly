@@ -12,3 +12,4 @@ export function useGetCurrentUser() {
   });
   return { isLoading, data, error, status, refetch, isFetching };
 }
+

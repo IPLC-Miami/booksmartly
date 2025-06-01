@@ -13,7 +13,7 @@ function ChatBot() {
 
   const [chatbotMessages2, setChatbotMessages2] = useState([
     {
-      message: "Hello, I am CureIt AI ChatBot. How can I help you today?",
+      message: "Hello, I am BookSmartly AI ChatBot. How can I help you today?",
       type: "bot",
     },
     {
@@ -38,12 +38,12 @@ function ChatBot() {
       type: "bot",
     },
     {
-      message: "Yes, I would like to know more about CureIt.",
+      message: "Yes, I would like to know more about BookSmartly.",
       type: "user",
     },
     {
       message:
-        "CureIt is an online platform that allows you to book appointments with doctors and healthcare professionals. You can also consult with doctors online.",
+        "BookSmartly is an online platform that allows you to book appointments with doctors and healthcare professionals. You can also consult with doctors online.",
       type: "bot",
     },
     {
@@ -58,7 +58,7 @@ function ChatBot() {
   const [chatbotMessages, setChatbotMessages] = useState([
     {
       type: "bot",
-      message: "Hello, I'm CureIt AI ChatBot. How can I help you today?",
+      message: "Hello, I'm BookSmartly AI ChatBot. How can I help you today?",
     },
   ]);
 
@@ -139,7 +139,7 @@ function ChatBot() {
               <div className="flex h-12 w-full items-center gap-x-2 border-red-600 p-2">
                 <TextField.Root
                   className="w-full"
-                  placeholder="Talk with CureIt AI ChatBot..."
+                  placeholder="Talk with BookSmartly AI ChatBot..."
                   value={message || ""}
                   onChange={(e) => setMessage(e.target.value)}
                   onKeyDown={(e) => {
@@ -181,3 +181,4 @@ function ChatBot() {
 }
 
 export default ChatBot;
+

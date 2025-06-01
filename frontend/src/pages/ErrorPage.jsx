@@ -7,3 +7,4 @@ export default function ErrorPage({ title, text, type }) {
     </div>
   );
 }
+

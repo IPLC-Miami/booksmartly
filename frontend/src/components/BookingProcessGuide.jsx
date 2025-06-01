@@ -8,12 +8,12 @@ function BookingProcessGuide() {
         <img src={BookSmartlyLogoWhite} alt="" className="h-12 md:h-16 w-auto" />
       </div>
       <div className="mb-4 flex select-none justify-center text-center font-noto text-base font-semibold md:text-lg">
-        Welcome to CureIt Appointment Booking
+        Welcome to BookSmartly Appointment Booking
       </div>
 
       <div className="flex flex-col gap-y-4 font-noto">
         <p>
-          At CureIt, we make booking appointments simple, quick, and
+          At BookSmartly, we make booking appointments simple, quick, and
           hassle-free!
         </p>
         <ol className="ml-4 flex list-inside list-decimal flex-col gap-y-1">
@@ -41,3 +41,4 @@ function BookingProcessGuide() {
 }
 
 export default BookingProcessGuide;
+

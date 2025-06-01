@@ -1054,7 +1054,7 @@ const PatientHealthStatusForm = () => {
         {/* Footer */}
         <div className="mt-8 flex justify-center">
           <span className="text-sm text-gray-500">
-            © {new Date().getFullYear()} CureIt Health. All rights reserved.
+            © {new Date().getFullYear()} BookSmartly Health. All rights reserved.
           </span>
         </div>
       </div>
@@ -1063,3 +1063,4 @@ const PatientHealthStatusForm = () => {
 };
 
 export default PatientHealthStatusForm;
+

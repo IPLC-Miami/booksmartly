@@ -40,7 +40,7 @@
 //   const [isCheckedIn, setIsCheckedIn] = useState(checked_in_status);
 //   const audioRef = useRef(null);
 //   useEffect(() => {
-//     audioRef.current = new Audio("/cureit/sound/Check_In_Successful.mp3");
+//     audioRef.current = new Audio("/BookSmartly/sound/Check_In_Successful.mp3");
 //     audioRef.current.preload = "auto";
 //   }, []);
 
@@ -102,13 +102,13 @@
 //     console.log("Scanned data:", scanData);
 
 //     // if (scanData !== "fail") {
-//     //   const audio = new Audio("/cureit/sound/Check_In_Successful.mp3");
+//     //   const audio = new Audio("/BookSmartly/sound/Check_In_Successful.mp3");
 //     //   audio.play().catch((err) => console.error("Audio play error:", err));
 //     // }
 
 //     // setShowScanner(false);
 //     if (scanData !== "fail") {
-//       // const audio = new Audio("/cureit/sound/Check_In_Successful.mp3");
+//       // const audio = new Audio("/BookSmartly/sound/Check_In_Successful.mp3");
 //       // audio.addEventListener("ended", () => {
 //       //   audio.play().catch((err) => console.error("Audio play error:", err));
 //       //   setIsCheckedIn(true);
@@ -680,3 +680,4 @@ function AppointmentCard({ data, refetch, index }) {
 }
 
 export default AppointmentCard;
+

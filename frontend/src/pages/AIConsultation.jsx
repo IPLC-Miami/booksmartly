@@ -1680,3 +1680,4 @@ export default function AIConsultation() {
     </div>
   );
 }
+

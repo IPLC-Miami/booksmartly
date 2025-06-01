@@ -12,3 +12,4 @@ if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
   throw new Error("supabaseUrl or supabaseAnonKey is not defined");
 }
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+

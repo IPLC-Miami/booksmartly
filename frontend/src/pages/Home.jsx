@@ -2,7 +2,7 @@ import React from "react";
 import { Typewriter } from "react-simple-typewriter";
 
 import BookSmartlyLogoWhite from "../assets/BookSmartlyLogoWhite.png";
-import cliniciansImage from "../assets/clinicians.png";
+// import cliniciansImage from "../assets/clinicians.png";
 import { useBookSmartlyContext } from "../utils/ContextProvider";
 import { Button } from "@radix-ui/themes";
 import Features from "../components/Features";
@@ -335,7 +335,7 @@ function Home() {
               deleteSpeed={20}
               typeSpeed={50}
               delaySpeed={2000}
-              words={["Welcome to CureIt.", "Appointment Booking made easy!"]}
+              words={["Welcome to BookSmartly.", "Appointment Booking made easy!"]}
               cursor={true}
             />
           </p>
@@ -399,8 +399,8 @@ function Home() {
         </div>
         <div className="relative">
           <img
-            src={cliniciansImage}
-            alt="clinicians"
+            src="/images/iplclogo.png"
+            alt="IPLC Logo"
             className="h-64 object-cover md:h-72 lg:h-96"
           />
           {/* <div className="gradient left-10 top-[-90px] opacity-50"></div> */}
@@ -481,7 +481,7 @@ export default Home;
 //               deleteSpeed={20}
 //               typeSpeed={50}
 //               delaySpeed={2000}
-//               words={["Welcome to CureIt.", "Appointment Booking made easy!"]}
+//               words={["Welcome to BookSmartly.", "Appointment Booking made easy!"]}
 //               cursor={true}
 //             />
 //           </p>

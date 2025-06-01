@@ -40,7 +40,7 @@ const sendOtp = async (Id) => {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CureIt OTP Verification</title>
+    <title>BookSmartly OTP Verification</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -89,14 +89,14 @@ const sendOtp = async (Id) => {
 <body>
     <div class="container">
         
-        <h2>CureIt OTP Verification</h2>
+        <h2>BookSmartly OTP Verification</h2>
         <p class="message">Hello,</p>
         <p class="message">Use the OTP below to verify your email. This OTP will expire in <span class="highlight">5 minutes</span>.</p>
         <p class="otp">${otp}</p>
         <p class="message">If you did not request this, please ignore this email.</p>
         <div class="footer">
-            <p>Need help? <a href="mailto:cureitwell@gmail.com">Mail Us</a></p>
-            <p>&copy; 2025 CureIt. All rights reserved.</p>
+            <p>Need help? <a href="mailto:BookSmartlywell@gmail.com">Mail Us</a></p>
+            <p>&copy; 2025 BookSmartly. All rights reserved.</p>
         </div>
     </div>
 </body>
@@ -106,3 +106,4 @@ const sendOtp = async (Id) => {
   return { data };
 };
 module.exports = sendOtp;
+

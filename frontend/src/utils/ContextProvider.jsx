@@ -89,3 +89,4 @@ export function AuthContextProvider({ children }) {
     </AuthContext.Provider>
   );
 }
+

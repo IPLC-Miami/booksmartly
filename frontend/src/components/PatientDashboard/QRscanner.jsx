@@ -507,3 +507,4 @@ const QRScanner = forwardRef(({ appointmentId, onScanSuccess }, ref) => {
 });
 
 export default QRScanner;
+

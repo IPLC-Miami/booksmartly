@@ -102,3 +102,4 @@ router.get("/generate-qr/:userId", async (req, res) => {
 });
 
 module.exports = router;
+

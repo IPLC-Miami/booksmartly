@@ -85,3 +85,4 @@ function encrypt(text) {
 }
 
 module.exports = { encrypt };
+

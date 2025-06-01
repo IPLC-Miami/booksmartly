@@ -12,3 +12,4 @@ if (!supabaseUrl || !supabaseKey) {
 const supabase = createClient(supabaseUrl, supabaseKey);
 console.log("supabase connected successfully");
 module.exports = supabase;
+

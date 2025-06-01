@@ -3,9 +3,9 @@
 
 **BookSmartly** is a **smart and accessible** clinician appointment platform that **bridges healthcare gaps** for **underserved communities** by reducing wait times and streamlining scheduling. It helps patients **connect with clinicians effortlessly** while enabling **efficient queue management** in hospitals and clinics. Powered by **Supabase**, BookSmartly ensures **secure authentication, real-time syncing, and seamless healthcare access**.
 
-🌐 **Deployed Project Link** -  [https://aryamagarwal.github.io/cureit](https://aryamagarwal.github.io/cureit)
+🌐 **Deployed Project Link** -  [https://aryamagarwal.github.io/BookSmartly](https://aryamagarwal.github.io/BookSmartly)
 
-**CureIt FeedBack Form** - [https://forms.gle/7jNscB3c7jUewsaX7](https://forms.gle/7jNscB3c7jUewsaX7)
+**BookSmartly FeedBack Form** - [https://forms.gle/7jNscB3c7jUewsaX7](https://forms.gle/7jNscB3c7jUewsaX7)
 
 ## Index
 - [Application Testing Guide](#application-testing-guide)
@@ -354,3 +354,4 @@ Doctors provide prescriptions by filling out the following fields: **Doctor Rema
 - **FAQ Chatbot**
 <img width="800" alt="Screenshot 2025-04-03 at 11 15 30 PM" src="https://github.com/user-attachments/assets/55b5414c-ddac-4cae-9e91-1788079b8284" />
 ---
+

@@ -20,3 +20,4 @@ function SingleFeaturePageMedSpecRec() {
 }
 
 export default SingleFeaturePageMedSpecRec;
+

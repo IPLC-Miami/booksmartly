@@ -377,3 +377,4 @@ function HistoryAppointmentCard({ data, refetch, setShowLoader }) {
 }
 
 export default HistoryAppointmentCard;
+

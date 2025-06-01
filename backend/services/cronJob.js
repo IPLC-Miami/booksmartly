@@ -7,3 +7,4 @@ cron.schedule("0 9 * * *", async () => {
   }, {
     timezone: "Asia/Kolkata"
   });
+

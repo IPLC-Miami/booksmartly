@@ -31,3 +31,4 @@ router.get('/:appointmentId', async (req, res) => {
 });
 
 module.exports = router;
+

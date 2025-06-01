@@ -304,3 +304,4 @@ function BookingFormPersonalDetails({ data }) {
 }
 
 export default BookingFormPersonalDetails;
+

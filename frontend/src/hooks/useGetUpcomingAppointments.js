@@ -12,3 +12,4 @@ export default function useGetUpcomingAppointments(patientId) {
   });
   return { isLoading, data, error, status, refetch, isFetching };
 }
+

@@ -770,3 +770,4 @@ export async function getReceptionProfileDetails(userId, accessToken) {
   // console.log(data);
   return data;
 }
+

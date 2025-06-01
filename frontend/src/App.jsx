@@ -135,7 +135,7 @@ const router = createBrowserRouter(
   ],
   // Removed basename to work at root domain
   // {
-  //   basename: "/cureit",
+  //   basename: "/BookSmartly",
   // },
 );
 
@@ -161,3 +161,4 @@ function App() {
 }
 
 export default App;
+
