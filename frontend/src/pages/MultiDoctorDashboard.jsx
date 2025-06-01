@@ -38,7 +38,7 @@ const NoAppointmentsView = () => (
 
 const MultiDoctorDashboard = () => {
   const [token, setToken] = useState(
-    localStorage.getItem("sb-vakmfwtcbdeaigysjgch-auth-token"),
+    localStorage.getItem("sb-itbxttkivivyeqnduxjb-auth-token"),
   );
   const data = JSON.parse(token);
 

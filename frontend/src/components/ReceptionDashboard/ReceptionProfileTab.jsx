@@ -39,7 +39,7 @@ async function generateNewQRCode(userId) {
 
 function ReceptionProfileTab() {
   const tokenString = localStorage.getItem(
-    "sb-vakmfwtcbdeaigysjgch-auth-token",
+    "sb-itbxttkivivyeqnduxjb-auth-token",
   );
   const token = JSON?.parse(tokenString);
   const [userId, setUserId] = useState(token?.user?.id || null);

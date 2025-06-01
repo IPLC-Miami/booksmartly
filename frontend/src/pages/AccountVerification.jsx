@@ -70,18 +70,18 @@ function AccountVerification() {
     }
   };
   const tokenString = localStorage.getItem(
-    "sb-vakmfwtcbdeaigysjgch-auth-token",
+    "sb-itbxttkivivyeqnduxjb-auth-token",
   );
   const [token, setToken] = useState(() => {
     const tokenString = localStorage.getItem(
-      "sb-vakmfwtcbdeaigysjgch-auth-token",
+      "sb-itbxttkivivyeqnduxjb-auth-token",
     );
     return JSON.parse(tokenString);
   });
 
   const updateToken = () => {
     const tokenString = localStorage.getItem(
-      "sb-vakmfwtcbdeaigysjgch-auth-token",
+      "sb-itbxttkivivyeqnduxjb-auth-token",
     );
     setToken(JSON.parse(tokenString));
   };

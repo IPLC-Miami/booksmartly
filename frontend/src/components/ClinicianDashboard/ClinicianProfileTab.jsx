@@ -31,7 +31,7 @@ function ClinicianProfileTab() {
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   const tokenString = localStorage.getItem(
-    "sb-vakmfwtcbdeaigysjgch-auth-token",
+    "sb-itbxttkivivyeqnduxjb-auth-token",
   );
 
   const token = JSON?.parse(tokenString);

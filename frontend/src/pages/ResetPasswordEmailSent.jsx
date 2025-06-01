@@ -18,7 +18,7 @@ function ResetPasswordEmailSent() {
 
   const [token, setToken] = useState(() => {
     const tokenString = localStorage.getItem(
-      "sb-vakmfwtcbdeaigysjgch-auth-token",
+      "sb-itbxttkivivyeqnduxjb-auth-token",
     );
     return JSON.parse(tokenString);
   });

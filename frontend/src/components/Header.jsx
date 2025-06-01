@@ -74,7 +74,7 @@ function Header() {
 
   useEffect(() => {
     const tokenStringTemp = localStorage.getItem(
-      "sb-vakmfwtcbdeaigysjgch-auth-token",
+      "sb-itbxttkivivyeqnduxjb-auth-token",
     );
     setTokenString(tokenStringTemp);
     const token = JSON.parse(tokenStringTemp);

@@ -12,7 +12,7 @@ const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 function HealthWorkerProfileTab() {
   const tokenString = localStorage.getItem(
-    "sb-vakmfwtcbdeaigysjgch-auth-token",
+    "sb-itbxttkivivyeqnduxjb-auth-token",
   );
 
   const token = JSON?.parse(tokenString);

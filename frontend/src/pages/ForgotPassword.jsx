@@ -17,7 +17,7 @@ function ResetPage() {
 
   useEffect(() => {
     const tokenString = localStorage.getItem(
-      "sb-vakmfwtcbdeaigysjgch-auth-token",
+      "sb-itbxttkivivyeqnduxjb-auth-token",
     );
     if (tokenString) {
       const token = JSON.parse(tokenString);

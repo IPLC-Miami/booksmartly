@@ -12,7 +12,7 @@ function Home() {
   const { profile } = useBookSmartlyContext();
 
   const navigate = useNavigate();
-  const token = localStorage.getItem("sb-vakmfwtcbdeaigysjgch-auth-token");
+  const token = localStorage.getItem("sb-itbxttkivivyeqnduxjb-auth-token");
 
   return (
     <div className="flex flex-col overflow-hidden font-noto">
@@ -428,7 +428,7 @@ export default Home;
 //   const { theme, profile } = useBookSmartlyContext();
 
 //   const navigate = useNavigate();
-//   const token = localStorage.getItem("sb-vakmfwtcbdeaigysjgch-auth-token");
+//   const token = localStorage.getItem("sb-itbxttkivivyeqnduxjb-auth-token");
 //   const userData = token;
 //   const [userInfo, setUserInfo] = useState({
 //     id: "",
