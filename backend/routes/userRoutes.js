@@ -764,7 +764,7 @@ router.get("/getRole/:userId", verifyToken, async (req, res) => {
     // (A) Check clinicians2 table
     const { data: clinicianRow, error: cliErr } = await supabaseService
       .from('clinicians2')
-      .select('name, specialty') // Assuming user_id is known, role is 'clinician'
+      .select('first_name, last_name, specialty') // Corrected: select first_name, last_name
       .eq('user_id', userId)
       .single();
 
@@ -776,25 +776,30 @@ router.get("/getRole/:userId", verifyToken, async (req, res) => {
         id: userId,
         email: authUserEmail, // Email from auth.users
         role: 'clinician',
-        name: clinicianRow.name,
+        name: `${clinicianRow.first_name || ''} ${clinicianRow.last_name || ''}`.trim(), // Construct name
+        first_name: clinicianRow.first_name,
+        last_name: clinicianRow.last_name,
         specialty: clinicianRow.specialty
       };
     }
 
     // (B) Check reception table if not found as clinician
+    // NOTE: The 'receptions' table migration does not show a 'user_id' column.
+    // This part of the logic will likely still fail if 'user_id' is not present in 'receptions'.
+    // However, we are fixing the SELECT part based on the migration.
     if (!roleInfo) {
       const { data: receptionRow, error: recErr } = await supabaseService
         .from('receptions')
-        .select('email, name') // Select email and name
-        .eq('user_id', userId)
+        .select('name, email') // 'email' might have been added manually, 'name' is in migration
+        .eq('user_id', userId) // This .eq will fail if user_id column doesn't exist
         .single();
       if (recErr && recErr.code !== 'PGRST116') {
-        console.error('Supabase error fetching from receptions:', recErr.message);
+        console.error('Supabase error fetching from receptions (or user_id column missing):', recErr.message);
       }
       if (receptionRow) {
         roleInfo = {
-          id: userId,
-          email: receptionRow.email || authUserEmail, // Prefer table email, fallback to auth email
+          id: userId, // This assumes the userId somehow maps to a reception entry if found
+          email: receptionRow.email || authUserEmail,
           name: receptionRow.name,
           role: 'reception'
         };
