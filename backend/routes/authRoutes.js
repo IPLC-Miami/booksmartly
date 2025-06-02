@@ -113,12 +113,25 @@ router.post('/signin', async (req, res) => {
       return res.status(404).json({ error: 'User profile not found in any role table' });
     }
 
-    // Set session cookie
-    res.cookie('sb_token', session.access_token, {
+    // Set both session cookies (access token and refresh token)
+    const isProd = process.env.NODE_ENV === 'production';
+    const cookieOptions = {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      secure: isProd,
       sameSite: 'lax',
-      maxAge: session.expires_in * 1000 // Convert to milliseconds
+      path: '/'
+    };
+
+    // 1) Access token cookie
+    res.cookie('sb:token', session.access_token, {
+      ...cookieOptions,
+      maxAge: 60 * 60 * 1000 // 1 hour, match JWT expiry
+    });
+
+    // 2) Refresh token cookie
+    res.cookie('sb:refresh-token', session.refresh_token, {
+      ...cookieOptions,
+      maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days for refresh token
     });
 
     res.json({
@@ -207,11 +220,12 @@ router.post('/signup', async (req, res) => {
   }
 });
 
-// POST /signout - Clear session cookie
+// POST /signout - Clear session cookies
 router.post('/signout', async (req, res) => {
   try {
-    // Clear the session cookie
-    res.clearCookie('sb_token');
+    // Clear both session cookies
+    res.clearCookie('sb:token');
+    res.clearCookie('sb:refresh-token');
     
     res.json({ message: 'Sign out successful' });
   } catch (error) {
