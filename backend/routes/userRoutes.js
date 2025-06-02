@@ -750,67 +750,79 @@ router.get("/getRole/:userId", verifyToken, async (req, res) => {
 
     let roleInfo = null;
     let authUserEmail = '';
+    let authUserName = 'Unknown User';
 
-    // Fetch auth user email once, as it might be needed for clinician or other roles if not in their tables
+    // Fetch auth user details once
     const { data: authUser, error: authUserError } = await supabaseService.auth.admin.getUserById(userId);
+
     if (authUserError && authUserError.status !== 404) {
         console.error(`Error fetching auth user ${userId}:`, authUserError.message);
-        // Depending on policy, might want to return 500 or proceed cautiously
+        // Potentially return 500 if auth user fetch fails critically
     }
-    if (authUser?.user?.email) {
-        authUserEmail = authUser.user.email;
+    if (authUser?.user) {
+        authUserEmail = authUser.user.email || '';
+        if (authUser.user.user_metadata) {
+            authUserName = authUser.user.user_metadata.full_name || authUser.user.user_metadata.name || authUserEmail;
+        } else {
+            authUserName = authUserEmail;
+        }
+    } else {
+         // If authUser is not found, we cannot determine role for clinician or client based on user_id link
+        console.warn(`Auth user not found for userId: ${userId}. Cannot determine role through clinicians or clients table directly.`);
+        // Attempt to find by email for reception if userId itself is not an auth.users.id
     }
 
     // (A) Check clinicians2 table
-    const { data: clinicianRow, error: cliErr } = await supabaseService
-      .from('clinicians2')
-      .select('first_name, last_name, specialty') // Corrected: select first_name, last_name
-      .eq('user_id', userId)
-      .single();
+    if (authUser?.user) { // Only check if we have a valid auth.user to link with
+        const { data: clinicianRow, error: cliErr } = await supabaseService
+          .from('clinicians2')
+          // Select columns that exist in clinicians2. 'name' is not one of them.
+          // Name will be derived from auth.users.user_metadata or email.
+          .select('specialty, user_id')
+          .eq('user_id', userId)
+          .single();
 
-    if (cliErr && cliErr.code !== 'PGRST116') { // PGRST116: no rows found
-        console.error('Supabase error fetching from clinicians2:', cliErr.message);
-    }
-    if (clinicianRow) {
-      roleInfo = {
-        id: userId,
-        email: authUserEmail, // Email from auth.users
-        role: 'clinician',
-        name: `${clinicianRow.first_name || ''} ${clinicianRow.last_name || ''}`.trim(), // Construct name
-        first_name: clinicianRow.first_name,
-        last_name: clinicianRow.last_name,
-        specialty: clinicianRow.specialty
-      };
+        if (cliErr && cliErr.code !== 'PGRST116') { // PGRST116: no rows found
+            console.error('Supabase error fetching from clinicians2:', cliErr.message);
+        }
+        if (clinicianRow) {
+          roleInfo = {
+            id: userId,
+            email: authUserEmail,
+            role: 'clinician',
+            name: authUserName, // Use name from auth.users
+            specialty: clinicianRow.specialty
+          };
+        }
     }
 
     // (B) Check reception table if not found as clinician
-    // NOTE: The 'receptions' table migration does not show a 'user_id' column.
-    // This part of the logic will likely still fail if 'user_id' is not present in 'receptions'.
-    // However, we are fixing the SELECT part based on the migration.
-    if (!roleInfo) {
+    // Receptions are identified by email match, as 'receptions' table has no 'user_id' FK to auth.users
+    if (!roleInfo && authUserEmail) { // Check only if we have an email to match
       const { data: receptionRow, error: recErr } = await supabaseService
         .from('receptions')
-        .select('name, email') // 'email' might have been added manually, 'name' is in migration
-        .eq('user_id', userId) // This .eq will fail if user_id column doesn't exist
+        .select('name, email') // 'name' and 'email' exist in receptions table
+        .eq('email', authUserEmail) // Match by email
         .single();
+
       if (recErr && recErr.code !== 'PGRST116') {
-        console.error('Supabase error fetching from receptions (or user_id column missing):', recErr.message);
+        console.error('Supabase error fetching from receptions by email:', recErr.message);
       }
       if (receptionRow) {
         roleInfo = {
-          id: userId, // This assumes the userId somehow maps to a reception entry if found
-          email: receptionRow.email || authUserEmail,
-          name: receptionRow.name,
+          id: userId, // The original userId from auth
+          email: receptionRow.email, // Email from receptions table
+          name: receptionRow.name,   // Name from receptions table
           role: 'reception'
         };
       }
     }
 
     // (C) Check clients table if not found yet
-    if (!roleInfo) {
+    if (!roleInfo && authUser?.user) { // Only check if we have a valid auth.user to link with
       const { data: clientRow, error: clientErrSupabase } = await supabaseService
         .from('clients')
-        .select('first_name, last_name, email')
+        .select('first_name, last_name, email') // These columns exist in clients table
         .eq('user_id', userId)
         .single();
       if (clientErrSupabase && clientErrSupabase.code !== 'PGRST116') {
@@ -819,27 +831,26 @@ router.get("/getRole/:userId", verifyToken, async (req, res) => {
       if (clientRow) {
         roleInfo = {
           id: userId,
-          email: clientRow.email || authUserEmail, // Prefer table email, fallback to auth email
+          email: clientRow.email || authUserEmail,
           role: 'client',
           first_name: clientRow.first_name,
           last_name: clientRow.last_name,
-          name: `${clientRow.first_name || ''} ${clientRow.last_name || ''}`.trim()
+          name: `${clientRow.first_name || ''} ${clientRow.last_name || ''}`.trim() || authUserName
         };
       }
     }
 
     if (roleInfo) {
       try {
-        await setCache(cacheKey, roleInfo, 60); // Cache the roleInfo object
-        // console.log(`[Cache SET] Role for ${userId}:`, roleInfo);
+        await setCache(cacheKey, roleInfo, 60);
       } catch (rcErr) {
         console.error(`Redis SET error for ${cacheKey}:`, rcErr.message);
       }
-      return res.json(roleInfo); // Return the roleInfo object directly
+      return res.json(roleInfo);
     }
 
-    // (D) Not found in any relevant table
-    return res.status(404).json({ error: 'User record not found for role determination' });
+    // (D) Not found in any relevant table or auth user itself not found
+    return res.status(404).json({ error: 'User record not found or role cannot be determined' });
 
   } catch (err) {
     console.error(`Error in /getRole/${userId} Supabase lookup:`, err.message);
