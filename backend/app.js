@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 const fs = require("fs");
 // const https = require("https");
 const http = require("http");
+const cookieParser = require("cookie-parser");
 dotenv.config();
 const { oauth2client, refreshAccessToken } = require("./config/googleClient");
 require("./services/cronJob.js");
@@ -10,6 +11,7 @@ const { redis, setCache, getCache } = require("./config/redisClient.js");
 const { initSocket } = require("./config/socket"); // import your socket module
 
 const userRoutes = require("./routes/userRoutes");
+const authRoutes = require("./routes/authRoutes");
 const clinicianRoutes = require("./routes/clinicianRoutes"); // Updated
 const appointmentRoutes = require("./routes/appointmentRoutes");
 const prescriptionRoutes = require("./routes/prescriptionRoutes");
@@ -19,6 +21,10 @@ const receptionProfileRoutes = require("./routes/receptionProfileRoutes.js");
 const feedbackRoutes = require("./routes/feedbackRoutes");
 const healthWorkerRoutes = require("./routes/healthWorkerRoutes.js");
 const AiConsultation = require("./routes/AiConsultation.js");
+const fileRoutes = require("./routes/fileRoutes");
+const chatRoutes = require("./routes/chatRoutes");
+const billingRoutes = require("./routes/billingRoutes");
+const analyticsRoutes = require("./routes/analyticsRoutes");
 
 // connectDB();
 const profileRoutes = require("./routes/profileRoutes");
@@ -26,6 +32,9 @@ const multiClinicianDashboardRoutes = require("./routes/multiClinicianDashboardR
 // const {getAuthUrl , getAuthToken} = require("./config/googleClient");
 // const {oauth2client} = require("./config/googleClient");
 const cors = require("cors");
+
+// Import middleware
+const { errorHandler, notFoundHandler } = require("./middleware/errorHandler");
 // const fs = require("fs");
 // connectDB();
 
@@ -35,9 +44,13 @@ const server = http.createServer(app);
 
 initSocket(server);
 
-app.use(cors());
+app.use(cors({
+  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  credentials: true // Allow cookies to be sent
+}));
 
 app.use(express.json());
+app.use(cookieParser()); // Add cookie parser middleware
 app.use("/AiConsultation", AiConsultation);
 
 app.use(async (req, res, next) => {
@@ -57,6 +70,7 @@ app.use(async (req, res, next) => {
 // Routes
 app.get("/", (req, res) => res.send("Hello World"));
 
+app.use("/auth", authRoutes);
 app.use("/users", userRoutes);
 app.use("/clinicians", clinicianRoutes); // Updated
 app.use("/appointments", appointmentRoutes);
@@ -68,6 +82,10 @@ app.use("/receptionProfileRoutes", receptionProfileRoutes);
 app.use("/feedback", feedbackRoutes);
 app.use("/multiClinicianDashboardRoutes", multiClinicianDashboardRoutes); // Updated
 app.use("/healthWorkerRoutes", healthWorkerRoutes);
+app.use("/api/files", fileRoutes);
+app.use("/api/chat", chatRoutes);
+app.use("/api/billing", billingRoutes);
+app.use("/api/analytics", analyticsRoutes);
 
 // const options = {
 //   key: fs.readFileSync("certs/key.pem"),
@@ -123,6 +141,12 @@ app.get("/auth/redirect", async (req, res) => {
   const value = await getCache("go");
   console.log("Cached value:", value);
 })();
+
+// 404 handler for unmatched routes
+app.use(notFoundHandler);
+
+// Error handling middleware (must be last)
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 8000;
 server.listen(PORT, "0.0.0.0", () =>

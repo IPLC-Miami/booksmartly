@@ -10,11 +10,19 @@ import BookAppointment from "./pages/BookAppointment";
 import AccountVerification from "./pages/AccountVerification";
 import AccountVerified from "./pages/AccountVerified";
 import Dashboard from "./pages/Dashboard";
+import ClinicianDashboardPage from "./pages/ClinicianDashboardPage";
+import ReceptionDashboardPage from "./pages/ReceptionDashboardPage";
+import ClientDashboardPage from "./pages/ClientDashboardPage";
+import BillingPage from "./pages/BillingPage";
+import AnalyticsPage from "./pages/AnalyticsPage";
+import ChatPage from "./pages/ChatPage";
+import ProfilePage from "./pages/ProfilePage";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPasswordEmailSent from "./pages/ResetPasswordEmailSent";
 import ResetPassword from "./pages/ResetPassword";
 import { ToastContainer } from "react-toastify";
 import ProtectedRoutes from "./utils/ProtectedRoutes";
+import EnhancedProtectedRoute from "./utils/EnhancedProtectedRoute";
 import SingleFeaturePageChatbot from "./pages/SingleFeaturePageChatbot";
 import SingleFeaturePageMedSpecRec from "./pages/SingleFeaturePageMedSpecRec";
 import SingleFeaturePageFeedback from "./pages/SingleFeaturePageFeedback";
@@ -60,8 +68,21 @@ const router = createBrowserRouter(
         //   // element: <UserDashboard />,
         //   errorElement: <ErrorPage />,
         // },
+        // Protected routes with role-based access control
         {
-          element: <ProtectedRoutes />,
+          element: <EnhancedProtectedRoute />,
+          children: [
+            // General dashboard - accessible to all authenticated users
+            {
+              path: "/user/dashboard",
+              element: <Dashboard />,
+              errorElement: <ErrorPage />,
+            },
+          ],
+        },
+        // Client-only routes
+        {
+          element: <EnhancedProtectedRoute allowedRoles={["PATIENT"]} />,
           children: [
             {
               path: "/bookappointment",
@@ -69,8 +90,62 @@ const router = createBrowserRouter(
               errorElement: <ErrorPage />,
             },
             {
-              path: "/user/dashboard",
-              element: <Dashboard />,
+              path: "/client-dashboard",
+              element: <ClientDashboardPage />,
+              errorElement: <ErrorPage />,
+            },
+          ],
+        },
+        // Clinician-only routes
+        {
+          element: <EnhancedProtectedRoute allowedRoles={["clinician"]} />,
+          children: [
+            {
+              path: "/clinician-dashboard",
+              element: <ClinicianDashboardPage />,
+              errorElement: <ErrorPage />,
+            },
+          ],
+        },
+        // Reception-only routes
+        {
+          element: <EnhancedProtectedRoute allowedRoles={["RECEPTION"]} />,
+          children: [
+            {
+              path: "/reception-dashboard",
+              element: <ReceptionDashboardPage />,
+              errorElement: <ErrorPage />,
+            },
+          ],
+        },
+        // Clinician and Reception access routes (billing, analytics, chat)
+        {
+          element: <EnhancedProtectedRoute allowedRoles={["clinician", "RECEPTION"]} />,
+          children: [
+            {
+              path: "/billing",
+              element: <BillingPage />,
+              errorElement: <ErrorPage />,
+            },
+            {
+              path: "/analytics",
+              element: <AnalyticsPage />,
+              errorElement: <ErrorPage />,
+            },
+            {
+              path: "/chat",
+              element: <ChatPage />,
+              errorElement: <ErrorPage />,
+            },
+          ],
+        },
+        // Profile route - accessible to all authenticated users
+        {
+          element: <EnhancedProtectedRoute />,
+          children: [
+            {
+              path: "/profile",
+              element: <ProfilePage />,
               errorElement: <ErrorPage />,
             },
           ],

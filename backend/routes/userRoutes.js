@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const supabase = require("../config/supabaseClient");
 const verifyToken = require("../config/verifyToken");
+const { authenticateToken } = require("../middleware/auth");
 const sendOtp = require("../services/OtpService");
 const validateOtp = require("../services/validateOtpService");
 
@@ -872,6 +873,33 @@ router.post("/validateQR", async (req, res) => {
   } catch (err) {
     console.error("Error in /validateQR:", err);
     return res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+// GET /getUserRole - Cookie-based authentication endpoint
+router.get("/getUserRole", authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    
+    // Use helper function to get user profile and determine role
+    const { data: profile, error: profileError } = await getUserProfile(userId);
+    
+    if (profileError) {
+      console.log(profileError);
+      return res.status(500).json({ error: "Profile fetch failed" });
+    }
+    
+    if (!profile) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    
+    // Return role data in the expected format
+    const data = [{ role: profile.role || profile.user_type }];
+    console.log("User role retrieved:", data);
+    return res.json({ data });
+  } catch (error) {
+    console.error("Error getting user role:", error);
+    res.status(500).json({ error: "Server error" });
   }
 });
 

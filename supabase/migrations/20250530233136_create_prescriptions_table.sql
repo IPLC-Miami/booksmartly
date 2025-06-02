@@ -23,6 +23,7 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE public.prescriptions TO authentica
 -- Policies for prescriptions table
 
 -- Policy: Authenticated users can select their own prescriptions (as clients)
+-- Note: This policy will be updated after user_id is added to clients table
 DROP POLICY IF EXISTS "Authenticated users can select their own prescriptions" ON public.prescriptions;
 CREATE POLICY "Authenticated users can select their own prescriptions"
 ON public.prescriptions
@@ -32,9 +33,10 @@ USING (
   EXISTS (
     SELECT 1
     FROM public.appointments2 a
-    JOIN public.clients c ON a.client_id = c.id
     WHERE a.id = prescriptions.appointment_id
-    AND c.user_id = auth.uid()
+    AND a.client_id IN (
+      SELECT id FROM public.clients WHERE email = (auth.jwt() ->> 'email')
+    )
   )
 );
 

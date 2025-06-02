@@ -87,3 +87,47 @@ PROJECT_STATUS.md
 **/generate_user_token.js
 30-fix-localhost-refs.sh
 PROJECT_STATUS.md
+
+# Test and debug scripts (contain sensitive data or are temporary)
+test-*.js
+*test*.js
+debug-*.js
+check-*.js
+verify-*.js
+apply-*.js
+force-*.js
+trigger-*.js
+create-test-*.js
+decode-*.js
+fix-*.js
+
+# Development documentation and logs
+AI_*.md
+*_README.md
+*_REPORT.md
+*_INSTRUCTIONS.md
+*_OUTLINE.md
+*_LOG.md
+
+# Database dumps and migration artifacts
+schema_dump.sql
+*.csv
+backend/migrations/
+backend/database/
+backend/scripts/
+
+# Backend environment and config files
+backend/.env*
+backend/controllers/
+backend/middleware/
+backend/utils/
+
+# Frontend documentation
+frontend/src/docs/
+
+# SQL files (except official Supabase migrations)
+*.sql
+!supabase/migrations/*.sql
+
+# Temporary development files
+final-verification.js
