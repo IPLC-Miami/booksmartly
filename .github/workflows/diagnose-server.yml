@@ -1,0 +1,83 @@
+name: Diagnose Server Status
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'Action to perform'
+        required: true
+        default: 'status'
+        type: choice
+        options:
+        - status
+        - restart
+        - logs
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Setup SSH
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
+        
+    - name: Check Server Status
+      if: github.event.inputs.action == 'status'
+      run: |
+        echo "=== Checking PM2 Status ==="
+        ssh -o ConnectTimeout=30 -o ServerAliveInterval=10 -o ServerAliveCountMax=3 ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "cd /var/www/booksmartly && pm2 status"
+        
+        echo "=== Checking PM2 Logs (last 50 lines) ==="
+        ssh -o ConnectTimeout=30 -o ServerAliveInterval=10 -o ServerAliveCountMax=3 ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "cd /var/www/booksmartly && pm2 logs --lines 50"
+        
+        echo "=== Checking Directory Structure ==="
+        ssh -o ConnectTimeout=30 -o ServerAliveInterval=10 -o ServerAliveCountMax=3 ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "cd /var/www/booksmartly && ls -la"
+        
+        echo "=== Checking Backend Directory ==="
+        ssh -o ConnectTimeout=30 -o ServerAliveInterval=10 -o ServerAliveCountMax=3 ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "cd /var/www/booksmartly/backend && ls -la"
+        
+        echo "=== Checking Controllers Directory ==="
+        ssh -o ConnectTimeout=30 -o ServerAliveInterval=10 -o ServerAliveCountMax=3 ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "cd /var/www/booksmartly/backend && ls -la controllers/"
+        
+        echo "=== Checking Node Modules ==="
+        ssh -o ConnectTimeout=30 -o ServerAliveInterval=10 -o ServerAliveCountMax=3 ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "cd /var/www/booksmartly/backend && ls node_modules/ | head -20"
+        
+        echo "=== Testing Node.js Syntax ==="
+        ssh -o ConnectTimeout=30 -o ServerAliveInterval=10 -o ServerAliveCountMax=3 ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "cd /var/www/booksmartly/backend && node -c app.js"
+        
+    - name: Restart Services
+      if: github.event.inputs.action == 'restart'
+      run: |
+        echo "=== Stopping PM2 Processes ==="
+        ssh -o ConnectTimeout=30 -o ServerAliveInterval=10 -o ServerAliveCountMax=3 ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "cd /var/www/booksmartly && pm2 stop all"
+        
+        echo "=== Installing Dependencies ==="
+        ssh -o ConnectTimeout=30 -o ServerAliveInterval=10 -o ServerAliveCountMax=3 ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "cd /var/www/booksmartly/backend && npm install"
+        
+        echo "=== Starting Backend Service ==="
+        ssh -o ConnectTimeout=30 -o ServerAliveInterval=10 -o ServerAliveCountMax=3 ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "cd /var/www/booksmartly/backend && pm2 start app.js --name backend"
+        
+        echo "=== Starting Other Services ==="
+        ssh -o ConnectTimeout=30 -o ServerAliveInterval=10 -o ServerAliveCountMax=3 ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "cd /var/www/booksmartly && pm2 start ml_model/app.py --name ml_model --interpreter python3"
+        ssh -o ConnectTimeout=30 -o ServerAliveInterval=10 -o ServerAliveCountMax=3 ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "cd /var/www/booksmartly && pm2 start chatbot/app.py --name chatbot --interpreter python3"
+        ssh -o ConnectTimeout=30 -o ServerAliveInterval=10 -o ServerAliveCountMax=3 ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "cd /var/www/booksmartly && pm2 start report/app.py --name report --interpreter python3"
+        ssh -o ConnectTimeout=30 -o ServerAliveInterval=10 -o ServerAliveCountMax=3 ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "cd /var/www/booksmartly && pm2 start sentiment/app.py --name sentiment --interpreter python3"
+        
+        echo "=== Final Status Check ==="
+        ssh -o ConnectTimeout=30 -o ServerAliveInterval=10 -o ServerAliveCountMax=3 ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "cd /var/www/booksmartly && pm2 status"
+        
+    - name: Show Detailed Logs
+      if: github.event.inputs.action == 'logs'
+      run: |
+        echo "=== Backend Logs (last 100 lines) ==="
+        ssh -o ConnectTimeout=30 -o ServerAliveInterval=10 -o ServerAliveCountMax=3 ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "cd /var/www/booksmartly && pm2 logs backend --lines 100"
+        
+        echo "=== Error Logs ==="
+        ssh -o ConnectTimeout=30 -o ServerAliveInterval=10 -o ServerAliveCountMax=3 ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "cd /var/www/booksmartly && pm2 logs backend --err --lines 50"
