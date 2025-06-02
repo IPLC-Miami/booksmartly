@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const supabase = require("../config/supabaseClient");
 const verifyToken = require("../config/verifyToken");
-const { authenticateToken } = require("../middleware/auth");
+// Removed problematic import - using verifyToken instead
 const sendOtp = require("../services/OtpService");
 const validateOtp = require("../services/validateOtpService");
 
@@ -877,7 +877,7 @@ router.post("/validateQR", async (req, res) => {
 });
 
 // GET /getUserRole - Cookie-based authentication endpoint
-router.get("/getUserRole", authenticateToken, async (req, res) => {
+router.get("/getUserRole", verifyToken, async (req, res) => {
   try {
     const userId = req.user.id;
     
