@@ -30,11 +30,11 @@ jobs:
           echo "🚀 Starting BookSmartly deployment..."
           
           # Navigate to project directory
-          cd /root/BookSmartly || { echo "❌ Project directory not found"; exit 1; }
+          cd /var/www/booksmartly || { echo "❌ Project directory not found"; exit 1; }
           
           # Backup current state
           echo "📦 Creating backup..."
-          cp -r . ../BookSmartly_backup_$(date +%Y%m%d_%H%M%S) || echo "⚠️ Backup failed, continuing..."
+          cp -r . ../booksmartly_backup_$(date +%Y%m%d_%H%M%S) || echo "⚠️ Backup failed, continuing..."
           
           # Pull latest changes from feature/cureit-integration branch
           echo "📥 Pulling latest changes from feature/cureit-integration..."
@@ -153,7 +153,7 @@ jobs:
       run: |
         ssh -o StrictHostKeyChecking=no root@145.223.73.170 << 'EOF'
           echo "🔍 Verifying deployment..."
-          cd /root/BookSmartly
+          cd /var/www/booksmartly
           
           # Check git status
           echo "📋 Git status:"
