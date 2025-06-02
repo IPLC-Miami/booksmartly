@@ -12,15 +12,9 @@ export default function useHandleSignUp(signUpData) {
       if (data.success === false) {
         throw new Error(data.message || "Sign-up failed"); // Force `onError`
       }
-
-      console.log("User signed up successfully");
-      // return data;
     },
     onError: (error) => {
-      console.log("Error signing up", error);
-      // return error;
-      // console.log("User signed up successfully");
-      // return data;
+      console.error("Error signing up", error);
     },
   });
   return { mutate };

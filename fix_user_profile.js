@@ -63,5 +63,3 @@ async function getUserProfile(userId) {
     return { data: null, error };
   }
 }
-
-console.log("Fixed getUserProfile function - prioritizes clinicians over clients");

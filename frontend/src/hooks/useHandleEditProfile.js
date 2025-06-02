@@ -12,13 +12,12 @@ export default function useHandleEditProfile() {
 
     // Here, 'variables' contains the object passed to mutate.mutate()
     onSuccess: (data, variables) => {
-      // console.log("User edited profile successfully");
       queryClient.invalidateQueries({
         queryKey: ["userDetails", variables.userId],
       });
     },
     onError: (error) => {
-      // console.log("Error editing profile", error);
+      console.error("Error editing profile", error);
     },
   });
 

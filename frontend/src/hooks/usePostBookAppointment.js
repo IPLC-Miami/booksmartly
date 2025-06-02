@@ -6,7 +6,6 @@ export default function usePostBookAppointment(setBookingStatus) {
     const mutation = useMutation({
         mutationFn: postBookAppointment,
         onSuccess: (data) => {
-            // console.log("Appointment booked successfully");
             toast.success("Appointment booked successfully.");
             queryClient.invalidateQueries({ queryKey: ['patient_appointments'] });
             queryClient.invalidateQueries({ queryKey: ['patient_appointment_history'] });
@@ -15,7 +14,7 @@ export default function usePostBookAppointment(setBookingStatus) {
             setBookingStatus(true);
         },
         onError: (error) => {
-            // console.log("Error booking appointment", error);
+            console.error("Error booking appointment", error);
         }
     }
     )

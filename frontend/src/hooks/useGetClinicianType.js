@@ -6,7 +6,6 @@ export default function useGetClinicianType(healthIssue) {
     queryKey: ["clinician_type", healthIssue], // Updated queryKey
     queryFn: () => {
       if (healthIssue !== null) return getClinicianType(healthIssue);
-        // console.log("Null returned type");
         return null;
     },
     staleTime: 1000 * 1, // 1 second

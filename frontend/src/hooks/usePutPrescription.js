@@ -8,12 +8,10 @@ export default function usePostPrescription(setSavePrescriptionSuccess) {
         mutationFn: postPrescription,
         onSuccess: (data) => {
             setSavePrescriptionSuccess(true);
-            // console.log("Prescription updated successfully");
-            // toast.success("Prescription added successfully");
             queryClient.invalidateQueries({ queryKey: ['prescription'] });
         },
         onError: (error) => {
-            // console.log("Error updating prescription", error);
+            console.error("Error updating prescription", error);
         }
     }
     )

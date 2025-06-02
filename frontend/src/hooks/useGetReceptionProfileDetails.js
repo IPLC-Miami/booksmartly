@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getReceptionProfileDetails } from "../utils/api";
 export default function useGetReceptionProfileDetails(receptionId, accessToken) {
-  // console.log("ingetdoctordetails");
   const { isLoading, data, error, status, refetch, isFetching } = useQuery({
     queryKey: ["ReceptionDetails", receptionId],
     queryFn: () => {

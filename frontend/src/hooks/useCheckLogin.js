@@ -6,10 +6,10 @@ export function useCheckLogin() {
   const mutate = useMutation({
     mutationFn: logIn,
     onSuccess: (data) => {
-      // console.log("logged in successfully");
+      // Success handled by calling component
     },
     onError: (error) => {
-      // console.log("Error logging in", error);
+      console.error("Error logging in", error);
     },
   });
   return { mutate };

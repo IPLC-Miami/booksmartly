@@ -15,7 +15,6 @@ const sendOtp = async (Id) => {
   if (emailError) {
     return { error: emailError.message };
   }
-  console.log(emailData);
   const email = emailData.email;
   const otp = generateOtp();
   // expiration time in yyyy-mm-dd hh:mm:ss format

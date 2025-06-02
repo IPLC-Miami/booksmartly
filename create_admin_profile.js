@@ -10,8 +10,6 @@ async function createAdminProfile() {
   const userId = '6daef933-0d33-4b52-a4c0-6dec8bb0ebfd';
   const email = 'iplcmiami@gmail.com';
   
-  console.log('Creating admin profile in clinicians2 table...');
-  
   try {
     const { data, error } = await supabase
       .from('clinicians2')
@@ -30,7 +28,6 @@ async function createAdminProfile() {
       console.error('Error creating admin profile:', error);
       
       // If it fails due to RLS, try updating existing record
-      console.log('Trying to update existing record...');
       const { data: updateData, error: updateError } = await supabase
         .from('clinicians2')
         .update({
@@ -46,21 +43,14 @@ async function createAdminProfile() {
       
       if (updateError) {
         console.error('Update also failed:', updateError);
-      } else {
-        console.log('Admin profile updated successfully:', updateData);
       }
-    } else {
-      console.log('Admin profile created successfully:', data);
     }
     
     // Verify the profile exists
-    console.log('Verifying admin profile...');
     const { data: verifyData, error: verifyError } = await supabase
       .from('clinicians2')
       .select('*')
       .eq('user_id', userId);
-    
-    console.log('Verification result:', { data: verifyData, error: verifyError });
     
   } catch (err) {
     console.error('Unexpected error:', err);

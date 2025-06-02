@@ -12,7 +12,6 @@ export async function getAddressFromCoords(lat, lng) {
     }
 
     const data = await response.json();
-    // console.log(data);
 
     const address = data.display_name;
     if (!address) {
@@ -30,7 +29,6 @@ export async function getClinicianSlots(date, specialization, userId, mode) {
   // const userId = appointmentData.userId;
   // const specialization = appointmentData.specialization;
   // const date = appointmentData.date;
-  // console.log("Get Clinician Slots: ", date, specialization, userId);
 
   const response = await fetch(
     `${API_URL}/api/clinicians/availableSlots2/${userId}?specialization=${specialization}&date=${date}&mode=${mode}`,
@@ -42,11 +40,9 @@ export async function getClinicianSlots(date, specialization, userId, mode) {
     },
   );
   if (!response.ok) {
-    // console.log("error in getClinicianSlots: ", response.status);
     throw new Error(`Error: ${response.status} ${response.statusText}`);
   }
   const data = await response.json();
-  // console.log(data);
   return data;
 }
 export async function getProfileDetails(userId) {
@@ -95,7 +91,6 @@ export async function getPatientAppointments(patientId) {
       throw new Error(`Error: ${response.status} ${response.statusText}`);
     }
     const data = await response.json();
-    // console.log("Patient Appointments:", data);
     const updatedData = await Promise.all(
       data.map(async (appointment) => {
         try {
@@ -103,7 +98,6 @@ export async function getPatientAppointments(patientId) {
           // If appointment.clinician_id is the clinicians2.id (auto-generated),
           // and getClinicianDetails/getProfileDetails expect auth.users.id, we need clinician_user_id.
           if (!appointment.clinician_user_id) {
-            console.warn("appointment object is missing clinician_user_id:", appointment);
             // Fallback or error handling if clinician_user_id is not present
             // For now, try with appointment.clinician_id but expect it might be the wrong ID type
             const clinician = await getClinicianDetails(appointment.clinician_id);
@@ -112,7 +106,6 @@ export async function getPatientAppointments(patientId) {
           }
           const clinician = await getClinicianDetails(appointment.clinician_user_id);
           const clinicianProfileDetails = await getProfileDetails(appointment.clinician_user_id);
-          // console.log("Clinician Details:", clinicianProfileDetails);
           return {
             ...appointment,
             clinicianDetails: clinician,
@@ -164,7 +157,6 @@ export async function getPatientAppointmentHistory(patientId) {
         try {
           // ASSUMPTION: Backend will be updated to provide clinician_user_id (auth.users.id) on appointment objects
           if (!appointment.clinician_user_id) {
-            console.warn("appointment object is missing clinician_user_id for history:", appointment);
             // Fallback or error handling
             const clinician = await getClinicianDetails(appointment.clinician_id);
             const clinicianProfileDetails = await getProfileDetails(appointment.clinician_id);
@@ -172,7 +164,6 @@ export async function getPatientAppointmentHistory(patientId) {
           }
           const clinician = await getClinicianDetails(appointment.clinician_user_id);
           const clinicianProfileDetails = await getProfileDetails(appointment.clinician_user_id);
-          // console.log("Clinician Details:", clinicianProfileDetails);
           return {
             ...appointment,
             clinicianDetails: clinician,
@@ -184,7 +175,6 @@ export async function getPatientAppointmentHistory(patientId) {
         }
       }),
     );
-    // console.log("Appointment History:", updatedData);
 
     const finalAppointments = updatedData.map((appointment) => ({
       appointmentId: appointment.id,
@@ -216,8 +206,6 @@ export async function getPatientAppointmentHistory(patientId) {
 }
 
 export async function getQueueForClinician(clinicianId, selectedDate, selectedSlot) { // Renamed
-  console.log("seelctedDate", selectedDate);
-  console.log("selectedSlot", selectedSlot);
   const today = new Date().toISOString().split("T")[0]; // Formats as YYYY-MM-DD
 
   try {
@@ -402,7 +390,6 @@ export async function sendOtp(patientId) {
     throw new Error(`Error: ${response.status} ${response.statusText}`);
   }
   const data = await response.json();
-  // console.log(data);
   return response;
 }
 export async function validateOtp(patientId, otp) {
@@ -419,11 +406,9 @@ export async function validateOtp(patientId, otp) {
     throw new Error(`Error: ${response.status} ${response.statusText}`);
   }
   const data = await response.json();
-  // console.log(data);
   return data.info.check;
 }
 export async function postPrescription(prescriptionData) {
-  // console.log("Prescription-data:", prescriptionData);
   const val = {
     appointmentId: prescriptionData.appointmentId,
     medicines: prescriptionData.clinicianPrescription, // Updated
@@ -440,13 +425,10 @@ export async function postPrescription(prescriptionData) {
     throw new Error(`Error: ${response.status} ${response.statusText}`);
   }
   const data = await response.json();
-  // console.log(data);
   return data;
 }
 
 export async function postFeedback(appointmentId, feedback, clinicianId) { // Renamed parameter
-  // // console.log("in post Feedback")
-  // // console.log("clinicianId: " , clinicianId)
 
   const response = await fetch(`${API_URL}/api/feedback/add/${appointmentId}`, {
     method: "POST",
@@ -459,7 +441,6 @@ export async function postFeedback(appointmentId, feedback, clinicianId) { // Re
     throw new Error(`Error: ${response.status} ${response.statusText}`);
   }
   const data = await response.json();
-  // console.log(data);
   return data;
 }
 export async function postAppointmentStatus({ appointmentId, status }) {
@@ -477,7 +458,6 @@ export async function postAppointmentStatus({ appointmentId, status }) {
     throw new Error(`Error: ${response.status} ${response.statusText}`);
   }
   const data = await response.json();
-  // console.log(data);
   return data;
 }
 export async function postBookAppointment(bookingData) {
@@ -511,11 +491,8 @@ export async function postBookAppointment(bookingData) {
     throw new Error(`Error: ${response.status} ${response.statusText}`);
   }
   const data = await response.json();
-  // console.log(data);
 }
 export async function getClinicianType(healthIssue) { // Renamed
-  // console.log("in side ml");
-  // console.log(healthIssue);
   try {
     const response = await fetch(
       `https://hackofiesta-369j.onrender.com/predict/`,
@@ -530,11 +507,9 @@ export async function getClinicianType(healthIssue) { // Renamed
       },
     );
     if (!response.ok) {
-      // console.log(response.status);
       throw new Error(`Error: ${response.status} ${response.statusText}`);
     }
     const data = await response.json();
-    // console.log("clinician type: ", data);
     return data.predicted_specialist;
   } catch (error) {
     console.error("Failed to fetch clinician type:", error); // Updated
@@ -543,11 +518,7 @@ export async function getClinicianType(healthIssue) { // Renamed
 }
 
 export async function logIn(loginData) {
-  // console.log("Attempting log-in...");
-  // console.log(loginData);
   const { email, password } = loginData;
-  // console.log("email :", email);
-  // console.log("pasword :", password);
 
   // try {
   const { error, data } = await supabase.auth.signInWithPassword({
@@ -579,21 +550,17 @@ export async function getUserRoleById(userId, accessToken) {
   }
 
   const data = await response.json();
-  // console.log(data);
   return data;
 }
 
 export async function getCurrentActiveUser() {
-  // console.log("Attempting log-in...");
   const { error, data } = await supabase.auth.getUser();
-  // // console.log("in api", data);
   return data;
 }
 
 export async function signUpNewUser(userData) {
   try {
     const apiUrl = `${API_URL}/api/users/addUserIfNotExist`;
-    //     console.log("Requesting:", apiUrl);
 
     const response = await fetch(apiUrl, {
       method: "POST",
@@ -629,7 +596,6 @@ export async function signUpNewUser(userData) {
   }
   // =======
   //   const apiUrl = `${API_URL}/api/users/addUserIfNotExist`;
-  //   // console.log(apiUrl);
   //   const response = await fetch(apiUrl, {
   //     method: "POST",
   //     headers: {
@@ -670,16 +636,11 @@ export async function updateUserDetailsById(
     body: JSON.stringify(editedProfile),
   });
   const data = await response.json(); // Parse response JSON
-  // // console.log("Updated User:", data);
-
-  // // console.log("User updated successfully:", data);
-  // fetchUserProfile();
 
   return data;
 }
 
 export async function updateUserProfilePicture(userId, accessToken, formData) {
-  // console.log("in frontend3", formData);
   const response = await fetch(`${API_URL}/api/uploadProfiles/upload`, {
     method: "POST",
     headers: {
@@ -711,8 +672,6 @@ export async function chatBot(message) {
 }
 
 export async function getClinicianProfileDetails(userId, accessToken) { // Renamed
-  // // console.log(accessToken);
-  // console.log("in api:", userId);
   const response = await fetch(
     `${API_URL}/api/clinicianProfileRoutes/getClinicianDetailsById/${userId}`, // Updated route
     {
@@ -727,14 +686,10 @@ export async function getClinicianProfileDetails(userId, accessToken) { // Renam
   if (!response.ok) return Error("Failed to fetch user data");
 
   const data = await response.json();
-  // console.log(data);
   return data;
 }
 
 export async function resetPassword(accessToken, new_password) {
-  // // console.log(accessToken);
-  // // console.log("in api:", userId);
-  // console.log("4444444444444444444444", new_password);
   const response = await fetch(`${API_URL}/api/users/updatePassword`, {
     method: "POST",
     headers: {
@@ -747,12 +702,9 @@ export async function resetPassword(accessToken, new_password) {
   if (!response.ok) return Error("Failed to fetch user data");
 
   const data = await response.json();
-  // console.log(data);
   return data;
 }
 export async function getReceptionProfileDetails(userId, accessToken) {
-  // // console.log(accessToken);
-  // console.log("in api:", userId);
   const response = await fetch(
     `${API_URL}/api/receptionProfileRoutes/getReceptionDetailsById/${userId}`,
     {
@@ -767,7 +719,73 @@ export async function getReceptionProfileDetails(userId, accessToken) {
   if (!response.ok) return Error("Failed to fetch user data");
 
   const data = await response.json();
-  // console.log(data);
   return data;
 }
 
+// Chat API functions
+export async function getChatMessages(appointmentId) {
+  try {
+    const response = await fetch(`${API_URL}/api/chat/${appointmentId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching chat messages:', error);
+    throw error;
+  }
+}
+
+export async function sendChatMessage(messageData) {
+  try {
+    const response = await fetch(`${API_URL}/api/chat/send`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify(messageData),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error sending chat message:', error);
+    throw error;
+  }
+}
+
+export async function getChatParticipants(appointmentId) {
+  try {
+    const response = await fetch(`${API_URL}/api/chat/${appointmentId}/participants`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching chat participants:', error);
+    throw error;
+  }
+}
