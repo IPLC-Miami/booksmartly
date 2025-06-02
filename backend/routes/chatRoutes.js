@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const supabase = require('../config/supabaseClient');
-const { verifyToken } = require('../config/verifyToken');
+const verifyToken = require('../config/verifyToken');
 
 // Simple middleware to allow any authenticated role
 const requireAnyRole = (req, res, next) => {
