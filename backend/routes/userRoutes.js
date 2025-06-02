@@ -22,15 +22,19 @@ async function getUserProfile(userId) {
       .maybeSingle();
 
     if (clinicianData && !clinicianError) {
-      // Get email from auth.users since clinicians2 doesn't have email field
+      // Get email and name from auth.users since clinicians2 doesn't have these fields
       const { data: authUser, error: authError } = await supabase.auth.admin.getUserById(userId);
       const email = authUser?.user?.email || '';
+      let derivedAuthUserName = email; // Fallback if no name metadata
+      if (authUser?.user?.user_metadata) {
+          derivedAuthUserName = authUser.user.user_metadata.full_name || authUser.user.user_metadata.name || email;
+      }
 
       return {
         data: {
           id: clinicianData.user_id,
           email: email,
-          name: clinicianData.name || '',
+          name: derivedAuthUserName, // Corrected: Use name from auth.users
           phone: clinicianData.phone || '',
           phone_number: clinicianData.phone || '',
           specialty: clinicianData.specialty,
@@ -776,9 +780,9 @@ router.get("/getRole/:userId", verifyToken, async (req, res) => {
     if (authUser?.user) { // Only check if we have a valid auth.user to link with
         const { data: clinicianRow, error: cliErr } = await supabaseService
           .from('clinicians2')
-          // Select columns that exist in clinicians2. 'name' is not one of them.
+          // Select only 'specialty' as 'name' is not in clinicians2 and 'user_id' is already used in eq.
           // Name will be derived from auth.users.user_metadata or email.
-          .select('specialty, user_id')
+          .select('specialty')
           .eq('user_id', userId)
           .single();
 
