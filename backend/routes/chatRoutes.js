@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const supabase = require('../config/supabaseClient');
-const { authenticateToken } = require('../middleware/auth');
+const { verifyToken } = require('../config/verifyToken');
 
 // Simple middleware to allow any authenticated role
 const requireAnyRole = (req, res, next) => {
@@ -10,7 +10,7 @@ const requireAnyRole = (req, res, next) => {
 };
 
 // Get chat messages for a specific appointment
-router.get('/:appointmentId', authenticateToken, requireAnyRole, async (req, res) => {
+router.get('/:appointmentId', verifyToken, requireAnyRole, async (req, res) => {
   try {
     const { appointmentId } = req.params;
     const userId = req.user.id;
@@ -124,7 +124,7 @@ router.get('/:appointmentId', authenticateToken, requireAnyRole, async (req, res
 });
 
 // Send a new chat message
-router.post('/send', authenticateToken, requireAnyRole, async (req, res) => {
+router.post('/send', verifyToken, requireAnyRole, async (req, res) => {
   try {
     const { appointmentId, message } = req.body;
     const userId = req.user.id;
@@ -248,7 +248,7 @@ router.post('/send', authenticateToken, requireAnyRole, async (req, res) => {
 });
 
 // Get appointment participants (for chat UI)
-router.get('/:appointmentId/participants', authenticateToken, requireAnyRole, async (req, res) => {
+router.get('/:appointmentId/participants', verifyToken, requireAnyRole, async (req, res) => {
   try {
     const { appointmentId } = req.params;
     const userId = req.user.id;
