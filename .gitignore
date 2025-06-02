@@ -131,3 +131,21 @@ frontend/src/docs/
 
 # Temporary development files
 final-verification.js
+
+# Deployment logs and artifacts (contain sensitive information)
+*_deploy.txt
+deploy/
+deployment-setup-guide.md
+test-deployment.md
+
+# GitHub Actions deployment logs
+*_Set up job.txt
+*_Checkout code.txt
+*_Setup SSH.txt
+*_Add VPS to known hosts.txt
+*_Deploy to VPS.txt
+*_Verify deployment.txt
+*_Notify deployment status.txt
+*_Post Setup SSH.txt
+*_Post Checkout code.txt
+*_Complete job.txt
