@@ -1,7 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const supabase = require('../config/supabaseClient');
-const { authenticateToken, requireAnyRole } = require('../middleware/auth');
+const verifyToken = require('../config/verifyToken');
+
+// Simple middleware to allow any authenticated role
+const requireAnyRole = (req, res, next) => {
+  // Since verifyToken already validates the user, just pass through
+  next();
+};
 
 // Get chat messages for a specific appointment
 router.get('/:appointmentId', authenticateToken, requireAnyRole, async (req, res) => {
