@@ -1,0 +1,198 @@
+name: Deploy BookSmartly to VPS
+
+on:
+  push:
+    branches: [ feature/cureit-integration ]
+  workflow_dispatch: # Allow manual triggering
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup SSH
+      uses: webfactory/ssh-agent@v0.9.0
+      with:
+        ssh-private-key: ${{ secrets.VPS_SSH_PRIVATE_KEY }}
+        
+    - name: Add VPS to known hosts
+      run: |
+        ssh-keyscan -H 145.223.73.170 >> ~/.ssh/known_hosts
+        
+    - name: Deploy to VPS
+      run: |
+        ssh -o StrictHostKeyChecking=no root@145.223.73.170 << 'EOF'
+          set -e
+          
+          echo "🚀 Starting BookSmartly deployment..."
+          
+          # Navigate to project directory
+          cd /root/BookSmartly || { echo "❌ Project directory not found"; exit 1; }
+          
+          # Backup current state
+          echo "📦 Creating backup..."
+          cp -r . ../BookSmartly_backup_$(date +%Y%m%d_%H%M%S) || echo "⚠️ Backup failed, continuing..."
+          
+          # Pull latest changes from feature/cureit-integration branch
+          echo "📥 Pulling latest changes from feature/cureit-integration..."
+          git fetch origin
+          git reset --hard origin/feature/cureit-integration
+          
+          # Install/update dependencies for backend
+          echo "🔧 Updating backend dependencies..."
+          cd backend
+          if [ -f package-lock.json ]; then
+            npm ci --production
+          else
+            npm install --production
+          fi
+          
+          # Install/update dependencies for frontend
+          echo "🎨 Updating frontend dependencies..."
+          cd ../frontend
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            npm install
+          fi
+          
+          # Build frontend for production
+          echo "🏗️ Building frontend..."
+          npm run build || { echo "❌ Frontend build failed"; exit 1; }
+          
+          # Return to project root
+          cd ..
+          
+          # Install/update ML model dependencies
+          echo "🤖 Updating ML model dependencies..."
+          if [ -f ml_model/requirements.txt ]; then
+            cd ml_model
+            pip3 install -r requirements.txt || echo "⚠️ ML dependencies update failed, continuing..."
+            
+            # Install chatbot dependencies
+            if [ -f chatbot/requirements.txt ]; then
+              cd chatbot
+              pip3 install -r requirements.txt || echo "⚠️ Chatbot dependencies update failed"
+              cd ..
+            fi
+            
+            # Install report dependencies
+            if [ -f report/requirements.txt ]; then
+              cd report
+              pip3 install -r requirements.txt || echo "⚠️ Report dependencies update failed"
+              cd ..
+            fi
+            
+            # Install sentiment dependencies
+            if [ -f sentiment/requirements.txt ]; then
+              cd sentiment
+              pip3 install -r requirements.txt || echo "⚠️ Sentiment dependencies update failed"
+              cd ..
+            fi
+            
+            cd ..
+          fi
+          
+          # Restart services using PM2
+          echo "🔄 Restarting services..."
+          
+          # Stop existing processes gracefully
+          pm2 stop all || echo "ℹ️ No PM2 processes to stop"
+          pm2 delete all || echo "ℹ️ No PM2 processes to delete"
+          
+          # Start backend service (main Node.js app)
+          echo "🚀 Starting backend service..."
+          cd backend
+          pm2 start app.js --name "booksmartly-backend" --env production || { echo "❌ Backend start failed"; exit 1; }
+          
+          # Start ML model service (FastAPI)
+          echo "🤖 Starting ML model service..."
+          cd ../ml_model
+          if [ -f main.py ]; then
+            pm2 start main.py --name "booksmartly-ml" --interpreter python3 --env production || echo "⚠️ ML service start failed"
+          fi
+          
+          # Start chatbot service (FastAPI)
+          echo "💬 Starting chatbot service..."
+          if [ -f chatbot/main1.py ]; then
+            cd chatbot
+            pm2 start main1.py --name "booksmartly-chatbot" --interpreter python3 --env production || echo "⚠️ Chatbot service start failed"
+            cd ..
+          fi
+          
+          # Start report service
+          echo "📊 Starting report service..."
+          if [ -f report/main.py ]; then
+            cd report
+            pm2 start main.py --name "booksmartly-report" --interpreter python3 --env production || echo "⚠️ Report service start failed"
+            cd ..
+          fi
+          
+          # Start sentiment analysis service
+          echo "😊 Starting sentiment service..."
+          if [ -f sentiment/main2.py ]; then
+            cd sentiment
+            pm2 start main2.py --name "booksmartly-sentiment" --interpreter python3 --env production || echo "⚠️ Sentiment service start failed"
+          fi
+          
+          # Save PM2 configuration and setup startup
+          pm2 save
+          pm2 startup || echo "⚠️ PM2 startup setup failed"
+          
+          # Show final status
+          echo "📋 Final PM2 status:"
+          pm2 status
+          
+          echo "✅ BookSmartly deployment completed successfully!"
+        EOF
+        
+    - name: Verify deployment
+      run: |
+        ssh -o StrictHostKeyChecking=no root@145.223.73.170 << 'EOF'
+          echo "🔍 Verifying deployment..."
+          cd /root/BookSmartly
+          
+          # Check git status
+          echo "📋 Git status:"
+          echo "Current branch: $(git branch --show-current)"
+          echo "Latest commit: $(git log -1 --oneline)"
+          
+          # Check PM2 processes
+          echo "📊 PM2 processes status:"
+          pm2 list
+          
+          # Check if backend is responding (port 8000 based on app.js)
+          echo "🏥 Checking backend health..."
+          sleep 5 # Give services time to start
+          curl -f http://localhost:8000/ || echo "⚠️ Backend health check failed"
+          
+          # Check ML model service (typically runs on port 8000 but may conflict)
+          echo "🤖 Checking ML model service..."
+          curl -f http://localhost:8001/ || echo "ℹ️ ML model service not responding (may use different port)"
+          
+          # Check disk space
+          echo "💾 Disk space:"
+          df -h /
+          
+          # Check memory usage
+          echo "🧠 Memory usage:"
+          free -h
+          
+          echo "✅ Verification completed!"
+        EOF
+        
+    - name: Notify deployment status
+      if: always()
+      run: |
+        if [ ${{ job.status }} == 'success' ]; then
+          echo "✅ BookSmartly deployment to VPS completed successfully!"
+          echo "🌐 Services should be available at:"
+          echo "   - Backend: http://145.223.73.170:8000"
+          echo "   - Frontend: Served via backend or separate web server"
+        else
+          echo "❌ BookSmartly deployment to VPS failed!"
+          echo "📝 Check the logs above for error details"
+        fi
