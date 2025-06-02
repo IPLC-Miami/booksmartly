@@ -17,6 +17,12 @@
   - [Health Worker Dashboard Testing Guide](#health-worker-dashboard-testing-guide)
   - [Screenshots](#screenshots)
   - [](#)
+  - [Redis Integration](#redis-integration)
+    - [1. Installation (Ubuntu 24.04)](#1-installation-ubuntu-2404)
+    - [2. Configuration](#2-configuration)
+    - [3. Environment Variables](#3-environment-variables)
+    - [4. Redis Client (`backend/config/redisClient.js`)](#4-redis-client-backendconfigredisclientjs)
+    - [5. Caching Example (User Role Lookup)](#5-caching-example-user-role-lookup)
 
 
 ## Features and Functions
@@ -355,3 +361,144 @@ Doctors provide prescriptions by filling out the following fields: **Doctor Rema
 <img width="800" alt="Screenshot 2025-04-03 at 11 15 30 PM" src="https://github.com/user-attachments/assets/55b5414c-ddac-4cae-9e91-1788079b8284" />
 ---
 
+
+---
+
+## Redis Integration
+
+### 1. Installation (Ubuntu 24.04)
+
+```bash
+sudo apt update
+sudo apt install redis-server -y
+```
+
+### 2. Configuration
+
+Edit `/etc/redis/redis.conf`:
+
+```conf
+bind 127.0.0.1
+requirepass YOUR_STRONG_PASSWORD_HERE 
+maxmemory 256mb
+maxmemory-policy allkeys-lru
+```
+
+Restart Redis:
+
+```bash
+sudo systemctl enable redis-server
+sudo systemctl restart redis-server
+```
+
+Verify connection:
+
+```bash
+redis-cli -h 127.0.0.1 -a YOUR_STRONG_PASSWORD_HERE ping
+# Should return: PONG
+```
+
+### 3. Environment Variables
+
+Add to `backend/.env` (never commit your production password):
+
+```env
+REDIS_HOST=127.0.0.1
+REDIS_PORT=6379
+REDIS_PASSWORD=YOUR_STRONG_PASSWORD_HERE
+```
+
+### 4. Redis Client (`backend/config/redisClient.js`)
+
+```javascript
+const Redis = require('ioredis');
+const dotenv = require('dotenv');
+
+dotenv.config();
+
+let redis;
+let redisAvailable = false;
+
+if (process.env.REDIS_HOST && process.env.REDIS_PORT && process.env.REDIS_PASSWORD) {
+  redis = new Redis({
+    host: process.env.REDIS_HOST,
+    port: parseInt(process.env.REDIS_PORT, 10),
+    password: process.env.REDIS_PASSWORD,
+    tls: false, // Assuming localhost binding
+    // Optional: Add retry strategy, etc.
+  });
+
+  redis.on('connect', () => {
+    console.log('✅ Connected to Redis');
+    redisAvailable = true;
+  });
+
+  redis.on('error', (err) => {
+    console.error('Redis connection error:', err.message);
+    redisAvailable = false;
+  });
+} else {
+  console.warn('⚠️ Redis not configured - running without caching.');
+}
+
+async function getCache(key) {
+  if (!redisAvailable || !redis) return null;
+  try {
+    const data = await redis.get(key);
+    return data ? JSON.parse(data) : null;
+  } catch (err) {
+    console.error(`Redis GET error for key ${key}:`, err.message);
+    return null;
+  }
+}
+
+async function setCache(key, value, ttlSeconds = 60) {
+  if (!redisAvailable || !redis) return;
+  try {
+    await redis.set(key, JSON.stringify(value), 'EX', ttlSeconds);
+  } catch (err) {
+    console.error(`Redis SET error for key ${key}:`, err.message);
+  }
+}
+
+module.exports = {
+  redis: redisAvailable ? redis : null,
+  getCache,
+  setCache,
+  isRedisAvailable: () => redisAvailable,
+};
+```
+
+### 5. Caching Example (User Role Lookup)
+
+In `backend/routes/userRoutes.js`, the `/api/users/getRole/:userId` route first checks Redis:
+
+```javascript
+// At the top of userRoutes.js
+const { getCache, setCache } = require('../config/redisClient');
+
+// Inside the /getRole/:userId handler
+const cacheKey = `role:${userId}`;
+try {
+  const cachedRoleInfo = await getCache(cacheKey);
+  if (cachedRoleInfo) {
+    return res.json(cachedRoleInfo);
+  }
+} catch (redisErr) {
+  console.error(`Redis GET error for ${cacheKey}:`, redisErr.message);
+}
+
+// ... (Supabase lookup logic) ...
+
+// After successful Supabase lookup and before returning response:
+if (roleInfo) {
+  try {
+    await setCache(cacheKey, roleInfo, 60); // Cache for 60 seconds
+  } catch (rcErr) {
+    console.error(`Redis SET error for ${cacheKey}:`, rcErr.message);
+  }
+  return res.json(roleInfo);
+}
+```
+
+If Redis is down or a key is not found, the code gracefully falls back to Supabase.

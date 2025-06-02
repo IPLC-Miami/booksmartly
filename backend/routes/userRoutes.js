@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const supabase = require("../config/supabaseClient");
 const verifyToken = require("../config/verifyToken");
+const { getCache, setCache } = require('../config/redisClient');
+const { createClient: createSupabaseClient } = require('@supabase/supabase-js'); // Renamed to avoid conflict if 'supabase' is used elsewhere for anon client
 // Removed problematic import - using verifyToken instead
 const sendOtp = require("../services/OtpService");
 const validateOtp = require("../services/validateOtpService");
@@ -716,30 +718,127 @@ router.put("/updateDetails/:id", verifyToken, async (req, res) => {
 
 router.get("/getRole/:userId", verifyToken, async (req, res) => {
   const { userId } = req.params;
-  console.log(userId);
-  console.log(req.body);
-  console.log("in getRole", userId);
 
+  if (!userId) {
+    return res.status(400).json({ error: 'User ID required' });
+  }
+
+  const cacheKey = `role:${userId}`;
+
+  // 1) Try Redis cache first
   try {
-    // Use helper function to get user profile and determine role
-    const { data: profile, error: profileError } = await getUserProfile(userId);
-    
-    if (profileError) {
-      console.log(profileError);
-      throw profileError;
+    const cachedRoleInfo = await getCache(cacheKey);
+    if (cachedRoleInfo) {
+      // console.log(`[Cache HIT] Role for ${userId}:`, cachedRoleInfo);
+      return res.json(cachedRoleInfo); // Return the cached object directly
     }
-    
-    if (!profile) {
-      return res.status(404).json({ error: "User not found" });
+  } catch (redisErr) {
+    console.error(`Redis GET error for ${cacheKey}:`, redisErr.message);
+    // Fall through to Supabase lookup if Redis fails
+  }
+
+  // 2) Supabase lookup
+  try {
+    const supabaseServiceUrl = process.env.SUPABASE_URL;
+    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+    if (!supabaseServiceUrl || !supabaseServiceKey) {
+      console.error("Supabase service account credentials not found in .env for role lookup.");
+      return res.status(500).json({ error: "Server configuration error for role lookup." });
     }
-    
-    // Return role data in the expected format
-    const data = [{ role: profile.role || profile.user_type }];
-    console.log(data);
-    return res.json({ data });
-  } catch (error) {
-    console.error("Error getting user role:", error);
-    res.status(500).json({ error: "Server error" });
+    const supabaseService = createSupabaseClient(supabaseServiceUrl, supabaseServiceKey);
+
+    let roleInfo = null;
+    let authUserEmail = '';
+
+    // Fetch auth user email once, as it might be needed for clinician or other roles if not in their tables
+    const { data: authUser, error: authUserError } = await supabaseService.auth.admin.getUserById(userId);
+    if (authUserError && authUserError.status !== 404) {
+        console.error(`Error fetching auth user ${userId}:`, authUserError.message);
+        // Depending on policy, might want to return 500 or proceed cautiously
+    }
+    if (authUser?.user?.email) {
+        authUserEmail = authUser.user.email;
+    }
+
+    // (A) Check clinicians2 table
+    const { data: clinicianRow, error: cliErr } = await supabaseService
+      .from('clinicians2')
+      .select('name, specialty') // Assuming user_id is known, role is 'clinician'
+      .eq('user_id', userId)
+      .single();
+
+    if (cliErr && cliErr.code !== 'PGRST116') { // PGRST116: no rows found
+        console.error('Supabase error fetching from clinicians2:', cliErr.message);
+    }
+    if (clinicianRow) {
+      roleInfo = {
+        id: userId,
+        email: authUserEmail, // Email from auth.users
+        role: 'clinician',
+        name: clinicianRow.name,
+        specialty: clinicianRow.specialty
+      };
+    }
+
+    // (B) Check reception table if not found as clinician
+    if (!roleInfo) {
+      const { data: receptionRow, error: recErr } = await supabaseService
+        .from('receptions')
+        .select('email, name') // Select email and name
+        .eq('user_id', userId)
+        .single();
+      if (recErr && recErr.code !== 'PGRST116') {
+        console.error('Supabase error fetching from receptions:', recErr.message);
+      }
+      if (receptionRow) {
+        roleInfo = {
+          id: userId,
+          email: receptionRow.email || authUserEmail, // Prefer table email, fallback to auth email
+          name: receptionRow.name,
+          role: 'reception'
+        };
+      }
+    }
+
+    // (C) Check clients table if not found yet
+    if (!roleInfo) {
+      const { data: clientRow, error: clientErrSupabase } = await supabaseService
+        .from('clients')
+        .select('first_name, last_name, email')
+        .eq('user_id', userId)
+        .single();
+      if (clientErrSupabase && clientErrSupabase.code !== 'PGRST116') {
+        console.error('Supabase error fetching from clients:', clientErrSupabase.message);
+      }
+      if (clientRow) {
+        roleInfo = {
+          id: userId,
+          email: clientRow.email || authUserEmail, // Prefer table email, fallback to auth email
+          role: 'client',
+          first_name: clientRow.first_name,
+          last_name: clientRow.last_name,
+          name: `${clientRow.first_name || ''} ${clientRow.last_name || ''}`.trim()
+        };
+      }
+    }
+
+    if (roleInfo) {
+      try {
+        await setCache(cacheKey, roleInfo, 60); // Cache the roleInfo object
+        // console.log(`[Cache SET] Role for ${userId}:`, roleInfo);
+      } catch (rcErr) {
+        console.error(`Redis SET error for ${cacheKey}:`, rcErr.message);
+      }
+      return res.json(roleInfo); // Return the roleInfo object directly
+    }
+
+    // (D) Not found in any relevant table
+    return res.status(404).json({ error: 'User record not found for role determination' });
+
+  } catch (err) {
+    console.error(`Error in /getRole/${userId} Supabase lookup:`, err.message);
+    return res.status(500).json({ error: err.message || 'Server error in role lookup' });
   }
 });
 
