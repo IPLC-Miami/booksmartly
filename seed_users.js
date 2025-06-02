@@ -20,11 +20,11 @@ const supabase = createClient(supabaseUrl, supabaseServiceKey, {
 // Reception account data
 const receptionData = {
   email: 'iplcmiami@gmail.com',
-  password: 'Iplcmiami1',
+  password: 'Iplc2353!',
   name: 'Reception Admin'
 };
 
-// Clinician accounts data as specified in AI_IMPLEMENTATION_OUTLINE.md
+// Clinician accounts data - Speech-Language Pathologists, Occupational Therapists, SLPAs, and COTAs
 const cliniciansData = [
   { email: 'aquin217@fiu.edu', name: 'Aquin LastName', specialty: 'Speech-Language Pathology' },
   { email: 'Bammservices@yahoo.com', name: 'Maggy Del Valle', specialty: 'Occupational Therapy' },
@@ -267,23 +267,66 @@ async function createOrUpdateClinicianAccount(clinicianData) {
 }
 
 async function seedUsers() {
+  console.log('🚀 Starting user seeding process...');
+  console.log('📧 Target accounts:');
+  console.log('   - Reception: iplcmiami@gmail.com');
+  console.log('   - Clinicians:', cliniciansData.length, 'accounts');
+  console.log('');
+
   // Create reception account
+  console.log('Creating reception account...');
   const receptionId = await createOrUpdateReceptionAccount();
-  if (!receptionId) {
-    console.error('Failed to create/update reception account. Continuing with clinicians...');
+  if (receptionId) {
+    console.log('✅ Reception account created/updated successfully');
+  } else {
+    console.error('❌ Failed to create/update reception account. Continuing with clinicians...');
   }
+  console.log('');
 
   // Create clinician accounts
+  console.log('Creating clinician accounts...');
   const createdClinicians = [];
+  const failedClinicians = [];
+  
   for (const clinicianData of cliniciansData) {
+    console.log(`Processing: ${clinicianData.name} (${clinicianData.email})`);
     const result = await createOrUpdateClinicianAccount(clinicianData);
     if (result) {
       createdClinicians.push(result);
+      console.log(`✅ ${clinicianData.name} - Account created/updated successfully`);
+    } else {
+      failedClinicians.push(clinicianData);
+      console.log(`❌ ${clinicianData.name} - Failed to create account`);
     }
     // Add a small delay between requests
     await new Promise(resolve => setTimeout(resolve, 1000));
   }
 
+  console.log('');
+  console.log('📊 SEEDING SUMMARY:');
+  console.log('==================');
+  console.log(`Reception account: ${receptionId ? 'SUCCESS' : 'FAILED'}`);
+  console.log(`Clinicians created: ${createdClinicians.length}/${cliniciansData.length}`);
+  
+  if (createdClinicians.length > 0) {
+    console.log('');
+    console.log('✅ Successfully created/updated clinician accounts:');
+    createdClinicians.forEach(clinician => {
+      console.log(`   - ${clinician.name} (${clinician.email}) - ${clinician.specialty}`);
+    });
+  }
+  
+  if (failedClinicians.length > 0) {
+    console.log('');
+    console.log('❌ Failed to create clinician accounts:');
+    failedClinicians.forEach(clinician => {
+      console.log(`   - ${clinician.name} (${clinician.email})`);
+    });
+  }
+  
+  console.log('');
+  console.log('🎯 All accounts should now be available for login with password: Iplcmiami1');
+  console.log('✨ Seeding process completed!');
 }
 
 // Run the seeding process
