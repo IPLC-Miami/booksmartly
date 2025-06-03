@@ -6,7 +6,7 @@ import { toast } from "sonner";
 
 /**
  * Enhanced Protected Route Component with Role-Based Access Control
- * 
+ *
  * @param {Array} allowedRoles - Array of roles that can access this route
  * @param {string} redirectTo - Path to redirect unauthorized users (default: "/login")
  * @param {React.ReactNode} children - Child components to render if authorized
@@ -17,29 +17,22 @@ function EnhancedProtectedRoute({ allowedRoles = [], redirectTo = "/login", chil
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Get token from localStorage
+  // Use proper Supabase session handling
+  const { user: currentUser, loading: userLoading, error: userError } = useGetCurrentUser();
+  
+  // Get token from localStorage for API calls (but don't rely on it for auth)
   const tokenString = localStorage.getItem("sb-itbxttkivivyeqnduxjb-auth-token");
   const token = tokenString ? JSON.parse(tokenString) : null;
   const accessToken = token?.access_token;
 
-  // Hooks for fetching user data and role
-  const { data: dataUser, isLoading: userLoading, error: userError } = useGetCurrentUser();
   const { data: dataRole, isLoading: roleLoading, error: roleError } = useUserRoleById(userId, accessToken);
 
-  // Check if token exists
+  // Set userId when user data is available from Supabase session
   useEffect(() => {
-    if (!token) {
-      setIsLoading(false);
-      return;
+    if (currentUser) {
+      setUserId(currentUser.id);
     }
-  }, [token]);
-
-  // Set userId when user data is available
-  useEffect(() => {
-    if (token && dataUser) {
-      setUserId(dataUser?.user?.id);
-    }
-  }, [dataUser, token]);
+  }, [currentUser]);
 
   // Set role when role data is available
   useEffect(() => {
@@ -67,14 +60,14 @@ function EnhancedProtectedRoute({ allowedRoles = [], redirectTo = "/login", chil
     }
   }, [userLoading, roleLoading, userId, role, error, roleError, userError]);
 
-  // No token - redirect to login
-  if (!token) {
+  // No user from Supabase session - redirect to login
+  if (userError || (!userLoading && !currentUser)) {
     toast.error("Session expired. Please login again.");
     return <Navigate to={redirectTo} replace />;
   }
 
   // Show loading state
-  if (isLoading || userLoading || (userId && roleLoading)) {
+  if (userLoading || isLoading || (userId && roleLoading)) {
     return (
       <div className="mb-24 mt-12 flex flex-col items-center justify-center p-4 font-noto md:px-12 md:py-8">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mb-4"></div>

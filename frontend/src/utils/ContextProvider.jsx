@@ -52,29 +52,34 @@ export function AuthContextProvider({ children }) {
   const [loading, setLoading] = useState(true); // Add loading state
 
   useEffect(() => {
-    const fetchUser = async () => {
+    const initializeAuth = async () => {
       try {
         setLoading(true);
-        const {
-          data: { user },
-          error,
-        } = await supabase.auth.getUser();
-
-        if (error) throw error;
-        setCurrentUser(user);
+        
+        // First get the session to ensure it's rehydrated
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+        
+        if (sessionError) {
+          console.error("Error getting session:", sessionError.message);
+          setCurrentUser(null);
+        } else {
+          setCurrentUser(session?.user || null);
+        }
       } catch (error) {
-        console.error("Error fetching user:", error.message);
+        console.error("Error initializing auth:", error.message);
+        setCurrentUser(null);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchUser();
+    initializeAuth();
 
-    // Optionally, listen for auth state changes
+    // Listen for auth state changes
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (_event, session) => {
         setCurrentUser(session?.user || null);
+        setLoading(false);
       },
     );
 

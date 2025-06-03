@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../utils/supabaseClient";
 import { useGetUserDetails } from "../hooks/useGetUserDetails";
+import { useGetCurrentUser } from "../hooks/useGetCurrentUser";
 import { useQueryClient } from "@tanstack/react-query";
 import { Brain, Home } from "lucide-react";
 
@@ -26,6 +27,9 @@ function Header() {
   const [tokenString, setTokenString] = useState(null);
 
   const [scrollPosition, setScrollPosition] = useState(0);
+  
+  // Use proper Supabase session handling
+  const { user: currentUser, loading: userLoading, error: userError } = useGetCurrentUser();
   const roleMenuItems = {
     clinician: [
       { label: "Dashboard", path: "/user/dashboard" },
@@ -82,17 +86,14 @@ function Header() {
     if (token) {
       setAccessToken(token?.access_token);
     }
-
-    const fetchUser = async () => {
-      const {
-        data: { user },
-        error,
-      } = await supabase.auth.getUser();
-      if (user) setUserId(user.id);
-      if (error) console.error("Error fetching user:", error);
-    };
-    fetchUser();
   }, []);
+
+  // Set userId from Supabase session when available
+  useEffect(() => {
+    if (currentUser) {
+      setUserId(currentUser.id);
+    }
+  }, [currentUser]);
 
   const { data: dataDetails } = useGetUserDetails(userId, accessToken);
 

@@ -15,30 +15,32 @@ function Dashboard() {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  const tokenString = localStorage.getItem(
-    "sb-itbxttkivivyeqnduxjb-auth-token",
-  );
+  // Use proper Supabase session handling
+  const { user: currentUser, loading: userLoading, error: userError } = useGetCurrentUser();
+  
+  // Get token from localStorage for API calls (but don't rely on it for auth)
+  const tokenString = localStorage.getItem("sb-itbxttkivivyeqnduxjb-auth-token");
+  const token = tokenString ? JSON.parse(tokenString) : null;
+  const accessToken = token?.access_token;
+  
+  const { data: dataRole, isLoading: roleLoading, error: roleError } = useUserRoleById(userId, accessToken);
 
-  const token = JSON?.parse(tokenString);
+  // Handle user session validation
   useEffect(() => {
-    if (!token) {
+    if (userError || (!userLoading && !currentUser)) {
       toast.error("Session Expired Please Login Again.");
       navigate("/login", { state: { sessionExpired: true } });
       return;
     }
-  }, [token, navigate]);
-  
-  const accessToken = token?.access_token;
-  
-  const { data: dataRole, isLoading: roleLoading, error: roleError } = useUserRoleById(userId, accessToken);
-  const { data: dataUser, isLoading: userLoading, error: userError } = useGetCurrentUser();
+  }, [currentUser, userError, userLoading, navigate]);
 
+  // Set userId when user data is available from Supabase session
   useEffect(() => {
-    if (token && dataUser) {
-      console.log("Setting userId from dataUser:", dataUser);
-      setUserId(dataUser?.user?.id);
+    if (currentUser) {
+      console.log("Setting userId from currentUser:", currentUser);
+      setUserId(currentUser.id);
     }
-  }, [dataUser, token]);
+  }, [currentUser]);
 
   useEffect(() => {
     console.log("Role data received:", dataRole);
@@ -83,9 +85,10 @@ function Dashboard() {
   }, [userLoading, roleLoading, userId, role, error, roleError, userError]);
 
   // Show loading state
-  if (isLoading || userLoading || (userId && roleLoading)) {
+  if (userLoading || isLoading || (userId && roleLoading)) {
     return (
       <div className="mb-24 mt-12 flex flex-col items-center justify-center p-4 font-noto md:px-12 md:py-8">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mb-4"></div>
         <div className="text-lg">Loading dashboard...</div>
       </div>
     );
