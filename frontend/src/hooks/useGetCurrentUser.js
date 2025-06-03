@@ -11,61 +11,106 @@ export function useGetCurrentUser() {
   useEffect(() => {
     let mounted = true;
 
-    async function fetchUser() {
+    async function fetchUserProfile(session) {
       try {
-        // Try to read the stored session first:
-        const { data: { session } } = await supabase.auth.getSession();
-        if (!session) {
-          // No session → user not logged in, or rehydration didn't finish yet.
+        const userId = session.user.id;
+        const accessToken = session.access_token;
+        
+        // Use the backend API that handles multi-role system
+        const response = await fetch(`${API_URL}/users/userById/${userId}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`Failed to fetch user profile: ${response.status} ${response.statusText}`);
+        }
+
+        const profile = await response.json();
+        
+        if (mounted) {
+          setUser(profile);
+          setError(null);
+        }
+      } catch (err) {
+        console.error('Error fetching user profile:', err);
+        if (mounted) {
+          setError(err);
+          setUser(null);
+        }
+      }
+    }
+
+    async function initializeAuth() {
+      try {
+        // Get initial session
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+        
+        if (sessionError) {
+          console.error('Session error:', sessionError);
           if (mounted) {
-            setError(new Error('No active session'));
+            setError(sessionError);
+            setUser(null);
             setLoading(false);
           }
           return;
         }
 
-        // We have a valid session, now fetch profile data using backend API:
-        try {
-          const userId = session.user.id;
-          const accessToken = session.access_token;
-          
-          // Use the backend API that handles multi-role system
-          const response = await fetch(`${API_URL}/users/userById/${userId}`, {
-            method: 'GET',
-            headers: {
-              'Authorization': `Bearer ${accessToken}`,
-              'Content-Type': 'application/json',
-            },
-          });
-
-          if (!response.ok) {
-            throw new Error(`Failed to fetch user profile: ${response.status} ${response.statusText}`);
-          }
-
-          const profile = await response.json();
-          
+        if (session) {
+          await fetchUserProfile(session);
+        } else {
           if (mounted) {
-            setUser(profile);
-            setLoading(false);
-          }
-        } catch (err) {
-          if (mounted) {
-            setError(err);
-            setLoading(false);
+            setUser(null);
+            setError(null);
           }
         }
+
+        if (mounted) {
+          setLoading(false);
+        }
       } catch (err) {
+        console.error('Auth initialization error:', err);
         if (mounted) {
           setError(err);
+          setUser(null);
           setLoading(false);
         }
       }
     }
 
-    fetchUser();
+    // Initialize auth state
+    initializeAuth();
+
+    // Listen for auth state changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        console.log('Auth state change:', event, session?.user?.id);
+        
+        if (event === 'SIGNED_IN' && session) {
+          setLoading(true);
+          await fetchUserProfile(session);
+          if (mounted) {
+            setLoading(false);
+          }
+        } else if (event === 'SIGNED_OUT' || !session) {
+          if (mounted) {
+            setUser(null);
+            setError(null);
+            setLoading(false);
+          }
+        } else if (event === 'TOKEN_REFRESHED' && session) {
+          // Optionally refresh user profile on token refresh
+          await fetchUserProfile(session);
+        }
+      }
+    );
 
     return () => {
       mounted = false;
+      subscription?.unsubscribe();
     };
   }, []);
 

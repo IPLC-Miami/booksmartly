@@ -15,7 +15,15 @@ export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
   auth: {
     persistSession: true,
     autoRefreshToken: true,
-    detectSessionInUrl: false // we're handling cookies manually
+    detectSessionInUrl: true,
+    flowType: 'pkce',
+    storage: window.localStorage,
+    storageKey: 'sb-auth-token',
+    debug: process.env.NODE_ENV === 'development'
+  },
+  global: {
+    headers: {
+      'X-Client-Info': 'booksmartly-frontend'
+    }
   }
 });
-
