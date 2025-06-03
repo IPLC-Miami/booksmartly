@@ -33,12 +33,36 @@ const verifyToken = async (req, res, next) => {
             refresh_token: refreshToken
           });
           
-          if (refreshData?.user && !refreshError) {
+          if (refreshData?.session && refreshData?.user && !refreshError) {
+            // Update cookies with new tokens
+            const isProd = process.env.NODE_ENV === 'production';
+            const cookieOptions = {
+              httpOnly: true,
+              secure: isProd,
+              sameSite: 'lax',
+              path: '/'
+            };
+
+            // Set new access token cookie
+            res.cookie('sb:token', refreshData.session.access_token, {
+              ...cookieOptions,
+              maxAge: 60 * 60 * 1000 // 1 hour
+            });
+
+            // Set new refresh token cookie if provided
+            if (refreshData.session.refresh_token) {
+              res.cookie('sb:refresh-token', refreshData.session.refresh_token, {
+                ...cookieOptions,
+                maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+              });
+            }
+
+            console.log('✅ Token refreshed successfully for user:', refreshData.user.id);
             req.user = refreshData.user;
             return next();
           }
         } catch (cookieErr) {
-          console.log('Token refresh failed:', cookieErr.message);
+          console.log('❌ Token refresh failed:', cookieErr.message);
         }
       }
       
