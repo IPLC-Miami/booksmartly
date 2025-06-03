@@ -20,11 +20,11 @@ async function determineUserRole(userId) {
   console.log('🔍 determineUserRole called with userId:', userId);
   
   try {
-    // First check clinicians table (highest priority)
-    console.log('📋 Checking clinicians table...');
+    // First check clinicians2 table (highest priority)
+    console.log('📋 Checking clinicians2 table...');
     const { data: clinicianData, error: clinicianError } = await supabaseAdmin
-      .from('clinicians')
-      .select('user_id, email, name, specialty, phone, license_number, is_active')
+      .from('clinicians2')
+      .select('user_id, specialty, experience_years, hospital_name, available_from, available_to, license_number, is_active, bio, office_address, consultation_fees')
       .eq('user_id', userId)
       .maybeSingle();
 
