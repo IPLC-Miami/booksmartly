@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../utils/supabaseClient';
 
+const API_URL = import.meta.env.VITE_API_BASE_URL;
+
 export function useGetCurrentUser() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -22,16 +24,26 @@ export function useGetCurrentUser() {
           return;
         }
 
-        // We have a valid session, now fetch profile data:
+        // We have a valid session, now fetch profile data using backend API:
         try {
           const userId = session.user.id;
-          const { data: profile, error: fetchError } = await supabase
-            .from('users')  // or whatever table holds your profile
-            .select('*')
-            .eq('id', userId)
-            .single();
+          const accessToken = session.access_token;
+          
+          // Use the backend API that handles multi-role system
+          const response = await fetch(`${API_URL}/api/users/userById/${userId}`, {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${accessToken}`,
+              'Content-Type': 'application/json',
+            },
+          });
 
-          if (fetchError) throw fetchError;
+          if (!response.ok) {
+            throw new Error(`Failed to fetch user profile: ${response.status} ${response.statusText}`);
+          }
+
+          const profile = await response.json();
+          
           if (mounted) {
             setUser(profile);
             setLoading(false);
