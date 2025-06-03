@@ -862,6 +862,140 @@ router.get("/getRole/:userId", verifyToken, async (req, res) => {
   }
 });
 
+// ADD: Explicit /getRole/:id route to match frontend expectations (will be mounted as /api/users/getRole/:id)
+router.get("/getRole/:id", verifyToken, async (req, res) => {
+  const { id } = req.params;
+
+  if (!id) {
+    return res.status(400).json({ error: 'User ID required' });
+  }
+
+  const cacheKey = `role:${id}`;
+
+  // 1) Try Redis cache first
+  try {
+    const cachedRoleInfo = await getCache(cacheKey);
+    if (cachedRoleInfo) {
+      return res.json(cachedRoleInfo);
+    }
+  } catch (redisErr) {
+    console.error(`Redis GET error for ${cacheKey}:`, redisErr.message);
+  }
+
+  // 2) Supabase lookup
+  try {
+    const supabaseServiceUrl = process.env.SUPABASE_URL;
+    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+    if (!supabaseServiceUrl || !supabaseServiceKey) {
+      console.error("Supabase service account credentials not found in .env for role lookup.");
+      return res.status(500).json({ error: "Server configuration error for role lookup." });
+    }
+    const supabaseService = createSupabaseClient(supabaseServiceUrl, supabaseServiceKey);
+
+    let roleInfo = null;
+    let authUserEmail = '';
+    let authUserName = 'Unknown User';
+
+    // Fetch auth user details once
+    const { data: authUser, error: authUserError } = await supabaseService.auth.admin.getUserById(id);
+
+    if (authUserError && authUserError.status !== 404) {
+        console.error(`Error fetching auth user ${id}:`, authUserError.message);
+    }
+    if (authUser?.user) {
+        authUserEmail = authUser.user.email || '';
+        if (authUser.user.user_metadata) {
+            authUserName = authUser.user.user_metadata.full_name || authUser.user.user_metadata.name || authUserEmail;
+        } else {
+            authUserName = authUserEmail;
+        }
+    } else {
+        console.warn(`Auth user not found for userId: ${id}. Cannot determine role through clinicians or clients table directly.`);
+    }
+
+    // (A) Check clinicians2 table
+    if (authUser?.user) {
+        const { data: clinicianRow, error: cliErr } = await supabaseService
+          .from('clinicians2')
+          .select('specialty')
+          .eq('user_id', id)
+          .single();
+
+        if (cliErr && cliErr.code !== 'PGRST116') {
+            console.error('Supabase error fetching from clinicians2:', cliErr.message);
+        }
+        if (clinicianRow) {
+          roleInfo = {
+            id: id,
+            email: authUserEmail,
+            role: 'clinician',
+            name: authUserName,
+            specialty: clinicianRow.specialty
+          };
+        }
+    }
+
+    // (B) Check reception table if not found as clinician
+    if (!roleInfo && authUserEmail) {
+      const { data: receptionRow, error: recErr } = await supabaseService
+        .from('receptions')
+        .select('name, email')
+        .eq('email', authUserEmail)
+        .single();
+
+      if (recErr && recErr.code !== 'PGRST116') {
+        console.error('Supabase error fetching from receptions by email:', recErr.message);
+      }
+      if (receptionRow) {
+        roleInfo = {
+          id: id,
+          email: receptionRow.email,
+          name: receptionRow.name,
+          role: 'reception'
+        };
+      }
+    }
+
+    // (C) Check clients table if not found yet
+    if (!roleInfo && authUser?.user) {
+      const { data: clientRow, error: clientErrSupabase } = await supabaseService
+        .from('clients')
+        .select('first_name, last_name, email')
+        .eq('user_id', id)
+        .single();
+      if (clientErrSupabase && clientErrSupabase.code !== 'PGRST116') {
+        console.error('Supabase error fetching from clients:', clientErrSupabase.message);
+      }
+      if (clientRow) {
+        roleInfo = {
+          id: id,
+          email: clientRow.email || authUserEmail,
+          role: 'client',
+          first_name: clientRow.first_name,
+          last_name: clientRow.last_name,
+          name: `${clientRow.first_name || ''} ${clientRow.last_name || ''}`.trim() || authUserName
+        };
+      }
+    }
+
+    if (roleInfo) {
+      try {
+        await setCache(cacheKey, roleInfo, 60);
+      } catch (rcErr) {
+        console.error(`Redis SET error for ${cacheKey}:`, rcErr.message);
+      }
+      return res.json(roleInfo);
+    }
+
+    return res.status(404).json({ error: 'User record not found or role cannot be determined' });
+
+  } catch (err) {
+    console.error(`Error in /api/users/getRole/${id} Supabase lookup:`, err.message);
+    return res.status(500).json({ error: err.message || 'Server error in role lookup' });
+  }
+});
+
 router.post("/sendResetPasswordEmail", async (req, res) => {
   // console.log("hhhhhh", req.params);
   const { email } = req.body;

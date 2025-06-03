@@ -72,6 +72,7 @@ app.get("/", (req, res) => res.send("Hello World"));
 
 app.use("/auth", authRoutes);
 app.use("/users", userRoutes);
+app.use("/api/users", userRoutes); // ADD: Mount userRoutes under /api/users to match frontend expectations
 app.use("/clinicians", clinicianRoutes); // Updated
 app.use("/appointments", appointmentRoutes);
 app.use("/prescriptions", prescriptionRoutes);

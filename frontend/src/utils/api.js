@@ -554,8 +554,23 @@ export async function getUserRoleById(userId, accessToken) {
 }
 
 export async function getCurrentActiveUser() {
-  const { error, data } = await supabase.auth.getUser();
-  return data;
+  try {
+    // First check if we have a session
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) {
+      return { user: null, error: new Error('No active session') };
+    }
+    
+    // If we have a session, get the user
+    const { error, data } = await supabase.auth.getUser();
+    if (error) {
+      return { user: null, error };
+    }
+    
+    return { user: data.user, error: null };
+  } catch (err) {
+    return { user: null, error: err };
+  }
 }
 
 export async function signUpNewUser(userData) {
