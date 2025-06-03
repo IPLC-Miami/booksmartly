@@ -25,7 +25,7 @@ async function generateNewQRCode(userId) {
 
   try {
     const response = await fetch(
-      `${API_URL}/api/receptionProfileRoutes/generate-qr/${userId}`,
+      `${API_URL}/receptionProfileRoutes/generate-qr/${userId}`,
     );
     if (!response.ok) {
       throw new Error("Failed to generate QR code");

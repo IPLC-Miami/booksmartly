@@ -72,7 +72,7 @@ const VolunteerConfirmationModal = ({
     try {
       // Send request to backend with clinicianId and campId
       const res = await axios.post(
-        `${api}/api/healthWorkerRoutes/clinician-volunteer`,
+        `${api}/healthWorkerRoutes/clinician-volunteer`,
         {
           clinicianId: clinicianId,
           campId: campDetails?.id,
@@ -269,7 +269,7 @@ function HealthCampsPage() {
       );
       try {
         const res = await axios.get(
-          `${api}/api/healthWorkerRoutes/clinician/volunteered/${profile?.id}`,
+          `${api}/healthWorkerRoutes/clinician/volunteered/${profile?.id}`,
         );
         console.log(res);
         setMyVolunteered(res.data);

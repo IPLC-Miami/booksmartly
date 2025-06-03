@@ -117,7 +117,7 @@ function ClinicianProfileTab() {
   const mutation = useMutation({
     mutationFn: async () => {
       const response = await fetch(
-        `${API_URL}/api/clinicianProfileRoutes/download/${userId}`, // Updated route
+        `${API_URL}/clinicianProfileRoutes/download/${userId}`, // Updated route
         {
           method: "GET",
           headers: {
