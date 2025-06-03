@@ -21,26 +21,29 @@ const verifyToken = async (req, res, next) => {
     }
 
     // Verify the token with Supabase
+    // Verify the token with Supabase
     const { data: { user }, error } = await supabase.auth.getUser(token);
 
     if (error || !user) {
-      // If token is expired and we have cookies, try to use getUserByCookie for auto-refresh
-      if (req.cookies && req.cookies['sb:token'] && req.cookies['sb:refresh-token']) {
+      // If token is expired and we have cookies, try to refresh using refresh token
+      if (req.cookies && req.cookies['sb:refresh-token']) {
         try {
-          const { data: { user: cookieUser }, error: cookieError } = await supabase.auth.api.getUserByCookie(req);
+          const refreshToken = req.cookies['sb:refresh-token'];
+          const { data: refreshData, error: refreshError } = await supabase.auth.refreshSession({
+            refresh_token: refreshToken
+          });
           
-          if (cookieUser && !cookieError) {
-            req.user = cookieUser;
+          if (refreshData?.user && !refreshError) {
+            req.user = refreshData.user;
             return next();
           }
         } catch (cookieErr) {
-          console.log('Cookie auth failed:', cookieErr.message);
+          console.log('Token refresh failed:', cookieErr.message);
         }
       }
       
       return res.status(401).json({ error: "Unauthorized: Invalid or expired token" });
     }
-
     req.user = user; // Attach user info to request
     next(); // Proceed to next middleware or route
   } catch (error) {
