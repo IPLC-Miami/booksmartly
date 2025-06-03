@@ -10,6 +10,7 @@ import joblib
 import uvicorn
 from fastapi.middleware.cors import CORSMiddleware
 import gdown
+import os
 
 app = FastAPI()
 
@@ -26,8 +27,18 @@ nltk.download('stopwords')
 file_id_embeddings= "1DBPhxW4lqETklPZz7H0ljEkGRJH0bojQ"
 file_id_metadata = "1RkJNhOzxVkdY17UAckRbAqSO_XlEU5Ah"
 
-gdown.download(f"https://drive.google.com/uc?export=download&id={file_id_metadata}", "all_metadata.csv", quiet=False)
-gdown.download(f"https://drive.google.com/uc?export=download&id={file_id_embeddings}", "all_tfidf_embeddings.csv", quiet=False)
+# Check if files exist before downloading
+if not os.path.exists("all_metadata.csv"):
+    print("Downloading all_metadata.csv...")
+    gdown.download(f"https://drive.google.com/uc?export=download&id={file_id_metadata}", "all_metadata.csv", quiet=False)
+else:
+    print("all_metadata.csv already exists, skipping download")
+
+if not os.path.exists("all_tfidf_embeddings.csv"):
+    print("Downloading all_tfidf_embeddings.csv...")
+    gdown.download(f"https://drive.google.com/uc?export=download&id={file_id_embeddings}", "all_tfidf_embeddings.csv", quiet=False)
+else:
+    print("all_tfidf_embeddings.csv already exists, skipping download")
 
 df = pd.read_csv('all_metadata.csv')
 embeddings_df = pd.read_csv('all_tfidf_embeddings.csv')
@@ -77,4 +88,4 @@ async def predict_specialist(user_input: UserInput):
     }
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8001)
