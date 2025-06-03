@@ -47,9 +47,9 @@ index = faiss.read_index("faq_index.faiss")
 df = pd.read_csv("faq_data.csv")
 
 # Gemini API configuration.
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+GEMINI_API_KEY = os.getenv("GOOGLE_GEMINI_API_KEY")
 if not GEMINI_API_KEY:
-    raise ValueError("GEMINI_API_KEY environment variable is not set.")
+    raise ValueError("GOOGLE_GEMINI_API_KEY environment variable is not set.")
 GEMINI_ENDPOINT = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={GEMINI_API_KEY}"
 
 def generate_prompt_template(user_query, word_limit):
@@ -161,5 +161,5 @@ def read_root():
     return {"Hello": "World"}
 
 if __name__ == "__main__":
-    import uvicorn    
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8002)
