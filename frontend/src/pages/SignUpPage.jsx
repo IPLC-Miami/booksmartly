@@ -71,7 +71,7 @@ function SignUpPage() {
       if (userId != null) {
         const sendUserInfoToBackend = async (signUpData2) => {
           // console.log(signupData);
-          mutate.mutate(signUpData2, {
+          mutate(signUpData2, {
             onSuccess: (data) => {
               // console.log("User info successfully sent to backend:");
               setErrorMessage("");
