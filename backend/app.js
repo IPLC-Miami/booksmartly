@@ -55,16 +55,21 @@ app.use("/AiConsultation", AiConsultation);
 
 app.use(async (req, res, next) => {
   try {
-    const tokenExpiryTime = oauth2client.credentials.expiry_date;
-    const currentTime = Date.now();
-    if (!tokenExpiryTime || tokenExpiryTime < currentTime) {
-      console.log("Access token expired, refreshing...");
-      await refreshAccessToken();
+    // Only attempt Google token refresh if we have credentials
+    if (oauth2client.credentials && oauth2client.credentials.access_token) {
+      const tokenExpiryTime = oauth2client.credentials.expiry_date;
+      const currentTime = Date.now();
+      if (!tokenExpiryTime || tokenExpiryTime < currentTime) {
+        console.log("Google access token expired, refreshing...");
+        await refreshAccessToken();
+      }
     }
+    // If no Google credentials, silently continue (Google Calendar is optional)
     next();
   } catch (error) {
-    console.error("Error checking or refreshing token:", error);
-    return res.status(500).json({ error: "Authentication error" });
+    console.error("Error checking or refreshing Google token:", error.message);
+    // Don't fail the request for Google token issues - just log and continue
+    next();
   }
 });
 // Routes

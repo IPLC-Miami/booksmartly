@@ -26,12 +26,18 @@ else{
 };
 async function refreshAccessToken() {
   try {
+    // Check if we have a refresh token before attempting refresh
+    if (!oauth2client.credentials || !oauth2client.credentials.refresh_token) {
+      console.log('No Google refresh token available - skipping refresh');
+      return;
+    }
+    
     const { credentials } = await oauth2client.refreshAccessToken();
     oauth2client.setCredentials(credentials);
     fs.writeFileSync(TOKEN_PATH, JSON.stringify(credentials, null, 2));
-    console.log('Access token refreshed and saved.');
+    console.log('Google access token refreshed and saved.');
   } catch (error) {
-    console.error('Error refreshing access token:', error.message);
+    console.error('Error refreshing Google access token:', error.message);
   }
 }
 oauth2client.on('tokens', (tokens) => {
