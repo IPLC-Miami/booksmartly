@@ -31,7 +31,7 @@ export async function getClinicianSlots(date, specialization, userId, mode) {
   // const date = appointmentData.date;
 
   const response = await fetch(
-    `${API_URL}/api/clinicians/availableSlots2/${userId}?specialization=${specialization}&date=${date}&mode=${mode}`,
+    `${API_URL}/clinicians/availableSlots2/${userId}?specialization=${specialization}&date=${date}&mode=${mode}`,
     {
       method: "GET",
       headers: {
@@ -46,7 +46,7 @@ export async function getClinicianSlots(date, specialization, userId, mode) {
   return data;
 }
 export async function getProfileDetails(userId) {
-  const response = await fetch(`${API_URL}/api/users/userById/${userId}`);
+  const response = await fetch(`${API_URL}/users/userById/${userId}`);
   if (!response.ok) {
     throw new Error(`Error: ${response.status} ${response.statusText}`);
   }
@@ -55,7 +55,7 @@ export async function getProfileDetails(userId) {
 }
 export async function getClinicianDetails(clinicianId) {
   const response = await fetch(
-    `${API_URL}/api/clinicians/clinicianDetailsById/${clinicianId}`,
+    `${API_URL}/clinicians/clinicianDetailsById/${clinicianId}`,
   );
   if (!response.ok) {
     throw new Error(`Error: ${response.status} ${response.statusText}`);
@@ -69,7 +69,7 @@ export async function getClinicianAvailability(clinicianId) {
 }
 export async function deleteAppointment(appointmentId) {
   const response = await fetch(
-    `${API_URL}/api/appointments/delete/${appointmentId}`,
+    `${API_URL}/appointments/delete/${appointmentId}`,
     {
       method: "DELETE",
     },
@@ -85,7 +85,7 @@ export async function getPatientAppointments(patientId) {
   const today = new Date().toISOString().split("T")[0];
   try {
     const response = await fetch(
-      `${API_URL}/api/appointments/upcomingAppointments/${patientId}?date=${today}`,
+      `${API_URL}/appointments/upcomingAppointments/${patientId}?date=${today}`,
     );
     if (!response.ok) {
       throw new Error(`Error: ${response.status} ${response.statusText}`);
@@ -145,7 +145,7 @@ export async function getPatientAppointments(patientId) {
 export async function getPatientAppointmentHistory(patientId) {
   try {
     const response = await fetch(
-      `${API_URL}/api/appointments/completedAppointments/${patientId}`,
+      `${API_URL}/appointments/completedAppointments/${patientId}`,
     );
     if (!response.ok) {
       console.error(`Error: ${response.status} ${response.statusText}`);
@@ -210,7 +210,7 @@ export async function getQueueForClinician(clinicianId, selectedDate, selectedSl
 
   try {
     const response = await fetch(
-      `${API_URL}/api/appointments/clinicianUpcomingAppointments/${clinicianId}?date=${selectedDate}&endTime=${selectedSlot.end_time}&startTime=${selectedSlot.start_time}`, // Updated route
+      `${API_URL}/appointments/clinicianUpcomingAppointments/${clinicianId}?date=${selectedDate}&endTime=${selectedSlot.end_time}&startTime=${selectedSlot.start_time}`, // Updated route
     );
     if (!response.ok) {
       throw new Error(`Error: ${response.status} ${response.statusText}`);
@@ -249,7 +249,7 @@ export async function getQueueForClinician(clinicianId, selectedDate, selectedSl
 export async function getHistoryForClinician(clinicianId) { // Renamed
   try {
     const response = await fetch(
-      `${API_URL}/api/appointments/clinicianCompletedAppointments/${clinicianId}`, // Updated route
+      `${API_URL}/appointments/clinicianCompletedAppointments/${clinicianId}`, // Updated route
     );
     if (!response.ok) {
       console.error(`Error: ${response.status} ${response.statusText}`);
@@ -366,7 +366,7 @@ export async function getHistoryForClinician(clinicianId) { // Renamed
 export async function getPrescription(appointmentId) {
   try {
     const response = await fetch(
-      `${API_URL}/api/prescriptions/${appointmentId}`,
+      `${API_URL}/prescriptions/${appointmentId}`,
     );
     if (!response.ok) {
       throw new Error(`Error: ${response.status} ${response.statusText}`);
@@ -380,7 +380,7 @@ export async function getPrescription(appointmentId) {
 }
 
 export async function sendOtp(patientId) {
-  const response = await fetch(`${API_URL}/api/users/sendOtp/${patientId}`, {
+  const response = await fetch(`${API_URL}/users/sendOtp/${patientId}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -394,7 +394,7 @@ export async function sendOtp(patientId) {
 }
 export async function validateOtp(patientId, otp) {
   const response = await fetch(
-    `${API_URL}/api/users/validateOtp/${patientId}?otp=${otp}`,
+    `${API_URL}/users/validateOtp/${patientId}?otp=${otp}`,
     {
       method: "GET",
       headers: {
@@ -414,7 +414,7 @@ export async function postPrescription(prescriptionData) {
     medicines: prescriptionData.clinicianPrescription, // Updated
     clinicianNotes: prescriptionData.clinicianRemarks, // Updated
   };
-  const response = await fetch(`${API_URL}/api/prescriptions/generate`, {
+  const response = await fetch(`${API_URL}/prescriptions/generate`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -430,7 +430,7 @@ export async function postPrescription(prescriptionData) {
 
 export async function postFeedback(appointmentId, feedback, clinicianId) { // Renamed parameter
 
-  const response = await fetch(`${API_URL}/api/feedback/add/${appointmentId}`, {
+  const response = await fetch(`${API_URL}/feedback/add/${appointmentId}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -445,7 +445,7 @@ export async function postFeedback(appointmentId, feedback, clinicianId) { // Re
 }
 export async function postAppointmentStatus({ appointmentId, status }) {
   const response = await fetch(
-    `${API_URL}/api/appointments/updateStatus/${appointmentId}?status=${status}`,
+    `${API_URL}/appointments/updateStatus/${appointmentId}?status=${status}`,
     {
       method: "POST",
       headers: {
@@ -463,7 +463,7 @@ export async function postAppointmentStatus({ appointmentId, status }) {
 export async function postBookAppointment(bookingData) {
   const formData = bookingData.formData;
   const patientId = bookingData.patientId;
-  const response = await fetch(`${API_URL}/api/appointments/book/`, {
+  const response = await fetch(`${API_URL}/appointments/book/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -537,7 +537,7 @@ export async function logIn(loginData) {
 }
 
 export async function getUserRoleById(userId, accessToken) {
-  const response = await fetch(`${API_URL}/api/users/getRole/${userId}`, {
+  const response = await fetch(`${API_URL}/users/getRole/${userId}`, {
     method: "GET", // Use POST method to send data
     headers: {
       Authorization: `Bearer ${accessToken}`, // Send the token as part of the header
@@ -557,7 +557,7 @@ export async function getUserRoleById(userId, accessToken) {
 
 export async function signUpNewUser(userData) {
   try {
-    const apiUrl = `${API_URL}/api/users/addUserIfNotExist`;
+    const apiUrl = `${API_URL}/users/addUserIfNotExist`;
 
     const response = await fetch(apiUrl, {
       method: "POST",
@@ -605,7 +605,7 @@ export async function signUpNewUser(userData) {
 }
 
 export async function getUserDetailsByID(userId, accessToken) {
-  const response = await fetch(`${API_URL}/api/users/getUserById/${userId}`, {
+  const response = await fetch(`${API_URL}/users/getUserById/${userId}`, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${accessToken}`, // Send the token as part of the header
@@ -624,7 +624,7 @@ export async function updateUserDetailsById(
   accessToken,
   editedProfile,
 ) {
-  const response = await fetch(`${API_URL}/api/users/updateDetails/${userId}`, {
+  const response = await fetch(`${API_URL}/users/updateDetails/${userId}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -638,7 +638,7 @@ export async function updateUserDetailsById(
 }
 
 export async function updateUserProfilePicture(userId, accessToken, formData) {
-  const response = await fetch(`${API_URL}/api/uploadProfiles/upload`, {
+  const response = await fetch(`${API_URL}/uploadProfiles/upload`, {
     method: "POST",
     headers: {
       // "Content-Type": "application/json",
@@ -670,7 +670,7 @@ export async function chatBot(message) {
 
 export async function getClinicianProfileDetails(userId, accessToken) { // Renamed
   const response = await fetch(
-    `${API_URL}/api/clinicianProfileRoutes/getClinicianDetailsById/${userId}`, // Updated route
+    `${API_URL}/clinicianProfileRoutes/getClinicianDetailsById/${userId}`, // Updated route
     {
       method: "GET",
       headers: {
@@ -687,7 +687,7 @@ export async function getClinicianProfileDetails(userId, accessToken) { // Renam
 }
 
 export async function resetPassword(accessToken, new_password) {
-  const response = await fetch(`${API_URL}/api/users/updatePassword`, {
+  const response = await fetch(`${API_URL}/users/updatePassword`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -703,7 +703,7 @@ export async function resetPassword(accessToken, new_password) {
 }
 export async function getReceptionProfileDetails(userId, accessToken) {
   const response = await fetch(
-    `${API_URL}/api/receptionProfileRoutes/getReceptionDetailsById/${userId}`,
+    `${API_URL}/receptionProfileRoutes/getReceptionDetailsById/${userId}`,
     {
       method: "GET",
       headers: {
@@ -722,7 +722,7 @@ export async function getReceptionProfileDetails(userId, accessToken) {
 // Chat API functions
 export async function getChatMessages(appointmentId) {
   try {
-    const response = await fetch(`${API_URL}/api/chat/${appointmentId}`, {
+    const response = await fetch(`${API_URL}/chat/${appointmentId}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -744,7 +744,7 @@ export async function getChatMessages(appointmentId) {
 
 export async function sendChatMessage(messageData) {
   try {
-    const response = await fetch(`${API_URL}/api/chat/send`, {
+    const response = await fetch(`${API_URL}/chat/send`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -767,7 +767,7 @@ export async function sendChatMessage(messageData) {
 
 export async function getChatParticipants(appointmentId) {
   try {
-    const response = await fetch(`${API_URL}/api/chat/${appointmentId}/participants`, {
+    const response = await fetch(`${API_URL}/chat/${appointmentId}/participants`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

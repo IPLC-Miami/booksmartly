@@ -30,7 +30,7 @@ export function useGetCurrentUser() {
           const accessToken = session.access_token;
           
           // Use the backend API that handles multi-role system
-          const response = await fetch(`${API_URL}/api/users/userById/${userId}`, {
+          const response = await fetch(`${API_URL}/users/userById/${userId}`, {
             method: 'GET',
             headers: {
               'Authorization': `Bearer ${accessToken}`,
