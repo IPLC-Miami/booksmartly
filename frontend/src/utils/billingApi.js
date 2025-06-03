@@ -3,7 +3,7 @@ const API_URL = import.meta.env.VITE_API_BASE_URL;
 // Create invoice
 export async function createInvoice(invoiceData) {
   try {
-    const response = await fetch(`${API_URL}/api/billing/create-invoice`, {
+    const response = await fetch(`${API_URL}/billing/create-invoice`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -27,7 +27,7 @@ export async function createInvoice(invoiceData) {
 // Create Stripe checkout session
 export async function createCheckoutSession(invoiceId) {
   try {
-    const response = await fetch(`${API_URL}/api/billing/create-session`, {
+    const response = await fetch(`${API_URL}/billing/create-session`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -58,7 +58,7 @@ export async function getClinicianInvoices(clinicianId, filters = {}) {
     if (filters.offset) queryParams.append("offset", filters.offset);
 
     const response = await fetch(
-      `${API_URL}/api/billing/clinician/${clinicianId}?${queryParams}`,
+      `${API_URL}/billing/clinician/${clinicianId}?${queryParams}`,
       {
         method: "GET",
         headers: {
@@ -90,7 +90,7 @@ export async function getAllInvoices(filters = {}) {
     if (filters.search) queryParams.append("search", filters.search);
 
     const response = await fetch(
-      `${API_URL}/api/billing/all?${queryParams}`,
+      `${API_URL}/billing/all?${queryParams}`,
       {
         method: "GET",
         headers: {
@@ -115,7 +115,7 @@ export async function getAllInvoices(filters = {}) {
 export async function updateInvoiceStatus(invoiceId, status) {
   try {
     const response = await fetch(
-      `${API_URL}/api/billing/update-status/${invoiceId}`,
+      `${API_URL}/billing/update-status/${invoiceId}`,
       {
         method: "PUT",
         headers: {

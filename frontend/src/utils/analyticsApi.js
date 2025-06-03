@@ -10,7 +10,7 @@ export async function getAppointmentsPerClinician(filters = {}) {
     if (filters.status) queryParams.append("status", filters.status);
 
     const response = await fetch(
-      `${API_URL}/api/analytics/appointments-per-clinician?${queryParams}`,
+      `${API_URL}/analytics/appointments-per-clinician?${queryParams}`,
       {
         method: "GET",
         headers: {
@@ -42,7 +42,7 @@ export async function getRevenueAnalytics(filters = {}) {
     if (filters.clinicianId) queryParams.append("clinicianId", filters.clinicianId);
 
     const response = await fetch(
-      `${API_URL}/api/analytics/revenue?${queryParams}`,
+      `${API_URL}/analytics/revenue?${queryParams}`,
       {
         method: "GET",
         headers: {
@@ -73,7 +73,7 @@ export async function getPatientDemographics(filters = {}) {
     if (filters.clinicianId) queryParams.append("clinicianId", filters.clinicianId);
 
     const response = await fetch(
-      `${API_URL}/api/analytics/patient-demographics?${queryParams}`,
+      `${API_URL}/analytics/patient-demographics?${queryParams}`,
       {
         method: "GET",
         headers: {
@@ -105,7 +105,7 @@ export async function getAppointmentTrends(filters = {}) {
     if (filters.clinicianId) queryParams.append("clinicianId", filters.clinicianId);
 
     const response = await fetch(
-      `${API_URL}/api/analytics/appointment-trends?${queryParams}`,
+      `${API_URL}/analytics/appointment-trends?${queryParams}`,
       {
         method: "GET",
         headers: {
@@ -136,7 +136,7 @@ export async function getDashboardSummary(filters = {}) {
     if (filters.clinicianId) queryParams.append("clinicianId", filters.clinicianId);
 
     const response = await fetch(
-      `${API_URL}/api/analytics/dashboard-summary?${queryParams}`,
+      `${API_URL}/analytics/dashboard-summary?${queryParams}`,
       {
         method: "GET",
         headers: {
