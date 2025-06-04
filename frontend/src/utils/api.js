@@ -520,20 +520,38 @@ export async function getClinicianType(healthIssue) { // Renamed
 export async function logIn(loginData) {
   const { email, password } = loginData;
 
-  // try {
-  const { error, data } = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  });
-  // }
+  try {
+    // Create a timeout promise
+    const timeoutPromise = new Promise((_, reject) => {
+      setTimeout(() => reject(new Error("Auth timeout")), 30000); // 30 second timeout
+    });
 
-  if (error) {
-    // Throw an error to tigger onError
+    // Race between auth call and timeout
+    const authPromise = supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    const { error, data } = await Promise.race([authPromise, timeoutPromise]);
+
+    if (error) {
+      console.error("Supabase auth error:", error);
+      throw new Error(error.message || "Login failed");
+    }
+
+    if (!data || !data.user) {
+      throw new Error("Invalid login response");
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Login error:", error);
+    // Re-throw with more specific error message
+    if (error.message === "Auth timeout") {
+      throw new Error("Authentication request timed out. Please check your connection and try again.");
+    }
     throw new Error(error.message || "Login failed");
   }
-  return data;
-
-  // return data;
 }
 
 export async function getUserRoleById(userId, accessToken) {

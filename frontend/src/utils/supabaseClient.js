@@ -24,6 +24,12 @@ export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
   global: {
     headers: {
       'X-Client-Info': 'booksmartly-frontend'
+    },
+    fetch: (url, options = {}) => {
+      return fetch(url, {
+        ...options,
+        signal: AbortSignal.timeout(30000) // 30 second timeout
+      });
     }
   }
 });
