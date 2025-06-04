@@ -720,148 +720,6 @@ router.put("/updateDetails/:id", verifyToken, async (req, res) => {
   }
 });
 
-router.get("/getRole/:userId", verifyToken, async (req, res) => {
-  const { userId } = req.params;
-
-  if (!userId) {
-    return res.status(400).json({ error: 'User ID required' });
-  }
-
-  const cacheKey = `role:${userId}`;
-
-  // 1) Try Redis cache first
-  try {
-    const cachedRoleInfo = await getCache(cacheKey);
-    if (cachedRoleInfo) {
-      // console.log(`[Cache HIT] Role for ${userId}:`, cachedRoleInfo);
-      return res.json(cachedRoleInfo); // Return the cached object directly
-    }
-  } catch (redisErr) {
-    console.error(`Redis GET error for ${cacheKey}:`, redisErr.message);
-    // Fall through to Supabase lookup if Redis fails
-  }
-
-  // 2) Supabase lookup
-  try {
-    const supabaseServiceUrl = process.env.SUPABASE_URL;
-    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-    if (!supabaseServiceUrl || !supabaseServiceKey) {
-      console.error("Supabase service account credentials not found in .env for role lookup.");
-      return res.status(500).json({ error: "Server configuration error for role lookup." });
-    }
-    const supabaseService = createSupabaseClient(supabaseServiceUrl, supabaseServiceKey);
-
-    let roleInfo = null;
-    let authUserEmail = '';
-    let authUserName = 'Unknown User';
-
-    // Fetch auth user details once
-    const { data: authUser, error: authUserError } = await supabaseService.auth.admin.getUserById(userId);
-
-    if (authUserError && authUserError.status !== 404) {
-        console.error(`Error fetching auth user ${userId}:`, authUserError.message);
-        // Potentially return 500 if auth user fetch fails critically
-    }
-    if (authUser?.user) {
-        authUserEmail = authUser.user.email || '';
-        if (authUser.user.user_metadata) {
-            authUserName = authUser.user.user_metadata.full_name || authUser.user.user_metadata.name || authUserEmail;
-        } else {
-            authUserName = authUserEmail;
-        }
-    } else {
-         // If authUser is not found, we cannot determine role for clinician or client based on user_id link
-        console.warn(`Auth user not found for userId: ${userId}. Cannot determine role through clinicians or clients table directly.`);
-        // Attempt to find by email for reception if userId itself is not an auth.users.id
-    }
-
-    // (A) Check clinicians2 table
-    if (authUser?.user) { // Only check if we have a valid auth.user to link with
-        const { data: clinicianRow, error: cliErr } = await supabaseService
-          .from('clinicians2')
-          // Select only 'specialty' as 'name' is not in clinicians2 and 'user_id' is already used in eq.
-          // Name will be derived from auth.users.user_metadata or email.
-          .select('specialty')
-          .eq('user_id', userId)
-          .single();
-
-        if (cliErr && cliErr.code !== 'PGRST116') { // PGRST116: no rows found
-            console.error('Supabase error fetching from clinicians2:', cliErr.message);
-        }
-        if (clinicianRow) {
-          roleInfo = {
-            id: userId,
-            email: authUserEmail,
-            role: 'clinician',
-            name: authUserName, // Use name from auth.users
-            specialty: clinicianRow.specialty
-          };
-        }
-    }
-
-    // (B) Check reception table if not found as clinician
-    // Receptions are identified by email match, as 'receptions' table has no 'user_id' FK to auth.users
-    if (!roleInfo && authUserEmail) { // Check only if we have an email to match
-      const { data: receptionRow, error: recErr } = await supabaseService
-        .from('receptions')
-        .select('name, email') // 'name' and 'email' exist in receptions table
-        .eq('email', authUserEmail) // Match by email
-        .single();
-
-      if (recErr && recErr.code !== 'PGRST116') {
-        console.error('Supabase error fetching from receptions by email:', recErr.message);
-      }
-      if (receptionRow) {
-        roleInfo = {
-          id: userId, // The original userId from auth
-          email: receptionRow.email, // Email from receptions table
-          name: receptionRow.name,   // Name from receptions table
-          role: 'reception'
-        };
-      }
-    }
-
-    // (C) Check clients table if not found yet
-    if (!roleInfo && authUser?.user) { // Only check if we have a valid auth.user to link with
-      const { data: clientRow, error: clientErrSupabase } = await supabaseService
-        .from('clients')
-        .select('first_name, last_name, email') // These columns exist in clients table
-        .eq('user_id', userId)
-        .single();
-      if (clientErrSupabase && clientErrSupabase.code !== 'PGRST116') {
-        console.error('Supabase error fetching from clients:', clientErrSupabase.message);
-      }
-      if (clientRow) {
-        roleInfo = {
-          id: userId,
-          email: clientRow.email || authUserEmail,
-          role: 'client',
-          first_name: clientRow.first_name,
-          last_name: clientRow.last_name,
-          name: `${clientRow.first_name || ''} ${clientRow.last_name || ''}`.trim() || authUserName
-        };
-      }
-    }
-
-    if (roleInfo) {
-      try {
-        await setCache(cacheKey, roleInfo, 60);
-      } catch (rcErr) {
-        console.error(`Redis SET error for ${cacheKey}:`, rcErr.message);
-      }
-      return res.json(roleInfo);
-    }
-
-    // (D) Not found in any relevant table or auth user itself not found
-    return res.status(404).json({ error: 'User record not found or role cannot be determined' });
-
-  } catch (err) {
-    console.error(`Error in /getRole/${userId} Supabase lookup:`, err.message);
-    return res.status(500).json({ error: err.message || 'Server error in role lookup' });
-  }
-});
-
 // ADD: Explicit /getRole/:id route to match frontend expectations (will be mounted as /api/users/getRole/:id)
 router.get("/getRole/:id", verifyToken, async (req, res) => {
   const { id } = req.params;
@@ -889,272 +747,42 @@ router.get("/getRole/:id", verifyToken, async (req, res) => {
 
     if (!supabaseServiceUrl || !supabaseServiceKey) {
       console.error("Supabase service account credentials not found in .env for role lookup.");
-      return res.status(500).json({ error: "Server configuration error for role lookup." });
-    }
-    const supabaseService = createSupabaseClient(supabaseServiceUrl, supabaseServiceKey);
-
-    let roleInfo = null;
-    let authUserEmail = '';
-    let authUserName = 'Unknown User';
-
-    // Fetch auth user details once
-    const { data: authUser, error: authUserError } = await supabaseService.auth.admin.getUserById(id);
-
-    if (authUserError && authUserError.status !== 404) {
-        console.error(`Error fetching auth user ${id}:`, authUserError.message);
-    }
-    if (authUser?.user) {
-        authUserEmail = authUser.user.email || '';
-        if (authUser.user.user_metadata) {
-            authUserName = authUser.user.user_metadata.full_name || authUser.user.user_metadata.name || authUserEmail;
-        } else {
-            authUserName = authUserEmail;
-        }
-    } else {
-        console.warn(`Auth user not found for userId: ${id}. Cannot determine role through clinicians or clients table directly.`);
+      return res.status(500).json({ error: 'Server configuration error' });
     }
 
-    // (A) Check clinicians2 table
-    if (authUser?.user) {
-        const { data: clinicianRow, error: cliErr } = await supabaseService
-          .from('clinicians2')
-          .select('specialty')
-          .eq('user_id', id)
-          .single();
+    const serviceSupabase = createSupabaseClient(supabaseServiceUrl, supabaseServiceKey);
 
-        if (cliErr && cliErr.code !== 'PGRST116') {
-            console.error('Supabase error fetching from clinicians2:', cliErr.message);
-        }
-        if (clinicianRow) {
-          roleInfo = {
-            id: id,
-            email: authUserEmail,
-            role: 'clinician',
-            name: authUserName,
-            specialty: clinicianRow.specialty
-          };
-        }
-    }
-
-    // (B) Check reception table if not found as clinician
-    if (!roleInfo && authUserEmail) {
-      const { data: receptionRow, error: recErr } = await supabaseService
-        .from('receptions')
-        .select('name, email')
-        .eq('email', authUserEmail)
-        .single();
-
-      if (recErr && recErr.code !== 'PGRST116') {
-        console.error('Supabase error fetching from receptions by email:', recErr.message);
-      }
-      if (receptionRow) {
-        roleInfo = {
-          id: id,
-          email: receptionRow.email,
-          name: receptionRow.name,
-          role: 'reception'
-        };
-      }
-    }
-
-    // (C) Check clients table if not found yet
-    if (!roleInfo && authUser?.user) {
-      const { data: clientRow, error: clientErrSupabase } = await supabaseService
-        .from('clients')
-        .select('first_name, last_name, email')
-        .eq('user_id', id)
-        .single();
-      if (clientErrSupabase && clientErrSupabase.code !== 'PGRST116') {
-        console.error('Supabase error fetching from clients:', clientErrSupabase.message);
-      }
-      if (clientRow) {
-        roleInfo = {
-          id: id,
-          email: clientRow.email || authUserEmail,
-          role: 'client',
-          first_name: clientRow.first_name,
-          last_name: clientRow.last_name,
-          name: `${clientRow.first_name || ''} ${clientRow.last_name || ''}`.trim() || authUserName
-        };
-      }
-    }
-
-    if (roleInfo) {
-      try {
-        await setCache(cacheKey, roleInfo, 60);
-      } catch (rcErr) {
-        console.error(`Redis SET error for ${cacheKey}:`, rcErr.message);
-      }
-      return res.json(roleInfo);
-    }
-
-    return res.status(404).json({ error: 'User record not found or role cannot be determined' });
-
-  } catch (err) {
-    console.error(`Error in /api/users/getRole/${id} Supabase lookup:`, err.message);
-    return res.status(500).json({ error: err.message || 'Server error in role lookup' });
-  }
-});
-
-router.post("/sendResetPasswordEmail", async (req, res) => {
-  // console.log("hhhhhh", req.params);
-  const { email } = req.body;
-  console.log(email);
-  console.log(req.body);
-  console.log("in updatePasswordEmail", email);
-
-  if (!email) {
-    console.log(" email not found");
-    return "Email not found";
-  }
-  try {
-    const url = `${frontend_url}BookSmartly/user/resetPassword/`;
-    console.log(url);
-    const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${frontend_url}BookSmartly/user/resetPassword/`,
-    });
-
-    if (error) {
-      console.log(error);
-      // console.log(data);
-      throw error;
-    }
-    // console.log(data);
-    return res.json({ data });
-  } catch (error) {
-    res.status(500).json({ error: "Server error" });
-  }
-});
-
-router.post("/updatePassword", verifyToken, async (req, res) => {
-  // console.log("hhhhhh", req.params);
-  const { new_password } = req.body;
-  const password = new_password;
-  console.log("22222222222222222222222222222222", password);
-  console.log(req.body);
-  console.log("in updatePassword", password);
-
-  if (!password) {
-    console.log("password cannot be null");
-    return "password cannot be null";
-  }
-  try {
-    const { data, error } = await supabase.auth.updateUser({
-      password: password,
-    });
-
-    if (error) {
-      console.log(error);
-      // console.log(data);
-      throw error;
-    }
-    // console.log(data);
-    return res.json({ data });
-  } catch (error) {
-    res.status(500).json({ error: "Server error" });
-    return { error: error.message };
-  }
-});
-
-router.post("/validateQR", async (req, res) => {
-  try {
-    const { qr_code, appointmentId } = req.body;
-    console.log("in validateQrbackend", req.body);
-
-    if (!qr_code || !appointmentId) {
-      return res
-        .status(400)
-        .json({ error: "QR code and appointmentId are required" });
-    }
-
-    // 1. Get the appointment record to retrieve the doctor_id
-    let { data: appointment, error: appointmentError } = await supabase
-      .from("appointments2")
-      .select("clinician_id") // Changed doctor_id to clinician_id
-      .eq("id", appointmentId)
-      .single();
-
-    if (appointmentError || !appointment) {
-      return res.status(400).json({ error: "Appointment not found" });
-    }
-
-    const clinicianId = appointment.clinician_id; // Changed doctorId to clinicianId
-
-    // 2. Get the clinician record to retrieve the reception_id
-    let { data: clinicianRecord, error: clinicianError } = await supabase // Renamed doctor to clinicianRecord
-      .from("clinicians2") // Changed doctors2 to clinicians2
-      .select("reception_id")
-      .eq("id", clinicianId) // Changed doctorId to clinicianId
-      .single();
-
-    if (clinicianError || !clinicianRecord) { // Renamed doctorError and doctor
-      return res.status(400).json({ error: "Clinician not found" }); // Changed message
-    }
-
-    const receptionId = clinicianRecord.reception_id; // Renamed doctor to clinicianRecord
-
-    // 3. Get the reception record to retrieve the stored qr code
-    let { data: reception, error: receptionError } = await supabase
-      .from("receptions") // Changed reception to receptions
-      .select("qrcode")
-      .eq("id", receptionId)
-      .single();
-
-    if (receptionError || !reception) {
-      return res.status(400).json({ error: "Reception not found" });
-    }
-
-    // 4. Validate the QR code: check if the provided code matches the stored one
-    if (qr_code === reception.qrcode) {
-      // 5. Update the appointment's checkin column to true
-      let { data: updatedAppointment, error: updateError } = await supabase
-        .from("appointments2")
-        .update({ checked_in_status: true })
-        .eq("id", appointmentId);
-
-      if (updateError) {
-        return res.status(500).json({
-          error: "Failed to update appointment",
-          details: updateError.message,
-        });
-      }
-
-      return res.status(200).json({ message: "Check-in successful" });
-    } else {
-      return res.status(400).json({ error: "Invalid QR code" });
-    }
-  } catch (err) {
-    console.error("Error in /validateQR:", err);
-    return res.status(500).json({ error: "Internal server error" });
-  }
-});
-
-// GET /getUserRole - Cookie-based authentication endpoint
-router.get("/getUserRole", verifyToken, async (req, res) => {
-  try {
-    const userId = req.user.id;
-    
-    // Use helper function to get user profile and determine role
-    const { data: profile, error: profileError } = await getUserProfile(userId);
+    // Use helper function to get user profile
+    const { data: profile, error: profileError } = await getUserProfile(id);
     
     if (profileError) {
-      console.log(profileError);
       return res.status(500).json({ error: "Profile fetch failed" });
     }
     
     if (!profile) {
-      return res.status(404).json({ error: "User not found" });
+      return res.status(404).json({ error: "User profile not found" });
     }
-    
-    // Return role data in the expected format
-    const data = [{ role: profile.role || profile.user_type }];
-    console.log("User role retrieved:", data);
-    return res.json({ data });
-  } catch (error) {
-    console.error("Error getting user role:", error);
-    res.status(500).json({ error: "Server error" });
+
+    const roleInfo = {
+      role: profile.role || profile.user_type,
+      user_type: profile.user_type,
+      id: profile.id,
+      name: profile.name,
+      email: profile.email
+    };
+
+    // 3) Cache the result for 5 minutes
+    try {
+      await setCache(cacheKey, roleInfo, 300);
+    } catch (redisErr) {
+      console.error(`Redis SET error for ${cacheKey}:`, redisErr.message);
+    }
+
+    return res.json(roleInfo);
+  } catch (err) {
+    console.error("Error in getRole:", err);
+    return res.status(500).json({ error: "Internal server error" });
   }
 });
 
 module.exports = router;
-
