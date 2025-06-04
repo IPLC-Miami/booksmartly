@@ -44,7 +44,7 @@ export async function getClinicianSlots(date, specialization, userId, mode) {
   return data;
 }
 export async function getProfileDetails(userId) {
-  const response = await authenticatedFetch(`${API_URL}/users/userById/${userId}`);
+  const response = await authenticatedFetch(`${API_URL}/users/getUserById/${userId}`);
   if (!response.ok) {
     throw new Error(`Error: ${response.status} ${response.statusText}`);
   }
