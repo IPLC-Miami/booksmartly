@@ -16,12 +16,10 @@ function Dashboard() {
   const navigate = useNavigate();
 
   // Use proper Supabase session handling
-  const { user: currentUser, loading: userLoading, error: userError } = useGetCurrentUser();
+  const { user: currentUser, session, loading: userLoading, error: userError } = useGetCurrentUser();
   
-  // Get token from localStorage for API calls (but don't rely on it for auth)
-  const tokenString = localStorage.getItem("sb-itbxttkivivyeqnduxjb-auth-token");
-  const token = tokenString ? JSON.parse(tokenString) : null;
-  const accessToken = token?.access_token;
+  // Get access token from Supabase session
+  const accessToken = session?.access_token;
   
   const { data: dataRole, isLoading: roleLoading, error: roleError } = useUserRoleById(userId, accessToken);
 

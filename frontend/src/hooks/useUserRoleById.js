@@ -3,27 +3,16 @@ import { useQuery } from "@tanstack/react-query";
 // import { getDoctorSlots } from "../utils/api";
 import { getUserRoleById } from "../utils/api";
 export default function useUserRoleById(userId, token) {
-  // TEMP: Skip role query to fix timeout - return no role immediately
-  return {
-    isLoading: false,
-    data: null,
-    error: null,
-    status: 'success',
-    refetch: () => {},
-    isFetching: false
-  };
-  
-  // ORIGINAL CODE COMMENTED OUT TO FIX TIMEOUT
-  /*
   const { isLoading, data, error, status, refetch, isFetching } = useQuery({
     queryKey: ["UserRole", userId],
     queryFn: () => {
-      if (userId) return getUserRoleById(userId, token);
+      if (userId && token) return getUserRoleById(userId, token);
       return null;
     },
-    staleTime: 1000 * 1, // 1 second
+    enabled: !!(userId && token), // Only run query when both userId and token are available
+    staleTime: 1000 * 60 * 5, // 5 minutes
+    retry: 3,
   });
   return { isLoading, data, error, status, refetch, isFetching };
-  */
 }
 

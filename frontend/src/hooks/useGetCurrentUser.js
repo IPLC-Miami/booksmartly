@@ -14,16 +14,17 @@ export function useGetCurrentUser() {
   // ORIGINAL CODE COMMENTED OUT TO FIX TIMEOUT
   // /*
   const [user, setUser] = useState(null);
+  const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     let mounted = true;
 
-    async function fetchUserProfile(session) {
+    async function fetchUserProfile(sessionData) {
       try {
-        const userId = session.user.id;
-        const accessToken = session.access_token;
+        const userId = sessionData.user.id;
+        const accessToken = sessionData.access_token;
         
         // Use the backend API that handles multi-role system
         const response = await fetch(`${API_URL}/users/userById/${userId}`, {
@@ -42,6 +43,7 @@ export function useGetCurrentUser() {
         
         if (mounted) {
           setUser(profile);
+          setSession(sessionData);
           setError(null);
         }
       } catch (err) {
@@ -49,6 +51,7 @@ export function useGetCurrentUser() {
         if (mounted) {
           setError(err);
           setUser(null);
+          setSession(sessionData); // Still set session even if profile fetch fails
         }
       }
     }
@@ -73,6 +76,7 @@ export function useGetCurrentUser() {
         } else {
           if (mounted) {
             setUser(null);
+            setSession(null);
             setError(null);
           }
         }
@@ -107,6 +111,7 @@ export function useGetCurrentUser() {
         } else if (event === 'SIGNED_OUT' || !session) {
           if (mounted) {
             setUser(null);
+            setSession(null);
             setError(null);
             setLoading(false);
           }
@@ -123,6 +128,6 @@ export function useGetCurrentUser() {
     };
   }, []);
 
-  return { user, loading, error };
+  return { user, session, loading, error };
   // */
 }
