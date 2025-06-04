@@ -2,6 +2,7 @@ import { Navigate, Outlet } from "react-router-dom";
 import { useState, useEffect } from "react";
 import useUserRoleById from "../hooks/useUserRoleById";
 import { useGetCurrentUser } from "../hooks/useGetCurrentUser";
+import { getCurrentSession } from "./authHelper";
 import { toast } from "sonner";
 
 /**
@@ -20,12 +21,28 @@ function EnhancedProtectedRoute({ allowedRoles = [], redirectTo = "/login", chil
   // Use proper Supabase session handling
   const { user: currentUser, loading: userLoading, error: userError } = useGetCurrentUser();
   
-  // Get token from localStorage for API calls (but don't rely on it for auth)
-  const tokenString = localStorage.getItem("sb-itbxttkivivyeqnduxjb-auth-token");
-  const token = tokenString ? JSON.parse(tokenString) : null;
-  const accessToken = token?.access_token;
+  // Get access token using centralized auth helper
+  const [accessToken, setAccessToken] = useState(null);
 
   const { data: dataRole, isLoading: roleLoading, error: roleError } = useUserRoleById(userId, accessToken);
+
+  // Get access token when component mounts or user changes
+  useEffect(() => {
+    const getToken = async () => {
+      try {
+        const session = await getCurrentSession();
+        if (session?.access_token) {
+          setAccessToken(session.access_token);
+        }
+      } catch (error) {
+        console.error('Error getting access token:', error);
+      }
+    };
+    
+    if (currentUser) {
+      getToken();
+    }
+  }, [currentUser]);
 
   // Set userId when user data is available from Supabase session
   useEffect(() => {
