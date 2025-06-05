@@ -1,70 +1,56 @@
-import { supabase } from './supabaseClient';
+import { supabase } from "../config/supabaseClient";
 
 /**
- * Get the current session and access token
- * @returns {Promise<{session: object|null, accessToken: string|null}>}
+ * AUTHENTICATION DISABLED - ALL FUNCTIONS RETURN NULL/EMPTY VALUES
+ * This file has been modified to disable authentication while maintaining API compatibility
  */
-export async function getCurrentSession() {
-  try {
-    const { data: { session }, error } = await supabase.auth.getSession();
-    
-    if (error) {
-      console.error('Error getting session:', error);
-      return { session: null, accessToken: null };
-    }
-    
-    return {
-      session,
-      accessToken: session?.access_token || null
-    };
-  } catch (error) {
-    console.error('Error in getCurrentSession:', error);
-    return { session: null, accessToken: null };
-  }
-}
 
 /**
- * Get authentication headers for API calls
- * @returns {Promise<object>} Headers object with Authorization if token exists
+ * Get current session - DISABLED
+ * @returns {Promise<null>} Always returns null (no session)
  */
-export async function getAuthHeaders() {
-  const { accessToken } = await getCurrentSession();
-  
-  const headers = {
-    'Content-Type': 'application/json',
-  };
-  
-  if (accessToken) {
-    headers['Authorization'] = `Bearer ${accessToken}`;
-  }
-  
-  return headers;
-}
+export const getCurrentSession = async () => {
+  // Authentication disabled - return null session
+  return null;
+};
 
 /**
- * Make an authenticated fetch request
+ * Get authentication headers - DISABLED
+ * @returns {Object} Empty headers object
+ */
+export const getAuthHeaders = () => {
+  // Authentication disabled - return empty headers
+  return {};
+};
+
+/**
+ * Make authenticated fetch request - DISABLED AUTH
  * @param {string} url - The URL to fetch
- * @param {object} options - Fetch options
- * @returns {Promise<Response>} Fetch response
+ * @param {Object} options - Fetch options
+ * @returns {Promise<Response>} Fetch response without auth headers
  */
-export async function authenticatedFetch(url, options = {}) {
-  const authHeaders = await getAuthHeaders();
-  
-  return fetch(url, {
+export const authenticatedFetch = async (url, options = {}) => {
+  // Authentication disabled - make regular fetch without auth headers
+  const fetchOptions = {
     ...options,
     headers: {
-      ...authHeaders,
+      'Content-Type': 'application/json',
       ...options.headers,
+      // No auth headers added
     },
-    credentials: 'include', // Include cookies for additional auth support
-  });
-}
+  };
+
+  return fetch(url, fetchOptions);
+};
 
 /**
- * Get the current user ID from session
- * @returns {Promise<string|null>} User ID or null
+ * Get current user ID - DISABLED
+ * @returns {Promise<null>} Always returns null (no user)
  */
-export async function getCurrentUserId() {
-  const { session } = await getCurrentSession();
-  return session?.user?.id || null;
-}
+export const getCurrentUserId = async () => {
+  // Authentication disabled - return null user ID
+  return null;
+};
+
+// Export original supabase client for other non-auth uses if needed
+export { supabase };
