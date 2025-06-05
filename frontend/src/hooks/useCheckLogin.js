@@ -1,17 +1,31 @@
 import { useMutation } from "@tanstack/react-query";
-import { logIn } from "../utils/api";
 
-export function useCheckLogin() {
-  // const queryClient = useQueryClient();
-  const mutate = useMutation({
-    mutationFn: logIn,
+/**
+ * AUTHENTICATION DISABLED - LOGIN HOOK DISABLED
+ * This hook has been modified to disable login functionality while maintaining API compatibility
+ */
+
+const useCheckLogin = () => {
+  // Return a disabled mutation that always succeeds without doing anything
+  return useMutation({
+    mutationFn: async (credentials) => {
+      // Authentication disabled - return mock success response
+      console.log("Login disabled - authentication bypassed");
+      return {
+        success: true,
+        message: "Authentication disabled - access granted",
+        user: null
+      };
+    },
     onSuccess: (data) => {
-      // Success handled by calling component
+      // Authentication disabled - no actual login processing
+      console.log("Login hook called but authentication is disabled");
     },
     onError: (error) => {
-      console.error("Error logging in", error);
-    },
+      // Authentication disabled - should not reach here
+      console.log("Login error handler called but authentication is disabled");
+    }
   });
-  return { mutate };
-}
+};
 
+export default useCheckLogin;
