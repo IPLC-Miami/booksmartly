@@ -1,12 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const supabase = require("../config/supabaseClient");
-const verifyToken = require("../config/verifyToken");
+// AUTHENTICATION DISABLED: Removed verifyToken import
 const { getCache, setCache } = require("../config/redisClient");
 const ExcelJS = require("exceljs");
 const fs = require("fs");
 const path = require("path");
-router.get("/getClinicianDetailsByAuthUserId/:authUserId", verifyToken, async (req, res) => { // Route expects auth.users.id
+router.get("/getClinicianDetailsByAuthUserId/:authUserId", async (req, res) => { // AUTHENTICATION DISABLED - Route expects auth.users.id
   try {
     console.time("API Call Time");
     const { authUserId } = req.params;
