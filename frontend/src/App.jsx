@@ -21,8 +21,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ResetPasswordEmailSent from "./pages/ResetPasswordEmailSent";
 import ResetPassword from "./pages/ResetPassword";
 import { ToastContainer } from "react-toastify";
-import ProtectedRoutes from "./utils/ProtectedRoutes";
-import EnhancedProtectedRoute from "./utils/EnhancedProtectedRoute";
+// Removed ProtectedRoutes and EnhancedProtectedRoute imports - NO AUTH
 import SingleFeaturePageChatbot from "./pages/SingleFeaturePageChatbot";
 import SingleFeaturePageMedSpecRec from "./pages/SingleFeaturePageMedSpecRec";
 import SingleFeaturePageFeedback from "./pages/SingleFeaturePageFeedback";
@@ -61,105 +60,52 @@ const router = createBrowserRouter(
           element: <AccountVerified />,
           errorElement: <ErrorPage />,
         },
-        // {
-        //   path: "/bookappointment",
-        //   element: <BookAppointment />,
-        //   // path: "/user/dashboard",
-        //   // element: <UserDashboard />,
-        //   errorElement: <ErrorPage />,
-        // },
-        // Protected routes with role-based access control
+        // ALL ROUTES NOW PUBLIC - NO AUTH REQUIRED
         {
-          element: <EnhancedProtectedRoute />,
-          children: [
-            // General dashboard - accessible to all authenticated users
-            {
-              path: "/user/dashboard",
-              element: <Dashboard />,
-              errorElement: <ErrorPage />,
-            },
-          ],
+          path: "/user/dashboard",
+          element: <Dashboard />,
+          errorElement: <ErrorPage />,
         },
-        // Client-only routes
         {
-          element: <EnhancedProtectedRoute allowedRoles={["PATIENT"]} />,
-          children: [
-            {
-              path: "/bookappointment",
-              element: <BookAppointment />,
-              errorElement: <ErrorPage />,
-            },
-            {
-              path: "/client-dashboard",
-              element: <ClientDashboardPage />,
-              errorElement: <ErrorPage />,
-            },
-          ],
+          path: "/bookappointment",
+          element: <BookAppointment />,
+          errorElement: <ErrorPage />,
         },
-        // Clinician-only routes
         {
-          element: <EnhancedProtectedRoute allowedRoles={["clinician"]} />,
-          children: [
-            {
-              path: "/clinician-dashboard",
-              element: <ClinicianDashboardPage />,
-              errorElement: <ErrorPage />,
-            },
-          ],
+          path: "/client-dashboard",
+          element: <ClientDashboardPage />,
+          errorElement: <ErrorPage />,
         },
-        // Reception-only routes
         {
-          element: <EnhancedProtectedRoute allowedRoles={["RECEPTION"]} />,
-          children: [
-            {
-              path: "/reception-dashboard",
-              element: <ReceptionDashboardPage />,
-              errorElement: <ErrorPage />,
-            },
-          ],
+          path: "/clinician-dashboard",
+          element: <ClinicianDashboardPage />,
+          errorElement: <ErrorPage />,
         },
-        // Clinician and Reception access routes (billing, analytics, chat)
         {
-          element: <EnhancedProtectedRoute allowedRoles={["clinician", "RECEPTION"]} />,
-          children: [
-            {
-              path: "/billing",
-              element: <BillingPage />,
-              errorElement: <ErrorPage />,
-            },
-            {
-              path: "/analytics",
-              element: <AnalyticsPage />,
-              errorElement: <ErrorPage />,
-            },
-            {
-              path: "/chat",
-              element: <ChatPage />,
-              errorElement: <ErrorPage />,
-            },
-          ],
+          path: "/reception-dashboard",
+          element: <ReceptionDashboardPage />,
+          errorElement: <ErrorPage />,
         },
-        // Profile route - accessible to all authenticated users
         {
-          element: <EnhancedProtectedRoute />,
-          children: [
-            {
-              path: "/profile",
-              element: <ProfilePage />,
-              errorElement: <ErrorPage />,
-            },
-          ],
+          path: "/billing",
+          element: <BillingPage />,
+          errorElement: <ErrorPage />,
         },
-        // {
-        //   path: "/user/dashboard",
-        //   element: <UserDashboard />,
-        //   errorElement: <ErrorPage />,
-        // },
-        // {
-        //   path: "/user/dashboard",
-        //   element: <UserDashboard />,
-        //   errorElement: <ErrorPage />,
-        // },
+        {
+          path: "/analytics",
+          element: <AnalyticsPage />,
+          errorElement: <ErrorPage />,
+        },
+        {
+          path: "/chat",
+          element: <ChatPage />,
+          errorElement: <ErrorPage />,
+        },
+        {
+          path: "/profile",
+          element: <ProfilePage />,
+          errorElement: <ErrorPage />,
+        },
         {
           path: "/user/resetPassword",
           element: <ForgotPassword />,
@@ -208,10 +154,6 @@ const router = createBrowserRouter(
       ],
     },
   ],
-  // Removed basename to work at root domain
-  // {
-  //   basename: "/BookSmartly",
-  // },
 );
 
 function App() {
@@ -236,4 +178,3 @@ function App() {
 }
 
 export default App;
-
