@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const supabase = require("../config/supabaseClient");
-const verifyToken = require("../config/verifyToken");
+// AUTHENTICATION DISABLED: Removed verifyToken import
 const { getCache, setCache } = require('../config/redisClient');
 const { createClient: createSupabaseClient } = require('@supabase/supabase-js'); // Renamed to avoid conflict if 'supabase' is used elsewhere for anon client
 // Removed problematic import - using verifyToken instead
@@ -640,7 +640,7 @@ router.post("/resend-verification", async (req, res) => {
     8)phone confirmed or not
 */
 
-router.get("/getUserById/:userId", verifyToken, async (req, res) => {
+router.get("/getUserById/:userId", async (req, res) => { // AUTHENTICATION DISABLED
   const { userId } = req.params;
 
   const id = userId;
@@ -666,7 +666,7 @@ router.get("/getUserById/:userId", verifyToken, async (req, res) => {
   }
 });
 
-router.put("/updateDetails/:id", verifyToken, async (req, res) => {
+router.put("/updateDetails/:id", async (req, res) => { // AUTHENTICATION DISABLED
   const id = req.params;
   const userId = id.id;
   console.log(userId);
@@ -721,7 +721,7 @@ router.put("/updateDetails/:id", verifyToken, async (req, res) => {
 });
 
 // ADD: Explicit /getRole/:id route to match frontend expectations (will be mounted as /api/users/getRole/:id)
-router.get("/getRole/:id", verifyToken, async (req, res) => {
+router.get("/getRole/:id", async (req, res) => { // AUTHENTICATION DISABLED
   const { id } = req.params;
 
   if (!id) {

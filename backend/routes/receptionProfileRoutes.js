@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const supabase = require("../config/supabaseClient");
-const verifyToken = require("../config/verifyToken");
+// AUTHENTICATION DISABLED: Removed verifyToken import
 const { getCache, setCache } = require("../config/redisClient");
 const { encrypt } = require("../services/encrypt");
 
@@ -11,8 +11,7 @@ const path = require("path");
 
 router.get(
   "/getReceptionDetailsById/:userId",
-  verifyToken,
-  async (req, res) => {
+  async (req, res) => { // AUTHENTICATION DISABLED
     try {
       console.time("API Call Time");
       console.log("Request body:", req.params);

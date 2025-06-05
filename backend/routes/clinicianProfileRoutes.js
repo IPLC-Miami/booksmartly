@@ -70,7 +70,7 @@ router.get("/getClinicianDetailsByAuthUserId/:authUserId", verifyToken, async (r
   }
 });
 
-router.get("/download/:clinicianTableId", verifyToken, async (req, res) => { // clinicianTableId is clinicians2.id
+router.get("/download/:clinicianTableId", async (req, res) => { // AUTHENTICATION DISABLED - clinicianTableId is clinicians2.id
   try {
     const { clinicianTableId } = req.params; // This is the auto-generated ID from clinicians2 table
     const date = new Date().toISOString().split("T")[0];
