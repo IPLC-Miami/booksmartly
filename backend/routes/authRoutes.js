@@ -80,7 +80,7 @@ async function determineUserRole(userId) {
   }
 }
 
-// POST /signin - Email/password authentication with role determination
+// POST /signin - AUTHENTICATION DISABLED: Always return mock success
 router.post('/signin', async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -89,62 +89,22 @@ router.post('/signin', async (req, res) => {
       return res.status(400).json({ error: 'Email and password are required' });
     }
 
-    // Authenticate with Supabase
-    const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
-      email,
-      password
-    });
-
-    if (authError) {
-      return res.status(401).json({ error: authError.message });
-    }
-
-    const user = authData.user;
-    const session = authData.session;
-
-    if (!user || !session) {
-      return res.status(401).json({ error: 'Authentication failed' });
-    }
-
-    // Determine user role and get profile data
-    const { role, profile } = await determineUserRole(user.id);
-
-    if (!role) {
-      return res.status(404).json({ error: 'User profile not found in any role table' });
-    }
-
-    // Set both session cookies (access token and refresh token)
-    const isProd = process.env.NODE_ENV === 'production';
-    const cookieOptions = {
-      httpOnly: true,
-      secure: isProd,
-      sameSite: 'lax',
-      path: '/'
-    };
-
-    // 1) Access token cookie
-    res.cookie('sb:token', session.access_token, {
-      ...cookieOptions,
-      maxAge: 60 * 60 * 1000 // 1 hour, match JWT expiry
-    });
-
-    // 2) Refresh token cookie
-    res.cookie('sb:refresh-token', session.refresh_token, {
-      ...cookieOptions,
-      maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days for refresh token
-    });
-
+    // AUTHENTICATION DISABLED: Return mock authentication data
     res.json({
-      message: 'Sign in successful',
+      message: 'Sign in successful (authentication disabled)',
       user: {
-        id: user.id,
-        email: user.email,
-        role,
-        profile
+        id: 'mock-user-id',
+        email: email,
+        role: 'admin',
+        profile: {
+          id: 'mock-profile-id',
+          name: 'Mock User',
+          email: email
+        }
       },
       session: {
-        access_token: session.access_token,
-        expires_at: session.expires_at
+        access_token: 'mock-access-token',
+        expires_at: Date.now() + (60 * 60 * 1000) // 1 hour from now
       }
     });
 
@@ -154,7 +114,7 @@ router.post('/signin', async (req, res) => {
   }
 });
 
-// POST /signup - Client registration only
+// POST /signup - AUTHENTICATION DISABLED: Always return mock success
 router.post('/signup', async (req, res) => {
   try {
     const { email, password, first_name, last_name, phone, date_of_birth, address } = req.body;
@@ -163,53 +123,22 @@ router.post('/signup', async (req, res) => {
       return res.status(400).json({ error: 'Email, password, first name, and last name are required' });
     }
 
-    // Create user in Supabase Auth
-    const { data: authData, error: authError } = await supabase.auth.signUp({
-      email,
-      password
-    });
-
-    if (authError) {
-      return res.status(400).json({ error: authError.message });
-    }
-
-    const user = authData.user;
-
-    if (!user) {
-      return res.status(400).json({ error: 'User creation failed' });
-    }
-
-    // Create client profile
-    const { data: clientData, error: clientError } = await supabaseAdmin
-      .from('clients')
-      .insert([{
-        user_id: user.id,
-        email: user.email,
-        first_name,
-        last_name,
-        phone: phone || null,
-        date_of_birth: date_of_birth || null,
-        address: address || null,
-        created_at: new Date().toISOString()
-      }])
-      .select()
-      .single();
-
-    if (clientError) {
-      // If client creation fails, we should clean up the auth user
-      await supabase.auth.admin.deleteUser(user.id);
-      return res.status(400).json({ error: 'Failed to create client profile' });
-    }
-
+    // AUTHENTICATION DISABLED: Return mock registration success
     res.status(201).json({
-      message: 'Client registration successful',
+      message: 'Client registration successful (authentication disabled)',
       user: {
-        id: user.id,
-        email: user.email,
+        id: 'mock-user-id',
+        email: email,
         role: 'client',
         profile: {
-          ...clientData,
-          name: `${first_name} ${last_name}`
+          id: 'mock-profile-id',
+          name: `${first_name} ${last_name}`,
+          email: email,
+          first_name,
+          last_name,
+          phone: phone || null,
+          date_of_birth: date_of_birth || null,
+          address: address || null
         }
       }
     });
@@ -220,14 +149,11 @@ router.post('/signup', async (req, res) => {
   }
 });
 
-// POST /signout - Clear session cookies
+// POST /signout - AUTHENTICATION DISABLED: Always return success
 router.post('/signout', async (req, res) => {
   try {
-    // Clear both session cookies
-    res.clearCookie('sb:token');
-    res.clearCookie('sb:refresh-token');
-    
-    res.json({ message: 'Sign out successful' });
+    // AUTHENTICATION DISABLED: No cookies to clear, just return success
+    res.json({ message: 'Sign out successful (authentication disabled)' });
   } catch (error) {
     console.error('Sign out error:', error);
     res.status(500).json({ error: 'Internal server error' });
