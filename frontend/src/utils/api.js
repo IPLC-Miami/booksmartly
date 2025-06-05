@@ -501,36 +501,49 @@ export async function logIn(loginData) {
   const { email, password } = loginData;
 
   try {
-    // Create a timeout promise
-    const timeoutPromise = new Promise((_, reject) => {
-      setTimeout(() => reject(new Error("Auth timeout")), 30000); // 30 second timeout
-    });
+    // AUTHENTICATION DISABLED - Return mock authentication data
+    console.log("Authentication disabled - returning mock login data for:", email);
+    
+    // Simulate a brief delay to mimic real authentication
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
+    // Return mock authentication data structure matching Supabase format
+    const mockData = {
+      user: {
+        id: "mock-user-id-12345",
+        email: email,
+        email_confirmed_at: new Date().toISOString(),
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+        user_metadata: {},
+        app_metadata: {},
+        aud: "authenticated",
+        role: "authenticated"
+      },
+      session: {
+        access_token: "mock-access-token-12345",
+        refresh_token: "mock-refresh-token-12345",
+        expires_in: 3600,
+        expires_at: Math.floor(Date.now() / 1000) + 3600,
+        token_type: "bearer",
+        user: {
+          id: "mock-user-id-12345",
+          email: email,
+          email_confirmed_at: new Date().toISOString(),
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+          user_metadata: {},
+          app_metadata: {},
+          aud: "authenticated",
+          role: "authenticated"
+        }
+      }
+    };
 
-    // Race between auth call and timeout
-    const authPromise = supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    const { error, data } = await Promise.race([authPromise, timeoutPromise]);
-
-    if (error) {
-      console.error("Supabase auth error:", error);
-      throw new Error(error.message || "Login failed");
-    }
-
-    if (!data || !data.user) {
-      throw new Error("Invalid login response");
-    }
-
-    return data;
+    return mockData;
   } catch (error) {
-    console.error("Login error:", error);
-    // Re-throw with more specific error message
-    if (error.message === "Auth timeout") {
-      throw new Error("Authentication request timed out. Please check your connection and try again.");
-    }
-    throw new Error(error.message || "Login failed");
+    console.error("Mock login error:", error);
+    throw new Error("Mock authentication failed");
   }
 }
 
