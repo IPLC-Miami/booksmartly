@@ -61,10 +61,10 @@ function LoginPage() {
     // console.log("uuuuusssseeeefffeeecccctttt", location.state);
     if (location.state?.sessionExpired) {
       toast.error("Session Expired. Please Login Again.");
-      navigate("./login", { replace: true }); // Reset state
+      navigate("/login", { replace: true }); // Reset state
     } else if (location.state?.loggedOut) {
       toast.success("Signed Out Successfully");
-      navigate("./login", { replace: true }); // Reset state
+      navigate("/login", { replace: true }); // Reset state
     }
   }, [location]);
 
