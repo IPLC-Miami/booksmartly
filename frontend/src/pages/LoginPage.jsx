@@ -23,14 +23,14 @@ function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-  const { mutate, onSuccess, onError } = useCheckLogin();
+  const mutation = useCheckLogin();
   // Removed token state - authentication check handled by ProtectedRoutes
 
   // Removed problematic useEffect that was causing redirect loop
   // Token check should be handled by ProtectedRoutes, not LoginPage
 
   const handleSignIn = () => {
-    mutate.mutate(loginData, {
+    mutation.mutate(loginData, {
       onSuccess: (data) => {
         // console.log("Login Success:", data);
         // if (data.user) {
