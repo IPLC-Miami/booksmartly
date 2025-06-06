@@ -13,6 +13,18 @@ export default ({ mode }) => {
         VITE_SUPABASE_ANON_KEY: JSON.stringify(env.VITE_SUPABASE_ANON_KEY)
       }
     },
+    server: {
+      proxy: {
+        // Proxy API calls to local backend during development
+        '/api': {
+          target: 'http://localhost:8000',
+          changeOrigin: true,
+          secure: false,
+          // Rewrite the path if needed
+          rewrite: (path) => path
+        }
+      }
+    },
     build: {
       rollupOptions: {
         external: ['dotenv'],

@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import Loader from "../Loader";
 import useGetQueueForClinician from "../../hooks/useGetQueueForClinician"; // Assuming this hook will be renamed
 import ClinicianQueueCard from "./ClinicianQueueCard"; // Assuming this component will be renamed
-import { useAuthContext } from "../../utils/ContextProvider";
 import {
   Calendar,
   ChevronLeft,
@@ -16,23 +15,16 @@ import {
 } from "lucide-react";
 import useGetClinicianAvailability from "../../hooks/useGetClinicianAvailability"; // Assuming this hook will be renamed
 
-function ClinicianQueue() {
-  const { currentUser } = useAuthContext();
-  const [clinicianId, setClinicianId] = useState(null);
+function ClinicianQueue({ userId }) {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [availableOnlineSlots, setAvailableOnlineSlots] = useState([]);
   const [availableOfflineSlots, setAvailableOfflineSlots] = useState([]);
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [availabilityData, setAvailabilityData] = useState({});
   const [appointmentType, setAppointmentType] = useState("");
-  useEffect(() => {
-    if (currentUser != null) {
-      setClinicianId(currentUser.id);
-    }
-  }, [currentUser]);
 
   const { data: availability, error: availabilityError } =
-    useGetClinicianAvailability(clinicianId);
+    useGetClinicianAvailability(userId);
 
   useEffect(() => {
     if (availability) {
@@ -61,7 +53,7 @@ function ClinicianQueue() {
   }, [selectedDate, availabilityData]);
 
   const { isLoading, data, error, refetch, isFetching } = useGetQueueForClinician(
-    clinicianId,
+    userId,
     selectedDate,
     selectedSlot,
   );

@@ -31,60 +31,22 @@ function EditProfile({ id, profile, setProfile, fetchUserProfile }) {
   const { name, address, email, profileImage, age, gender } = editedProfile;
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-  const tokenString = localStorage.getItem(
-    "sb-itbxttkivivyeqnduxjb-auth-token",
-  );
-  const token = JSON?.parse(tokenString);
-  useEffect(() => {
-    // // console.log("ggggg", token);
-    if (!token) {
-      toast.error("Session Expired Please Login Again.");
-      navigate("/login", { state: { sessionExpiration: true } }); // Redirect to login page
-    }
-  }, [token]);
-
-  const accessToken = token?.access_token;
-
-  function onSave() {
-    const user_id = String(id);
-    profile.userId = user_id;
-    const updateUser = async (userId, accessToken, editedProfile) => {
-      // console.log(editedProfile);
-      mutate.mutate(
-        { userId, accessToken, editedProfile },
-        {
-          onSuccess: (data) => {
-            // console.log("Updated user info successfully :", data);
-          },
-          onError: (error) => {
-            console.error(
-              "Error updating user:",
-              error.response?.data || error.message,
-            );
-          },
-        },
-      );
-    };
-    // // console.log("Sending user data:", signUpData2);
-    updateUser(user_id, accessToken, editedProfile);
-    updateUser(id, editedProfile);
-    setProfile(editedProfile);
-  }
-
   function onSave() {
     const user_id = String(id);
     profile.userId = user_id;
     mutate.mutate(
-      { userId: user_id, accessToken, editedProfile },
+      { userId: user_id, editedProfile },
       {
         onSuccess: (data) => {
           // console.log("Updated user info successfully:", data);
+          toast.success("Profile updated successfully");
         },
         onError: (error) => {
           console.error(
             "Error updating user:",
             error.response?.data || error.message,
           );
+          toast.error("Failed to update profile");
         },
       },
     );

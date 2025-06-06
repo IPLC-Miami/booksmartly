@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useAuthContext } from "../utils/ContextProvider";
 import {
   createInvoice,
   createCheckoutSession,
@@ -12,7 +11,7 @@ import {
 } from "../utils/billingApi";
 
 const BillingPage = () => {
-  const { currentUser: user } = useAuthContext();
+  const [user, setUser] = useState(null);
   const [invoices, setInvoices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -37,6 +36,15 @@ const BillingPage = () => {
     description: "",
   });
 
+  // Get user data from localStorage
+  useEffect(() => {
+    const storedUserId = localStorage.getItem('userId');
+    const storedUserRole = localStorage.getItem('userRole');
+    if (storedUserId && storedUserRole) {
+      setUser({ id: storedUserId, role: storedUserRole });
+    }
+  }, []);
+
   // Check if user has access to billing
   const hasAccess = user?.role === "clinician" || user?.role === "reception";
 
@@ -44,7 +52,7 @@ const BillingPage = () => {
     if (hasAccess) {
       fetchInvoices();
     }
-  }, [hasAccess, filters]);
+  }, [hasAccess, filters, user]);
 
   const fetchInvoices = async () => {
     try {
@@ -52,7 +60,7 @@ const BillingPage = () => {
       setError(null);
 
       let data;
-      if (user.role === "clinician") {
+      if (user?.role === "clinician") {
         data = await getClinicianInvoices(user.id, filters);
       } else {
         data = await getAllInvoices(filters);
@@ -77,7 +85,7 @@ const BillingPage = () => {
       const invoiceData = {
         ...newInvoice,
         amount: parseFloat(newInvoice.amount),
-        clinicianId: user.id,
+        clinicianId: user?.id,
       };
 
       await createInvoice(invoiceData);
@@ -156,7 +164,7 @@ const BillingPage = () => {
             <div>
               <h1 className="text-3xl font-bold text-gray-900">Billing Management</h1>
               <p className="mt-2 text-gray-600">
-                {user.role === "clinician" 
+                {user?.role === "clinician"
                   ? "Manage your invoices and payments"
                   : "Manage all clinic invoices and payments"
                 }
@@ -171,7 +179,7 @@ const BillingPage = () => {
                   Export CSV
                 </button>
               )}
-              {user.role === "clinician" && (
+              {user?.role === "clinician" && (
                 <button
                   onClick={() => setShowCreateForm(true)}
                   className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
@@ -202,7 +210,7 @@ const BillingPage = () => {
                 <option value="refunded">Refunded</option>
               </select>
             </div>
-            {user.role === "reception" && (
+            {user?.role === "reception" && (
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Search
@@ -273,7 +281,7 @@ const BillingPage = () => {
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Client
                       </th>
-                      {user.role === "reception" && (
+                      {user?.role === "reception" && (
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                           Clinician
                         </th>
@@ -315,7 +323,7 @@ const BillingPage = () => {
                             </div>
                           </div>
                         </td>
-                        {user.role === "reception" && (
+                        {user?.role === "reception" && (
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="text-sm text-gray-900">
                               {invoice.clinicians2?.users?.name || 'N/A'}
@@ -345,7 +353,7 @@ const BillingPage = () => {
                                 Pay Now
                               </button>
                             )}
-                            {user.role === "reception" && invoice.status === "pending" && (
+                            {user?.role === "reception" && invoice.status === "pending" && (
                               <>
                                 <button
                                   onClick={() => handleStatusUpdate(invoice.id, "paid")}

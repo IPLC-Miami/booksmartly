@@ -1,133 +1,106 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../utils/supabaseClient';
-
-const API_URL = import.meta.env.VITE_API_BASE_URL;
+import { getUserDetailsByID } from '../utils/api';
 
 export function useGetCurrentUser() {
-  // TEMP: Skip auth to fix timeout - return no user immediately
-  // return {
-  //   user: null,
-  //   loading: false,
-  //   error: null
-  // };
-  
-  // ORIGINAL CODE COMMENTED OUT TO FIX TIMEOUT
-  // /*
+  // AUTH DISABLED - Fetch real user data using a default or stored user ID
   const [user, setUser] = useState(null);
   const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    let mounted = true;
-
-    async function fetchUserProfile(sessionData) {
+    const fetchUser = async () => {
       try {
-        const userId = sessionData.user.id;
-        const accessToken = sessionData.access_token;
+        // Get user ID from localStorage or use a default
+        // This allows testing different users by setting localStorage.setItem('currentUserId', 'some-user-id')
+        const storedUserId = localStorage.getItem('currentUserId');
         
-        // Use the backend API that handles multi-role system
-        const response = await fetch(`${API_URL}/users/getUserById/${userId}`, {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${accessToken}`,
-            'Content-Type': 'application/json',
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error(`Failed to fetch user profile: ${response.status} ${response.statusText}`);
-        }
-
-        const profile = await response.json();
-        
-        if (mounted) {
-          setUser(profile);
-          setSession(sessionData);
-          setError(null);
-        }
-      } catch (err) {
-        console.error('Error fetching user profile:', err);
-        if (mounted) {
-          setError(err);
-          setUser(null);
-          setSession(sessionData); // Still set session even if profile fetch fails
-        }
-      }
-    }
-
-    async function initializeAuth() {
-      try {
-        // Get initial session
-        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-        
-        if (sessionError) {
-          console.error('Session error:', sessionError);
-          if (mounted) {
-            setError(sessionError);
-            setUser(null);
-            setLoading(false);
+        if (!storedUserId) {
+          // No user ID stored - fetch all users and use the first one as default
+          const response = await fetch('/api/users/allusers');
+          if (!response.ok) {
+            throw new Error('Failed to fetch users');
           }
-          return;
-        }
-
-        if (session) {
-          await fetchUserProfile(session);
+          
+          const users = await response.json();
+          if (users && users.length > 0) {
+            // Use the first user as default
+            const defaultUser = users[0];
+            localStorage.setItem('currentUserId', defaultUser.id);
+            
+            // Fetch full user details - no token needed
+            const userDetails = await getUserDetailsByID(defaultUser.id);
+            
+            setUser({
+              id: userDetails.profile.id,
+              name: userDetails.profile.name,
+              email: userDetails.profile.email,
+              phone: userDetails.profile.phone || userDetails.profile.phone_number,
+              address: userDetails.profile.address,
+              avatar_url: userDetails.profile.avatar_url,
+              role: userDetails.profile.role || userDetails.profile.user_type,
+              date_of_birth: userDetails.profile.date_of_birth,
+              gender: userDetails.profile.gender,
+              ...userDetails.profile
+            });
+            
+            // Create session object for compatibility
+            setSession({
+              access_token: "auth-disabled-token",
+              refresh_token: "auth-disabled-refresh",
+              expires_in: 3600,
+              expires_at: Math.floor(Date.now() / 1000) + 3600,
+              token_type: "bearer",
+              user: {
+                id: userDetails.profile.id,
+                email: userDetails.profile.email
+              }
+            });
+          } else {
+            throw new Error('No users found in database');
+          }
         } else {
-          if (mounted) {
-            setUser(null);
-            setSession(null);
-            setError(null);
-          }
+          // Fetch the specific user - no token needed
+          const userDetails = await getUserDetailsByID(storedUserId);
+          
+          setUser({
+            id: userDetails.profile.id,
+            name: userDetails.profile.name,
+            email: userDetails.profile.email,
+            phone: userDetails.profile.phone || userDetails.profile.phone_number,
+            address: userDetails.profile.address,
+            avatar_url: userDetails.profile.avatar_url,
+            role: userDetails.profile.role || userDetails.profile.user_type,
+            date_of_birth: userDetails.profile.date_of_birth,
+            gender: userDetails.profile.gender,
+            ...userDetails.profile
+          });
+          
+          // Create session object for compatibility
+          setSession({
+            access_token: "auth-disabled-token",
+            refresh_token: "auth-disabled-refresh",
+            expires_in: 3600,
+            expires_at: Math.floor(Date.now() / 1000) + 3600,
+            token_type: "bearer",
+            user: {
+              id: userDetails.profile.id,
+              email: userDetails.profile.email
+            }
+          });
         }
-
-        if (mounted) {
-          setLoading(false);
-        }
-      } catch (err) {
-        console.error('Auth initialization error:', err);
-        if (mounted) {
-          setError(err);
-          setUser(null);
-          setLoading(false);
-        }
-      }
-    }
-
-    // Initialize auth state
-    initializeAuth();
-
-    // Listen for auth state changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        console.log('Auth state change:', event, session?.user?.id);
         
-        if (event === 'SIGNED_IN' && session) {
-          setLoading(true);
-          await fetchUserProfile(session);
-          if (mounted) {
-            setLoading(false);
-          }
-        } else if (event === 'SIGNED_OUT' || !session) {
-          if (mounted) {
-            setUser(null);
-            setSession(null);
-            setError(null);
-            setLoading(false);
-          }
-        } else if (event === 'TOKEN_REFRESHED' && session) {
-          // Optionally refresh user profile on token refresh
-          await fetchUserProfile(session);
-        }
+        setLoading(false);
+        setError(null);
+      } catch (err) {
+        console.error('Error fetching user:', err);
+        setError(err.message);
+        setLoading(false);
       }
-    );
-
-    return () => {
-      mounted = false;
-      subscription?.unsubscribe();
     };
+
+    fetchUser();
   }, []);
 
   return { user, session, loading, error };
-  // */
 }

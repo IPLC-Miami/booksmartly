@@ -12,10 +12,6 @@ function ProfilePictureUploader({ currentProfilePicture, onUploadSuccess }) {
   const { data: dataUser } = useGetCurrentUser();
   const userId = dataUser?.user?.id;
 
-  const tokenString = localStorage.getItem("sb-itbxttkivivyeqnduxjb-auth-token");
-  const token = tokenString ? JSON.parse(tokenString) : null;
-  const accessToken = token?.access_token;
-
   const { mutate: uploadProfilePicture, isPending: isUploading } = useUpdateUserProfilePicture();
 
   // File validation
@@ -81,7 +77,7 @@ function ProfilePictureUploader({ currentProfilePicture, onUploadSuccess }) {
 
   // Handle upload
   const handleUpload = () => {
-    if (!selectedFile || !userId || !accessToken) {
+    if (!selectedFile || !userId) {
       setUploadError("Missing required data for upload");
       return;
     }
@@ -91,7 +87,7 @@ function ProfilePictureUploader({ currentProfilePicture, onUploadSuccess }) {
     formData.append('userId', userId);
 
     uploadProfilePicture(
-      { userId, accessToken, formData },
+      { userId, formData },
       {
         onSuccess: (data) => {
           setSelectedFile(null);

@@ -5,9 +5,9 @@ export default function useHandleEditProfile() {
   const queryClient = useQueryClient();
 
   const mutate = useMutation({
-    // The mutationFn now accepts an object with userId, accessToken, and editedProfile
-    mutationFn: ({ userId, accessToken, editedProfile }) => {
-      return updateUserDetailsById(userId, accessToken, editedProfile);
+    // The mutationFn now accepts an object with userId and editedProfile
+    mutationFn: ({ userId, editedProfile }) => {
+      return updateUserDetailsById(userId, editedProfile);
     },
 
     // Here, 'variables' contains the object passed to mutate.mutate()

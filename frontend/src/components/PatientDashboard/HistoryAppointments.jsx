@@ -3,19 +3,10 @@ import useGetHistoryAppointment from "../../hooks/useGetHistoryAppointment";
 import HistoryAppointmentCard from "./HistoryAppointmentCard";
 import Loader from "../Loader";
 import { useEffect, useState } from "react";
-import { useAuthContext } from "../../utils/ContextProvider";
-function HistoryAppointments() {
-  const user = useAuthContext();
-  const [patientId, setPatientId] = useState(null);
-  useEffect(() => {
-    if (user.currentUser != null) {
-      setPatientId(user.currentUser.id);
-      // console.log(user.currentUser.id);
-    }
-  }, [user]);
 
+function HistoryAppointments({ userId }) {
   const { isLoading, data, error, status, refetch, isFetching } =
-    useGetHistoryAppointment(patientId);
+    useGetHistoryAppointment(userId);
   if (error) {
     toast.error("Error fetching data");
   }

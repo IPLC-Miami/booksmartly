@@ -5,9 +5,9 @@ export default function useUpdateUserProfilePicture() {
   const queryClient = useQueryClient();
 
   const mutate = useMutation({
-    // The mutationFn now accepts an object with userId, accessToken, and editedProfile
-    mutationFn: ({ userId, accessToken, formData }) => {
-      return updateUserProfilePicture(userId, accessToken, formData);
+    // The mutationFn now accepts an object with userId and formData
+    mutationFn: ({ userId, formData }) => {
+      return updateUserProfilePicture(userId, formData);
     },
 
     // Here, 'variables' contains the object passed to mutate.mutate()

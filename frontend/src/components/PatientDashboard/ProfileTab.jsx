@@ -12,22 +12,8 @@ import useUpdateUserProfilePicture from "../../hooks/useUpdateUserProfilePicture
 import { toast } from "sonner";
 import patientBanner from "../../assets/patientBanner.jpg";
 
-function ProfileTab() {
-  const [userId, setUserId] = useState(null);
+function ProfileTab({ userId }) {
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-
-  const tokenString = localStorage.getItem(
-    "sb-itbxttkivivyeqnduxjb-auth-token",
-  );
-  const token = JSON?.parse(tokenString);
-  useEffect(() => {
-    // // console.log("ggggg", token);
-    if (!token) {
-      toast.error("Session Expired Please Login Again.");
-      navigate("/login", { state: { sessionExpiration: true } }); // Redirect to login page
-    }
-  }, [token]);
-  const accessToken = token?.access_token;
 
   // const MyComponent = () => {
   const [profileImage, setProfileImage] = useState(null);
@@ -38,7 +24,7 @@ function ProfileTab() {
     error: errorDetails,
     refetch: refetchDetails,
     isFetching: isFetchingDetails,
-  } = useGetUserDetails(userId, accessToken);
+  } = useGetUserDetails(userId);
   const { mutate, onSuccess, onError } = useUpdateUserProfilePicture();
 
   const [profile, setProfile] = useState({
@@ -56,29 +42,9 @@ function ProfileTab() {
     "https://static.vecteezy.com/system/resources/thumbnails/003/337/584/small/default-avatar-photo-placeholder-profile-icon-vector.jpg";
   const navigate = useNavigate();
 
+  // AUTH DISABLED - No session check needed
   useEffect(() => {
-    const checkUserSession = async () => {
-      const { data, error } = await supabase.auth.getSession();
-      // console.log("Session Data:", data);
-      if (error) {
-        console.error("Session Error:", error);
-        navigate("/login");
-      }
-    };
-    //can enter a toast here user not authenticated to view this page
-    checkUserSession();
-  }, []);
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      const {
-        data: { user },
-        error,
-      } = await supabase.auth.getUser();
-      if (user) setUserId(user.id);
-      if (error) console.error("Error fetching user:", error);
-    };
-    fetchUser();
+    console.log("Authentication disabled - using mock patient data");
   }, []);
 
   const fetchUserProfile = async () => {
@@ -135,7 +101,7 @@ function ProfileTab() {
     formData.append("userId", userId);
     // console.log(" formdata in frontend1", formData);
     mutate.mutate(
-      { userId: userId, accessToken, formData },
+      { userId: userId, formData },
       {
         onSuccess: (data) => {
           // console.log("ProfilePicture Uploaded sucessfully:", data);

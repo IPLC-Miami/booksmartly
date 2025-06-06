@@ -4,7 +4,7 @@ import { useLocation, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import MultiDoctorDashboard from "../../pages/MultiDoctorDashboard";
 
-function ReceptionDashboard() {
+function ReceptionDashboard({ userId }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const [tab, setTab] = useState(searchParams.get("tab") || "profile");
 
@@ -37,7 +37,7 @@ function ReceptionDashboard() {
 
         <Box pt="3">
           <Tabs.Content value="profile">
-            <ReceptionProfileTab />
+            <ReceptionProfileTab userId={userId} />
           </Tabs.Content>
         </Box>
         {/* </Tabs.Root> */}

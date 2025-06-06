@@ -1,22 +1,25 @@
 // src/components/Logout.js
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "../utils/supabaseClient";
 import { toast } from "sonner";
+import { useQueryClient } from "@tanstack/react-query";
 
 const Logout = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
-  const handleLogout = async () => {
+  const handleLogout = () => {
     try {
-      const { error } = await supabase.auth.signOut();
-      if (error) {
-        console.error("Error signing out:", error.message);
-      } else {
-        // console.log("User signed out successfully");
-        toast.success("Signed Out Successfully");
-        navigate("/login", { state: { loggedOut: true } }); // Redirect to login page
-      }
+      // Clear localStorage
+      localStorage.removeItem("userId");
+      localStorage.removeItem("userRole");
+      localStorage.removeItem("userName");
+      
+      // Clear any cached queries
+      queryClient.clear();
+      
+      toast.success("Signed Out Successfully");
+      navigate("/login", { state: { loggedOut: true } }); // Redirect to login page
     } catch (err) {
       console.error("Unexpected error during logout:", err);
     }

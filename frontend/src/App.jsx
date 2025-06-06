@@ -1,14 +1,11 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
 import AppLayout from "./ui/AppLayout";
 import ErrorPage from "./pages/ErrorPage";
 import Home from "./pages/Home";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import SignUpPage from "./pages/SignUpPage";
-import LoginPage from "./pages/LoginPage";
+import UserSelection from "./pages/UserSelection";
 import BookAppointment from "./pages/BookAppointment";
-import AccountVerification from "./pages/AccountVerification";
-import AccountVerified from "./pages/AccountVerified";
 import Dashboard from "./pages/Dashboard";
 import ClinicianDashboardPage from "./pages/ClinicianDashboardPage";
 import ReceptionDashboardPage from "./pages/ReceptionDashboardPage";
@@ -17,9 +14,6 @@ import BillingPage from "./pages/BillingPage";
 import AnalyticsPage from "./pages/AnalyticsPage";
 import ChatPage from "./pages/ChatPage";
 import ProfilePage from "./pages/ProfilePage";
-import ForgotPassword from "./pages/ForgotPassword";
-import ResetPasswordEmailSent from "./pages/ResetPasswordEmailSent";
-import ResetPassword from "./pages/ResetPassword";
 import { ToastContainer } from "react-toastify";
 // Removed ProtectedRoutes and EnhancedProtectedRoute imports - NO AUTH
 import SingleFeaturePageChatbot from "./pages/SingleFeaturePageChatbot";
@@ -41,24 +35,22 @@ const router = createBrowserRouter(
           errorElement: <ErrorPage />,
         },
         {
-          path: "/signup",
-          element: <SignUpPage />,
+          path: "/login",
+          element: <UserSelection />,
           errorElement: <ErrorPage />,
         },
+        // Redirect old auth routes to user selection
         {
-          path: "/login",
-          element: <LoginPage />,
-          errorElement: <ErrorPage />,
+          path: "/signup",
+          element: <Navigate to="/login" replace />,
         },
         {
           path: "/verification",
-          element: <AccountVerification />,
-          errorElement: <ErrorPage />,
+          element: <Navigate to="/login" replace />,
         },
         {
           path: "/verified",
-          element: <AccountVerified />,
-          errorElement: <ErrorPage />,
+          element: <Navigate to="/login" replace />,
         },
         // ALL ROUTES NOW PUBLIC - NO AUTH REQUIRED
         {
@@ -106,20 +98,18 @@ const router = createBrowserRouter(
           element: <ProfilePage />,
           errorElement: <ErrorPage />,
         },
+        // Redirect password reset routes to user selection
         {
           path: "/user/resetPassword",
-          element: <ForgotPassword />,
-          errorElement: <ErrorPage />,
+          element: <Navigate to="/login" replace />,
         },
         {
           path: "/user/resetPasswordEmailSent",
-          element: <ResetPasswordEmailSent />,
-          errorElement: <ErrorPage />,
+          element: <Navigate to="/login" replace />,
         },
         {
           path: "user/resetPassEnterEmail",
-          element: <ResetPassword />,
-          errorElement: <ErrorPage />,
+          element: <Navigate to="/login" replace />,
         },
         {
           path: "/featureAIChatbot",

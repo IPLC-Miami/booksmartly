@@ -5,7 +5,7 @@ import HealthCampRegistrationForm from "./HealthCampRegistration";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-function HealthWorkerDashboard() {
+function HealthWorkerDashboard({ userId }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const [tab, setTab] = useState(searchParams.get("tab") || "profile");
 
@@ -43,7 +43,7 @@ function HealthWorkerDashboard() {
         </Tabs.List>
         <Box pt="3">
           <Tabs.Content value="profile">
-            <HealthWorkerProfileTab />
+            <HealthWorkerProfileTab userId={userId} />
           </Tabs.Content>
 
           <Tabs.Content value="Health Checkup Form">

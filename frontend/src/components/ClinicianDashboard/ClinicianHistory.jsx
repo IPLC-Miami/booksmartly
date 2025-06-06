@@ -4,18 +4,10 @@ import useGetQueueForClinician from "../../hooks/useGetQueueForClinician"; // As
 import ClinicianHistoryCard from "./ClinicianHistoryCard";
 import useGetHistoryForClinician from "../../hooks/useGetHistoryForClinician"; // Assuming this hook will be renamed
 import { useEffect, useState } from "react";
-import { useAuthContext } from "../../utils/ContextProvider";
-function ClinicianHistory() {
-  const user = useAuthContext();
-  const [clinicianId, setClinicianId] = useState(null);
-  useEffect(() => {
-    if (user.currentUser != null) {
-      setClinicianId(user.currentUser.id);
-      // console.log(user.currentUser.id);
-    }
-  }, [user]);
+
+function ClinicianHistory({ userId }) {
   const { isLoading, data, error, status, refetch, isFetching } =
-    useGetHistoryForClinician(clinicianId);
+    useGetHistoryForClinician(userId);
 
   if (error) {
     toast.error("Error fetching data");

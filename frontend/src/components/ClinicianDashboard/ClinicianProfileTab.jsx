@@ -10,8 +10,7 @@ import { toast } from "sonner";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@radix-ui/themes";
 import clinicianBanner from "../../assets/clinicianBanner.jpg"; // Assuming new banner image
-
-function ClinicianProfileTab() {
+function ClinicianProfileTab({ userId }) {
   const [profile, setProfile] = useState({
     name: "",
     email: "",
@@ -27,23 +26,7 @@ function ClinicianProfileTab() {
 
   const profileImagePlaceholder =
     "https://static.vecteezy.com/system/resources/thumbnails/003/337/584/small/default-avatar-photo-placeholder-profile-icon-vector.jpg";
-  const [userId, setUserId] = useState(null);
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-
-  const tokenString = localStorage.getItem(
-    "sb-itbxttkivivyeqnduxjb-auth-token",
-  );
-
-  const token = JSON?.parse(tokenString);
-  useEffect(() => {
-    // // console.log("ggggg", token);
-    if (!token) {
-      toast.error("Session Expired Please Login Again.");
-      navigate("/login", { state: { sessionExpiration: true } }); // Redirect to login page
-    }
-  }, [token]);
-
-  const accessToken = token?.access_token;
 
   // const MyComponent = () => {
   const [profileImage, setProfileImage] = useState(null);
@@ -56,33 +39,9 @@ function ClinicianProfileTab() {
     error: errorDetails,
     refetch: refetchDetails,
     isFetching: isFetchingDetails,
-  } = useGetClinicianProfileDetails(userId, accessToken);
+  } = useGetClinicianProfileDetails(userId);
 
-  useEffect(() => {
-    const checkUserSession = async () => {
-      const { data, error } = await supabase.auth.getSession();
-      // console.log("Session Data:", data);
-      if (error) {
-        console.error("Session Error:", error);
-        // navigate("/login");
-        navigate("/login", { state: { sessionExpiration: true } }); // Redirect to login page
-      }
-    };
-    //can enter a toast here user not authenticated to view this page
-    checkUserSession();
-  }, []);
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      const {
-        data: { user },
-        error,
-      } = await supabase.auth.getUser();
-      if (user) setUserId(user.id);
-      if (error) console.error("Error fetching user:", error);
-    };
-    fetchUser();
-  }, []);
+  // AUTH DISABLED - Removed session checks
 
   const fetchUserProfile = async () => {
     try {
@@ -121,7 +80,6 @@ function ClinicianProfileTab() {
         {
           method: "GET",
           headers: {
-            Authorization: `Bearer ${accessToken}`, // Add your token here
             "Content-Type": "application/json",
           },
         },

@@ -42,12 +42,10 @@ const PatientHealthStatusForm = () => {
     relationToPatient: "",
   });
 
-  const [token, setToken] = useState(
-    localStorage.getItem("sb-itbxttkivivyeqnduxjb-auth-token"),
+  // Get health worker ID from localStorage instead of auth token
+  const [healthWorkerId, setHealthWorkerId] = useState(
+    localStorage.getItem("userId") || ""
   );
-  const data = JSON.parse(token);
-
-  const [healthWorkerId, setHealthWorkerId] = useState(data?.user?.id);
   useEffect(() => {
     setFormData((prevData) => ({
       ...prevData,

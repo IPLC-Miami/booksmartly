@@ -6,7 +6,7 @@ import HistoryAppointments from "../PatientDashboard/HistoryAppointments";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-function ClinicianDashboard() {
+function ClinicianDashboard({ userId }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const [tab, setTab] = useState(searchParams.get("tab") || "profile");
 
@@ -45,15 +45,15 @@ function ClinicianDashboard() {
 
         <Box pt="3">
           <Tabs.Content value="profile">
-            <ClinicianProfileTab />
+            <ClinicianProfileTab userId={userId} />
           </Tabs.Content>
 
           <Tabs.Content value="queue">
-            <ClinicianQueue />
+            <ClinicianQueue userId={userId} />
           </Tabs.Content>
 
           <Tabs.Content value="history">
-            <ClinicianHistory />
+            <ClinicianHistory userId={userId} />
           </Tabs.Content>
         </Box>
       </Tabs.Root>

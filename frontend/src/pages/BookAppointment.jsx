@@ -17,16 +17,16 @@ import BookingFormReviewData from "../components/BookingFormReviewData";
 import { toast } from "sonner";
 import Loader from "../components/Loader";
 import usePostBookAppointment from "../hooks/usePostBookAppointment";
-import { useAuthContext } from "../utils/ContextProvider";
 function BookAppointment() {
-  const user = useAuthContext();
   const [patientId, setPatientId] = useState(null);
+  
   useEffect(() => {
-    if (user.currentUser != null) {
-      setPatientId(user.currentUser.id);
-      // console.log(user.currentUser.id);
+    // Get user ID from localStorage
+    const storedUserId = localStorage.getItem('userId');
+    if (storedUserId) {
+      setPatientId(storedUserId);
     }
-  }, [user]);
+  }, []);
   // if(user.currentUser.id)
   // {
   //   // patientId =user.currentUser.id;

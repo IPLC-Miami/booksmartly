@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useAuthContext } from "../utils/ContextProvider";
 import {
   BarChart,
   Bar,
@@ -33,7 +32,7 @@ import {
 } from "../utils/analyticsApi";
 
 const AnalyticsPage = () => {
-  const { currentUser: user } = useAuthContext();
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -54,6 +53,15 @@ const AnalyticsPage = () => {
   const [selectedClinician, setSelectedClinician] = useState("");
   const [groupBy, setGroupBy] = useState("day");
 
+  // Get user data from localStorage
+  useEffect(() => {
+    const storedUserId = localStorage.getItem('userId');
+    const storedUserRole = localStorage.getItem('userRole');
+    if (storedUserId && storedUserRole) {
+      setUser({ id: storedUserId, role: storedUserRole });
+    }
+  }, []);
+
   // Check if user has access to analytics
   const hasAccess = user?.role === "clinician" || user?.role === "reception";
 
@@ -63,7 +71,7 @@ const AnalyticsPage = () => {
     if (hasAccess) {
       fetchAllData();
     }
-  }, [hasAccess, dateRange, customDateRange, selectedClinician, groupBy]);
+  }, [hasAccess, dateRange, customDateRange, selectedClinician, groupBy, user]);
 
   const getFilters = () => {
     const filters = {};
@@ -76,10 +84,10 @@ const AnalyticsPage = () => {
       filters.endDate = datePresets[dateRange].endDate;
     }
     
-    if (selectedClinician && user.role === "reception") {
+    if (selectedClinician && user?.role === "reception") {
       filters.clinicianId = selectedClinician;
-    } else if (user.role === "clinician") {
-      filters.clinicianId = user.id;
+    } else if (user?.role === "clinician") {
+      filters.clinicianId = user?.id;
     }
     
     return filters;
@@ -143,7 +151,7 @@ const AnalyticsPage = () => {
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900">Analytics Dashboard</h1>
           <p className="mt-2 text-gray-600">
-            {user.role === "clinician" 
+            {user?.role === "clinician"
               ? "View your practice analytics and insights"
               : "View clinic-wide analytics and insights"
             }

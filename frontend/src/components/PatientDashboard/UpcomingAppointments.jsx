@@ -2,18 +2,10 @@ import { toast } from "sonner";
 import useGetUpcomingAppointments from "../../hooks/useGetUpcomingAppointments";
 import AppointmentCard from "./AppointmentCard";
 import Loader from "../Loader";
-import { useAuthContext } from "../../utils/ContextProvider";
-import { useEffect, useState } from "react";
-function UpcomingAppointments() {
-  const user = useAuthContext();
-  const [patientId, setPatientId] = useState(null);
-  useEffect(() => {
-    if (user.currentUser != null) {
-      setPatientId(user.currentUser.id);
-    }
-  }, [user]);
+
+function UpcomingAppointments({ userId }) {
   const { isLoading, data, error, status, refetch, isFetching } =
-    useGetUpcomingAppointments(patientId);
+    useGetUpcomingAppointments(userId);
 
   if (error) {
     toast.error("Error fetching data");

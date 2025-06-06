@@ -37,29 +37,15 @@ const NoAppointmentsView = () => (
 );
 
 const MultiDoctorDashboard = () => {
-  const [token, setToken] = useState(
-    localStorage.getItem("sb-itbxttkivivyeqnduxjb-auth-token"),
+  // Get reception ID from localStorage instead of auth token
+  const [receptionId, setReceptionId] = useState(
+    localStorage.getItem("userId") || ""
   );
-  const data = JSON.parse(token);
-
-  const [receptionId, setReceptionId] = useState(data?.user?.id);
   const [clinicianQueues, setClinicianQueues] = useState({});
   const [lastUpdate, setLastUpdate] = useState(new Date());
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      const {
-        data: { user },
-        error,
-      } = await supabase.auth.getUser();
-      if (user) {
-        setReceptionId(user.id);
-      }
-      if (error) console.error("Error fetching user:", error);
-    };
-    fetchUser();
-  }, [token]);
+  // Remove auth-related useEffect since we're getting ID from localStorage
 
   const fetchCompleteReceptionClinicianQueue = async (receptionId) => {
     setIsLoading(true);

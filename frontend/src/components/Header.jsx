@@ -22,10 +22,8 @@ function Header() {
   const bookSmartlyContext = useBookSmartlyContext();
   const { profile, setProfile } = bookSmartlyContext;
   const queryClient = useQueryClient();
-  const [userId, setUserId] = useState(null);
-  const [accessToken, setAccessToken] = useState(null);
-  const [tokenString, setTokenString] = useState(null);
-
+  const [userId, setUserId] = useState(localStorage.getItem("userId"));
+  const [userRole, setUserRole] = useState(localStorage.getItem("userRole"));
   const [scrollPosition, setScrollPosition] = useState(0);
   
   // Use proper Supabase session handling
@@ -60,42 +58,33 @@ function Header() {
   }, []);
   const handleLogout = async () => {
     try {
-      const { error } = await supabase.auth.signOut();
-      if (error) {
-        console.error("Error signing out:", error.message);
-      } else {
-        // console.log("User signed out successfully");
-        // invalidate query client
-        setTokenString(null);
-        setProfile(null);
-        queryClient.invalidateQueries("userDetails");
-        navigate("/login"); // Redirect to login page
-      }
+      // Clear localStorage instead of signing out from Supabase
+      localStorage.removeItem("userId");
+      localStorage.removeItem("userRole");
+      setUserId(null);
+      setUserRole(null);
+      setProfile(null);
+      queryClient.invalidateQueries("userDetails");
+      navigate("/login"); // Redirect to login page
     } catch (err) {
       console.error("Unexpected error during logout:", err);
     }
   };
   // console.log("accessToken", accessToken, "userId", userId);
 
+  // Get user data from localStorage
   useEffect(() => {
-    const tokenStringTemp = localStorage.getItem(
-      "sb-itbxttkivivyeqnduxjb-auth-token",
-    );
-    setTokenString(tokenStringTemp);
-    const token = JSON.parse(tokenStringTemp);
-    if (token) {
-      setAccessToken(token?.access_token);
+    const storedUserId = localStorage.getItem("userId");
+    const storedUserRole = localStorage.getItem("userRole");
+    if (storedUserId) {
+      setUserId(storedUserId);
+    }
+    if (storedUserRole) {
+      setUserRole(storedUserRole);
     }
   }, []);
 
-  // Set userId from Supabase session when available
-  useEffect(() => {
-    if (currentUser) {
-      setUserId(currentUser.id);
-    }
-  }, [currentUser]);
-
-  const { data: dataDetails } = useGetUserDetails(userId, accessToken);
+  const { data: dataDetails } = useGetUserDetails(userId);
 
   useEffect(() => {
     if (dataDetails) {
@@ -169,7 +158,7 @@ function Header() {
             {/* <Separator orientation="vertical" /> */}
           </div>
         </div>
-        {!tokenString ? (
+        {!userId ? (
           <Button
             color="iris"
             size={"1"}

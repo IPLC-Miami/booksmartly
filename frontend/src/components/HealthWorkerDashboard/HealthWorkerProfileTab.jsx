@@ -10,22 +10,14 @@ import { useGetUserDetails } from "../../hooks/useGetUserDetails";
 
 const API_URL = import.meta.env.VITE_API_BASE_URL;
 
-function HealthWorkerProfileTab() {
-  const tokenString = localStorage.getItem(
-    "sb-itbxttkivivyeqnduxjb-auth-token",
-  );
-
-  const token = JSON?.parse(tokenString);
-  const [userId, setUserId] = useState(token?.user?.id || null);
-  const accessToken = token?.access_token;
-
+function HealthWorkerProfileTab({ userId }) {
   const {
     isLoading: isLoadingDetails,
     data: dataDetails,
     error: errorDetails,
     refetch: refetchDetails,
     isFetching: isFetchingDetails,
-  } = useGetUserDetails(userId, accessToken);
+  } = useGetUserDetails(userId);
   const [profile, setProfile] = useState({
     name: dataDetails?.profile?.name || "",
     email: dataDetails?.profile?.email || "",
@@ -44,33 +36,13 @@ function HealthWorkerProfileTab() {
 
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-  useEffect(() => {
-    // // console.log("ggggg", token);
-    if (!token) {
-      toast.error("Session Expired Please Login Again.");
-      navigate("/login", { state: { sessionExpiration: true } }); // Redirect to login page
-    }
-  }, [token]);
-
   // const MyComponent = () => {
   const [profileImage, setProfileImage] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const checkUserSession = async () => {
-      const { data, error } = await supabase.auth.getSession();
-      // console.log("Session Data:", data);
-      if (error) {
-        console.error("Session Error:", error);
-        // navigate("/login");
-        navigate("/login", { state: { sessionExpiration: true } }); // Redirect to login page
-      }
-    };
-    //can enter a toast here user not authenticated to view this page
-    checkUserSession();
-  }, []);
+  // AUTH DISABLED - Removed session checks
 
   // useEffect(() => {
   //   const fetchUser = async () => {

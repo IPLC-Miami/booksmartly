@@ -21,16 +21,12 @@ function Dashboard() {
   // Get access token from Supabase session
   const accessToken = session?.access_token;
   
-  const { data: dataRole, isLoading: roleLoading, error: roleError } = useUserRoleById(userId, accessToken);
+  const { data: dataRole, isLoading: roleLoading, error: roleError } = useUserRoleById(userId);
 
-  // Handle user session validation
+  // AUTH DISABLED - No session validation needed
   useEffect(() => {
-    if (userError || (!userLoading && !currentUser)) {
-      toast.error("Session Expired Please Login Again.");
-      navigate("/login", { state: { sessionExpired: true } });
-      return;
-    }
-  }, [currentUser, userError, userLoading, navigate]);
+    // Skip authentication check
+  }, []);
 
   // Set userId when user data is available from Supabase session
   useEffect(() => {
@@ -112,13 +108,13 @@ function Dashboard() {
     <div className="mb-24 mt-12 flex flex-col overflow-hidden p-4 font-noto md:px-12 md:py-8">
       {role ? (
         role === "PATIENT" ? (
-          <PatientDashboard />
+          <PatientDashboard userId={userId} />
         ) : role === "RECEPTION" ? (
-          <ReceptionDashboard />
+          <ReceptionDashboard userId={userId} />
         ) : role === "HEALTH WORKER" ? (
-          <HealthWorkerDashboard />
+          <HealthWorkerDashboard userId={userId} />
         ) : (
-          <ClinicianDashboard />
+          <ClinicianDashboard userId={userId} />
         )
       ) : (
         <div className="text-center">

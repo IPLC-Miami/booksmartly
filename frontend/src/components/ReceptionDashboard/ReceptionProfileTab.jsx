@@ -31,17 +31,14 @@ async function generateNewQRCode(userId) {
   return `MOCK-QR-CODE-${Date.now()}`;
 }
 
-function ReceptionProfileTab() {
-  // AUTH DISABLED - Using mock data
-  const [userId, setUserId] = useState("mock-user-id");
-  const accessToken = "mock-access-token";
+function ReceptionProfileTab({ userId }) {
   const [isQRDialogOpen, setIsQRDialogOpen] = useState(false);
 
   const {
     isLoading: isLoadingDetails,
     data: dataDetails,
     isFetching: isFetchingDetails,
-  } = useGetReceptionProfileDetails(userId, accessToken);
+  } = useGetReceptionProfileDetails(userId);
 
   const [profile, setProfile] = useState({
     name: "",

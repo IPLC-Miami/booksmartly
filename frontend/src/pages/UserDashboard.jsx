@@ -1,44 +1,39 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "../utils/supabaseClient";
-import Logout from "../components/logout";
 
 const DashboardPage = () => {
   const [loading, setLoading] = useState(true);
-  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
-
-    const validateToken = async () => {
-
-      const { data: session, error } = await supabase.auth.getSession();
-
-      if (error || !session.session || session.session === null) {
-        // If no session or error occurs, redirect to login
-        setErrorMessage("Session expired. Please log in again.");
-        // console.log("Session expired", session);
-        navigate("/login"); // Redirect to login page
-      } else {
-        // Proceed with the dashboard page logic if the session is valid
-        setLoading(false);
-        // console.log("User is authenticated", session);
-      }
-    };
-
-    validateToken();
+    // Check if user data exists in localStorage
+    const userId = localStorage.getItem("userId");
+    
+    if (!userId) {
+      // If no user data, redirect to login
+      navigate("/login");
+    } else {
+      // User data exists, show dashboard
+      setLoading(false);
+    }
   }, [navigate]);
 
   if (loading) {
     return <div>Loading...</div>;
   }
 
+  const handleLogout = () => {
+    // Clear localStorage
+    localStorage.removeItem("userId");
+    localStorage.removeItem("userRole");
+    navigate("/login");
+  };
+
   return (
     <div>
       <h1>Welcome to your Dashboard!</h1>
       {/* Render dashboard content */}
-      {/* Use the Logout component here */}
-      <Logout />
+      <button onClick={handleLogout}>Logout</button>
       {/* Render dashboard content */}
     </div>
   );

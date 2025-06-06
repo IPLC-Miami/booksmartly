@@ -80,6 +80,7 @@ app.use("/users", userRoutes);
 app.use("/api/users", userRoutes); // ADD: Mount userRoutes under /api/users to match frontend expectations
 app.use("/clinicians", clinicianRoutes); // Updated
 app.use("/appointments", appointmentRoutes);
+app.use("/api/appointments", appointmentRoutes); // ADD: Mount appointmentRoutes under /api/appointments to match frontend expectations
 app.use("/prescriptions", prescriptionRoutes);
 app.use("/testReports", testReportsRoutes);
 app.use("/uploadProfiles", profileRoutes);

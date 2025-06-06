@@ -12,24 +12,31 @@ function ChatPage() {
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   const [activeTab, setActiveTab] = useState('upcoming');
 
-  const tokenString = localStorage.getItem("sb-itbxttkivivyeqnduxjb-auth-token");
-  const token = tokenString ? JSON.parse(tokenString) : null;
-  const accessToken = token?.access_token;
+  // Get userId and role from localStorage instead of auth token
+  const storedUserId = localStorage.getItem("userId");
+  const storedRole = localStorage.getItem("userRole");
 
   const { data: dataUser } = useGetCurrentUser();
-  const { data: dataRole } = useUserRoleById(userId, accessToken);
+  const { data: dataRole } = useUserRoleById(userId);
 
+  // Set user ID and role from localStorage
   useEffect(() => {
-    if (token && dataUser) {
-      setUserId(dataUser?.user?.id);
+    if (storedUserId) {
+      setUserId(storedUserId);
     }
-  }, [dataUser, token]);
+    if (storedRole) {
+      setRole(storedRole);
+    }
+  }, [storedUserId, storedRole]);
 
+  // Update role from API if different from localStorage
   useEffect(() => {
-    if (dataRole?.data && dataRole.data.length > 0) {
-      setRole(dataRole.data[0].role);
+    if (dataRole?.data && dataRole.data.length > 0 && dataRole.data[0].role !== role) {
+      const newRole = dataRole.data[0].role;
+      setRole(newRole);
+      localStorage.setItem("userRole", newRole);
     }
-  }, [dataRole]);
+  }, [dataRole, role]);
 
   // Fetch appointments based on user role
   const { data: upcomingAppointments = [], isLoading: upcomingLoading } = useQuery({
@@ -220,7 +227,7 @@ function ChatPage() {
               <div className="p-4">
                 <ChatWidget
                   appointmentId={selectedAppointment.id}
-                  currentUser={dataUser?.user}
+                  currentUser={{ id: userId, role: role }}
                   userRole={role}
                 />
               </div>

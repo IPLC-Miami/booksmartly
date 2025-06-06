@@ -15,32 +15,37 @@ function ProfilePage() {
   const [validationErrors, setValidationErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState("");
 
-  const tokenString = localStorage.getItem("sb-itbxttkivivyeqnduxjb-auth-token");
-  const token = tokenString ? JSON.parse(tokenString) : null;
-  const accessToken = token?.access_token;
+  // Get userId from localStorage instead of auth token
+  const storedUserId = localStorage.getItem("userId");
+  const storedRole = localStorage.getItem("userRole");
 
   // Hooks
   const { data: dataUser } = useGetCurrentUser();
-  const { data: dataRole } = useUserRoleById(userId, accessToken);
-  const { data: userDetails, refetch: refetchUserDetails } = useGetUserDetails(userId, accessToken);
-  const { data: clinicianDetails, refetch: refetchClinicianDetails } = useGetClinicianProfileDetails(userId, accessToken);
-  const { data: receptionDetails, refetch: refetchReceptionDetails } = useGetReceptionProfileDetails(userId, accessToken);
+  const { data: dataRole } = useUserRoleById(userId);
+  const { data: userDetails, refetch: refetchUserDetails } = useGetUserDetails(userId);
+  const { data: clinicianDetails, refetch: refetchClinicianDetails } = useGetClinicianProfileDetails(userId);
+  const { data: receptionDetails, refetch: refetchReceptionDetails } = useGetReceptionProfileDetails(userId);
   
   const { mutate: updateProfile, isPending: isUpdating } = useHandleEditProfile();
 
-  // Set user ID when user data is available
+  // Set user ID and role from localStorage
   useEffect(() => {
-    if (token && dataUser) {
-      setUserId(dataUser?.user?.id);
+    if (storedUserId) {
+      setUserId(storedUserId);
     }
-  }, [dataUser, token]);
+    if (storedRole) {
+      setRole(storedRole);
+    }
+  }, [storedUserId, storedRole]);
 
-  // Set role when role data is available
+  // Update role from API if different from localStorage
   useEffect(() => {
-    if (dataRole?.data && dataRole.data.length > 0) {
-      setRole(dataRole.data[0].role);
+    if (dataRole?.data && dataRole.data.length > 0 && dataRole.data[0].role !== role) {
+      const newRole = dataRole.data[0].role;
+      setRole(newRole);
+      localStorage.setItem("userRole", newRole);
     }
-  }, [dataRole]);
+  }, [dataRole, role]);
 
   // Initialize form data based on role and profile data
   useEffect(() => {
@@ -149,7 +154,7 @@ function ProfilePage() {
     }
 
     updateProfile(
-      { userId, accessToken, editedProfile: formData },
+      { userId, editedProfile: formData },
       {
         onSuccess: () => {
           setSuccessMessage("Profile updated successfully!");
