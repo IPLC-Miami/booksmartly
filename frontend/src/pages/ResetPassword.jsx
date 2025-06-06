@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../utils/supabaseClient";
 import { AuthApiError } from "@supabase/supabase-js";
-import { useCheckLogin } from "../hooks/useCheckLogin";
+import useCheckLogin from "../hooks/useCheckLogin";
 import { toast } from "sonner";
 function ResetPassword() {
   const [loginData, setLoginData] = useState({

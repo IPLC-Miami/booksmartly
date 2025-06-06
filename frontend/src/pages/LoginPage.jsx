@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../utils/supabaseClient";
 import { AuthApiError } from "@supabase/supabase-js";
-import { useCheckLogin } from "../hooks/useCheckLogin";
+import useCheckLogin from "../hooks/useCheckLogin";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useLocation } from "react-router-dom";
