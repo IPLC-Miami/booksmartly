@@ -1,5 +1,3 @@
-import { supabase } from "../config/supabaseClient";
-
 /**
  * AUTHENTICATION DISABLED - ALL FUNCTIONS RETURN NULL/EMPTY VALUES
  * This file has been modified to disable authentication while maintaining API compatibility
@@ -52,5 +50,4 @@ export const getCurrentUserId = async () => {
   return null;
 };
 
-// Export original supabase client for other non-auth uses if needed
-export { supabase };
+// Supabase client import removed - authentication disabled
