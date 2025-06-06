@@ -1,53 +1,44 @@
-name: Deploy Frontend to GitHub Pages
+name: Deploy to VPS
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
-  publish:
-    permissions:
-      contents: write
+  deploy:
     runs-on: ubuntu-latest
+    
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-
-      - name: Clear and create .env file
-        run: |
-          cd frontend
-          echo "" > .env
-          echo "VITE_SUPABASE_URL=${{ secrets.VITE_SUPABASE_URL }}" >> .env
-          echo "VITE_SUPABASE_KEY=${{ secrets.VITE_SUPABASE_KEY }}" >> .env
-          echo "VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }}" >> .env
-          echo "VITE_frontend_base_url=${{secrets.VITE_FRONTEND_BASE_URL}}" >> .env
-          echo "VITE_API_GOOGLE_MAPS_API_KEY"="${{ secrets.VITE_API_GOOGLE_MAPS_API_KEY }}" >> .env
-      - name: Install dependencies
-        run: |
-          cd frontend
-          npm install
-
-      - name: Build project
-        run: |
-          cd frontend
-          npm run build
-
-      - name: Set Git identity
-        run: |
-          git config --global user.email "github-actions@github.com"
-          git config --global user.name "github-actions[bot]"
-
-      - name: Deploy using npm script
-        run: |
-          cd frontend
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
-          npm run deploy
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Publish to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./frontend/dist
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup SSH
+      uses: webfactory/ssh-agent@v0.8.0
+      with:
+        ssh-private-key: ${{ secrets.VPS_SSH_KEY }}
+        
+    - name: Deploy to VPS
+      run: |
+        ssh -o StrictHostKeyChecking=no root@145.223.73.170 << 'EOF'
+          cd /var/www/booksmartly
+          
+          # Pull latest changes
+          git stash
+          git pull origin main
+          
+          # Install/update dependencies
+          cd backend && npm install --production
+          cd ../frontend && npm install
+          cd ..
+          
+          # Restart services
+          pm2 restart booksmartly-backend
+          pm2 restart booksmartly-ml
+          pm2 restart booksmartly-chatbot
+          pm2 restart booksmartly-report
+          pm2 restart booksmartly-sentiment
+          
+          # Show status
+          pm2 list
+        EOF
