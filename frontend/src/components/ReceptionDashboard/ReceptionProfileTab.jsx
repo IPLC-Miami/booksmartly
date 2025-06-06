@@ -21,29 +21,20 @@ import {
 const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 async function generateNewQRCode(userId) {
-  if (userId == null) return;
-
-  try {
-    const response = await fetch(
-      `${API_URL}/receptionProfileRoutes/generate-qr/${userId}`,
-    );
-    if (!response.ok) {
-      throw new Error("Failed to generate QR code");
-    }
-    const data = await response.json();
-    return data.encryptedCode;
-  } catch (error) {
-    console.error("Error generating QR code:", error);
-  }
+  // AUTH DISABLED - Return mock QR code
+  console.log("Authentication disabled - returning mock QR code");
+  
+  // Simulate a brief delay to mimic real API call
+  await new Promise(resolve => setTimeout(resolve, 300));
+  
+  // Return mock QR code data with timestamp to simulate refresh
+  return `MOCK-QR-CODE-${Date.now()}`;
 }
 
 function ReceptionProfileTab() {
-  const tokenString = localStorage.getItem(
-    "sb-itbxttkivivyeqnduxjb-auth-token",
-  );
-  const token = JSON?.parse(tokenString);
-  const [userId, setUserId] = useState(token?.user?.id || null);
-  const accessToken = token?.access_token;
+  // AUTH DISABLED - Using mock data
+  const [userId, setUserId] = useState("mock-user-id");
+  const accessToken = "mock-access-token";
   const [isQRDialogOpen, setIsQRDialogOpen] = useState(false);
 
   const {
@@ -66,23 +57,7 @@ function ReceptionProfileTab() {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!token) {
-      toast.error("Session Expired Please Login Again.");
-      navigate("/login", { state: { sessionExpiration: true } });
-    }
-  }, [token]);
-
-  useEffect(() => {
-    const checkUserSession = async () => {
-      const { data, error } = await supabase.auth.getSession();
-      if (error) {
-        console.error("Session Error:", error);
-        navigate("/login", { state: { sessionExpiration: true } });
-      }
-    };
-    checkUserSession();
-  }, []);
+  // AUTH DISABLED - Removed session checks
 
   const fetchUserProfile = async () => {
     try {

@@ -713,21 +713,24 @@ export async function resetPassword(accessToken, new_password) {
   return data;
 }
 export async function getReceptionProfileDetails(userId, accessToken) {
-  const response = await fetch(
-    `${API_URL}/receptionProfileRoutes/getReceptionDetailsById/${userId}`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`, // Include token
-      },
-    },
-  );
-
-  if (!response.ok) return Error("Failed to fetch user data");
-
-  const data = await response.json();
-  return data;
+  // AUTH DISABLED - Return mock reception profile data
+  console.log("Authentication disabled - returning mock reception profile data");
+  
+  // Simulate a brief delay to mimic real API call
+  await new Promise(resolve => setTimeout(resolve, 500));
+  
+  // Return mock reception profile data
+  return {
+    profile: {
+      id: "mock-reception-id",
+      name: "BookSmartly Reception",
+      email: "reception@booksmartly.com",
+      address: "123 Healthcare Avenue, Medical District, City, State 12345",
+      avatar_url: null,
+      qrcode: "MOCK-QR-CODE-DATA-12345",
+      role: "reception"
+    }
+  };
 }
 
 // Chat API functions
