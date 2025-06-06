@@ -7,29 +7,51 @@ import { createClient } from "@supabase/supabase-js";
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
+// Create supabase client or mock client for GitHub Pages deployment
+let supabase;
+
 if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
-  throw new Error("supabaseUrl or supabaseAnonKey is not defined");
+  console.warn("Supabase environment variables not found. Using mock client for GitHub Pages deployment.");
+  
+  // Create a mock supabase client for GitHub Pages
+  supabase = {
+    auth: {
+      getSession: () => Promise.resolve({ data: { session: null }, error: null }),
+      onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => {} } } }),
+      signInWithPassword: () => Promise.resolve({ data: null, error: { message: "Auth disabled in demo" } }),
+      signUp: () => Promise.resolve({ data: null, error: { message: "Auth disabled in demo" } }),
+      signOut: () => Promise.resolve({ error: null }),
+    },
+    from: () => ({
+      select: () => Promise.resolve({ data: [], error: null }),
+      insert: () => Promise.resolve({ data: null, error: { message: "Database disabled in demo" } }),
+      update: () => Promise.resolve({ data: null, error: { message: "Database disabled in demo" } }),
+      delete: () => Promise.resolve({ data: null, error: { message: "Database disabled in demo" } }),
+    }),
+  };
+} else {
+  supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+    auth: {
+      persistSession: true,
+      autoRefreshToken: true,
+      detectSessionInUrl: true,
+      flowType: 'pkce',
+      storage: window.localStorage,
+      storageKey: 'sb-auth-token',
+      debug: process.env.NODE_ENV === 'development'
+    },
+    global: {
+      headers: {
+        'X-Client-Info': 'booksmartly-frontend'
+      },
+      fetch: (url, options = {}) => {
+        return fetch(url, {
+          ...options,
+          signal: AbortSignal.timeout(30000) // 30 second timeout
+        });
+      }
+    }
+  });
 }
 
-export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-  auth: {
-    persistSession: true,
-    autoRefreshToken: true,
-    detectSessionInUrl: true,
-    flowType: 'pkce',
-    storage: window.localStorage,
-    storageKey: 'sb-auth-token',
-    debug: process.env.NODE_ENV === 'development'
-  },
-  global: {
-    headers: {
-      'X-Client-Info': 'booksmartly-frontend'
-    },
-    fetch: (url, options = {}) => {
-      return fetch(url, {
-        ...options,
-        signal: AbortSignal.timeout(30000) // 30 second timeout
-      });
-    }
-  }
-});
+export { supabase };
