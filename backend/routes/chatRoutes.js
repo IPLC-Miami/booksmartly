@@ -1,80 +1,19 @@
 const express = require('express');
 const router = express.Router();
 const supabase = require('../config/supabaseClient');
-const verifyToken = require('../config/verifyToken');
+// AUTHENTICATION DISABLED: Removed verifyToken import
 
-// Simple middleware to allow any authenticated role
+// AUTHENTICATION DISABLED: Simple middleware bypass
 const requireAnyRole = (req, res, next) => {
-  // Since verifyToken already validates the user, just pass through
+  // AUTHENTICATION DISABLED: Always allow access
   next();
 };
 
-// Get chat messages for a specific appointment
-router.get('/:appointmentId', verifyToken, requireAnyRole, async (req, res) => {
+// Get chat messages for a specific appointment - AUTHENTICATION DISABLED
+router.get('/:appointmentId', requireAnyRole, async (req, res) => {
   try {
     const { appointmentId } = req.params;
-    const userId = req.user.id;
-    const userRole = req.userRole;
-
-    // Verify user has access to this appointment
-    let hasAccess = false;
-
-    if (userRole === 'reception') {
-      // Reception can view all appointments
-      hasAccess = true;
-    } else if (userRole === 'clinician') {
-      // Check if clinician is assigned to this appointment
-      const { data: appointment, error: appointmentError } = await supabase
-        .from('appointments')
-        .select('clinician_id')
-        .eq('id', appointmentId)
-        .single();
-
-      if (appointmentError) {
-        return res.status(404).json({ error: 'Appointment not found' });
-      }
-
-      // Get clinician record to match user_id
-      const { data: clinician, error: clinicianError } = await supabase
-        .from('clinicians2')
-        .select('id')
-        .eq('user_id', userId)
-        .single();
-
-      if (clinicianError || !clinician) {
-        return res.status(403).json({ error: 'Clinician profile not found' });
-      }
-
-      hasAccess = appointment.clinician_id === clinician.id;
-    } else if (userRole === 'client') {
-      // Check if client is the patient for this appointment
-      const { data: appointment, error: appointmentError } = await supabase
-        .from('appointments')
-        .select('patient_id')
-        .eq('id', appointmentId)
-        .single();
-
-      if (appointmentError) {
-        return res.status(404).json({ error: 'Appointment not found' });
-      }
-
-      // Get client record to match user_id
-      const { data: client, error: clientError } = await supabase
-        .from('clients')
-        .select('id')
-        .eq('user_id', userId)
-        .single();
-
-      if (clientError || !client) {
-        return res.status(403).json({ error: 'Client profile not found' });
-      }
-
-      hasAccess = appointment.patient_id === client.id;
-    }
-
-    if (!hasAccess) {
-      return res.status(403).json({ error: 'Access denied to this appointment' });
-    }
+    // AUTHENTICATION DISABLED: No user verification needed
 
     // Fetch messages for the appointment
     const { data: messages, error: messagesError } = await supabase
@@ -123,78 +62,19 @@ router.get('/:appointmentId', verifyToken, requireAnyRole, async (req, res) => {
   }
 });
 
-// Send a new chat message
-router.post('/send', verifyToken, requireAnyRole, async (req, res) => {
+// Send a new chat message - AUTHENTICATION DISABLED
+router.post('/send', requireAnyRole, async (req, res) => {
   try {
     const { appointmentId, message } = req.body;
-    const userId = req.user.id;
-    const userRole = req.userRole;
+    // AUTHENTICATION DISABLED: Use mock user ID
+    const userId = 'mock-user-id';
 
     // Validate input
     if (!appointmentId || !message || !message.trim()) {
       return res.status(400).json({ error: 'Appointment ID and message are required' });
     }
 
-    // Verify user has access to this appointment (same logic as GET)
-    let hasAccess = false;
-
-    if (userRole === 'reception') {
-      // Reception can view but typically shouldn't send messages
-      // You might want to restrict this based on business rules
-      hasAccess = true;
-    } else if (userRole === 'clinician') {
-      // Check if clinician is assigned to this appointment
-      const { data: appointment, error: appointmentError } = await supabase
-        .from('appointments')
-        .select('clinician_id')
-        .eq('id', appointmentId)
-        .single();
-
-      if (appointmentError) {
-        return res.status(404).json({ error: 'Appointment not found' });
-      }
-
-      // Get clinician record to match user_id
-      const { data: clinician, error: clinicianError } = await supabase
-        .from('clinicians2')
-        .select('id')
-        .eq('user_id', userId)
-        .single();
-
-      if (clinicianError || !clinician) {
-        return res.status(403).json({ error: 'Clinician profile not found' });
-      }
-
-      hasAccess = appointment.clinician_id === clinician.id;
-    } else if (userRole === 'client') {
-      // Check if client is the patient for this appointment
-      const { data: appointment, error: appointmentError } = await supabase
-        .from('appointments')
-        .select('patient_id')
-        .eq('id', appointmentId)
-        .single();
-
-      if (appointmentError) {
-        return res.status(404).json({ error: 'Appointment not found' });
-      }
-
-      // Get client record to match user_id
-      const { data: client, error: clientError } = await supabase
-        .from('clients')
-        .select('id')
-        .eq('user_id', userId)
-        .single();
-
-      if (clientError || !client) {
-        return res.status(403).json({ error: 'Client profile not found' });
-      }
-
-      hasAccess = appointment.patient_id === client.id;
-    }
-
-    if (!hasAccess) {
-      return res.status(403).json({ error: 'Access denied to this appointment' });
-    }
+    // AUTHENTICATION DISABLED: No access verification needed
 
     // Insert the new message
     const { data: newMessage, error: insertError } = await supabase
@@ -247,67 +127,11 @@ router.post('/send', verifyToken, requireAnyRole, async (req, res) => {
   }
 });
 
-// Get appointment participants (for chat UI)
-router.get('/:appointmentId/participants', verifyToken, requireAnyRole, async (req, res) => {
+// Get appointment participants (for chat UI) - AUTHENTICATION DISABLED
+router.get('/:appointmentId/participants', requireAnyRole, async (req, res) => {
   try {
     const { appointmentId } = req.params;
-    const userId = req.user.id;
-    const userRole = req.userRole;
-
-    // Verify user has access to this appointment (same logic as above)
-    let hasAccess = false;
-
-    if (userRole === 'reception') {
-      hasAccess = true;
-    } else if (userRole === 'clinician') {
-      const { data: appointment, error: appointmentError } = await supabase
-        .from('appointments')
-        .select('clinician_id')
-        .eq('id', appointmentId)
-        .single();
-
-      if (appointmentError) {
-        return res.status(404).json({ error: 'Appointment not found' });
-      }
-
-      const { data: clinician, error: clinicianError } = await supabase
-        .from('clinicians2')
-        .select('id')
-        .eq('user_id', userId)
-        .single();
-
-      if (clinicianError || !clinician) {
-        return res.status(403).json({ error: 'Clinician profile not found' });
-      }
-
-      hasAccess = appointment.clinician_id === clinician.id;
-    } else if (userRole === 'client') {
-      const { data: appointment, error: appointmentError } = await supabase
-        .from('appointments')
-        .select('patient_id')
-        .eq('id', appointmentId)
-        .single();
-
-      if (appointmentError) {
-        return res.status(404).json({ error: 'Appointment not found' });
-      }
-
-      const { data: client, error: clientError } = await supabase
-        .from('clients')
-        .select('id')
-        .eq('user_id', userId)
-        .single();
-
-      if (clientError || !client) {
-        return res.status(403).json({ error: 'Client profile not found' });
-      }
-
-      hasAccess = appointment.patient_id === client.id;
-    }
-
-    if (!hasAccess) {
-      return res.status(403).json({ error: 'Access denied to this appointment' });
-    }
+    // AUTHENTICATION DISABLED: No user verification needed
 
     // Get appointment details with participant information
     const { data: appointment, error: appointmentError } = await supabase

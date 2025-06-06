@@ -1,10 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const { upload, uploadFile, downloadFile, deleteFile, listFiles } = require('../controllers/fileController');
-const verifyToken = require('../config/verifyToken');
+// AUTHENTICATION DISABLED: Removed verifyToken import
 
-// Middleware to verify authentication for all file routes
-router.use(verifyToken);
+// AUTHENTICATION DISABLED: No authentication middleware needed
 
 // POST /api/files/upload - Upload files to Supabase Storage
 router.post('/upload', upload.single('file'), uploadFile);
