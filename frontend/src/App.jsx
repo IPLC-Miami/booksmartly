@@ -144,6 +144,9 @@ const router = createBrowserRouter(
       ],
     },
   ],
+  {
+    basename: "/booksmartly"
+  }
 );
 
 function App() {
