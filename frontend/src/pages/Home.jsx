@@ -13,7 +13,8 @@ function Home() {
   const { profile } = useBookSmartlyContext();
 
   const navigate = useNavigate();
-  const token = localStorage.getItem("sb-itbxttkivivyeqnduxjb-auth-token");
+  // Authentication disabled - no token check needed
+  const token = null; // Always treat as no token since auth is disabled
 
   return (
     <div className="flex flex-col overflow-hidden font-noto">
@@ -341,27 +342,16 @@ function Home() {
             />
           </p>
           <div className="mt-12 flex w-full justify-center gap-x-4">
-            {token ? (
-              <Button
-                color="iris"
-                size="3"
-                variant="soft"
-                className="my-4"
-                onClick={() => navigate("/user/dashboard")}
-              >
-                Dashboard
-              </Button>
-            ) : (
-              <Button
-                color="iris"
-                size="3"
-                variant="soft"
-                className="my-4"
-                onClick={() => navigate("/signup")}
-              >
-                Sign Up
-              </Button>
-            )}
+            {/* Authentication disabled - always show Sign Up button */}
+            <Button
+              color="iris"
+              size="3"
+              variant="soft"
+              className="my-4"
+              onClick={() => navigate("/signup")}
+            >
+              Sign Up
+            </Button>
             {profile?.role !== "clinician" && (
               <Button
                 color="iris"
@@ -369,11 +359,8 @@ function Home() {
                 variant=""
                 className="my-4"
                 onClick={() => {
-                  if (token) {
-                    navigate("/bookappointment");
-                  } else {
-                    navigate("/login");
-                  }
+                  // Authentication disabled - always navigate to book appointment
+                  navigate("/bookappointment");
                 }}
               >
                 Book Appointment
