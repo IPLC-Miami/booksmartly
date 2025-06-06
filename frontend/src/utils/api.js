@@ -1,6 +1,10 @@
 import { supabase } from "../utils/supabaseClient";
 import { authenticatedFetch, getAuthHeaders } from "./authHelper";
-const API_URL = import.meta.env.VITE_API_BASE_URL;
+
+// Use relative URL for development to enable Vite proxy
+const API_URL = import.meta.env.DEV
+  ? '/api'  // This will be proxied to localhost:3001 by Vite in development
+  : import.meta.env.VITE_API_BASE_URL;
 
 export async function getAddressFromCoords(lat, lng) {
   try {
@@ -547,11 +551,11 @@ export async function logIn(loginData) {
   }
 }
 
-export async function getUserRoleById(userId, accessToken) {
+export async function getUserRoleById(userId) {
+  // AUTHENTICATION DISABLED - No token needed
   const response = await fetch(`${API_URL}/users/getRole/${userId}`, {
-    method: "GET", // Use POST method to send data
+    method: "GET",
     headers: {
-      Authorization: `Bearer ${accessToken}`, // Send the token as part of the header
       "Content-Type": "application/json",
     },
   });
@@ -615,31 +619,30 @@ export async function signUpNewUser(userData) {
   // >>>>>>> main
 }
 
-export async function getUserDetailsByID(userId, accessToken) {
+export async function getUserDetailsByID(userId) {
+  // AUTHENTICATION DISABLED - No token needed
   const response = await fetch(`${API_URL}/users/getUserById/${userId}`, {
     method: "GET",
     headers: {
-      Authorization: `Bearer ${accessToken}`, // Send the token as part of the header
       "Content-Type": "application/json",
     },
   });
 
-  if (!response.ok) throw new Error("Failed to fetch user data");
+  if (!response.ok) {
+    throw new Error("Failed to fetch user data");
+  }
 
   const data = await response.json();
   return data;
 }
-
 export async function updateUserDetailsById(
   userId,
-  accessToken,
   editedProfile,
 ) {
   const response = await fetch(`${API_URL}/users/updateDetails/${userId}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${accessToken}`, // Include token
     },
     body: JSON.stringify(editedProfile),
   });
@@ -648,13 +651,9 @@ export async function updateUserDetailsById(
   return data;
 }
 
-export async function updateUserProfilePicture(userId, accessToken, formData) {
+export async function updateUserProfilePicture(userId, formData) {
   const response = await fetch(`${API_URL}/uploadProfiles/upload`, {
     method: "POST",
-    headers: {
-      // "Content-Type": "application/json",
-      Authorization: `Bearer ${accessToken}`, // Include token
-    },
     body: formData,
   });
 
@@ -679,14 +678,13 @@ export async function chatBot(message) {
   return data;
 }
 
-export async function getClinicianProfileDetails(userId, accessToken) { // Renamed
+export async function getClinicianProfileDetails(userId) { // Renamed
   const response = await fetch(
     `${API_URL}/clinicianProfileRoutes/getClinicianDetailsById/${userId}`, // Updated route
     {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`, // Include token
       },
     },
   );
@@ -697,14 +695,13 @@ export async function getClinicianProfileDetails(userId, accessToken) { // Renam
   return data;
 }
 
-export async function resetPassword(accessToken, new_password) {
+export async function resetPassword(token, new_password) {
   const response = await fetch(`${API_URL}/users/updatePassword`, {
-    method: "POST",
+    method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${accessToken}`, // Include token
     },
-    body: JSON.stringify({ new_password }),
+    body: JSON.stringify({ token, new_password }),
   });
 
   if (!response.ok) return Error("Failed to fetch user data");
@@ -712,25 +709,23 @@ export async function resetPassword(accessToken, new_password) {
   const data = await response.json();
   return data;
 }
-export async function getReceptionProfileDetails(userId, accessToken) {
-  // AUTH DISABLED - Return mock reception profile data
-  console.log("Authentication disabled - returning mock reception profile data");
-  
-  // Simulate a brief delay to mimic real API call
-  await new Promise(resolve => setTimeout(resolve, 500));
-  
-  // Return mock reception profile data
-  return {
-    profile: {
-      id: "mock-reception-id",
-      name: "BookSmartly Reception",
-      email: "reception@booksmartly.com",
-      address: "123 Healthcare Avenue, Medical District, City, State 12345",
-      avatar_url: null,
-      qrcode: "MOCK-QR-CODE-DATA-12345",
-      role: "reception"
-    }
-  };
+export async function getReceptionProfileDetails(userId) {
+  const response = await fetch(
+    `${API_URL}/receptionProfileRoutes/getReceptionDetailsById/${userId}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    },
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch user data");
+  }
+
+  const data = await response.json();
+  return data;
 }
 
 // Chat API functions
@@ -786,5 +781,23 @@ export async function getChatParticipants(appointmentId) {
   } catch (error) {
     console.error('Error fetching chat participants:', error);
     throw error;
+  }
+}
+
+export async function getAllUsers() {
+  try {
+    const response = await authenticatedFetch(`${API_URL}/users/allusers`, {
+      method: "GET",
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status} ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Failed to fetch all users:", error);
+    throw new Error("Failed to fetch all users.");
   }
 }
