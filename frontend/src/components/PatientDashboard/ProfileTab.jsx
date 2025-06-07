@@ -5,7 +5,8 @@ import EditProfile from "./EditProfile";
 import AppointmentCard from "./AppointmentCard";
 import useGetUpcomingAppointments from "../../hooks/useGetUpcomingAppointments";
 import Loader from "../Loader";
-import { supabase } from "../../utils/supabaseClient";
+// AUTHENTICATION DISABLED - Supabase client disabled
+// import { supabase } from "../../utils/supabaseClient";
 import { useNavigate } from "react-router-dom";
 import { useGetUserDetails } from "../../hooks/useGetUserDetails";
 import useUpdateUserProfilePicture from "../../hooks/useUpdateUserProfilePicture";

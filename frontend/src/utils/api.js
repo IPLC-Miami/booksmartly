@@ -1,5 +1,4 @@
-import { supabase } from "../utils/supabaseClient";
-import { authenticatedFetch, getAuthHeaders } from "./authHelper";
+// AUTHENTICATION DISABLED - No auth imports needed
 
 // Use relative URL for development to enable Vite proxy
 const API_URL = import.meta.env.DEV
@@ -35,7 +34,7 @@ export async function getClinicianSlots(date, specialization, userId, mode) {
   // const specialization = appointmentData.specialization;
   // const date = appointmentData.date;
 
-  const response = await authenticatedFetch(
+  const response = await fetch(
     `${API_URL}/clinicians/availableSlots2/${userId}?specialization=${specialization}&date=${date}&mode=${mode}`,
     {
       method: "GET",
@@ -48,7 +47,7 @@ export async function getClinicianSlots(date, specialization, userId, mode) {
   return data;
 }
 export async function getProfileDetails(userId) {
-  const response = await authenticatedFetch(`${API_URL}/users/getUserById/${userId}`);
+  const response = await fetch(`${API_URL}/users/getUserById/${userId}`);
   if (!response.ok) {
     throw new Error(`Error: ${response.status} ${response.statusText}`);
   }
@@ -56,7 +55,7 @@ export async function getProfileDetails(userId) {
   return data;
 }
 export async function getClinicianDetails(clinicianId) {
-  const response = await authenticatedFetch(
+  const response = await fetch(
     `${API_URL}/clinicians/clinicianDetailsById/${clinicianId}`,
   );
   if (!response.ok) {
@@ -70,7 +69,7 @@ export async function getClinicianAvailability(clinicianId) {
   return clinicianDetails.availability;
 }
 export async function deleteAppointment(appointmentId) {
-  const response = await authenticatedFetch(
+  const response = await fetch(
     `${API_URL}/appointments/delete/${appointmentId}`,
     {
       method: "DELETE",
@@ -86,7 +85,7 @@ export async function deleteAppointment(appointmentId) {
 export async function getPatientAppointments(patientId) {
   const today = new Date().toISOString().split("T")[0];
   try {
-    const response = await authenticatedFetch(
+    const response = await fetch(
       `${API_URL}/appointments/upcomingAppointments/${patientId}?date=${today}`,
     );
     if (!response.ok) {
@@ -146,7 +145,7 @@ export async function getPatientAppointments(patientId) {
 
 export async function getPatientAppointmentHistory(patientId) {
   try {
-    const response = await authenticatedFetch(
+    const response = await fetch(
       `${API_URL}/appointments/completedAppointments/${patientId}`,
     );
     if (!response.ok) {
@@ -211,7 +210,7 @@ export async function getQueueForClinician(clinicianId, selectedDate, selectedSl
   const today = new Date().toISOString().split("T")[0]; // Formats as YYYY-MM-DD
 
   try {
-    const response = await authenticatedFetch(
+    const response = await fetch(
       `${API_URL}/appointments/clinicianUpcomingAppointments/${clinicianId}?date=${selectedDate}&endTime=${selectedSlot.end_time}&startTime=${selectedSlot.start_time}`, // Updated route
     );
     if (!response.ok) {
@@ -250,7 +249,7 @@ export async function getQueueForClinician(clinicianId, selectedDate, selectedSl
 
 export async function getHistoryForClinician(clinicianId) { // Renamed
   try {
-    const response = await authenticatedFetch(
+    const response = await fetch(
       `${API_URL}/appointments/clinicianCompletedAppointments/${clinicianId}`, // Updated route
     );
     if (!response.ok) {
@@ -367,7 +366,7 @@ export async function getHistoryForClinician(clinicianId) { // Renamed
 }
 export async function getPrescription(appointmentId) {
   try {
-    const response = await authenticatedFetch(
+    const response = await fetch(
       `${API_URL}/prescriptions/${appointmentId}`,
     );
     if (!response.ok) {
@@ -382,7 +381,7 @@ export async function getPrescription(appointmentId) {
 }
 
 export async function sendOtp(patientId) {
-  const response = await authenticatedFetch(`${API_URL}/users/sendOtp/${patientId}`, {
+  const response = await fetch(`${API_URL}/users/sendOtp/${patientId}`, {
     method: "GET",
   });
   if (!response.ok) {
@@ -392,7 +391,7 @@ export async function sendOtp(patientId) {
   return response;
 }
 export async function validateOtp(patientId, otp) {
-  const response = await authenticatedFetch(
+  const response = await fetch(
     `${API_URL}/users/validateOtp/${patientId}?otp=${otp}`,
     {
       method: "GET",
@@ -410,8 +409,11 @@ export async function postPrescription(prescriptionData) {
     medicines: prescriptionData.clinicianPrescription, // Updated
     clinicianNotes: prescriptionData.clinicianRemarks, // Updated
   };
-  const response = await authenticatedFetch(`${API_URL}/prescriptions/generate`, {
+  const response = await fetch(`${API_URL}/prescriptions/generate`, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify(val),
   });
   if (!response.ok) {
@@ -423,8 +425,11 @@ export async function postPrescription(prescriptionData) {
 
 export async function postFeedback(appointmentId, feedback, clinicianId) { // Renamed parameter
 
-  const response = await authenticatedFetch(`${API_URL}/feedback/add/${appointmentId}`, {
+  const response = await fetch(`${API_URL}/feedback/add/${appointmentId}`, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({ feedback: feedback, clinicianId: clinicianId }), // Updated
   });
   if (!response.ok) {
@@ -434,7 +439,7 @@ export async function postFeedback(appointmentId, feedback, clinicianId) { // Re
   return data;
 }
 export async function postAppointmentStatus({ appointmentId, status }) {
-  const response = await authenticatedFetch(
+  const response = await fetch(
     `${API_URL}/appointments/updateStatus/${appointmentId}?status=${status}`,
     {
       method: "POST",
@@ -450,8 +455,11 @@ export async function postAppointmentStatus({ appointmentId, status }) {
 export async function postBookAppointment(bookingData) {
   const formData = bookingData.formData;
   const patientId = bookingData.patientId;
-  const response = await authenticatedFetch(`${API_URL}/appointments/book/`, {
+  const response = await fetch(`${API_URL}/appointments/book/`, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({
       patientId: patientId, //logged in user's id will come here
       clinicianId: formData.selectedClinician.clinician_id, // Updated
@@ -731,7 +739,7 @@ export async function getReceptionProfileDetails(userId) {
 // Chat API functions
 export async function getChatMessages(appointmentId) {
   try {
-    const response = await authenticatedFetch(`${API_URL}/chat/${appointmentId}`, {
+    const response = await fetch(`${API_URL}/chat/${appointmentId}`, {
       method: 'GET',
     });
 
@@ -749,8 +757,11 @@ export async function getChatMessages(appointmentId) {
 
 export async function sendChatMessage(messageData) {
   try {
-    const response = await authenticatedFetch(`${API_URL}/chat/send`, {
+    const response = await fetch(`${API_URL}/chat/send`, {
       method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(messageData),
     });
 
@@ -768,7 +779,7 @@ export async function sendChatMessage(messageData) {
 
 export async function getChatParticipants(appointmentId) {
   try {
-    const response = await authenticatedFetch(`${API_URL}/chat/${appointmentId}/participants`, {
+    const response = await fetch(`${API_URL}/chat/${appointmentId}/participants`, {
       method: 'GET',
     });
 
@@ -786,7 +797,7 @@ export async function getChatParticipants(appointmentId) {
 
 export async function getAllUsers() {
   try {
-    const response = await authenticatedFetch(`${API_URL}/users/allusers`, {
+    const response = await fetch(`${API_URL}/users/allusers`, {
       method: "GET",
     });
 

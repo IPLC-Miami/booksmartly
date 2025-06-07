@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import io from "socket.io-client";
 import axios from "axios";
-import { supabase } from "../utils/supabaseClient";
+// AUTHENTICATION DISABLED - supabase import removed
+// import { supabase } from "../utils/supabaseClient";
 const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 const SOCKET_SERVER_URL = `${API_URL}`;

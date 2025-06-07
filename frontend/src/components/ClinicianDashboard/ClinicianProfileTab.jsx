@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import useGetClinicianProfileDetails from "../../hooks/useGetClinicianProfileDetails"; // Assuming this hook will be renamed
 import Loader from "../Loader";
 import EditClinicianProfile from "./EditClinicianProfile"; // Assuming this component will be renamed
-import { supabase } from "../../utils/supabaseClient";
+// AUTHENTICATION DISABLED - Supabase client disabled
+// import { supabase } from "../../utils/supabaseClient";
 import { useNavigate } from "react-router-dom";
 import { data } from "autoprefixer";
 import { toast } from "sonner";

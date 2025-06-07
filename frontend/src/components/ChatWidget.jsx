@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { supabase } from '../utils/supabaseClient';
+import React, { useState, useEffect, useRef } from "react";
+// AUTHENTICATION DISABLED - Supabase realtime chat functionality disabled
 import { getChatMessages, sendChatMessage } from '../utils/api';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
@@ -31,35 +31,24 @@ const ChatWidget = ({ appointmentId, currentUser, userRole }) => {
     },
   });
 
-  // Set up Supabase Realtime subscription
+  // AUTHENTICATION DISABLED - Supabase Realtime subscription disabled
+  // Real-time chat updates will need to be re-implemented with new auth system
   useEffect(() => {
     if (!appointmentId) return;
 
-    const channel = supabase
-      .channel(`chat_${appointmentId}`)
-      .on(
-        'postgres_changes',
-        {
-          event: 'INSERT',
-          schema: 'public',
-          table: 'messages',
-          filter: `appointment_id=eq.${appointmentId}`,
-        },
-        (payload) => {
-          // Update the messages in real-time
-          queryClient.setQueryData(['chatMessages', appointmentId], (oldMessages) => {
-            if (!oldMessages) return [payload.new];
-            // Check if message already exists to avoid duplicates
-            const messageExists = oldMessages.some(msg => msg.id === payload.new.id);
-            if (messageExists) return oldMessages;
-            return [...oldMessages, payload.new];
-          });
-        }
-      )
-      .subscribe();
+    // TODO: Re-implement realtime chat subscription when new auth system is ready
+    // This should include:
+    // - Supabase realtime channel subscription for chat messages
+    // - Real-time message updates using postgres_changes
+    // - Proper cleanup of subscriptions
+    
+    // For now, we'll use polling as a fallback (refetch every 5 seconds)
+    const interval = setInterval(() => {
+      queryClient.invalidateQueries(['chatMessages', appointmentId]);
+    }, 5000);
 
     return () => {
-      supabase.removeChannel(channel);
+      clearInterval(interval);
     };
   }, [appointmentId, queryClient]);
 

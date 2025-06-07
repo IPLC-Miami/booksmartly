@@ -16,7 +16,7 @@ import "@fontsource/inter/800.css";
 import "@fontsource/inter/900.css";
 import "@fontsource-variable/noto-sans-mono";
 import BookSmartlyProvider from "./utils/ContextProvider.jsx";
-import { AuthContextProvider } from "./utils/ContextProvider.jsx";
+// AUTHENTICATION DISABLED - AuthContextProvider removed
 import { Toaster } from "sonner";
 /* ------------------------------------------------------ */
 
@@ -25,9 +25,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <>
     <Toaster richColors closeButton />
     <BookSmartlyProvider>
-      <AuthContextProvider>
-        <App />
-      </AuthContextProvider>
+      {/* AUTHENTICATION DISABLED - AuthContextProvider removed */}
+      <App />
     </BookSmartlyProvider>
   </>,
   // </React.StrictMode>,

@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import useGetReceptionProfileDetails from "../../hooks/useGetReceptionProfileDetails.js";
 import Loader from "../Loader";
-import { supabase } from "../../utils/supabaseClient";
+// AUTHENTICATION DISABLED - Supabase client disabled
+// import { supabase } from "../../utils/supabaseClient";
 import {
   Calendar,
   Clock,

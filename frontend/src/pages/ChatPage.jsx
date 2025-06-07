@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import useUserRoleById from "../hooks/useUserRoleById";
-import { useGetCurrentUser } from "../hooks/useGetCurrentUser";
+// AUTHENTICATION DISABLED - useGetCurrentUser hook deleted
+// import { useGetCurrentUser } from "../hooks/useGetCurrentUser";
 import { getQueueForClinician, getHistoryForClinician, getPatientAppointments, getPatientAppointmentHistory } from '../utils/api';
 import { useQuery } from '@tanstack/react-query';
 import ChatWidget from '../components/ChatWidget';
-import { supabase } from '../utils/supabaseClient';
+// AUTHENTICATION DISABLED - Supabase client disabled
+// import { supabase } from '../utils/supabaseClient';
 
 function ChatPage() {
   const [role, setRole] = useState(null);
@@ -16,7 +18,8 @@ function ChatPage() {
   const storedUserId = localStorage.getItem("userId");
   const storedRole = localStorage.getItem("userRole");
 
-  const { data: dataUser } = useGetCurrentUser();
+  // AUTHENTICATION DISABLED - useGetCurrentUser hook deleted
+  // const { data: dataUser } = useGetCurrentUser();
   const { data: dataRole } = useUserRoleById(userId);
 
   // Set user ID and role from localStorage

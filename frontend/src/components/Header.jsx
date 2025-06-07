@@ -12,9 +12,7 @@ import {
 } from "@radix-ui/themes";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "../utils/supabaseClient";
 import { useGetUserDetails } from "../hooks/useGetUserDetails";
-import { useGetCurrentUser } from "../hooks/useGetCurrentUser";
 import { useQueryClient } from "@tanstack/react-query";
 import { Brain, Home } from "lucide-react";
 
@@ -26,8 +24,7 @@ function Header() {
   const [userRole, setUserRole] = useState(localStorage.getItem("userRole"));
   const [scrollPosition, setScrollPosition] = useState(0);
   
-  // Use proper Supabase session handling
-  const { user: currentUser, loading: userLoading, error: userError } = useGetCurrentUser();
+  // Authentication disabled - using localStorage instead
   const roleMenuItems = {
     clinician: [
       { label: "Dashboard", path: "/user/dashboard" },

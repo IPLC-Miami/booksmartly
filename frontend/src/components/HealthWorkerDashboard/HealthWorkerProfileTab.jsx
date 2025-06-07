@@ -2,7 +2,8 @@ import { Avatar, Badge, Code, Flex } from "@radix-ui/themes";
 import { useEffect, useState } from "react";
 import useGetReceptionProfileDetails from "../../hooks/useGetReceptionProfileDetails.js";
 import Loader from "../Loader.jsx";
-import { supabase } from "../../utils/supabaseClient.js";
+// AUTHENTICATION DISABLED - Supabase client disabled
+// import { supabase } from "../../utils/supabaseClient.js";
 import { useNavigate } from "react-router-dom";
 import { data } from "autoprefixer";
 import { toast } from "sonner";
