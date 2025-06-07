@@ -108,6 +108,8 @@ AI_*.md
 *_INSTRUCTIONS.md
 *_OUTLINE.md
 *_LOG.md
+*_REMOTE_ACCESS_GUIDE.md
+*_ACCESS_GUIDE.md
 
 # Database dumps and migration artifacts
 schema_dump.sql
