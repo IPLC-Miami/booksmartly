@@ -1,12 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const supabase = require("../config/supabaseClient");
-// AUTHENTICATION DISABLED: Removed verifyToken import
+// AUTHENTICATION DISABLED: All auth imports removed
 const { getCache, setCache } = require('../config/redisClient');
-const { createClient: createSupabaseClient } = require('@supabase/supabase-js'); // Renamed to avoid conflict if 'supabase' is used elsewhere for anon client
-// Removed problematic import - using verifyToken instead
-const sendOtp = require("../services/OtpService");
-const validateOtp = require("../services/validateOtpService");
+const { createClient: createSupabaseClient } = require('@supabase/supabase-js');
+// AUTHENTICATION DISABLED: Removed OTP service imports
 
 const frontend_url = process.env.frontend_url;
 
@@ -248,19 +246,7 @@ async function checkPhoneExists(phone) {
 //   process.env.SUPABASE_URL,
 //   process.env.SUPABASE_KEY
 // );
-//later this route can be used as forgot password route
-router.get("/sendOtp/:id", async (req, res) => {
-  const { id } = req.params;
-  const info = await sendOtp(id);
-  res.json({ info });
-});
-//later this route can be used with forgot password route
-router.get("/validateOtp/:id", async (req, res) => {
-  const id = req.params.id;
-  const { otp } = req.query;
-  const info = await validateOtp(id, otp);
-  res.json({ info });
-});
+// AUTHENTICATION DISABLED: Removed OTP routes
 router.get("/allusers", async (req, res) => {
   try {
     const { data, error } = await getAllUserProfiles();
