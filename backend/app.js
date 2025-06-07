@@ -11,7 +11,7 @@ const { redis, setCache, getCache } = require("./config/redisClient.js");
 const { initSocket } = require("./config/socket"); // import your socket module
 
 const userRoutes = require("./routes/userRoutes");
-// AUTHENTICATION DISABLED: Removed authRoutes import
+const authRoutes = require("./routes/authRoutes");
 const clinicianRoutes = require("./routes/clinicianRoutes"); // Updated
 const appointmentRoutes = require("./routes/appointmentRoutes");
 const prescriptionRoutes = require("./routes/prescriptionRoutes");
@@ -75,7 +75,8 @@ app.use(async (req, res, next) => {
 // Routes
 app.get("/", (req, res) => res.send("Hello World"));
 
-// AUTHENTICATION DISABLED: Removed auth routes mount
+app.use("/auth", authRoutes);
+app.use("/api/auth", authRoutes); // ADD: Mount authRoutes under /api/auth to match frontend expectations
 app.use("/users", userRoutes);
 app.use("/api/users", userRoutes); // ADD: Mount userRoutes under /api/users to match frontend expectations
 app.use("/clinicians", clinicianRoutes); // Updated

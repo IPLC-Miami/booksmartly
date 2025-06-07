@@ -1,9 +1,35 @@
-// AUTHENTICATION DISABLED - No auth imports needed
+import { supabase } from './supabaseClient.js';
 
 // Use relative URL for development to enable Vite proxy
 const API_URL = import.meta.env.DEV
   ? '/api'  // This will be proxied to localhost:3001 by Vite in development
   : import.meta.env.VITE_API_BASE_URL;
+
+// Helper function to get auth headers
+async function getAuthHeaders() {
+  const { data: { session } } = await supabase.auth.getSession();
+  if (session?.access_token) {
+    return {
+      'Authorization': `Bearer ${session.access_token}`,
+      'Content-Type': 'application/json'
+    };
+  }
+  return {
+    'Content-Type': 'application/json'
+  };
+}
+
+// Authenticated fetch wrapper
+async function authenticatedFetch(url, options = {}) {
+  const headers = await getAuthHeaders();
+  return fetch(url, {
+    ...options,
+    headers: {
+      ...headers,
+      ...options.headers
+    }
+  });
+}
 
 export async function getAddressFromCoords(lat, lng) {
   try {
@@ -30,11 +56,7 @@ export async function getAddressFromCoords(lat, lng) {
 }
 
 export async function getClinicianSlots(date, specialization, userId, mode) {
-  // const userId = appointmentData.userId;
-  // const specialization = appointmentData.specialization;
-  // const date = appointmentData.date;
-
-  const response = await fetch(
+  const response = await authenticatedFetch(
     `${API_URL}/clinicians/availableSlots2/${userId}?specialization=${specialization}&date=${date}&mode=${mode}`,
     {
       method: "GET",
@@ -46,16 +68,18 @@ export async function getClinicianSlots(date, specialization, userId, mode) {
   const data = await response.json();
   return data;
 }
+
 export async function getProfileDetails(userId) {
-  const response = await fetch(`${API_URL}/users/getUserById/${userId}`);
+  const response = await authenticatedFetch(`${API_URL}/users/getUserById/${userId}`);
   if (!response.ok) {
     throw new Error(`Error: ${response.status} ${response.statusText}`);
   }
   const data = await response.json();
   return data;
 }
+
 export async function getClinicianDetails(clinicianId) {
-  const response = await fetch(
+  const response = await authenticatedFetch(
     `${API_URL}/clinicians/clinicianDetailsById/${clinicianId}`,
   );
   if (!response.ok) {
@@ -64,12 +88,14 @@ export async function getClinicianDetails(clinicianId) {
   const data = await response.json();
   return data;
 }
+
 export async function getClinicianAvailability(clinicianId) {
   const clinicianDetails = await getClinicianDetails(clinicianId);
   return clinicianDetails.availability;
 }
+
 export async function deleteAppointment(appointmentId) {
-  const response = await fetch(
+  const response = await authenticatedFetch(
     `${API_URL}/appointments/delete/${appointmentId}`,
     {
       method: "DELETE",
@@ -82,10 +108,11 @@ export async function deleteAppointment(appointmentId) {
 
   return response.json();
 }
+
 export async function getPatientAppointments(patientId) {
   const today = new Date().toISOString().split("T")[0];
   try {
-    const response = await fetch(
+    const response = await authenticatedFetch(
       `${API_URL}/appointments/upcomingAppointments/${patientId}?date=${today}`,
     );
     if (!response.ok) {
@@ -145,7 +172,7 @@ export async function getPatientAppointments(patientId) {
 
 export async function getPatientAppointmentHistory(patientId) {
   try {
-    const response = await fetch(
+    const response = await authenticatedFetch(
       `${API_URL}/appointments/completedAppointments/${patientId}`,
     );
     if (!response.ok) {
@@ -210,7 +237,7 @@ export async function getQueueForClinician(clinicianId, selectedDate, selectedSl
   const today = new Date().toISOString().split("T")[0]; // Formats as YYYY-MM-DD
 
   try {
-    const response = await fetch(
+    const response = await authenticatedFetch(
       `${API_URL}/appointments/clinicianUpcomingAppointments/${clinicianId}?date=${selectedDate}&endTime=${selectedSlot.end_time}&startTime=${selectedSlot.start_time}`, // Updated route
     );
     if (!response.ok) {
@@ -249,7 +276,7 @@ export async function getQueueForClinician(clinicianId, selectedDate, selectedSl
 
 export async function getHistoryForClinician(clinicianId) { // Renamed
   try {
-    const response = await fetch(
+    const response = await authenticatedFetch(
       `${API_URL}/appointments/clinicianCompletedAppointments/${clinicianId}`, // Updated route
     );
     if (!response.ok) {
@@ -282,91 +309,11 @@ export async function getHistoryForClinician(clinicianId) { // Renamed
     console.error("Failed to fetch patient appointments:", error);
     throw new Error("Failed to fetch patient appointments.");
   }
-
-  // const testData = [
-  //   {
-  //     patiendId: 1,
-  //     patientName: "John Doe",
-  //     age: 25,
-  //     gender: "Male",
-  //     issue: "Toothache",
-  //     issueDetails:
-  //       "I have a severe toothache since last night. My gums are swollen and I can't eat anything. My gums feel puffy and tender, especially around certain teeth. They look red and swollen, and sometimes they even bleed a little when I brush or floss. It feels sore, and chewing can be uncomfortable.",
-  //     currentMedication: "Crocin 500mg, Budamate 200mg",
-  //     appointment_date: "28-09-2025",
-  //     appointment_time: "10:00 AM - 2:00 PM",
-  //     hospital: "CityCare General Hospital",
-  //     uid: "132",
-  //     queuePosition: 123,
-  //     doctorPrescription: `## Medical Prescription Report
-  //                           **Patient Name:** John Doe
-  //                           **Age:** 45
-  //                           **Gender:** Male
-  //                           **Date:** 2025-02-02
-  //
-  //                           ## Diagnosis
-  //                           - Hypertension
-  //                           - Type 2 Diabetes Mellitus
-  //
-  //                           ## Prescriptions
-  //                           | Medication          | Dosage          | Frequency         | Duration  |
-  //                           |---------------------|-----------------|-------------------|-----------|
-  //                           | Amlodipine 5mg      | 1 tablet        | Once daily (AM)   | 1 month   |
-  //                           | Metformin 500mg     | 1 tablet        | Twice daily (AM/PM) | 1 month   |
-  //                           | Atorvastatin 10mg   | 1 tablet        | Nightly (PM)      | 1 month   |
-  //
-  //                           ## Instructions
-  //                           - Maintain a low-sodium diet.
-  //                           - Monitor blood sugar levels daily.
-  //                           - Engage in moderate exercise for 30 minutes/day.
-  //
-  //                           ## Notes
-  //                           - Follow up in 4 weeks with updated blood pressure and glucose readings.
-  //
-  //                           **Clinician's Name:** Dr. Emily Carter
-  //                           **Contact:** (123) 456-7890
-  //                           **Signature:** ______________________`,
-  //     clinicianRemarks: ``
-  //   },
-  //   {
-  //     patiendId: 2,
-  //     patientName: "Jane Doe",
-  //     age: 25,
-  //     gender: "Male",
-  //     issue: "Toothache",
-  //     issueDetails:
-  //       "I have a severe toothache since last night. My gums are swollen and I can't eat anything. My gums feel puffy and tender, especially around certain teeth. They look red and swollen, and sometimes they even bleed a little when I brush or floss. It feels sore, and chewing can be uncomfortable.",
-  //     currentMedication: "Crocin 500mg, Budamate 200mg",
-  //     appointment_date: "28-09-2025",
-  //     appointment_time: "9:00 AM - 1:00 PM",
-  //     hospital: "CityCare General Hospital",
-  //     uid: "2",
-  //     queuePosition: 3,
-  //     clinicianPrescription: ``,
-  //     clinicianRemarks: ``
-  //   },
-  //   {
-  //     patiendId: 1,
-  //     patientName: "John Doe",
-  //     age: 25,
-  //     gender: "Male",
-  //     issue: "Toothache",
-  //     issueDetails:
-  //       "I have a severe toothache since last night. My gums are swollen and I can't eat anything. My gums feel puffy and tender, especially around certain teeth. They look red and swollen, and sometimes they even bleed a little when I brush or floss. It feels sore, and chewing can be uncomfortable.",
-  //     currentMedication: "Crocin 500mg, Budamate 200mg",
-  //     appointment_date: "28-09-2025",
-  //     appointment_time: "11:00 AM - 3:00 PM",
-  //     hospital: "CityCare General Hospital",
-  //     uid: "3",
-  //     queuePosition: 141,
-  //     clinicianPrescription: `Crocin 500mg, Budamate 200mg`,
-  //     clinicianRemarks: ``
-  //   },
-  // ];
 }
+
 export async function getPrescription(appointmentId) {
   try {
-    const response = await fetch(
+    const response = await authenticatedFetch(
       `${API_URL}/prescriptions/${appointmentId}`,
     );
     if (!response.ok) {
@@ -381,7 +328,7 @@ export async function getPrescription(appointmentId) {
 }
 
 export async function sendOtp(patientId) {
-  const response = await fetch(`${API_URL}/users/sendOtp/${patientId}`, {
+  const response = await authenticatedFetch(`${API_URL}/users/sendOtp/${patientId}`, {
     method: "GET",
   });
   if (!response.ok) {
@@ -390,8 +337,9 @@ export async function sendOtp(patientId) {
   const data = await response.json();
   return response;
 }
+
 export async function validateOtp(patientId, otp) {
-  const response = await fetch(
+  const response = await authenticatedFetch(
     `${API_URL}/users/validateOtp/${patientId}?otp=${otp}`,
     {
       method: "GET",
@@ -403,13 +351,14 @@ export async function validateOtp(patientId, otp) {
   const data = await response.json();
   return data.info.check;
 }
+
 export async function postPrescription(prescriptionData) {
   const val = {
     appointmentId: prescriptionData.appointmentId,
     medicines: prescriptionData.clinicianPrescription, // Updated
     clinicianNotes: prescriptionData.clinicianRemarks, // Updated
   };
-  const response = await fetch(`${API_URL}/prescriptions/generate`, {
+  const response = await authenticatedFetch(`${API_URL}/prescriptions/generate`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -425,7 +374,7 @@ export async function postPrescription(prescriptionData) {
 
 export async function postFeedback(appointmentId, feedback, clinicianId) { // Renamed parameter
 
-  const response = await fetch(`${API_URL}/feedback/add/${appointmentId}`, {
+  const response = await authenticatedFetch(`${API_URL}/feedback/add/${appointmentId}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -438,8 +387,9 @@ export async function postFeedback(appointmentId, feedback, clinicianId) { // Re
   const data = await response.json();
   return data;
 }
+
 export async function postAppointmentStatus({ appointmentId, status }) {
-  const response = await fetch(
+  const response = await authenticatedFetch(
     `${API_URL}/appointments/updateStatus/${appointmentId}?status=${status}`,
     {
       method: "POST",
@@ -452,10 +402,11 @@ export async function postAppointmentStatus({ appointmentId, status }) {
   const data = await response.json();
   return data;
 }
+
 export async function postBookAppointment(bookingData) {
   const formData = bookingData.formData;
   const patientId = bookingData.patientId;
-  const response = await fetch(`${API_URL}/appointments/book/`, {
+  const response = await authenticatedFetch(`${API_URL}/appointments/book/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -484,6 +435,7 @@ export async function postBookAppointment(bookingData) {
   }
   const data = await response.json();
 }
+
 export async function getClinicianType(healthIssue) { // Renamed
   try {
     const response = await fetch(
@@ -509,59 +461,8 @@ export async function getClinicianType(healthIssue) { // Renamed
   }
 }
 
-export async function logIn(loginData) {
-  const { email, password } = loginData;
-
-  try {
-    // AUTHENTICATION DISABLED - Return mock authentication data
-    console.log("Authentication disabled - returning mock login data for:", email);
-    
-    // Simulate a brief delay to mimic real authentication
-    await new Promise(resolve => setTimeout(resolve, 500));
-    
-    // Return mock authentication data structure matching Supabase format
-    const mockData = {
-      user: {
-        id: "mock-user-id-12345",
-        email: email,
-        email_confirmed_at: new Date().toISOString(),
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-        user_metadata: {},
-        app_metadata: {},
-        aud: "authenticated",
-        role: "authenticated"
-      },
-      session: {
-        access_token: "mock-access-token-12345",
-        refresh_token: "mock-refresh-token-12345",
-        expires_in: 3600,
-        expires_at: Math.floor(Date.now() / 1000) + 3600,
-        token_type: "bearer",
-        user: {
-          id: "mock-user-id-12345",
-          email: email,
-          email_confirmed_at: new Date().toISOString(),
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-          user_metadata: {},
-          app_metadata: {},
-          aud: "authenticated",
-          role: "authenticated"
-        }
-      }
-    };
-
-    return mockData;
-  } catch (error) {
-    console.error("Mock login error:", error);
-    throw new Error("Mock authentication failed");
-  }
-}
-
 export async function getUserRoleById(userId) {
-  // AUTHENTICATION DISABLED - No token needed
-  const response = await fetch(`${API_URL}/users/getRole/${userId}`, {
+  const response = await authenticatedFetch(`${API_URL}/users/getRole/${userId}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -576,13 +477,11 @@ export async function getUserRoleById(userId) {
   return data;
 }
 
-// Removed getCurrentActiveUser() function - use useGetCurrentUser hook instead
-
 export async function signUpNewUser(userData) {
   try {
     const apiUrl = `${API_URL}/users/addUserIfNotExist`;
 
-    const response = await fetch(apiUrl, {
+    const response = await authenticatedFetch(apiUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -614,22 +513,10 @@ export async function signUpNewUser(userData) {
       message: error.message || "Something went wrong. Please try again.",
     };
   }
-  // =======
-  //   const apiUrl = `${API_URL}/api/users/addUserIfNotExist`;
-  //   const response = await fetch(apiUrl, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(userData),
-  //   });
-  //   const result = await response.json();
-  // >>>>>>> main
 }
 
 export async function getUserDetailsByID(userId) {
-  // AUTHENTICATION DISABLED - No token needed
-  const response = await fetch(`${API_URL}/users/getUserById/${userId}`, {
+  const response = await authenticatedFetch(`${API_URL}/users/getUserById/${userId}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -643,11 +530,12 @@ export async function getUserDetailsByID(userId) {
   const data = await response.json();
   return data;
 }
+
 export async function updateUserDetailsById(
   userId,
   editedProfile,
 ) {
-  const response = await fetch(`${API_URL}/users/updateDetails/${userId}`, {
+  const response = await authenticatedFetch(`${API_URL}/users/updateDetails/${userId}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -660,8 +548,12 @@ export async function updateUserDetailsById(
 }
 
 export async function updateUserProfilePicture(userId, formData) {
+  const headers = await getAuthHeaders();
+  delete headers['Content-Type']; // Let browser set Content-Type for FormData
+  
   const response = await fetch(`${API_URL}/uploadProfiles/upload`, {
     method: "POST",
+    headers: headers,
     body: formData,
   });
 
@@ -687,7 +579,7 @@ export async function chatBot(message) {
 }
 
 export async function getClinicianProfileDetails(userId) { // Renamed
-  const response = await fetch(
+  const response = await authenticatedFetch(
     `${API_URL}/clinicianProfileRoutes/getClinicianDetailsById/${userId}`, // Updated route
     {
       method: "GET",
@@ -704,7 +596,7 @@ export async function getClinicianProfileDetails(userId) { // Renamed
 }
 
 export async function resetPassword(token, new_password) {
-  const response = await fetch(`${API_URL}/users/updatePassword`, {
+  const response = await authenticatedFetch(`${API_URL}/users/updatePassword`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -717,8 +609,9 @@ export async function resetPassword(token, new_password) {
   const data = await response.json();
   return data;
 }
+
 export async function getReceptionProfileDetails(userId) {
-  const response = await fetch(
+  const response = await authenticatedFetch(
     `${API_URL}/receptionProfileRoutes/getReceptionDetailsById/${userId}`,
     {
       method: "GET",
@@ -739,7 +632,7 @@ export async function getReceptionProfileDetails(userId) {
 // Chat API functions
 export async function getChatMessages(appointmentId) {
   try {
-    const response = await fetch(`${API_URL}/chat/${appointmentId}`, {
+    const response = await authenticatedFetch(`${API_URL}/chat/${appointmentId}`, {
       method: 'GET',
     });
 
@@ -757,7 +650,7 @@ export async function getChatMessages(appointmentId) {
 
 export async function sendChatMessage(messageData) {
   try {
-    const response = await fetch(`${API_URL}/chat/send`, {
+    const response = await authenticatedFetch(`${API_URL}/chat/send`, {
       method: 'POST',
       headers: {
         "Content-Type": "application/json",
@@ -779,7 +672,7 @@ export async function sendChatMessage(messageData) {
 
 export async function getChatParticipants(appointmentId) {
   try {
-    const response = await fetch(`${API_URL}/chat/${appointmentId}/participants`, {
+    const response = await authenticatedFetch(`${API_URL}/chat/${appointmentId}/participants`, {
       method: 'GET',
     });
 
@@ -797,7 +690,7 @@ export async function getChatParticipants(appointmentId) {
 
 export async function getAllUsers() {
   try {
-    const response = await fetch(`${API_URL}/users/allusers`, {
+    const response = await authenticatedFetch(`${API_URL}/users/allusers`, {
       method: "GET",
     });
 

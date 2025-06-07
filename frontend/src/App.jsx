@@ -15,7 +15,14 @@ import AnalyticsPage from "./pages/AnalyticsPage";
 import ChatPage from "./pages/ChatPage";
 import ProfilePage from "./pages/ProfilePage";
 import { ToastContainer } from "react-toastify";
-// Removed ProtectedRoutes and EnhancedProtectedRoute imports - NO AUTH
+import { ProtectedRoute, AdminRoute, ClinicianRoute, ClientRoute } from "./utils/ProtectedRoutes";
+import LoginPage from "./pages/LoginPage";
+import SignUpPage from "./pages/SignUpPage";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
+import AccountVerification from "./pages/AccountVerification";
+import AccountVerified from "./pages/AccountVerified";
+import ResetPasswordEmailSent from "./pages/ResetPasswordEmailSent";
 import SingleFeaturePageChatbot from "./pages/SingleFeaturePageChatbot";
 import SingleFeaturePageMedSpecRec from "./pages/SingleFeaturePageMedSpecRec";
 import SingleFeaturePageFeedback from "./pages/SingleFeaturePageFeedback";
@@ -36,80 +43,138 @@ const router = createBrowserRouter(
         },
         {
           path: "/login",
-          element: <UserSelection />,
+          element: <LoginPage />,
           errorElement: <ErrorPage />,
         },
-        // Redirect old auth routes to user selection
         {
           path: "/signup",
-          element: <Navigate to="/login" replace />,
+          element: <SignUpPage />,
+          errorElement: <ErrorPage />,
+        },
+        {
+          path: "/forgot-password",
+          element: <ForgotPassword />,
+          errorElement: <ErrorPage />,
+        },
+        {
+          path: "/reset-password",
+          element: <ResetPasswordPage />,
+          errorElement: <ErrorPage />,
         },
         {
           path: "/verification",
-          element: <Navigate to="/login" replace />,
+          element: <AccountVerification />,
+          errorElement: <ErrorPage />,
         },
         {
           path: "/verified",
-          element: <Navigate to="/login" replace />,
+          element: <AccountVerified />,
+          errorElement: <ErrorPage />,
         },
-        // ALL ROUTES NOW PUBLIC - NO AUTH REQUIRED
+        {
+          path: "/reset-password-email-sent",
+          element: <ResetPasswordEmailSent />,
+          errorElement: <ErrorPage />,
+        },
+        {
+          path: "/user-selection",
+          element: <UserSelection />,
+          errorElement: <ErrorPage />,
+        },
+        // PROTECTED ROUTES - AUTH REQUIRED
         {
           path: "/user/dashboard",
-          element: <Dashboard />,
+          element: (
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          ),
           errorElement: <ErrorPage />,
         },
         {
           path: "/bookappointment",
-          element: <BookAppointment />,
+          element: (
+            <ClientRoute>
+              <BookAppointment />
+            </ClientRoute>
+          ),
           errorElement: <ErrorPage />,
         },
         {
           path: "/client-dashboard",
-          element: <ClientDashboardPage />,
+          element: (
+            <ClientRoute>
+              <ClientDashboardPage />
+            </ClientRoute>
+          ),
           errorElement: <ErrorPage />,
         },
         {
           path: "/clinician-dashboard",
-          element: <ClinicianDashboardPage />,
+          element: (
+            <ClinicianRoute>
+              <ClinicianDashboardPage />
+            </ClinicianRoute>
+          ),
           errorElement: <ErrorPage />,
         },
         {
           path: "/reception-dashboard",
-          element: <ReceptionDashboardPage />,
+          element: (
+            <AdminRoute>
+              <ReceptionDashboardPage />
+            </AdminRoute>
+          ),
           errorElement: <ErrorPage />,
         },
         {
           path: "/billing",
-          element: <BillingPage />,
+          element: (
+            <AdminRoute>
+              <BillingPage />
+            </AdminRoute>
+          ),
           errorElement: <ErrorPage />,
         },
         {
           path: "/analytics",
-          element: <AnalyticsPage />,
+          element: (
+            <AdminRoute>
+              <AnalyticsPage />
+            </AdminRoute>
+          ),
           errorElement: <ErrorPage />,
         },
         {
           path: "/chat",
-          element: <ChatPage />,
+          element: (
+            <ProtectedRoute>
+              <ChatPage />
+            </ProtectedRoute>
+          ),
           errorElement: <ErrorPage />,
         },
         {
           path: "/profile",
-          element: <ProfilePage />,
+          element: (
+            <ProtectedRoute>
+              <ProfilePage />
+            </ProtectedRoute>
+          ),
           errorElement: <ErrorPage />,
         },
-        // Redirect password reset routes to user selection
+        // Legacy route redirects
         {
           path: "/user/resetPassword",
-          element: <Navigate to="/login" replace />,
+          element: <Navigate to="/reset-password" replace />,
         },
         {
           path: "/user/resetPasswordEmailSent",
-          element: <Navigate to="/login" replace />,
+          element: <Navigate to="/reset-password-email-sent" replace />,
         },
         {
-          path: "user/resetPassEnterEmail",
-          element: <Navigate to="/login" replace />,
+          path: "/user/resetPassEnterEmail",
+          element: <Navigate to="/forgot-password" replace />,
         },
         {
           path: "/featureAIChatbot",
