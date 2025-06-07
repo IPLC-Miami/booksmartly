@@ -1,7 +1,15 @@
 const express = require("express");
 const router = express.Router();
 const supabase = require("../config/supabaseClient");
-router.post("/", async (req, res) => {
+const {
+  jwtValidation,
+  roleExtraction,
+  requireRole,
+  requireClinician,
+  requireAdmin,
+  requireOwnership
+} = require("../middleware/auth");
+router.post("/", jwtValidation, roleExtraction, requireAdmin, async (req, res) => {
   const {
     userId,
     specialization,
@@ -37,7 +45,7 @@ router.post("/", async (req, res) => {
   console.log("Clinician added successfully"); // Updated log message
 });
 
-router.put("/:Id", async (req, res) => {
+router.put("/:Id", jwtValidation, roleExtraction, requireClinician, requireOwnership('clinician'), async (req, res) => {
   const Id = req.params.Id;
   const { specialization, experience, hospital, available_from, available_to } =
     req.body;
@@ -63,7 +71,7 @@ router.put("/:Id", async (req, res) => {
   console.log("Clinician updated successfully"); // Updated log message
 });
 
-router.get("/availableSlots2/:userId", async (req, res) => {
+router.get("/availableSlots2/:userId", jwtValidation, roleExtraction, requireRole(['client', 'clinician', 'admin']), async (req, res) => {
   const userId = req.params.userId;
   console.log("userId: ", userId);
   const { specialization, date, mode, sort } = req.query; // mode: 'online' or 'offline', sort: 'earliest' or 'most_available'
@@ -86,7 +94,7 @@ router.get("/availableSlots2/:userId", async (req, res) => {
   console.log(availableSlots);
   return res.status(200).json(availableSlots);
 });
-router.get("/clinicianDetailsById/:Id", async (req, res) => { // Renamed route
+router.get("/clinicianDetailsById/:Id", jwtValidation, roleExtraction, requireRole(['client', 'clinician', 'admin']), async (req, res) => { // Renamed route
   const { Id } = req.params;
   const uuidRegex =
     /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;

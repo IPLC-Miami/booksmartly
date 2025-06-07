@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const supabase = require("../config/supabaseClient");
 const { getIo } = require("../config/socket.js");
+const { jwtValidation, roleExtraction, requireClinician, requireRole, requireOwnership } = require("../middleware/auth");
 function getISTDateString() {
   const now = new Date();
   const istOffset = 5.5 * 60 * 60 * 1000; // IST offset in milliseconds
@@ -84,7 +85,7 @@ const getQueuePositionPostCheckin = async (appointmentId) => {
   return data.length + 1;
 };
 
-router.get("/nextAppointments/:clinicianId", async (req, res) => { // Renamed route parameter
+router.get("/nextAppointments/:clinicianId", jwtValidation, roleExtraction, requireClinician, requireOwnership('clinician'), async (req, res) => { // Renamed route parameter
   const { clinicianId } = req.params; // Renamed variable
   const date = getISTDateString();
   console.log(date); 
@@ -127,7 +128,7 @@ router.get("/nextAppointments/:clinicianId", async (req, res) => { // Renamed ro
   return res.json(result);
 });
 
-router.get("/allNextAppointments/:receptionId", async (req, res) => {
+router.get("/allNextAppointments/:receptionId", jwtValidation, roleExtraction, requireRole(['admin', 'clinician']), async (req, res) => {
   const { receptionId } = req.params;
   const date = getISTDateString();
   console.log(date);

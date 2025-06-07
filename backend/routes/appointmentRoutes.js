@@ -2,6 +2,14 @@ const express = require("express");
 const router = express.Router();
 const supabase = require("../config/supabaseClient");
 const sendEmail = require("../services/emailService");
+const {
+  jwtValidation,
+  roleExtraction,
+  requireRole,
+  requireClient,
+  requireClinician,
+  requireOwnership
+} = require("../middleware/auth");
 const { getIo } = require("../config/socket.js");
 const { calendar, event } = require("../services/meetScheduler");
 const {
@@ -81,7 +89,7 @@ const getQueuePositionPostCheckin = async (appointmentId) => {
   }
   return data.length + 1;
 };
-router.post("/book", async (req, res) => {
+router.post("/book", jwtValidation, roleExtraction, requireClient, async (req, res) => {
   const {
     patientId,    // This should be client_id to match table structure if patientId is auth.users.id
     clinicianId,  // Changed from doctorId
@@ -238,7 +246,7 @@ router.post("/book", async (req, res) => {
   sendEmail(patientEmail, "Appointment Confirmed - BookSmartly", html);
   return res.status(201).json(data);
 });
-router.post("/updateStatus/:appointmentId", async (req, res) => {
+router.post("/updateStatus/:appointmentId", jwtValidation, roleExtraction, requireClinician, async (req, res) => {
   console.log("update status request recieved");
   const { appointmentId } = req.params;
   const { status } = req.query;
@@ -293,7 +301,7 @@ router.post("/updateStatus/:appointmentId", async (req, res) => {
 
   return res.json(data);
 });
-router.get("/upcomingAppointments/:patientId", async (req, res) => {
+router.get("/upcomingAppointments/:patientId", jwtValidation, roleExtraction, requireClient, requireOwnership('client'), async (req, res) => {
   const { patientId } = req.params;
   const { date } = req.query;
   const { data: appointments, error } = await supabase
@@ -324,7 +332,7 @@ router.get("/upcomingAppointments/:patientId", async (req, res) => {
   );
   return res.json(updatedAppointments);
 });
-router.get("/completedAppointments/:patientId", async (req, res) => {
+router.get("/completedAppointments/:patientId", jwtValidation, roleExtraction, requireClient, requireOwnership('client'), async (req, res) => {
   const { patientId } = req.params;
   const { data: appointments, error } = await supabase
     .from("appointments2")
@@ -343,7 +351,7 @@ router.get("/completedAppointments/:patientId", async (req, res) => {
   console.log(processedAppointments);
   return res.json(processedAppointments);
 });
-router.get("/clinicianUpcomingAppointments/:clinicianId", async (req, res) => { // Renamed route and param
+router.get("/clinicianUpcomingAppointments/:clinicianId", jwtValidation, roleExtraction, requireClinician, requireOwnership('clinician'), async (req, res) => { // Renamed route and param
   const { clinicianId } = req.params; // Renamed param
   const { date, endTime, startTime } = req.query;
   const { data: appointments, error } = await supabase
@@ -377,7 +385,7 @@ router.get("/clinicianUpcomingAppointments/:clinicianId", async (req, res) => { 
   );
   return res.json(updatedAppointments);
 });
-router.get("/clinicianCompletedAppointments/:clinicianId", async (req, res) => { // Renamed route and param
+router.get("/clinicianCompletedAppointments/:clinicianId", jwtValidation, roleExtraction, requireClinician, requireOwnership('clinician'), async (req, res) => { // Renamed route and param
   const { clinicianId } = req.params; // Renamed param
   const { data: appointments, error } = await supabase
     .from("appointments2")
@@ -396,7 +404,7 @@ router.get("/clinicianCompletedAppointments/:clinicianId", async (req, res) => {
   console.log(processedAppointments);
   return res.json(processedAppointments);
 });
-router.delete("/delete/:appointmentId", async (req, res) => {
+router.delete("/delete/:appointmentId", jwtValidation, roleExtraction, requireRole(['client', 'clinician']), requireOwnership('appointment'), async (req, res) => {
   const { appointmentId } = req.params;
   const { data, error } = await supabase
     .from("appointments2")

@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const supabase = require("../config/supabaseClient");
-// AUTHENTICATION DISABLED: Removed verifyToken import
+const { jwtValidation, roleExtraction, requireRole, requireAdmin, requireOwnership } = require('../middleware/auth');
 const { getCache, setCache } = require("../config/redisClient");
 const { encrypt } = require("../services/encrypt");
 
@@ -11,7 +11,7 @@ const path = require("path");
 
 router.get(
   "/getReceptionDetailsById/:userId",
-  async (req, res) => { // AUTHENTICATION DISABLED
+  jwtValidation, roleExtraction, requireRole(['admin', 'clinician']), requireOwnership('user'), async (req, res) => {
     try {
       console.time("API Call Time");
       console.log("Request body:", req.params);
@@ -60,7 +60,7 @@ router.get(
   }
 );
 
-router.get("/generate-qr/:userId", async (req, res) => {
+router.get("/generate-qr/:userId", jwtValidation, roleExtraction, requireRole(['admin', 'clinician']), requireOwnership('user'), async (req, res) => {
   try {
     const { userId } = req.params;
     if (!userId) {

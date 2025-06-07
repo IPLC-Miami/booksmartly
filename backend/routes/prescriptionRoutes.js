@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const supabase = require('../config/supabaseClient');
-router.post('/generate', async (req, res) => {
+const { jwtValidation, roleExtraction, requireRole, requireClinician, requireOwnership } = require('../middleware/auth');
+router.post('/generate', jwtValidation, roleExtraction, requireClinician, async (req, res) => {
   const { appointmentId, medicines, clinicianNotes } = req.body;
   const {data , error} = await supabase.from('prescriptions').insert([
     {
@@ -16,7 +17,7 @@ router.post('/generate', async (req, res) => {
   console.log('Prescription generated successfully');
   return res.status(201).json(data);
 });
-router.get('/:appointmentId', async (req, res) => {
+router.get('/:appointmentId', jwtValidation, roleExtraction, requireRole(['client', 'clinician']), requireOwnership('appointment'), async (req, res) => {
   const { appointmentId } = req.params;
 
   try {

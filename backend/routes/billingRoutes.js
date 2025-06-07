@@ -3,8 +3,18 @@ const router = express.Router();
 const { supabase } = require("../config/supabaseClient");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY || "sk_test_...");
 
-// Create invoice
-router.post("/create-invoice", async (req, res) => {
+// Import auth middleware
+const {
+  jwtValidation,
+  roleExtraction,
+  requireRole,
+  requireClinician,
+  requireAdmin,
+  requireOwnership
+} = require("../middleware/auth");
+
+// Create invoice - Only clinicians and admins can create invoices
+router.post("/create-invoice", jwtValidation, roleExtraction, requireRole(['clinician', 'admin']), async (req, res) => {
   try {
     const { appointmentId, clientId, clinicianId, amount, description } = req.body;
 
@@ -119,8 +129,8 @@ router.post("/create-invoice", async (req, res) => {
   }
 });
 
-// Create Stripe checkout session
-router.post("/create-session", async (req, res) => {
+// Create Stripe checkout session - All authenticated users can create payment sessions
+router.post("/create-session", jwtValidation, roleExtraction, requireRole(['client', 'clinician', 'admin']), async (req, res) => {
   try {
     const { invoiceId } = req.body;
 
@@ -191,8 +201,8 @@ router.post("/create-session", async (req, res) => {
   }
 });
 
-// Get invoices for a clinician
-router.get("/clinician/:clinicianId", async (req, res) => {
+// Get invoices for a clinician - Only clinicians can view their own invoices, admins can view all
+router.get("/clinician/:clinicianId", jwtValidation, roleExtraction, requireRole(['clinician', 'admin']), requireOwnership('clinician'), async (req, res) => {
   try {
     const { clinicianId } = req.params;
     const { status, limit = 50, offset = 0 } = req.query;
@@ -236,8 +246,8 @@ router.get("/clinician/:clinicianId", async (req, res) => {
   }
 });
 
-// Get all invoices (for reception staff)
-router.get("/all", async (req, res) => {
+// Get all invoices (for reception staff) - Admin only access
+router.get("/all", jwtValidation, roleExtraction, requireAdmin, async (req, res) => {
   try {
     const { status, limit = 50, offset = 0, search } = req.query;
 
@@ -293,8 +303,8 @@ router.get("/all", async (req, res) => {
   }
 });
 
-// Update invoice status
-router.put("/update-status/:invoiceId", async (req, res) => {
+// Update invoice status - Admin only access
+router.put("/update-status/:invoiceId", jwtValidation, roleExtraction, requireAdmin, async (req, res) => {
   try {
     const { invoiceId } = req.params;
     const { status } = req.body;

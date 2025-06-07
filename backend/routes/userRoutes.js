@@ -1,7 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const supabase = require("../config/supabaseClient");
-// AUTHENTICATION DISABLED: All auth imports removed
+const {
+  jwtValidation,
+  roleExtraction,
+  requireRole,
+  requireAdmin,
+  requireOwnership
+} = require('../middleware/auth');
 const { getCache, setCache } = require('../config/redisClient');
 const { createClient: createSupabaseClient } = require('@supabase/supabase-js');
 // AUTHENTICATION DISABLED: Removed OTP service imports
@@ -247,7 +253,7 @@ async function checkPhoneExists(phone) {
 //   process.env.SUPABASE_KEY
 // );
 // AUTHENTICATION DISABLED: Removed OTP routes
-router.get("/allusers", async (req, res) => {
+router.get("/allusers", jwtValidation, roleExtraction, requireAdmin, async (req, res) => {
   try {
     const { data, error } = await getAllUserProfiles();
     
@@ -260,7 +266,7 @@ router.get("/allusers", async (req, res) => {
   }
 });
 
-router.get("/userById/:Id", async (req, res) => {
+router.get("/userById/:Id", jwtValidation, roleExtraction, requireRole(['admin', 'clinician', 'client']), async (req, res) => {
   const { Id } = req.params;
   
   try {
@@ -281,7 +287,7 @@ router.get("/userById/:Id", async (req, res) => {
   }
 });
 
-router.post("/check-email", async (req, res) => {
+router.post("/check-email", jwtValidation, roleExtraction, requireRole(['admin', 'clinician', 'client']), async (req, res) => {
   const { email } = req.body;
   console.log(email);
 
@@ -294,7 +300,7 @@ router.post("/check-email", async (req, res) => {
   }
 });
 
-router.post("/check-verified", async (req, res) => {
+router.post("/check-verified", jwtValidation, roleExtraction, requireRole(['admin', 'clinician', 'client']), async (req, res) => {
   const { email } = req.body;
   
   try {
@@ -324,7 +330,7 @@ router.post("/check-verified", async (req, res) => {
   }
 });
 
-router.post("/check-phone", async (req, res) => {
+router.post("/check-phone", jwtValidation, roleExtraction, requireRole(['admin', 'clinician', 'client']), async (req, res) => {
   const { phone } = req.body;
   console.log(phone);
 
@@ -337,7 +343,7 @@ router.post("/check-phone", async (req, res) => {
   }
 });
 
-router.put("/update-auth-email-pass", async (req, res) => {
+router.put("/update-auth-email-pass", jwtValidation, roleExtraction, requireRole(['admin', 'clinician', 'client']), async (req, res) => {
   const { old_email, new_email, new_password } = req.body;
   console.log(old_email, " ", new_email);
 
@@ -429,7 +435,7 @@ router.put("/update-auth-email-pass", async (req, res) => {
   }
 });
 
-router.get("/user", async (req, res) => {
+router.get("/user", jwtValidation, roleExtraction, requireAdmin, async (req, res) => {
   try {
     const { data, error } = await getAllUserProfiles();
     
@@ -442,7 +448,7 @@ router.get("/user", async (req, res) => {
   }
 });
 
-router.put("/update-user-details", async (req, res) => {
+router.put("/update-user-details", jwtValidation, roleExtraction, requireRole(['admin', 'clinician', 'client']), async (req, res) => {
   try {
     // Extract fields from the request body
     const { id, age, gender, phoneNumber, phone_verified, name, first_name, last_name } = req.body;
@@ -498,7 +504,7 @@ router.put("/update-user-details", async (req, res) => {
   }
 });
 
-router.post("/addUserIfNotExist", async (req, res) => {
+router.post("/addUserIfNotExist", jwtValidation, roleExtraction, requireAdmin, async (req, res) => {
   console.log("in backendP");
   console.log(req.body);
   const {
@@ -567,7 +573,7 @@ router.post("/addUserIfNotExist", async (req, res) => {
   }
 });
 
-router.post("/resend-verification", async (req, res) => {
+router.post("/resend-verification", jwtValidation, roleExtraction, requireRole(['admin', 'clinician', 'client']), async (req, res) => {
   const { email } = req.body;
   console.log("in rsend email");
 
@@ -626,7 +632,7 @@ router.post("/resend-verification", async (req, res) => {
     8)phone confirmed or not
 */
 
-router.get("/getUserById/:userId", async (req, res) => { // AUTHENTICATION DISABLED
+router.get("/getUserById/:userId", jwtValidation, roleExtraction, requireRole(['admin', 'clinician', 'client']), requireOwnership('user'), async (req, res) => {
   const { userId } = req.params;
 
   const id = userId;
@@ -652,7 +658,7 @@ router.get("/getUserById/:userId", async (req, res) => { // AUTHENTICATION DISAB
   }
 });
 
-router.put("/updateDetails/:id", async (req, res) => { // AUTHENTICATION DISABLED
+router.put("/updateDetails/:id", jwtValidation, roleExtraction, requireRole(['admin', 'clinician', 'client']), requireOwnership('user'), async (req, res) => {
   const id = req.params;
   const userId = id.id;
   console.log(userId);
@@ -707,7 +713,7 @@ router.put("/updateDetails/:id", async (req, res) => { // AUTHENTICATION DISABLE
 });
 
 // ADD: Explicit /getRole/:id route to match frontend expectations (will be mounted as /api/users/getRole/:id)
-router.get("/getRole/:id", async (req, res) => { // AUTHENTICATION DISABLED
+router.get("/getRole/:id", jwtValidation, roleExtraction, requireRole(['admin', 'clinician', 'client']), requireOwnership('user'), async (req, res) => {
   const { id } = req.params;
 
   if (!id) {

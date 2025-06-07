@@ -5,6 +5,14 @@ const fs = require("fs");
 const path = require("path");
 const { v4: uuidv4 } = require("uuid");
 const supabase = require("../config/supabaseClient");
+const {
+  jwtValidation,
+  roleExtraction,
+  requireRole,
+  requireClinician,
+  requireAdmin,
+  requireOwnership
+} = require("../middleware/auth");
 
 const uploadsDir = path.join(__dirname, "uploads");
 if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir);
@@ -31,6 +39,9 @@ const upload = multer({ storage, fileFilter });
 
 router.post(
   "/healthCampRegistration",
+  jwtValidation,
+  roleExtraction,
+  requireRole(['admin', 'clinician']),
   upload.fields([
     { name: "campImages", maxCount: 1 },
     { name: "policePermission", maxCount: 1 },
@@ -123,7 +134,7 @@ router.post(
   }
 );
 
-router.post("/healthcheckups", async (req, res) => {
+router.post("/healthcheckups", jwtValidation, roleExtraction, requireRole(['admin', 'clinician']), async (req, res) => {
   console.log("recieve jhealth checkup data", req.body);
   try {
     // Get data from client request
@@ -145,7 +156,7 @@ router.post("/healthcheckups", async (req, res) => {
   }
 });
 
-router.get("/healthcamps", async (req, res) => {
+router.get("/healthcamps", jwtValidation, roleExtraction, requireRole(['admin', 'clinician', 'client']), async (req, res) => {
   try {
     // Query the camps table
     const { data, error } = await supabase.from("camps").select("*");
@@ -164,7 +175,7 @@ router.get("/healthcamps", async (req, res) => {
 });
 
 // Optional: Add a route to fetch a specific camp by ID
-router.get("/healthcamps/:id", async (req, res) => {
+router.get("/healthcamps/:id", jwtValidation, roleExtraction, requireRole(['admin', 'clinician', 'client']), async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -190,7 +201,7 @@ router.get("/healthcamps/:id", async (req, res) => {
   }
 });
 
-router.post("/clinician-volunteer", async (req, res) => { // Renamed route
+router.post("/clinician-volunteer", jwtValidation, roleExtraction, requireClinician, async (req, res) => { // Renamed route
   try {
     const { clinicianId, campId, camp_start_date, camp_end_date } = req.body; // Renamed doctorId
 
@@ -244,7 +255,7 @@ router.post("/clinician-volunteer", async (req, res) => { // Renamed route
     });
   }
 });
-router.get("/clinician/volunteered/:clinicianId", async (req, res) => { // Renamed route and param
+router.get("/clinician/volunteered/:clinicianId", jwtValidation, roleExtraction, requireClinician, requireOwnership('clinician'), async (req, res) => { // Renamed route and param
   const { clinicianId } = req.params; // Renamed doctorId
 
   try {

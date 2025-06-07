@@ -3,8 +3,10 @@ const router = express.Router();
 const supabase = require("../config/supabaseClient");
 const multer = require("multer");
 const upload = multer();
+const { jwtValidation, roleExtraction, requireRole, requireOwnership } = require("../middleware/auth");
+
 //pushing new profile picture
-router.post("/upload", upload.single("file"), async (req, res) => {
+router.post("/upload", jwtValidation, roleExtraction, requireRole(['admin', 'clinician', 'client']), requireOwnership('user'), upload.single("file"), async (req, res) => {
   console.log("req to upload profile pic recieved", req.body);
   const { userId } = req.body;
   console.log("req.body:", req.body);

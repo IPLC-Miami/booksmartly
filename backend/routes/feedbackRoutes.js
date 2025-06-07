@@ -1,7 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const supabase = require("../config/supabaseClient");
-router.post("/add/:id", async (req, res) => {
+const { jwtValidation, roleExtraction, requireRole, requireOwnership } = require("../middleware/auth");
+
+// POST /api/feedback/add/:id - Add feedback for an appointment
+// Requires authentication and appointment ownership validation
+router.post("/add/:id", jwtValidation, roleExtraction, requireRole(['client', 'clinician']), requireOwnership('appointment'), async (req, res) => {
   const { id } = req.params;
   console.log("body: ", req.body);
   const { feedback, clinicianId } = req.body; // Renamed doctorId to clinicianId

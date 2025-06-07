@@ -1,12 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const supabase = require("../config/supabaseClient");
-// AUTHENTICATION DISABLED: Removed verifyToken import
+const { jwtValidation, roleExtraction, requireClinician, requireOwnership } = require('../middleware/auth');
 const { getCache, setCache } = require("../config/redisClient");
 const ExcelJS = require("exceljs");
 const fs = require("fs");
 const path = require("path");
-router.get("/getClinicianDetailsByAuthUserId/:authUserId", async (req, res) => { // AUTHENTICATION DISABLED - Route expects auth.users.id
+router.get("/getClinicianDetailsByAuthUserId/:authUserId", jwtValidation, roleExtraction, requireClinician, requireOwnership('user'), async (req, res) => {
   try {
     console.time("API Call Time");
     const { authUserId } = req.params;
@@ -70,7 +70,7 @@ router.get("/getClinicianDetailsByAuthUserId/:authUserId", async (req, res) => {
   }
 });
 
-router.get("/download/:clinicianTableId", async (req, res) => { // AUTHENTICATION DISABLED - clinicianTableId is clinicians2.id
+router.get("/download/:clinicianTableId", jwtValidation, roleExtraction, requireClinician, requireOwnership('clinician'), async (req, res) => {
   try {
     const { clinicianTableId } = req.params; // This is the auto-generated ID from clinicians2 table
     const date = new Date().toISOString().split("T")[0];

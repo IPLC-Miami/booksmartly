@@ -1,19 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const supabase = require('../config/supabaseClient');
-// AUTHENTICATION DISABLED: Removed verifyToken import
+const { jwtValidation, roleExtraction, requireRole, requireOwnership } = require('../middleware/auth');
 
-// AUTHENTICATION DISABLED: Simple middleware bypass
-const requireAnyRole = (req, res, next) => {
-  // AUTHENTICATION DISABLED: Always allow access
-  next();
-};
-
-// Get chat messages for a specific appointment - AUTHENTICATION DISABLED
-router.get('/:appointmentId', requireAnyRole, async (req, res) => {
+// Get chat messages for a specific appointment
+router.get('/:appointmentId', jwtValidation, roleExtraction, requireRole(['client', 'clinician']), requireOwnership('appointment'), async (req, res) => {
   try {
     const { appointmentId } = req.params;
-    // AUTHENTICATION DISABLED: No user verification needed
 
     // Fetch messages for the appointment
     const { data: messages, error: messagesError } = await supabase
@@ -62,19 +55,16 @@ router.get('/:appointmentId', requireAnyRole, async (req, res) => {
   }
 });
 
-// Send a new chat message - AUTHENTICATION DISABLED
-router.post('/send', requireAnyRole, async (req, res) => {
+// Send a new chat message
+router.post('/send', jwtValidation, roleExtraction, requireRole(['client', 'clinician']), requireOwnership('appointment'), async (req, res) => {
   try {
     const { appointmentId, message } = req.body;
-    // AUTHENTICATION DISABLED: Use mock user ID
-    const userId = 'mock-user-id';
+    const userId = req.user.id;
 
     // Validate input
     if (!appointmentId || !message || !message.trim()) {
       return res.status(400).json({ error: 'Appointment ID and message are required' });
     }
-
-    // AUTHENTICATION DISABLED: No access verification needed
 
     // Insert the new message
     const { data: newMessage, error: insertError } = await supabase
@@ -127,11 +117,10 @@ router.post('/send', requireAnyRole, async (req, res) => {
   }
 });
 
-// Get appointment participants (for chat UI) - AUTHENTICATION DISABLED
-router.get('/:appointmentId/participants', requireAnyRole, async (req, res) => {
+// Get appointment participants (for chat UI)
+router.get('/:appointmentId/participants', jwtValidation, roleExtraction, requireRole(['client', 'clinician']), requireOwnership('appointment'), async (req, res) => {
   try {
     const { appointmentId } = req.params;
-    // AUTHENTICATION DISABLED: No user verification needed
 
     // Get appointment details with participant information
     const { data: appointment, error: appointmentError } = await supabase

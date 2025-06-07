@@ -1,8 +1,9 @@
 const express = require("express");
 const fetch = require("node-fetch");
+const { jwtValidation, roleExtraction, requireRole } = require("../middleware/auth");
 const router = express.Router();
 
-router.post("/consult", async (req, res) => {
+router.post("/consult", jwtValidation, roleExtraction, requireRole(['client', 'clinician', 'admin']), async (req, res) => {
   const { prompt } = req.body;
   if (!prompt) {
     return res.status(400).json({ error: "Missing prompt" });

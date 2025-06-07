@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const { supabase } = require("../config/supabaseClient");
+const { jwtValidation, roleExtraction, requireAdmin } = require("../middleware/auth");
 
 // Get appointments per clinician
-router.get("/appointments-per-clinician", async (req, res) => {
+router.get("/appointments-per-clinician", jwtValidation, roleExtraction, requireAdmin, async (req, res) => {
   try {
     const { startDate, endDate, clinicianId } = req.query;
 
@@ -88,7 +89,7 @@ router.get("/appointments-per-clinician", async (req, res) => {
 });
 
 // Get revenue analytics
-router.get("/revenue", async (req, res) => {
+router.get("/revenue", jwtValidation, roleExtraction, requireAdmin, async (req, res) => {
   try {
     const { startDate, endDate, groupBy = "month" } = req.query;
 
@@ -183,7 +184,7 @@ router.get("/revenue", async (req, res) => {
 });
 
 // Get patient demographics
-router.get("/patient-demographics", async (req, res) => {
+router.get("/patient-demographics", jwtValidation, roleExtraction, requireAdmin, async (req, res) => {
   try {
     const { startDate, endDate } = req.query;
 
@@ -281,7 +282,7 @@ router.get("/patient-demographics", async (req, res) => {
 });
 
 // Get appointment trends
-router.get("/appointment-trends", async (req, res) => {
+router.get("/appointment-trends", jwtValidation, roleExtraction, requireAdmin, async (req, res) => {
   try {
     const { startDate, endDate, groupBy = "month" } = req.query;
 
@@ -376,7 +377,7 @@ router.get("/appointment-trends", async (req, res) => {
 });
 
 // Get dashboard summary
-router.get("/dashboard-summary", async (req, res) => {
+router.get("/dashboard-summary", jwtValidation, roleExtraction, requireAdmin, async (req, res) => {
   try {
     const { clinicianId } = req.query;
     const today = new Date().toISOString().split("T")[0];

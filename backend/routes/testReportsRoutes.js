@@ -3,9 +3,12 @@ const express = require("express");
 const router = express.Router();
 const supabase = require("../config/supabaseClient");
 const multer = require("multer");
+const { jwtValidation, roleExtraction, requireClinician, requireRole, requireOwnership } = require("../middleware/auth");
 const upload = multer();
-//pushing new test report
-router.post("/upload", upload.single("file"), async (req, res) => {
+
+// POST /api/test-reports/upload - Upload new test report
+// Requires clinician or admin role
+router.post("/upload", jwtValidation, roleExtraction, requireClinician, upload.single("file"), async (req, res) => {
     const { appointmentId, testDate } = req.body;
     const file = req.file; // File is extracted using multer
     if (!file) {
@@ -47,7 +50,9 @@ router.post("/upload", upload.single("file"), async (req, res) => {
     }
   });
 
-router.get("/download/:reportId", async (req, res) => {
+// GET /api/test-reports/download/:reportId - Download test report
+// Requires authentication and appropriate role access
+router.get("/download/:reportId", jwtValidation, roleExtraction, requireRole(['client', 'clinician', 'admin']), async (req, res) => {
   const { reportId } = req.params;
 
   try {
