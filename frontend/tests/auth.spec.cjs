@@ -1,9 +1,9 @@
-// tests/auth.spec.cjs
+// tests/auth.spec.js
 const { test, expect } = require('@playwright/test');
 
-const admin = { email: 'iplcmiami@gmail.com', password: 'IplcMiami1', dashboard: '/admin/dashboard' };
-const client = { email: 'pdarleyjr@gmail.com', password: 'IplcMiami1', dashboard: '/client/dashboard' };
-const clinician = { email: 'adarley23@gmail.com', password: 'IplcMiami1', dashboard: '/clinician/dashboard' };
+const admin = { email: 'iplcmiami@gmail.com', password: 'Iplcmiami1', dashboard: '/admin/dashboard' };
+const client = { email: 'pdarleyjr@gmail.com', password: 'Iplcmiami1', dashboard: '/client/dashboard' };
+const clinician = { email: 'adarley23@gmail.com', password: 'Iplcmiami1', dashboard: '/clinician/dashboard' };
 
 for (const user of [admin, client, clinician]) {
   test(`can sign in as ${user.email} and reach dashboard`, async ({ page }) => {
