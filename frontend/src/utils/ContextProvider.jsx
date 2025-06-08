@@ -236,4 +236,5 @@ export const AuthContextProvider = ({ children }) => {
 }
 
 export { AuthContext }
+export const useBookSmartlyContext = useAuthContext
 export default AuthContextProvider
