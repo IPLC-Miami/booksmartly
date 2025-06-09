@@ -265,12 +265,12 @@ export const isStaff = async () => {
 // Get redirect path based on user role
 export const getRoleBasedRedirect = (role) => {
   const redirectPaths = {
-    admin: '/admin-dashboard',
+    admin: '/reception-dashboard',
     clinician: '/clinician-dashboard',
-    client: '/patient-dashboard'
+    client: '/client-dashboard'
   }
   
-  return redirectPaths[role] || '/patient-dashboard'
+  return redirectPaths[role] || '/client-dashboard'
 }
 
 export default {

@@ -44,12 +44,12 @@ export const RoleBasedRoute = ({ children, allowedRoles = [] }) => {
   if (allowedRoles.length > 0 && !allowedRoles.includes(userRole)) {
     // Redirect to appropriate dashboard based on role
     const dashboardRoutes = {
-      admin: '/admin-dashboard',
+      admin: '/reception-dashboard',
       clinician: '/clinician-dashboard',
-      client: '/patient-dashboard'
+      client: '/client-dashboard'
     }
     
-    const redirectPath = dashboardRoutes[userRole] || '/patient-dashboard'
+    const redirectPath = dashboardRoutes[userRole] || '/client-dashboard'
     return <Navigate to={redirectPath} replace />
   }
 
@@ -87,12 +87,12 @@ export const EnhancedProtectedRoute = ({
     
     // Default role-based redirects
     const dashboardRoutes = {
-      admin: '/admin-dashboard',
+      admin: '/reception-dashboard',
       clinician: '/clinician-dashboard',
-      client: '/patient-dashboard'
+      client: '/client-dashboard'
     }
     
-    const defaultRedirect = dashboardRoutes[userRole] || '/patient-dashboard'
+    const defaultRedirect = dashboardRoutes[userRole] || '/client-dashboard'
     return <Navigate to={defaultRedirect} replace />
   }
 
@@ -114,12 +114,12 @@ export const PublicRoute = ({ children }) => {
   if (user) {
     // Redirect authenticated users to their dashboard
     const dashboardRoutes = {
-      admin: '/admin-dashboard',
+      admin: '/reception-dashboard',
       clinician: '/clinician-dashboard',
-      client: '/patient-dashboard'
+      client: '/client-dashboard'
     }
     
-    const redirectPath = dashboardRoutes[userRole] || '/patient-dashboard'
+    const redirectPath = dashboardRoutes[userRole] || '/client-dashboard'
     return <Navigate to={redirectPath} replace />
   }
 
