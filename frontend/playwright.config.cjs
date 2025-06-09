@@ -6,7 +6,7 @@ module.exports = {
   retries: 1,
   use: {
     headless: true,
-    baseURL: 'http://localhost:4173/booksmartly',
+    baseURL: 'https://booksmartly.iplcmiami.com',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure'
   },
