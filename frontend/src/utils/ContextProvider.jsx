@@ -44,6 +44,12 @@ const getUserRole = async (userId) => {
       return user.raw_user_meta_data.role
     }
 
+    // TEMPORARY FIX: Explicitly check for admin email
+    if (user && user.email === 'iplcmiami@gmail.com') {
+      console.log('🔧 TEMPORARY FIX: Assigning admin role to iplcmiami@gmail.com')
+      return 'admin'
+    }
+
     console.log('⚠️ No role in metadata, checking database tables...')
 
     // Fallback to database tables for existing users
