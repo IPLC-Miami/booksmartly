@@ -9,7 +9,17 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "playwright test --project=production-chrome",
+    "test:headed": "playwright test --project=production-chrome --headed",
+    "test:ui": "playwright test --ui",
+    "test:production": "playwright test",
+    "test:production:chrome": "playwright test --project=production-chrome",
+    "test:production:firefox": "playwright test --project=production-firefox",
+    "test:production:safari": "playwright test --project=production-safari",
+    "test:auth": "playwright test auth.spec.cjs --project=production-chrome",
+    "test:admin": "playwright test admin-schedule.spec.cjs admin-clinicians.spec.cjs --project=production-chrome",
+    "test:install": "playwright install"
   },
   "dependencies": {
     "@fontsource-variable/noto-sans-mono": "^5.1.1",

@@ -5,6 +5,24 @@ const fs = require("fs");
 const http = require("http");
 const cookieParser = require("cookie-parser");
 dotenv.config();
+
+// Import cache management utility for persistent module caching fix
+const {
+  purgeAllDevelopmentCache,
+  setupDevelopmentWatchers,
+  purgeAuthMiddlewareCache
+} = require("./utils/cacheManager");
+
+// Purge all cached modules at startup to prevent persistent caching issues
+console.log("🚀 Starting BookSmartly Backend Server...");
+if (process.env.NODE_ENV !== 'production') {
+  console.log("🧹 Development mode: Purging all cached modules...");
+  purgeAllDevelopmentCache();
+  
+  // Set up file watchers for automatic cache invalidation
+  setupDevelopmentWatchers();
+}
+
 const { oauth2client, refreshAccessToken } = require("./config/googleClient");
 require("./services/cronJob.js");
 const { redis, setCache, getCache } = require("./config/redisClient.js");
@@ -53,6 +71,20 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser()); // Add cookie parser middleware
 app.use("/AiConsultation", AiConsultation);
+
+// Cache-busting middleware for runtime cache clearing
+app.use((req, res, next) => {
+  // Add cache purge endpoint for development debugging
+  if (req.path === '/dev/purge-cache' && process.env.NODE_ENV !== 'production') {
+    console.log("🧹 Manual cache purge requested via /dev/purge-cache");
+    purgeAuthMiddlewareCache();
+    return res.json({
+      success: true,
+      message: "Authentication middleware cache purged successfully"
+    });
+  }
+  next();
+});
 
 app.use(async (req, res, next) => {
   try {

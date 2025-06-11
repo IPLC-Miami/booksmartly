@@ -210,7 +210,7 @@ const router = createBrowserRouter(
     },
   ],
   {
-    // basename removed - app is served from root path by NGINX
+    basename: import.meta.env.DEV ? '/booksmartly' : '/'
   }
 );
 

@@ -1,0 +1,741 @@
+{
+  "config": {
+    "configFile": "c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\playwright.config.cjs",
+    "rootDir": "c:/Users/Peter Darley/Desktop/DEV/BookSmartly/frontend/tests",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "html",
+        {
+          "outputFolder": "playwright-report"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "c:/Users/Peter Darley/Desktop/DEV/BookSmartly/frontend/test-results",
+        "repeatEach": 1,
+        "retries": 2,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "production-chrome",
+        "name": "production-chrome",
+        "testDir": "c:/Users/Peter Darley/Desktop/DEV/BookSmartly/frontend/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "c:/Users/Peter Darley/Desktop/DEV/BookSmartly/frontend/test-results",
+        "repeatEach": 1,
+        "retries": 2,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "production-firefox",
+        "name": "production-firefox",
+        "testDir": "c:/Users/Peter Darley/Desktop/DEV/BookSmartly/frontend/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "c:/Users/Peter Darley/Desktop/DEV/BookSmartly/frontend/test-results",
+        "repeatEach": 1,
+        "retries": 2,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "production-safari",
+        "name": "production-safari",
+        "testDir": "c:/Users/Peter Darley/Desktop/DEV/BookSmartly/frontend/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 45000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.52.0",
+    "workers": 6,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "auth.spec.cjs",
+      "file": "auth.spec.cjs",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Authentication Flow",
+          "file": "auth.spec.cjs",
+          "line": 8,
+          "column": 6,
+          "specs": [
+            {
+              "title": "can sign in as iplcmiami@gmail.com and reach dashboard",
+              "ok": true,
+              "tags": [
+                "gmail.com"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "production-chrome",
+                  "projectName": "production-chrome",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 7759,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "BROWSER ERROR: Failed to load resource: net::ERR_NAME_NOT_RESOLVED\n"
+                        },
+                        {
+                          "text": "BROWSER LOG: Auth state changed: INITIAL_SESSION undefined\n"
+                        },
+                        {
+                          "text": "BROWSER ERROR: Failed to load resource: net::ERR_NAME_NOT_RESOLVED\n"
+                        },
+                        {
+                          "text": "BROWSER LOG: Auth state changed: SIGNED_IN iplcmiami@gmail.com\n"
+                        },
+                        {
+                          "text": "BROWSER ERROR: Failed to load resource: the server responded with a status of 500 ()\n"
+                        },
+                        {
+                          "text": "BROWSER ERROR: Failed to load resource: the server responded with a status of 400 ()\n"
+                        },
+                        {
+                          "text": "BROWSER ERROR: Failed to load resource: the server responded with a status of 400 ()\n"
+                        },
+                        {
+                          "text": "BROWSER LOG: Login successful\n"
+                        },
+                        {
+                          "text": "User iplcmiami@gmail.com landed on: https://booksmartly.iplcmiami.com/client-dashboard\n"
+                        },
+                        {
+                          "text": "Expected: /reception-dashboard\n"
+                        },
+                        {
+                          "text": "BROWSER LOG: Authentication disabled - using mock patient data\n"
+                        },
+                        {
+                          "text": "BROWSER ERROR: Failed to load resource: net::ERR_NAME_NOT_RESOLVED\n"
+                        },
+                        {
+                          "text": "Debug info for iplcmiami@gmail.com: {\n  \"error\": \"Supabase client not found on window object\"\n}\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-06-11T13:02:25.726Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "8ff2d18cfa62629a25df-b522d4538f33cb18c7dc",
+              "file": "auth.spec.cjs",
+              "line": 21,
+              "column": 5
+            },
+            {
+              "title": "can sign in as pdarleyjr@gmail.com and reach dashboard",
+              "ok": true,
+              "tags": [
+                "gmail.com"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "production-chrome",
+                  "projectName": "production-chrome",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 4488,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "BROWSER ERROR: Failed to load resource: net::ERR_NAME_NOT_RESOLVED\n"
+                        },
+                        {
+                          "text": "BROWSER LOG: Auth state changed: INITIAL_SESSION undefined\n"
+                        },
+                        {
+                          "text": "BROWSER ERROR: Failed to load resource: net::ERR_NAME_NOT_RESOLVED\n"
+                        },
+                        {
+                          "text": "BROWSER LOG: Auth state changed: SIGNED_IN pdarleyjr@gmail.com\n"
+                        },
+                        {
+                          "text": "BROWSER ERROR: Failed to load resource: the server responded with a status of 500 ()\n"
+                        },
+                        {
+                          "text": "BROWSER ERROR: Failed to load resource: the server responded with a status of 400 ()\n"
+                        },
+                        {
+                          "text": "BROWSER ERROR: Failed to load resource: the server responded with a status of 400 ()\n"
+                        },
+                        {
+                          "text": "BROWSER LOG: Login successful\n"
+                        },
+                        {
+                          "text": "User pdarleyjr@gmail.com landed on: https://booksmartly.iplcmiami.com/client-dashboard\n"
+                        },
+                        {
+                          "text": "Expected: /client-dashboard\n"
+                        },
+                        {
+                          "text": "BROWSER LOG: Authentication disabled - using mock patient data\n"
+                        },
+                        {
+                          "text": "BROWSER ERROR: Failed to load resource: net::ERR_NAME_NOT_RESOLVED\n"
+                        },
+                        {
+                          "text": "Debug info for pdarleyjr@gmail.com: {\n  \"error\": \"Supabase client not found on window object\"\n}\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-06-11T13:02:33.634Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "8ff2d18cfa62629a25df-c5163dd3372451e8e449",
+              "file": "auth.spec.cjs",
+              "line": 21,
+              "column": 5
+            },
+            {
+              "title": "can sign in as adarley23@gmail.com and reach dashboard",
+              "ok": true,
+              "tags": [
+                "gmail.com"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "production-chrome",
+                  "projectName": "production-chrome",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 4987,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "BROWSER ERROR: Failed to load resource: net::ERR_NAME_NOT_RESOLVED\n"
+                        },
+                        {
+                          "text": "BROWSER LOG: Auth state changed: INITIAL_SESSION undefined\n"
+                        },
+                        {
+                          "text": "BROWSER ERROR: Failed to load resource: net::ERR_NAME_NOT_RESOLVED\n"
+                        },
+                        {
+                          "text": "BROWSER LOG: Auth state changed: SIGNED_IN adarley23@gmail.com\n"
+                        },
+                        {
+                          "text": "BROWSER ERROR: Failed to load resource: the server responded with a status of 500 ()\n"
+                        },
+                        {
+                          "text": "BROWSER ERROR: Failed to load resource: the server responded with a status of 400 ()\n"
+                        },
+                        {
+                          "text": "BROWSER ERROR: Failed to load resource: the server responded with a status of 400 ()\n"
+                        },
+                        {
+                          "text": "BROWSER LOG: Login successful\n"
+                        },
+                        {
+                          "text": "User adarley23@gmail.com landed on: https://booksmartly.iplcmiami.com/client-dashboard\n"
+                        },
+                        {
+                          "text": "Expected: /clinician-dashboard\n"
+                        },
+                        {
+                          "text": "BROWSER LOG: Authentication disabled - using mock patient data\n"
+                        },
+                        {
+                          "text": "BROWSER ERROR: Failed to load resource: net::ERR_NAME_NOT_RESOLVED\n"
+                        },
+                        {
+                          "text": "Debug info for adarley23@gmail.com: {\n  \"error\": \"Supabase client not found on window object\"\n}\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-06-11T13:02:38.127Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "8ff2d18cfa62629a25df-dba01750a2fb97c33e4d",
+              "file": "auth.spec.cjs",
+              "line": 21,
+              "column": 5
+            },
+            {
+              "title": "shows error for invalid login",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "production-chrome",
+                  "projectName": "production-chrome",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 5419,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "BROWSER ERROR: Failed to load resource: net::ERR_NAME_NOT_RESOLVED\n"
+                        },
+                        {
+                          "text": "BROWSER LOG: Auth state changed: INITIAL_SESSION undefined\n"
+                        },
+                        {
+                          "text": "BROWSER ERROR: Failed to load resource: net::ERR_NAME_NOT_RESOLVED\n"
+                        },
+                        {
+                          "text": "BROWSER ERROR: Failed to load resource: the server responded with a status of 400 ()\n"
+                        },
+                        {
+                          "text": "BROWSER ERROR: Sign in error: AuthApiError: Invalid login credentials\n    at k4 (https://booksmartly.iplcmiami.com/assets/index-4ybx7Diy.js:8:6597)\n    at async HZe (https://booksmartly.iplcmiami.com/assets/index-4ybx7Diy.js:8:7592)\n    at async Ut (https://booksmartly.iplcmiami.com/assets/index-4ybx7Diy.js:8:7250)\n    at async tke.signInWithPassword (https://booksmartly.iplcmiami.com/assets/index-4ybx7Diy.js:8:20546)\n    at async signIn (https://booksmartly.iplcmiami.com/assets/index-4ybx7Diy.js:8:55273)\n    at async p (https://booksmartly.iplcmiami.com/assets/index-4ybx7Diy.js:591:46541)\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-06-11T13:02:43.121Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "8ff2d18cfa62629a25df-1d64424faaac11a13aad",
+              "file": "auth.spec.cjs",
+              "line": 97,
+              "column": 3
+            },
+            {
+              "title": "can logout successfully",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "production-chrome",
+                  "projectName": "production-chrome",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 17573,
+                      "error": {
+                        "message": "TimeoutError: page.waitForURL: Timeout 15000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation until \"load\"\n  navigated to \"https://booksmartly.iplcmiami.com/client-dashboard\"\n============================================================",
+                        "stack": "TimeoutError: page.waitForURL: Timeout 15000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation until \"load\"\n  navigated to \"https://booksmartly.iplcmiami.com/client-dashboard\"\n============================================================\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\auth.spec.cjs:161:16",
+                        "location": {
+                          "file": "c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\auth.spec.cjs",
+                          "column": 16,
+                          "line": 161
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 159 |\u001b[39m     \n \u001b[90m 160 |\u001b[39m     \u001b[90m// Wait for dashboard to load\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 161 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForURL(\u001b[36mnew\u001b[39m \u001b[33mRegExp\u001b[39m(admin\u001b[33m.\u001b[39mdashboard)\u001b[33m,\u001b[39m { timeout\u001b[33m:\u001b[39m \u001b[35m15000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 162 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForLoadState(\u001b[32m'networkidle'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 163 |\u001b[39m     \n \u001b[90m 164 |\u001b[39m     \u001b[90m// Look for logout button/link\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\auth.spec.cjs",
+                            "column": 16,
+                            "line": 161
+                          },
+                          "message": "TimeoutError: page.waitForURL: Timeout 15000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation until \"load\"\n  navigated to \"https://booksmartly.iplcmiami.com/client-dashboard\"\n============================================================\n\n  159 |     \n  160 |     // Wait for dashboard to load\n> 161 |     await page.waitForURL(new RegExp(admin.dashboard), { timeout: 15000 });\n      |                ^\n  162 |     await page.waitForLoadState('networkidle');\n  163 |     \n  164 |     // Look for logout button/link\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\auth.spec.cjs:161:16"
+                        }
+                      ],
+                      "stdout": [
+                        {
+                          "text": "BROWSER ERROR: Failed to load resource: net::ERR_NAME_NOT_RESOLVED\n"
+                        },
+                        {
+                          "text": "BROWSER LOG: Auth state changed: INITIAL_SESSION undefined\n"
+                        },
+                        {
+                          "text": "BROWSER ERROR: Failed to load resource: net::ERR_NAME_NOT_RESOLVED\n"
+                        },
+                        {
+                          "text": "BROWSER LOG: Auth state changed: SIGNED_IN iplcmiami@gmail.com\n"
+                        },
+                        {
+                          "text": "BROWSER ERROR: Failed to load resource: the server responded with a status of 500 ()\n"
+                        },
+                        {
+                          "text": "BROWSER ERROR: Failed to load resource: the server responded with a status of 400 ()\n"
+                        },
+                        {
+                          "text": "BROWSER ERROR: Failed to load resource: the server responded with a status of 400 ()\n"
+                        },
+                        {
+                          "text": "BROWSER LOG: Login successful\n"
+                        },
+                        {
+                          "text": "BROWSER LOG: Authentication disabled - using mock patient data\n"
+                        },
+                        {
+                          "text": "BROWSER ERROR: Failed to load resource: net::ERR_NAME_NOT_RESOLVED\n"
+                        },
+                        {
+                          "text": "BROWSER ERROR: Failed to load resource: net::ERR_NAME_NOT_RESOLVED\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-06-11T13:02:48.546Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\test-results\\auth-Authentication-Flow-can-logout-successfully-production-chrome\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\test-results\\auth-Authentication-Flow-can-logout-successfully-production-chrome\\video.webm"
+                        },
+                        {
+                          "name": "_error-context-0",
+                          "contentType": "text/markdown",
+                          "path": "c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\test-results\\auth-Authentication-Flow-can-logout-successfully-production-chrome\\error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\test-results\\auth-Authentication-Flow-can-logout-successfully-production-chrome\\trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\auth.spec.cjs",
+                        "column": 16,
+                        "line": 161
+                      }
+                    },
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 17651,
+                      "error": {
+                        "message": "TimeoutError: page.waitForURL: Timeout 15000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation until \"load\"\n  navigated to \"https://booksmartly.iplcmiami.com/client-dashboard\"\n============================================================",
+                        "stack": "TimeoutError: page.waitForURL: Timeout 15000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation until \"load\"\n  navigated to \"https://booksmartly.iplcmiami.com/client-dashboard\"\n============================================================\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\auth.spec.cjs:161:16",
+                        "location": {
+                          "file": "c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\auth.spec.cjs",
+                          "column": 16,
+                          "line": 161
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 159 |\u001b[39m     \n \u001b[90m 160 |\u001b[39m     \u001b[90m// Wait for dashboard to load\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 161 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForURL(\u001b[36mnew\u001b[39m \u001b[33mRegExp\u001b[39m(admin\u001b[33m.\u001b[39mdashboard)\u001b[33m,\u001b[39m { timeout\u001b[33m:\u001b[39m \u001b[35m15000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 162 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForLoadState(\u001b[32m'networkidle'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 163 |\u001b[39m     \n \u001b[90m 164 |\u001b[39m     \u001b[90m// Look for logout button/link\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\auth.spec.cjs",
+                            "column": 16,
+                            "line": 161
+                          },
+                          "message": "TimeoutError: page.waitForURL: Timeout 15000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation until \"load\"\n  navigated to \"https://booksmartly.iplcmiami.com/client-dashboard\"\n============================================================\n\n  159 |     \n  160 |     // Wait for dashboard to load\n> 161 |     await page.waitForURL(new RegExp(admin.dashboard), { timeout: 15000 });\n      |                ^\n  162 |     await page.waitForLoadState('networkidle');\n  163 |     \n  164 |     // Look for logout button/link\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\auth.spec.cjs:161:16"
+                        }
+                      ],
+                      "stdout": [
+                        {
+                          "text": "BROWSER ERROR: Failed to load resource: net::ERR_NAME_NOT_RESOLVED\n"
+                        },
+                        {
+                          "text": "BROWSER LOG: Auth state changed: INITIAL_SESSION undefined\n"
+                        },
+                        {
+                          "text": "BROWSER ERROR: Failed to load resource: net::ERR_NAME_NOT_RESOLVED\n"
+                        },
+                        {
+                          "text": "BROWSER LOG: Auth state changed: SIGNED_IN iplcmiami@gmail.com\n"
+                        },
+                        {
+                          "text": "BROWSER ERROR: Failed to load resource: the server responded with a status of 500 ()\n"
+                        },
+                        {
+                          "text": "BROWSER ERROR: Failed to load resource: the server responded with a status of 400 ()\n"
+                        },
+                        {
+                          "text": "BROWSER ERROR: Failed to load resource: the server responded with a status of 400 ()\n"
+                        },
+                        {
+                          "text": "BROWSER LOG: Login successful\n"
+                        },
+                        {
+                          "text": "BROWSER LOG: Authentication disabled - using mock patient data\n"
+                        },
+                        {
+                          "text": "BROWSER ERROR: Failed to load resource: net::ERR_NAME_NOT_RESOLVED\n"
+                        },
+                        {
+                          "text": "BROWSER ERROR: Failed to load resource: net::ERR_NAME_NOT_RESOLVED\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 1,
+                      "startTime": "2025-06-11T13:03:07.774Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\test-results\\auth-Authentication-Flow-can-logout-successfully-production-chrome-retry1\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\test-results\\auth-Authentication-Flow-can-logout-successfully-production-chrome-retry1\\video.webm"
+                        },
+                        {
+                          "name": "_error-context-0",
+                          "contentType": "text/markdown",
+                          "path": "c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\test-results\\auth-Authentication-Flow-can-logout-successfully-production-chrome-retry1\\error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\test-results\\auth-Authentication-Flow-can-logout-successfully-production-chrome-retry1\\trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\auth.spec.cjs",
+                        "column": 16,
+                        "line": 161
+                      }
+                    },
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 17530,
+                      "error": {
+                        "message": "TimeoutError: page.waitForURL: Timeout 15000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation until \"load\"\n  navigated to \"https://booksmartly.iplcmiami.com/client-dashboard\"\n============================================================",
+                        "stack": "TimeoutError: page.waitForURL: Timeout 15000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation until \"load\"\n  navigated to \"https://booksmartly.iplcmiami.com/client-dashboard\"\n============================================================\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\auth.spec.cjs:161:16",
+                        "location": {
+                          "file": "c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\auth.spec.cjs",
+                          "column": 16,
+                          "line": 161
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 159 |\u001b[39m     \n \u001b[90m 160 |\u001b[39m     \u001b[90m// Wait for dashboard to load\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 161 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForURL(\u001b[36mnew\u001b[39m \u001b[33mRegExp\u001b[39m(admin\u001b[33m.\u001b[39mdashboard)\u001b[33m,\u001b[39m { timeout\u001b[33m:\u001b[39m \u001b[35m15000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 162 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForLoadState(\u001b[32m'networkidle'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 163 |\u001b[39m     \n \u001b[90m 164 |\u001b[39m     \u001b[90m// Look for logout button/link\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\auth.spec.cjs",
+                            "column": 16,
+                            "line": 161
+                          },
+                          "message": "TimeoutError: page.waitForURL: Timeout 15000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation until \"load\"\n  navigated to \"https://booksmartly.iplcmiami.com/client-dashboard\"\n============================================================\n\n  159 |     \n  160 |     // Wait for dashboard to load\n> 161 |     await page.waitForURL(new RegExp(admin.dashboard), { timeout: 15000 });\n      |                ^\n  162 |     await page.waitForLoadState('networkidle');\n  163 |     \n  164 |     // Look for logout button/link\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\auth.spec.cjs:161:16"
+                        }
+                      ],
+                      "stdout": [
+                        {
+                          "text": "BROWSER ERROR: Failed to load resource: net::ERR_NAME_NOT_RESOLVED\n"
+                        },
+                        {
+                          "text": "BROWSER LOG: Auth state changed: INITIAL_SESSION undefined\n"
+                        },
+                        {
+                          "text": "BROWSER ERROR: Failed to load resource: net::ERR_NAME_NOT_RESOLVED\n"
+                        },
+                        {
+                          "text": "BROWSER LOG: Auth state changed: SIGNED_IN iplcmiami@gmail.com\n"
+                        },
+                        {
+                          "text": "BROWSER ERROR: Failed to load resource: the server responded with a status of 500 ()\n"
+                        },
+                        {
+                          "text": "BROWSER ERROR: Failed to load resource: the server responded with a status of 400 ()\n"
+                        },
+                        {
+                          "text": "BROWSER ERROR: Failed to load resource: the server responded with a status of 400 ()\n"
+                        },
+                        {
+                          "text": "BROWSER LOG: Login successful\n"
+                        },
+                        {
+                          "text": "BROWSER LOG: Authentication disabled - using mock patient data\n"
+                        },
+                        {
+                          "text": "BROWSER ERROR: Failed to load resource: net::ERR_NAME_NOT_RESOLVED\n"
+                        },
+                        {
+                          "text": "BROWSER ERROR: Failed to load resource: net::ERR_NAME_NOT_RESOLVED\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 2,
+                      "startTime": "2025-06-11T13:03:27.036Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\test-results\\auth-Authentication-Flow-can-logout-successfully-production-chrome-retry2\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\test-results\\auth-Authentication-Flow-can-logout-successfully-production-chrome-retry2\\video.webm"
+                        },
+                        {
+                          "name": "_error-context-0",
+                          "contentType": "text/markdown",
+                          "path": "c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\test-results\\auth-Authentication-Flow-can-logout-successfully-production-chrome-retry2\\error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\test-results\\auth-Authentication-Flow-can-logout-successfully-production-chrome-retry2\\trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\auth.spec.cjs",
+                        "column": 16,
+                        "line": 161
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "8ff2d18cfa62629a25df-26bde9c25154a35fc037",
+              "file": "auth.spec.cjs",
+              "line": 150,
+              "column": 3
+            },
+            {
+              "title": "redirects to login when accessing protected route without authentication",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "production-chrome",
+                  "projectName": "production-chrome",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 4332,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "BROWSER ERROR: Failed to load resource: net::ERR_NAME_NOT_RESOLVED\n"
+                        },
+                        {
+                          "text": "BROWSER LOG: Auth state changed: INITIAL_SESSION undefined\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-06-11T13:03:46.190Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "8ff2d18cfa62629a25df-b3c83207f5bfee7e1a25",
+              "file": "auth.spec.cjs",
+              "line": 195,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2025-06-11T13:02:24.530Z",
+    "duration": 86210.641,
+    "expected": 5,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}
