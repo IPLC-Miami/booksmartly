@@ -154,7 +154,7 @@ export async function getDoctorSlots(filters = {}) {
     if (filters.date_from) queryParams.append('date_from', filters.date_from);
     if (filters.date_to) queryParams.append('date_to', filters.date_to);
 
-    const url = `${API_URL}/schedules/doctor-slots${queryParams.toString() ? `?${queryParams}` : ''}`;
+    const url = `${API_URL}/schedules/slots${queryParams.toString() ? `?${queryParams}` : ''}`;
     const response = await authenticatedFetch(url, {
       method: 'GET',
     });
@@ -178,7 +178,7 @@ export async function getDoctorSlots(filters = {}) {
  */
 export async function createDoctorSlot(slotData) {
   try {
-    const response = await authenticatedFetch(`${API_URL}/schedules/doctor-slots`, {
+    const response = await authenticatedFetch(`${API_URL}/schedules/slots`, {
       method: 'POST',
       body: JSON.stringify(slotData),
     });
@@ -204,7 +204,7 @@ export async function createDoctorSlot(slotData) {
  */
 export async function updateDoctorSlot(slotId, slotData) {
   try {
-    const response = await authenticatedFetch(`${API_URL}/schedules/doctor-slots/${slotId}`, {
+    const response = await authenticatedFetch(`${API_URL}/schedules/slots/${slotId}`, {
       method: 'PUT',
       body: JSON.stringify(slotData),
     });
@@ -229,7 +229,7 @@ export async function updateDoctorSlot(slotId, slotData) {
  */
 export async function deleteDoctorSlot(slotId) {
   try {
-    const response = await authenticatedFetch(`${API_URL}/schedules/doctor-slots/${slotId}`, {
+    const response = await authenticatedFetch(`${API_URL}/schedules/slots/${slotId}`, {
       method: 'DELETE',
     });
 
