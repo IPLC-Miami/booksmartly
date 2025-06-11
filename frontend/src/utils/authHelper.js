@@ -22,6 +22,13 @@ export const getUserRole = async (userId) => {
   try {
     if (!userId) return null
 
+    // First, try to get role from user metadata (for test users and new auth system)
+    const { data: { user }, error: userError } = await supabase.auth.getUser()
+    if (user && user.id === userId && user.raw_user_meta_data?.role) {
+      return user.raw_user_meta_data.role
+    }
+
+    // Fallback to database tables for existing users
     // Check if user is admin
     const { data: adminData, error: adminError } = await supabase
       .from('admins')
