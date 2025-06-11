@@ -25,6 +25,7 @@ const fileRoutes = require("./routes/fileRoutes");
 const chatRoutes = require("./routes/chatRoutes");
 const billingRoutes = require("./routes/billingRoutes");
 const analyticsRoutes = require("./routes/analyticsRoutes");
+const scheduleRoutes = require("./routes/scheduleRoutes");
 
 // connectDB();
 const profileRoutes = require("./routes/profileRoutes");
@@ -80,6 +81,7 @@ app.use("/api/auth", authRoutes); // ADD: Mount authRoutes under /api/auth to ma
 app.use("/users", userRoutes);
 app.use("/api/users", userRoutes); // ADD: Mount userRoutes under /api/users to match frontend expectations
 app.use("/clinicians", clinicianRoutes); // Updated
+app.use("/api/clinicians", clinicianRoutes); // ADD: Mount clinicianRoutes under /api/clinicians to match frontend expectations
 app.use("/appointments", appointmentRoutes);
 app.use("/api/appointments", appointmentRoutes); // ADD: Mount appointmentRoutes under /api/appointments to match frontend expectations
 app.use("/prescriptions", prescriptionRoutes);
@@ -94,6 +96,7 @@ app.use("/api/files", fileRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/billing", billingRoutes);
 app.use("/api/analytics", analyticsRoutes);
+app.use("/api/schedules", scheduleRoutes);
 
 // const options = {
 //   key: fs.readFileSync("certs/key.pem"),
