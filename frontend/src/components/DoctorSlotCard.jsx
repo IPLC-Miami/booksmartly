@@ -141,7 +141,7 @@ function ClinicianSlotCard({ data, formData, setFormData, mode}) {
           <DataList.Label>Available Slots</DataList.Label>
           <DataList.Value>
             <div className="flex flex-col gap-2">
-              {data?.available_slots.map((slot, index) => {
+              {data?.available_slots && Array.isArray(data.available_slots) ? data.available_slots.map((slot, index) => {
                 const startTime = moment(slot.start_time, "HH:mm:ss").format("hh:mm A");
                 const endTime = moment(slot.end_time, "HH:mm:ss").format("hh:mm A");
 
@@ -176,7 +176,9 @@ function ClinicianSlotCard({ data, formData, setFormData, mode}) {
                     </div>
                   </div>
                 );
-              })}
+              }) : (
+                <div className="text-gray-500 text-sm">No available slots</div>
+              )}
             </div>
 
           </DataList.Value>
