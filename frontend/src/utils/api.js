@@ -705,3 +705,43 @@ export async function getAllUsers() {
     throw new Error("Failed to fetch all users.");
   }
 }
+
+// New slot generation API functions
+export async function generateSlots(doctorId, date) {
+  try {
+    const response = await authenticatedFetch(
+      `${API_URL}/schedules/generate-slots/${doctorId}/${date}`,
+      {
+        method: "GET",
+      }
+    );
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status} ${response.statusText}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Failed to generate slots:", error);
+    throw new Error("Failed to generate slots.");
+  }
+}
+
+export async function getDoctors() {
+  try {
+    const response = await authenticatedFetch(
+      `${API_URL}/schedules/doctors`,
+      {
+        method: "GET",
+      }
+    );
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status} ${response.statusText}`);
+    }
+    const data = await response.json();
+    // Extract the doctors array from the response data structure
+    return data.data || data || [];
+  } catch (error) {
+    console.error("Failed to fetch doctors:", error);
+    throw new Error("Failed to fetch doctors.");
+  }
+}
