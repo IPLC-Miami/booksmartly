@@ -66,7 +66,7 @@ function BookingFormSelectSlotsNew({
   };
 
   // Filter doctors by specialization if available
-  const filteredDoctors = doctors?.filter(doctor => {
+  const filteredDoctors = (doctors || []).filter(doctor => {
     if (!dataClinicianType) return true;
     
     const searchTerms = mapSpecializationToDatabase(dataClinicianType);
@@ -77,7 +77,7 @@ function BookingFormSelectSlotsNew({
       doctorSpecialty.includes(term) ||
       doctorTags.some(tag => tag.includes(term))
     );
-  }) || [];
+  });
 
   // Handle doctor selection
   const handleDoctorSelect = (doctor) => {
