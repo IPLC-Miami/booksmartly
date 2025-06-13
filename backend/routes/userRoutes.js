@@ -632,7 +632,7 @@ router.post("/resend-verification", jwtValidation, roleExtraction, requireRole([
     8)phone confirmed or not
 */
 
-router.get("/getUserById/:userId", jwtValidation, roleExtraction, requireRole(['admin', 'clinician', 'client']), requireOwnership('user'), async (req, res) => {
+router.get("/getUserById/:userId", jwtValidation, roleExtraction, requireRole(['admin', 'clinician', 'client']), requireOwnership((req) => req.params.userId), async (req, res) => {
   const { userId } = req.params;
 
   const id = userId;
@@ -658,7 +658,7 @@ router.get("/getUserById/:userId", jwtValidation, roleExtraction, requireRole(['
   }
 });
 
-router.put("/updateDetails/:id", jwtValidation, roleExtraction, requireRole(['admin', 'clinician', 'client']), requireOwnership('user'), async (req, res) => {
+router.put("/updateDetails/:id", jwtValidation, roleExtraction, requireRole(['admin', 'clinician', 'client']), requireOwnership((req) => req.params.id), async (req, res) => {
   const id = req.params;
   const userId = id.id;
   console.log(userId);
@@ -713,7 +713,7 @@ router.put("/updateDetails/:id", jwtValidation, roleExtraction, requireRole(['ad
 });
 
 // ADD: Explicit /getRole/:id route to match frontend expectations (will be mounted as /api/users/getRole/:id)
-router.get("/getRole/:id", jwtValidation, roleExtraction, requireRole(['admin', 'clinician', 'client']), requireOwnership('user'), async (req, res) => {
+router.get("/getRole/:id", jwtValidation, roleExtraction, requireRole(['admin', 'clinician', 'client']), requireOwnership((req) => req.params.id), async (req, res) => {
   const { id } = req.params;
 
   if (!id) {
