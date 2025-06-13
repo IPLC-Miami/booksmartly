@@ -19,6 +19,7 @@
     "test:production:safari": "playwright test --project=production-safari",
     "test:auth": "playwright test auth.spec.cjs --project=production-chrome",
     "test:admin": "playwright test admin-schedule.spec.cjs admin-clinicians.spec.cjs --project=production-chrome",
+    "test:booking": "playwright test booking-flow.spec.cjs --project=production-chrome",
     "test:install": "playwright install"
   },
   "dependencies": {

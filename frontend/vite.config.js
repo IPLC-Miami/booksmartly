@@ -5,7 +5,7 @@ export default ({ mode }) => {
   // Load env files (e.g., .env, .env.production)
   const env = loadEnv(mode, process.cwd(), '');
   return defineConfig({
-    base: mode === 'production' ? '/' : '/booksmartly/',
+    base: mode === 'production' ? '/' : '/booksmartly',
     plugins: [react()],
     define: {
       'process.env': {

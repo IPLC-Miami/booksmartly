@@ -152,6 +152,7 @@ function ClinicianSlotCard({ data, formData, setFormData, mode}) {
                 return (
                   <div
                     key={slot.start_time}
+                    data-testid="time-slot"
                     className={`flex items-center justify-between rounded-lg border p-2 ${isSelected ? "border-blue-500 bg-blue-50" : "border-gray-200"
                       }`}
                   >

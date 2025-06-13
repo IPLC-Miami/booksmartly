@@ -6,7 +6,7 @@ function BookingFormReviewData({
   setBookingSuccessful,
 }) {
   const formData = data;
-  const selectedDoctor = formData?.selectedDoctor;
+  const selectedDoctor = formData?.selectedClinician;
   
   return (
     <div>
@@ -32,44 +32,48 @@ function BookingFormReviewData({
             <DataList.Label minWidth="88px">Patient Name</DataList.Label>
             <DataList.Value>
               <Flex align="center" gap="2">
-                <Code variant="ghost">{formData.fullName}</Code>
+                <Code variant="ghost">{formData.firstName} {formData.lastName}</Code>
               </Flex>
             </DataList.Value>
           </DataList.Item>
           <DataList.Item>
-            <DataList.Label minWidth="88px">Address</DataList.Label>
+            <DataList.Label minWidth="88px">Email</DataList.Label>
             <DataList.Value>
               <Flex align="center" gap="2">
-                <Code variant="ghost">{formData.address}</Code>
+                <Code variant="ghost">{formData.email}</Code>
               </Flex>
             </DataList.Value>
           </DataList.Item>
           <DataList.Item>
-            <DataList.Label minWidth="88px">Health Issue</DataList.Label>
+            <DataList.Label minWidth="88px">Phone</DataList.Label>
+            <DataList.Value>
+              <Flex align="center" gap="2">
+                <Code variant="ghost">{formData.phone}</Code>
+              </Flex>
+            </DataList.Value>
+          </DataList.Item>
+          <DataList.Item>
+            <DataList.Label minWidth="88px">Symptoms</DataList.Label>
             <DataList.Value>
               <Flex align="center" gap="2">
                 <Code variant="ghost" color="gray">
-                  {formData.healthIssue}
+                  {formData.symptoms}
                 </Code>
               </Flex>
             </DataList.Value>
           </DataList.Item>
-          <DataList.Item>
-            <DataList.Label minWidth="88px">Age</DataList.Label>
-            <DataList.Value>
-              <Flex align="center" gap="2">
-                <Code variant="ghost">{formData.age}</Code>
-              </Flex>
-            </DataList.Value>
-          </DataList.Item>
-          <DataList.Item>
-            <DataList.Label minWidth="88px">Gender</DataList.Label>
-            <DataList.Value>
-              <Flex align="center" gap="2">
-                <Code variant="ghost">{formData.gender}</Code>
-              </Flex>
-            </DataList.Value>
-          </DataList.Item>
+          {formData.medicalHistory && (
+            <DataList.Item>
+              <DataList.Label minWidth="88px">Medical History</DataList.Label>
+              <DataList.Value>
+                <Flex align="center" gap="2">
+                  <Code variant="ghost" color="gray">
+                    {formData.medicalHistory}
+                  </Code>
+                </Flex>
+              </DataList.Value>
+            </DataList.Item>
+          )}
         </DataList.Root>
         <div>
           <div className="mb-2 font-noto font-semibold">Selected Doctor:</div>
@@ -85,7 +89,7 @@ function BookingFormReviewData({
               <DataList.Item>
                 <DataList.Label minWidth="88px">Name</DataList.Label>
                 <DataList.Value>
-                  <Code variant="ghost">{selectedDoctor?.doctor_name}</Code>
+                  <Code variant="ghost">{selectedDoctor?.clinician_name}</Code>
                 </DataList.Value>
               </DataList.Item>
               <DataList.Item align="center">

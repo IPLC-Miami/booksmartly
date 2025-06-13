@@ -1,8 +1,9 @@
-import { Button, Badge, Spinner } from "@radix-ui/themes";
+import { Button, Badge, Spinner, Select } from "@radix-ui/themes";
 import { useState, useEffect } from "react";
 import useGetDoctors from "../hooks/useGetDoctors";
 import useGenerateSlots from "../hooks/useGenerateSlots";
 import DoctorSlotCard from "./DoctorSlotCard";
+import { supabase } from "../utils/supabaseClient";
 
 function BookingFormSelectSlotsNew({
   formData,
@@ -12,6 +13,7 @@ function BookingFormSelectSlotsNew({
   mode,
 }) {
   const [selectedDoctor, setSelectedDoctor] = useState(null);
+  const [selectedSpecialization, setSelectedSpecialization] = useState("");
   
   // Get all doctors
   const {
@@ -46,6 +48,33 @@ function BookingFormSelectSlotsNew({
     }
   }, []);
 
+  // Real-time slot updates using Supabase
+  useEffect(() => {
+    if (!selectedDoctor?.id || !formData.selectedDate) return;
+
+    const channel = supabase
+      .channel('public:doctor_slots')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'doctor_slots',
+          filter: `doctor_id=eq.${selectedDoctor.id}`
+        },
+        (payload) => {
+          console.log('Real-time slot update:', payload);
+          // Refetch slots when there are changes to the selected doctor's slots
+          refetchSlots();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [selectedDoctor?.id, formData.selectedDate, refetchSlots]);
+
   // Map ML API specialization to database specializations
   const mapSpecializationToDatabase = (mlSpecialization) => {
     const mappings = {
@@ -65,18 +94,29 @@ function BookingFormSelectSlotsNew({
     return mappings[key] || [key];
   };
 
-  // Filter doctors by specialization if available
+  // Get unique specializations for filter dropdown
+  const availableSpecializations = [...new Set((doctors || []).map(doctor => doctor.specialty).filter(Boolean))];
+
+  // Filter doctors by specialization
   const filteredDoctors = (doctors || []).filter(doctor => {
-    if (!dataClinicianType) return true;
+    // Filter by manual specialization selection
+    if (selectedSpecialization && doctor.specialty !== selectedSpecialization) {
+      return false;
+    }
     
-    const searchTerms = mapSpecializationToDatabase(dataClinicianType);
-    const doctorSpecialty = doctor.specialty?.toLowerCase() || '';
-    const doctorTags = doctor.expertiseTags?.map(tag => tag.toLowerCase()) || [];
+    // Filter by AI recommendation if no manual selection
+    if (!selectedSpecialization && dataClinicianType) {
+      const searchTerms = mapSpecializationToDatabase(dataClinicianType);
+      const doctorSpecialty = doctor.specialty?.toLowerCase() || '';
+      const doctorTags = doctor.expertiseTags?.map(tag => tag.toLowerCase()) || [];
+      
+      return searchTerms.some(term =>
+        doctorSpecialty.includes(term) ||
+        doctorTags.some(tag => tag.includes(term))
+      );
+    }
     
-    return searchTerms.some(term =>
-      doctorSpecialty.includes(term) ||
-      doctorTags.some(tag => tag.includes(term))
-    );
+    return true;
   });
 
   // Handle doctor selection
@@ -159,8 +199,34 @@ function BookingFormSelectSlotsNew({
         </Button>
       </div>
 
+      {/* Specialization Filter */}
+      <div className="mb-4 flex flex-col gap-2">
+        <label htmlFor="specialization" className="font-noto text-sm font-semibold">
+          Filter by Specialization:
+        </label>
+        <Select.Root
+          name="specialization"
+          value={selectedSpecialization}
+          onValueChange={(value) => {
+            setSelectedSpecialization(value);
+            setSelectedDoctor(null);
+            setFormData({ ...formData, selectedClinician: null });
+          }}
+        >
+          <Select.Trigger placeholder="All Specializations" />
+          <Select.Content>
+            <Select.Item value="">All Specializations</Select.Item>
+            {availableSpecializations.map((specialization) => (
+              <Select.Item key={specialization} value={specialization}>
+                {specialization}
+              </Select.Item>
+            ))}
+          </Select.Content>
+        </Select.Root>
+      </div>
+
       {/* Recommended Doctor Type */}
-      {dataClinicianType && (
+      {dataClinicianType && !selectedSpecialization && (
         <div className="mb-4 flex items-center gap-x-2">
           <div className="flex font-noto text-xs font-semibold">
             Recommended Doctor Type:
@@ -205,7 +271,7 @@ function BookingFormSelectSlotsNew({
 
       {/* Loading States */}
       {isLoadingDoctors && (
-        <div className="flex items-center justify-center py-8">
+        <div className="flex items-center justify-center py-8" data-testid="loading-slots">
           <Spinner size="3" />
           <span className="ml-2">Loading doctors...</span>
         </div>
@@ -219,6 +285,7 @@ function BookingFormSelectSlotsNew({
             {filteredDoctors.map((doctor) => (
               <div
                 key={doctor.id}
+                data-testid="doctor-card"
                 className="cursor-pointer rounded-lg border-2 border-gray-200 p-4 transition-all hover:border-blue-300 hover:shadow-md"
                 onClick={() => handleDoctorSelect(doctor)}
               >
@@ -262,7 +329,7 @@ function BookingFormSelectSlotsNew({
           </div>
           
           {isLoadingSlots || isFetchingSlots ? (
-            <div className="flex items-center justify-center py-8">
+            <div className="flex items-center justify-center py-8" data-testid="loading-slots">
               <Spinner size="3" />
               <span className="ml-2">Loading available slots...</span>
             </div>
@@ -291,12 +358,28 @@ function BookingFormSelectSlotsNew({
       {/* Error States */}
       {errorDoctors && (
         <div className="py-4 text-center text-red-500">
-          Error loading doctors: {errorDoctors.message}
+          <p>Error loading doctors: {errorDoctors.message}</p>
+          <Button
+            size="2"
+            variant="soft"
+            onClick={() => refetchDoctors()}
+            className="mt-2"
+          >
+            Retry
+          </Button>
         </div>
       )}
       {errorSlots && (
         <div className="py-4 text-center text-red-500">
-          Error loading slots: {errorSlots.message}
+          <p>Error loading slots: {errorSlots.message}</p>
+          <Button
+            size="2"
+            variant="soft"
+            onClick={() => refetchSlots()}
+            className="mt-2"
+          >
+            Retry
+          </Button>
         </div>
       )}
     </div>

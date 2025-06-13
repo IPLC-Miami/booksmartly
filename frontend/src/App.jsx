@@ -92,7 +92,25 @@ const router = createBrowserRouter(
           errorElement: <ErrorPage />,
         },
         {
+          path: "/dashboard",
+          element: (
+            <ProtectedRoute>
+              <ClientDashboardPage />
+            </ProtectedRoute>
+          ),
+          errorElement: <ErrorPage />,
+        },
+        {
           path: "/bookappointment",
+          element: (
+            <ClientRoute>
+              <BookAppointment />
+            </ClientRoute>
+          ),
+          errorElement: <ErrorPage />,
+        },
+        {
+          path: "/book",
           element: (
             <ClientRoute>
               <BookAppointment />

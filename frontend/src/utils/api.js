@@ -417,11 +417,11 @@ export async function postBookAppointment(bookingData) {
       appointment_date: formData.selectedDate.split("-").reverse().join("-"),
       book_status: "completed",
       personal_details: JSON.stringify({
-        name: formData.fullName,
-        address: formData.address,
-        age: formData.age,
-        gender: formData.gender,
-        health_issue: formData.healthIssue,
+        name: `${formData.firstName} ${formData.lastName}`,
+        email: formData.email,
+        phone: formData.phone,
+        symptoms: formData.symptoms,
+        medical_history: formData.medicalHistory || '',
       }),
       chosen_slot: JSON.stringify({
         mode: formData.selectedClinician.mode, // Updated
@@ -434,6 +434,7 @@ export async function postBookAppointment(bookingData) {
     throw new Error(`Error: ${response.status} ${response.statusText}`);
   }
   const data = await response.json();
+  return data;
 }
 
 export async function getClinicianType(healthIssue) { // Renamed

@@ -7,6 +7,7 @@ const {
   requireRole,
   requireAdmin
 } = require('../middleware/auth');
+const { generateSlots, getDoctors } = require('../controllers/slotController');
 
 // Helper function to get schedules with clinician info
 async function getSchedulesWithClinicianInfo() {
@@ -17,9 +18,9 @@ async function getSchedulesWithClinicianInfo() {
         *,
         clinician:clinicians2!clinician_id (
           user_id,
-          name,
-          phone,
-          specialty
+          specialty,
+          hospital_name,
+          consultation_fees
         )
       `)
       .order('day_of_week', { ascending: true })
@@ -41,9 +42,9 @@ async function getDoctorSlotsWithInfo(filters = {}) {
         *,
         clinician:clinicians2!clinician_id (
           user_id,
-          name,
-          phone,
-          specialty
+          specialty,
+          hospital_name,
+          consultation_fees
         ),
         schedule:schedules!schedule_id (
           day_of_week,
@@ -78,6 +79,48 @@ async function getDoctorSlotsWithInfo(filters = {}) {
 }
 
 // =============================================================================
+// SLOT GENERATION ROUTES (NEW) - MUST BE BEFORE PARAMETERIZED ROUTES
+// =============================================================================
+
+// GET /api/schedules/generate-slots/:doctorId/:date - Generate available slots for a doctor on a specific date
+router.get("/generate-slots/:doctorId/:date", async (req, res) => {
+  const { doctorId, date } = req.params;
+  
+  try {
+    const result = await generateSlots(doctorId, date);
+    
+    if (result.success) {
+      res.status(200).json(result);
+    } else {
+      res.status(400).json(result);
+    }
+  } catch (err) {
+    console.error("Unexpected error in GET /schedules/generate-slots:", err);
+    return res.status(500).json({
+      success: false,
+      error: "Internal Server Error",
+      data: null
+    });
+  }
+});
+
+// GET /api/schedules/doctors - Get all available doctors with expertise tags
+router.get("/doctors", async (req, res) => {
+  try {
+    const result = await getDoctors();
+    
+    if (result.success) {
+      res.status(200).json(result.data);
+    } else {
+      res.status(400).json({ error: result.error });
+    }
+  } catch (err) {
+    console.error("Unexpected error in GET /schedules/doctors:", err);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+// =============================================================================
 // SCHEDULE ROUTES
 // =============================================================================
 
@@ -109,9 +152,9 @@ router.get("/:id", jwtValidation, roleExtraction, requireAdmin, async (req, res)
         *,
         clinician:clinicians2!clinician_id (
           user_id,
-          name,
-          phone,
-          specialty
+          specialty,
+          hospital_name,
+          consultation_fees
         )
       `)
       .eq('id', id)
@@ -162,9 +205,9 @@ router.post("/", jwtValidation, roleExtraction, requireAdmin, async (req, res) =
         *,
         clinician:clinicians2!clinician_id (
           user_id,
-          name,
-          phone,
-          specialty
+          specialty,
+          hospital_name,
+          consultation_fees
         )
       `)
       .single();
@@ -214,9 +257,9 @@ router.put("/:id", jwtValidation, roleExtraction, requireAdmin, async (req, res)
         *,
         clinician:clinicians2!clinician_id (
           user_id,
-          name,
-          phone,
-          specialty
+          specialty,
+          hospital_name,
+          consultation_fees
         )
       `)
       .single();
@@ -300,9 +343,9 @@ router.get("/slots/:id", jwtValidation, roleExtraction, requireAdmin, async (req
         *,
         clinician:clinicians2!clinician_id (
           user_id,
-          name,
-          phone,
-          specialty
+          specialty,
+          hospital_name,
+          consultation_fees
         ),
         schedule:schedules!schedule_id (
           day_of_week,
@@ -364,9 +407,9 @@ router.post("/slots", jwtValidation, roleExtraction, requireAdmin, async (req, r
         *,
         clinician:clinicians2!clinician_id (
           user_id,
-          name,
-          phone,
-          specialty
+          specialty,
+          hospital_name,
+          consultation_fees
         ),
         schedule:schedules!schedule_id (
           day_of_week,
@@ -424,9 +467,9 @@ router.put("/slots/:id", jwtValidation, roleExtraction, requireAdmin, async (req
         *,
         clinician:clinicians2!clinician_id (
           user_id,
-          name,
-          phone,
-          specialty
+          specialty,
+          hospital_name,
+          consultation_fees
         ),
         schedule:schedules!schedule_id (
           day_of_week,
