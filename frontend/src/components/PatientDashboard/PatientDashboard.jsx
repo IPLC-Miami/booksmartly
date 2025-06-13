@@ -16,16 +16,23 @@ function PatientDashboard({ userId }) {
 
   // Debug logging
   console.log('PatientDashboard rendered with userId:', userId);
+  console.log('About to render Book Appointment button');
 
   return (
     <div className="text-sm font-medium">
       {/* Book Appointment Button - Always render regardless of userId */}
-      <div className="mb-6 flex justify-center">
+      <div className="mb-6 flex justify-center" style={{ backgroundColor: 'red', padding: '20px', border: '5px solid blue' }}>
+        {console.log('Rendering Book Appointment button div')}
         <Button
           size="3"
           color="iris"
-          onClick={() => navigate("/book")}
+          onClick={() => {
+            console.log('Book Appointment button clicked, navigating to /book');
+            navigate("/book");
+          }}
           className="font-semibold"
+          data-testid="book-appointment-button"
+          style={{ backgroundColor: 'yellow', color: 'black', fontSize: '20px', padding: '15px' }}
         >
           Book Appointment
         </Button>
