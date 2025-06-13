@@ -68,7 +68,7 @@ const getUserRole = async (userId) => {
 
     // Check if user is clinician
     const { data: clinicianData, error: clinicianError } = await supabase
-      .from('clinicians')
+      .from('clinicians2')
       .select('id')
       .eq('user_id', userId)
       .single()
