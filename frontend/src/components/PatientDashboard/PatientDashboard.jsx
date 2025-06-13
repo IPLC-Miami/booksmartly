@@ -14,9 +14,12 @@ function PatientDashboard({ userId }) {
     setTab(searchParams.get("tab") || "profile");
   }, [searchParams]);
 
+  // Debug logging
+  console.log('PatientDashboard rendered with userId:', userId);
+
   return (
     <div className="text-sm font-medium">
-      {/* Book Appointment Button */}
+      {/* Book Appointment Button - Always render regardless of userId */}
       <div className="mb-6 flex justify-center">
         <Button
           size="3"
