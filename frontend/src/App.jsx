@@ -94,9 +94,9 @@ const router = createBrowserRouter(
         {
           path: "/dashboard",
           element: (
-            <ProtectedRoute>
+            <ClientRoute>
               <ClientDashboardPage />
-            </ProtectedRoute>
+            </ClientRoute>
           ),
           errorElement: <ErrorPage />,
         },
