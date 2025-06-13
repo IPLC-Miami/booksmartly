@@ -44,6 +44,20 @@ const getUserRole = async (userId) => {
       return user.raw_user_meta_data.role
     }
 
+    // Fallback to fetching role from the backend
+    try {
+      const response = await fetch(`/api/users/getRole/${userId}`);
+      if (response.ok) {
+        const data = await response.json();
+        if (data.role) {
+          console.log('✅ Found role in database via API:', data.role);
+          return data.role;
+        }
+      }
+    } catch (error) {
+      console.error('API call to getRole failed:', error);
+    }
+
     // TEMPORARY FIX: Explicitly check for admin email
     if (user && user.email === 'iplcmiami@gmail.com') {
       console.log('🔧 TEMPORARY FIX: Assigning admin role to iplcmiami@gmail.com')

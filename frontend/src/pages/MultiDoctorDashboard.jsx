@@ -52,7 +52,7 @@ const MultiDoctorDashboard = () => {
     setIsLoading(true);
     try {
       const response = await axios.get(
-        `${api}/multiDoctorDashboardRoutes/allNextAppointments/${receptionId}`,
+        `${api}/appointments/clinicianUpcomingAppointments/${receptionId}`,
       );
       const clinicianData = response.data;
       console.log(clinicianData);
@@ -107,7 +107,7 @@ const MultiDoctorDashboard = () => {
 
     try {
       const response = await axios.get(
-        `${api}/multiDoctorDashboardRoutes/nextAppointments/${onlyId}`,
+        `${api}/appointments/clinicianUpcomingAppointments/${onlyId}`,
       );
       const clinicianData = response.data;
       const currentTime = new Date();
