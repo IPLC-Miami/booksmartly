@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Button, Card, Flex, Text, Dialog, TextField, Select, Badge, Input } from '@radix-ui/themes';
+import { Box, Button, Card, Flex, Text, Dialog, TextField, Select, Badge } from '@radix-ui/themes';
 import {
   getSchedules,
   createSchedule,
