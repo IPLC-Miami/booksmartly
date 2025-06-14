@@ -85,15 +85,15 @@ function Home() {
                 gradientUnits="userSpaceOnUse"
                 gradientTransform="translate(2922 2538.48) rotate(-117.986) scale(1898.15 3571.73)"
               >
-                <stop stop-color="var(--color-background-image-base)"></stop>
+                <stop stopColor="var(--color-background-image-base)"></stop>
                 <stop
                   offset="0.822917"
-                  stop-color="var(--color-background-image-base)"
+                  stopColor="var(--color-background-image-base)"
                 ></stop>
                 <stop
                   offset="1"
-                  stop-color="var(--color-background-image-base)"
-                  stop-opacity="0"
+                  stopColor="var(--color-background-image-base)"
+                  stopOpacity="0"
                 ></stop>
               </radialGradient>
               <radialGradient
@@ -104,15 +104,15 @@ function Home() {
                 gradientUnits="userSpaceOnUse"
                 gradientTransform="translate(3069.05 2293.39) rotate(-117.986) scale(1898.15 3571.73)"
               >
-                <stop stop-color="var(--color-background-image-base)"></stop>
+                <stop stopColor="var(--color-background-image-base)"></stop>
                 <stop
                   offset="0.822917"
-                  stop-color="var(--color-background-image-base)"
+                  stopColor="var(--color-background-image-base)"
                 ></stop>
                 <stop
                   offset="1"
-                  stop-color="var(--color-background-image-base)"
-                  stop-opacity="0"
+                  stopColor="var(--color-background-image-base)"
+                  stopOpacity="0"
                 ></stop>
               </radialGradient>
               <radialGradient
@@ -125,10 +125,10 @@ function Home() {
               >
                 <stop
                   offset="0.328125"
-                  stop-color="var(--color-background-image-accent-1)"
-                  stop-opacity="1"
+                  stopColor="var(--color-background-image-accent-1)"
+                  stopOpacity="1"
                 ></stop>
-                <stop offset="1" stop-color="white" stop-opacity="0"></stop>
+                <stop offset="1" stopColor="white" stopOpacity="0"></stop>
               </radialGradient>
               <radialGradient
                 id="paint6_radial_114_43-1"
@@ -138,15 +138,15 @@ function Home() {
                 gradientUnits="userSpaceOnUse"
                 gradientTransform="translate(3934.59 656.035) rotate(148.98) scale(1938.73 3648.08)"
               >
-                <stop stop-color="var(--color-background-image-base)"></stop>
+                <stop stopColor="var(--color-background-image-base)"></stop>
                 <stop
                   offset="0.789375"
-                  stop-color="var(--color-background-image-base)"
+                  stopColor="var(--color-background-image-base)"
                 ></stop>
                 <stop
                   offset="1"
-                  stop-color="var(--color-background-image-base)"
-                  stop-opacity="0"
+                  stopColor="var(--color-background-image-base)"
+                  stopOpacity="0"
                 ></stop>
               </radialGradient>
               <radialGradient
@@ -157,30 +157,30 @@ function Home() {
                 gradientUnits="userSpaceOnUse"
                 gradientTransform="translate(-804.109 -2036.8) rotate(64.9401) scale(6436.87 6304.81)"
               >
-                <stop stop-color="var(--color-background-image-base)"></stop>
+                <stop stopColor="var(--color-background-image-base)"></stop>
                 <stop
                   offset="0.0833333"
-                  stop-color="var(--color-background-image-accent-1)"
+                  stopColor="var(--color-background-image-accent-1)"
                 ></stop>
                 <stop
                   offset="0.364583"
-                  stop-color="var(--color-background-image-accent-2)"
+                  stopColor="var(--color-background-image-accent-2)"
                 ></stop>
                 <stop
                   offset="0.658041"
-                  stop-color="var(--color-background-image-base)"
+                  stopColor="var(--color-background-image-base)"
                 ></stop>
                 <stop
                   offset="0.798521"
-                  stop-color="var(--color-background-image-accent-3)"
+                  stopColor="var(--color-background-image-accent-3)"
                 ></stop>
                 <stop
                   offset="0.942708"
-                  stop-color="var(--color-background-image-base)"
+                  stopColor="var(--color-background-image-base)"
                 ></stop>
                 <stop
                   offset="1"
-                  stop-color="var(--color-background-image-base)"
+                  stopColor="var(--color-background-image-base)"
                 ></stop>
               </radialGradient>
               <radialGradient
@@ -191,30 +191,30 @@ function Home() {
                 gradientUnits="userSpaceOnUse"
                 gradientTransform="translate(201.6 -1080.02) rotate(64.9401) scale(6436.87 6304.81)"
               >
-                <stop stop-color="var(--color-background-image-base)"></stop>
+                <stop stopColor="var(--color-background-image-base)"></stop>
                 <stop
                   offset="0.0833333"
-                  stop-color="var(--color-background-image-accent-4)"
+                  stopColor="var(--color-background-image-accent-4)"
                 ></stop>
                 <stop
                   offset="0.333803"
-                  stop-color="var(--color-background-image-accent-5)"
+                  stopColor="var(--color-background-image-accent-5)"
                 ></stop>
                 <stop
                   offset="0.658041"
-                  stop-color="var(--color-background-image-base)"
+                  stopColor="var(--color-background-image-base)"
                 ></stop>
                 <stop
                   offset="0.798521"
-                  stop-color="var(--color-background-image-accent-3)"
+                  stopColor="var(--color-background-image-accent-3)"
                 ></stop>
                 <stop
                   offset="0.942708"
-                  stop-color="var(--color-background-image-base)"
+                  stopColor="var(--color-background-image-base)"
                 ></stop>
                 <stop
                   offset="1"
-                  stop-color="var(--color-background-image-base)"
+                  stopColor="var(--color-background-image-base)"
                 ></stop>
               </radialGradient>
               <radialGradient
@@ -225,31 +225,31 @@ function Home() {
                 gradientUnits="userSpaceOnUse"
                 gradientTransform="translate(912.834 -811.021) rotate(64.9401) scale(6436.87 6304.81)"
               >
-                <stop stop-color="var(--color-background-image-base)"></stop>
+                <stop stopColor="var(--color-background-image-base)"></stop>
                 <stop
                   offset="0.140625"
-                  stop-color="var(--color-background-image-accent-6)"
-                  stop-opacity="0"
+                  stopColor="var(--color-background-image-accent-6)"
+                  stopOpacity="0"
                 ></stop>
                 <stop
                   offset="0.333803"
-                  stop-color="var(--color-background-image-accent-7)"
+                  stopColor="var(--color-background-image-accent-7)"
                 ></stop>
                 <stop
                   offset="0.658041"
-                  stop-color="var(--color-background-image-base)"
+                  stopColor="var(--color-background-image-base)"
                 ></stop>
                 <stop
                   offset="0.798521"
-                  stop-color="var(--color-background-image-accent-3)"
+                  stopColor="var(--color-background-image-accent-3)"
                 ></stop>
                 <stop
                   offset="0.942708"
-                  stop-color="var(--color-background-image-base)"
+                  stopColor="var(--color-background-image-base)"
                 ></stop>
                 <stop
                   offset="1"
-                  stop-color="var(--color-background-image-base)"
+                  stopColor="var(--color-background-image-base)"
                 ></stop>
               </radialGradient>
               <radialGradient
@@ -260,30 +260,30 @@ function Home() {
                 gradientUnits="userSpaceOnUse"
                 gradientTransform="translate(1711.41 -1639.11) rotate(64.9401) scale(6436.87 6304.81)"
               >
-                <stop stop-color="var(--color-background-image-base)"></stop>
+                <stop stopColor="var(--color-background-image-base)"></stop>
                 <stop
                   offset="0.0833333"
-                  stop-color="var(--color-background-image-accent-1)"
+                  stopColor="var(--color-background-image-accent-1)"
                 ></stop>
                 <stop
                   offset="0.333803"
-                  stop-color="var(--color-background-image-accent-5)"
+                  stopColor="var(--color-background-image-accent-5)"
                 ></stop>
                 <stop
                   offset="0.658041"
-                  stop-color="var(--color-background-image-base)"
+                  stopColor="var(--color-background-image-base)"
                 ></stop>
                 <stop
                   offset="0.798521"
-                  stop-color="var(--color-background-image-accent-3)"
+                  stopColor="var(--color-background-image-accent-3)"
                 ></stop>
                 <stop
                   offset="0.942708"
-                  stop-color="var(--color-background-image-base)"
+                  stopColor="var(--color-background-image-base)"
                 ></stop>
                 <stop
                   offset="1"
-                  stop-color="var(--color-background-image-base)"
+                  stopColor="var(--color-background-image-base)"
                 ></stop>
               </radialGradient>
               <radialGradient
@@ -294,30 +294,30 @@ function Home() {
                 gradientUnits="userSpaceOnUse"
                 gradientTransform="translate(3479.06 -623.459) rotate(113.028) scale(8332.26 4870.62)"
               >
-                <stop stop-color="var(--color-background-image-base)"></stop>
+                <stop stopColor="var(--color-background-image-base)"></stop>
                 <stop
                   offset="0.0833333"
-                  stop-color="var(--color-background-image-accent-1)"
+                  stopColor="var(--color-background-image-accent-1)"
                 ></stop>
                 <stop
                   offset="0.333803"
-                  stop-color="var(--color-background-image-accent-5)"
+                  stopColor="var(--color-background-image-accent-5)"
                 ></stop>
                 <stop
                   offset="0.658041"
-                  stop-color="var(--color-background-image-base)"
+                  stopColor="var(--color-background-image-base)"
                 ></stop>
                 <stop
                   offset="0.798521"
-                  stop-color="var(--color-background-image-accent-3)"
+                  stopColor="var(--color-background-image-accent-3)"
                 ></stop>
                 <stop
                   offset="0.942708"
-                  stop-color="var(--color-background-image-base)"
+                  stopColor="var(--color-background-image-base)"
                 ></stop>
                 <stop
                   offset="1"
-                  stop-color="var(--color-background-image-base)"
+                  stopColor="var(--color-background-image-base)"
                 ></stop>
               </radialGradient>
             </defs>
@@ -330,7 +330,7 @@ function Home() {
             alt="IPLC BookSmartly Logo"
             className="h-20 md:h-28 lg:h-32"
           />
-          <div class="my-4 h-[1px] w-full bg-gradient-to-r from-transparent via-[#79797949] to-transparent"></div>
+          <div className="my-4 h-[1px] w-full bg-gradient-to-r from-transparent via-[#79797949] to-transparent"></div>
           <p className="h-7 w-96 text-center font-medium tracking-wider">
             <Typewriter
               loop={true}

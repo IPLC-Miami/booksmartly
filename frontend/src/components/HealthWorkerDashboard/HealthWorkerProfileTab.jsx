@@ -147,9 +147,9 @@ function HealthWorkerProfileTab({ userId }) {
                     d="M208,208H48a16,16,0,0,1-16-16V80A16,16,0,0,1,48,64H80L96,40h64l16,24h32a16,16,0,0,1,16,16V192A16,16,0,0,1,208,208Z"
                     fill="none"
                     stroke="#222222"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="16"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="16"
                   />
                   <circle
                     cx="128"
@@ -157,9 +157,9 @@ function HealthWorkerProfileTab({ userId }) {
                     r="36"
                     fill="none"
                     stroke="#222222"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="16"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="16"
                   />
                 </svg>
               </span>

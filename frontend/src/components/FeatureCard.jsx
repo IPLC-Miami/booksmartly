@@ -8,7 +8,7 @@ export default function Card1({ title, text, link, linkName }) {
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
-          stroke-width="1.5"
+          strokeWidth="1.5"
           stroke="#4c5967"
           className="h-6 w-6"
         >
