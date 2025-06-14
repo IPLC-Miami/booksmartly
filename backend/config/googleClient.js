@@ -3,7 +3,7 @@ const fs = require('fs');
 // const process = require('process')
 const path = require('path')
 const TOKEN_PATH = path.join(__dirname, 'token.json')
-const scopes = ['https://wwww.googleapis.com/auth/calendar']
+const scopes = ['https://www.googleapis.com/auth/calendar']
 const oauth2client = new google.auth.OAuth2(
   process.env.CLIENT_ID,
   process.env.CLIENT_SECRET,
