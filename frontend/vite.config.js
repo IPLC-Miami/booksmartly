@@ -28,7 +28,7 @@ export default ({ mode }) => {
     },
     build: {
       rollupOptions: {
-        external: ['dotenv', 'path', 'fs', 'url', 'source-map-js'],
+        external: ['dotenv'],
         output: {
           manualChunks: {
             vendor: ['react', 'react-dom'],
@@ -40,7 +40,7 @@ export default ({ mode }) => {
       chunkSizeWarningLimit: 1000
     },
     optimizeDeps: {
-      exclude: ['dotenv', 'path', 'fs', 'url', 'source-map-js']
+      exclude: ['dotenv']
     }
   });
 };
