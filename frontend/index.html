@@ -6,13 +6,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BookSmartly</title>
     
-    <!-- Critical CSS links placed at top of head to prevent FOUC -->
-    <!-- Note: Vite will inject CSS links here during build -->
+    <!-- FOUC Prevention: Critical inline CSS -->
+    <style>
+      /* Hide body until styles are loaded to prevent FOUC */
+      body {
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+      }
+      body.loaded {
+        visibility: visible;
+        opacity: 1;
+      }
+      /* Loading spinner for better UX */
+      .loading-spinner {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 40px;
+        height: 40px;
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #3498db;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        z-index: 9999;
+      }
+      @keyframes spin {
+        0% { transform: translate(-50%, -50%) rotate(0deg); }
+        100% { transform: translate(-50%, -50%) rotate(360deg); }
+      }
+    </style>
     
-    <!-- Minimal inline script to prevent Firefox FOUC warning -->
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/src/main.jsx" as="script" crossorigin>
+    <link rel="preload" href="/src/index.css" as="style">
+    
+    <!-- FOUC Prevention Script -->
     <script>
       /* Prevent Firefox FOUC warning */
       window.__FOUC_FIX = true;
+      
+      // Show body when DOM is ready and styles are loaded
+      document.addEventListener('DOMContentLoaded', function() {
+        // Add a small delay to ensure all critical resources are loaded
+        setTimeout(function() {
+          document.body.classList.add('loaded');
+          // Remove loading spinner if it exists
+          const spinner = document.querySelector('.loading-spinner');
+          if (spinner) {
+            spinner.remove();
+          }
+        }, 100);
+      });
+      
+      // Fallback: Show content after 2 seconds regardless
+      setTimeout(function() {
+        document.body.classList.add('loaded');
+        const spinner = document.querySelector('.loading-spinner');
+        if (spinner) {
+          spinner.remove();
+        }
+      }, 2000);
     </script>
     
     <!-- Start Single Page Apps for GitHub Pages -->
@@ -54,13 +109,17 @@
 
       gtag('config', 'G-Y157YTQC1N', {
         cookie_update: false,         // Prevent updating cookie expiration on each pageview
-        cookie_expires: 63072000      // Set a 2-year expiration (in seconds) explicitly
+        cookie_expires: 63072000,     // Set a 2-year expiration (in seconds) explicitly
+        cookie_flags: 'SameSite=Lax;Secure'  // Secure cookie configuration
       });
     </script>
 
     <!-- End Single Page Apps for GitHub Pages -->
   </head>
   <body>
+    <!-- Loading spinner -->
+    <div class="loading-spinner"></div>
+    
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

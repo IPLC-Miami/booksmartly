@@ -70,6 +70,27 @@ app.use(cors({
 
 app.use(express.json());
 app.use(cookieParser()); // Add cookie parser middleware
+
+// Configure secure cookies for production
+app.use((req, res, next) => {
+  // Set secure cookie defaults for production
+  if (process.env.NODE_ENV === 'production') {
+    res.cookie = ((originalCookie) => {
+      return function(name, value, options = {}) {
+        const secureOptions = {
+          ...options,
+          secure: true,
+          sameSite: 'lax',
+          httpOnly: options.httpOnly !== false, // Default to httpOnly unless explicitly set to false
+          domain: options.domain || '.iplcmiami.com'
+        };
+        return originalCookie.call(this, name, value, secureOptions);
+      };
+    })(res.cookie);
+  }
+  next();
+});
+
 app.use("/AiConsultation", AiConsultation);
 
 // Cache-busting middleware for runtime cache clearing
