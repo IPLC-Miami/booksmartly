@@ -38,7 +38,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
       lifetime: 60 * 60 * 24 * 7, // 7 days
       domain: import.meta.env.PROD ? '.iplcmiami.com' : 'localhost',
       path: '/',
-      sameSite: 'lax',
+      sameSite: 'none', // Changed from 'lax' to 'none' for cross-origin support
       secure: import.meta.env.PROD // Only secure in production
     }
   }

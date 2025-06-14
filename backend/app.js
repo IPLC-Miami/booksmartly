@@ -71,6 +71,30 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser()); // Add cookie parser middleware
 
+// Security headers middleware
+app.use((req, res, next) => {
+  // Content Security Policy
+  res.setHeader('Content-Security-Policy',
+    "default-src 'self'; " +
+    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; " +
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
+    "font-src 'self' https://fonts.gstatic.com; " +
+    "img-src 'self' data: blob: https: https://static.vecteezy.com; " +
+    "connect-src 'self' https://api.iplcmiami.com https://*.supabase.co wss://*.supabase.co https://www.google-analytics.com; " +
+    "frame-src 'self'; " +
+    "object-src 'none'; " +
+    "base-uri 'self';"
+  );
+  
+  // Other security headers
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'DENY');
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  
+  next();
+});
+
 // Configure secure cookies for production
 app.use((req, res, next) => {
   // Set secure cookie defaults for production
