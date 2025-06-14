@@ -82,4 +82,4 @@ const roleExtraction = async (req, res, next) => {
   }
 };
 
-module.exports = roleExtraction;
+module.exports = { roleExtraction };

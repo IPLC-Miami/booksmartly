@@ -46,7 +46,7 @@ export async function getSchedules(filters = {}) {
     if (filters.date_from) queryParams.append('date_from', filters.date_from);
     if (filters.date_to) queryParams.append('date_to', filters.date_to);
 
-    const url = `${API_URL}/schedules${queryParams.toString() ? `?${queryParams}` : ''}`;
+    const url = `${API_URL}/schedules/doctors${queryParams.toString() ? `?${queryParams}` : ''}`;
     const response = await authenticatedFetch(url, {
       method: 'GET',
     });
@@ -154,7 +154,7 @@ export async function getDoctorSlots(filters = {}) {
     if (filters.date_from) queryParams.append('date_from', filters.date_from);
     if (filters.date_to) queryParams.append('date_to', filters.date_to);
 
-    const url = `${API_URL}/schedules/slots${queryParams.toString() ? `?${queryParams}` : ''}`;
+    const url = `${API_URL}/schedules/generate-slots/${queryParams.toString()}`;
     const response = await authenticatedFetch(url, {
       method: 'GET',
     });

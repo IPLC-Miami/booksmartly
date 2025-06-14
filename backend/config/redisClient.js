@@ -6,11 +6,10 @@ dotenv.config(); // Load environment variables
 let redis;
 let redisAvailable = false;
 
-if (process.env.REDIS_HOST && process.env.REDIS_PORT && process.env.REDIS_PASSWORD) {
-  redis = new Redis({
+if (process.env.REDIS_HOST && process.env.REDIS_PORT) {
+  const redisConfig = {
     host: process.env.REDIS_HOST,
     port: parseInt(process.env.REDIS_PORT, 10),
-    password: process.env.REDIS_PASSWORD,
     tls: false, // Binding to localhost only, so TLS is not needed
     maxRetriesPerRequest: 3, // Optional: Limit retries
     retryStrategy(times) {
@@ -18,7 +17,14 @@ if (process.env.REDIS_HOST && process.env.REDIS_PORT && process.env.REDIS_PASSWO
       return delay;
     },
     enableOfflineQueue: false, // Don't queue commands if Redis is offline
-  });
+  };
+
+  // Only add password if it's provided and not empty
+  if (process.env.REDIS_PASSWORD && process.env.REDIS_PASSWORD.trim() !== '') {
+    redisConfig.password = process.env.REDIS_PASSWORD;
+  }
+
+  redis = new Redis(redisConfig);
 
   redis.on('connect', () => {
     console.log('✅ Connected to Redis');

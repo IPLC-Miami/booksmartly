@@ -10,7 +10,7 @@ function initSocket(server) {
       methods: ["GET", "POST"],
     },
   });
-  console.log("findng connection...");
+  console.log("Socket.IO server initialized - waiting for connections...");
   io.on("connection", (socket) => {
     console.log("Client connected:", socket.id);
     socket.on("joinReception", (receptionId) => {

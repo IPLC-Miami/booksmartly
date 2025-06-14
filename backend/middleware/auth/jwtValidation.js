@@ -64,4 +64,4 @@ const jwtValidation = async (req, res, next) => {
   }
 };
 
-module.exports = jwtValidation;
+module.exports = { jwtValidation };
