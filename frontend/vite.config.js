@@ -11,7 +11,8 @@ export default ({ mode }) => {
       'process.env': {
         VITE_SUPABASE_URL: JSON.stringify(env.VITE_SUPABASE_URL),
         VITE_SUPABASE_ANON_KEY: JSON.stringify(env.VITE_SUPABASE_ANON_KEY)
-      }
+      },
+      global: 'globalThis',
     },
     server: {
       proxy: {
@@ -27,7 +28,7 @@ export default ({ mode }) => {
     },
     build: {
       rollupOptions: {
-        external: ['dotenv'],
+        external: ['dotenv', 'path', 'fs', 'url', 'source-map-js'],
         output: {
           manualChunks: {
             vendor: ['react', 'react-dom'],
@@ -39,7 +40,7 @@ export default ({ mode }) => {
       chunkSizeWarningLimit: 1000
     },
     optimizeDeps: {
-      exclude: ['dotenv']
+      exclude: ['dotenv', 'path', 'fs', 'url', 'source-map-js']
     }
   });
 };
