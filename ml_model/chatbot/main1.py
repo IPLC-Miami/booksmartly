@@ -24,7 +24,7 @@ SIMILARITY_THRESHOLD = 1.0
 
 def load_faq_data(file_path):
     df = pd.read_csv(file_path)
-    df.columns = ["question", "answer"]
+    # CSV has 3 columns: question, answer, category - keep original column names
     return df
 
 # Load FAQ data.
