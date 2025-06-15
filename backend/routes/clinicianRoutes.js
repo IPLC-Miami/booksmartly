@@ -148,13 +148,13 @@ router.get("/clinicianDetailsById/:Id", jwtValidation, roleExtraction, requireRo
   }
 
   console.log("Fetching clinician with ID:", Id); // Updated log message
-  const {data: profiledata , error: profileerror} = await supabase.from("profiles").select("*").eq("id", Id).single();
-  if (profileerror) {
-    console.error("Supabase error:", profileerror);
-    return res.status(400).json({ error: profileerror.message });
+  const {data: userData , error: userError} = await supabase.from("auth.users").select("email, raw_user_meta_data").eq("id", Id).single();
+  if (userError) {
+    console.error("Supabase error:", userError);
+    return res.status(400).json({ error: userError.message });
   }
-  console.log("profiledata:");
-  console.log(profiledata);
+  console.log("userData:");
+  console.log(userData);
   const { data, error } = await supabase
     .from("clinicians2") // Assuming table name will be updated (e.g., clinicians or clinicians2)
     .select("*")
@@ -179,7 +179,7 @@ router.get("/clinicianDetailsById/:Id", jwtValidation, roleExtraction, requireRo
   }
   console.log("hospitalData:");
   console.log(hospitalData);
-  data.name=profiledata.name;
+  data.name = userData.raw_user_meta_data?.name || userData.raw_user_meta_data?.full_name || userData.email || "Unknown User";
   data.hospitalData = hospitalData;
   console.log(data);
   res.json(data);

@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { QRCodeCanvas } from "qrcode.react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { toast } from "sonner";
 import useGetReceptionProfileDetails from "../../hooks/useGetReceptionProfileDetails.js";
 import Loader from "../Loader";
+import { COMPANY_SETTINGS } from "../../utils/constants";
 // AUTHENTICATION DISABLED - Supabase client disabled
 // import { supabase } from "../../utils/supabaseClient";
 import {
@@ -180,7 +181,7 @@ function ReceptionProfileTab({ userId }) {
                   <div className="flex items-center gap-3">
                     <User size={24} className="text-indigo-600" />
                     <h2 className="text-xl font-semibold text-slate-800">
-                      Hospital Profile
+                      {COMPANY_SETTINGS.name} Profile
                     </h2>
                   </div>
                 </div>
@@ -237,7 +238,7 @@ function ReceptionProfileTab({ userId }) {
                   <div className="flex items-center gap-3">
                     <QRCodeIcon size={24} />
                     <h2 className="text-xl font-semibold text-slate-800">
-                      Hospital QR Code
+                      {COMPANY_SETTINGS.name} QR Code
                     </h2>
                   </div>
                 </div>
@@ -298,64 +299,72 @@ function ReceptionProfileTab({ userId }) {
             <div className="p-6">
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
                 {/* Step 1 */}
-                <div className="rounded-xl border-2 border-slate-200 bg-white p-5 shadow-sm transition-all duration-300 hover:border-indigo-200 hover:shadow-md">
-                  <div className="mb-4 flex justify-center">
-                    <div className="flex h-16 w-16 items-center justify-center rounded-full bg-indigo-100 text-indigo-600">
-                      <Smartphone size={30} />
+                <Link to="/" style={{ pointerEvents: 'auto' }}>
+                  <div className="rounded-xl border-2 border-slate-200 bg-white p-5 shadow-sm transition-all duration-300 hover:border-indigo-200 hover:shadow-md cursor-pointer">
+                    <div className="mb-4 flex justify-center">
+                      <div className="flex h-16 w-16 items-center justify-center rounded-full bg-indigo-100 text-indigo-600">
+                        <Smartphone size={30} />
+                      </div>
                     </div>
+                    <h3 className="mb-3 text-center text-lg font-medium text-slate-800">
+                      Open BookSmartly App
+                    </h3>
+                    <p className="text-center text-base text-slate-600">
+                      Launch the BookSmartly web application
+                    </p>
                   </div>
-                  <h3 className="mb-3 text-center text-lg font-medium text-slate-800">
-                    Open BookSmartly App
-                  </h3>
-                  <p className="text-center text-base text-slate-600">
-                    Launch the BookSmartly web application
-                  </p>
-                </div>
+                </Link>
 
                 {/* Step 2 */}
-                <div className="rounded-xl border-2 border-slate-200 bg-white p-5 shadow-sm transition-all duration-300 hover:border-indigo-200 hover:shadow-md">
-                  <div className="mb-4 flex justify-center">
-                    <div className="flex h-16 w-16 items-center justify-center rounded-full bg-indigo-100 text-indigo-600">
-                      <User size={30} />
+                <Link to="/login" style={{ pointerEvents: 'auto' }}>
+                  <div className="rounded-xl border-2 border-slate-200 bg-white p-5 shadow-sm transition-all duration-300 hover:border-indigo-200 hover:shadow-md cursor-pointer">
+                    <div className="mb-4 flex justify-center">
+                      <div className="flex h-16 w-16 items-center justify-center rounded-full bg-indigo-100 text-indigo-600">
+                        <User size={30} />
+                      </div>
                     </div>
+                    <h3 className="mb-3 text-center text-lg font-medium text-slate-800">
+                      Log In
+                    </h3>
+                    <p className="text-center text-base text-slate-600">
+                      Enter your login credentials
+                    </p>
                   </div>
-                  <h3 className="mb-3 text-center text-lg font-medium text-slate-800">
-                    Log In
-                  </h3>
-                  <p className="text-center text-base text-slate-600">
-                    Enter your login credentials
-                  </p>
-                </div>
+                </Link>
 
                 {/* Step 3 */}
-                <div className="rounded-xl border-2 border-slate-200 bg-white p-5 shadow-sm transition-all duration-300 hover:border-indigo-200 hover:shadow-md">
-                  <div className="mb-4 flex justify-center">
-                    <div className="flex h-16 w-16 items-center justify-center rounded-full bg-indigo-100 text-indigo-600">
-                      <Calendar size={30} />
+                <Link to="/find-appointment" style={{ pointerEvents: 'auto' }}>
+                  <div className="rounded-xl border-2 border-slate-200 bg-white p-5 shadow-sm transition-all duration-300 hover:border-indigo-200 hover:shadow-md cursor-pointer">
+                    <div className="mb-4 flex justify-center">
+                      <div className="flex h-16 w-16 items-center justify-center rounded-full bg-indigo-100 text-indigo-600">
+                        <Calendar size={30} />
+                      </div>
                     </div>
+                    <h3 className="mb-3 text-center text-lg font-medium text-slate-800">
+                      Find Appointment
+                    </h3>
+                    <p className="text-center text-base text-slate-600">
+                      Navigate to your booked appointment
+                    </p>
                   </div>
-                  <h3 className="mb-3 text-center text-lg font-medium text-slate-800">
-                    Find Appointment
-                  </h3>
-                  <p className="text-center text-base text-slate-600">
-                    Navigate to your booked appointment
-                  </p>
-                </div>
+                </Link>
 
                 {/* Step 4 */}
-                <div className="rounded-xl border-2 border-slate-200 bg-white p-5 shadow-sm transition-all duration-300 hover:border-indigo-200 hover:shadow-md">
-                  <div className="mb-4 flex justify-center">
-                    <div className="flex h-16 w-16 items-center justify-center rounded-full bg-indigo-100 text-indigo-600">
-                      <QRCodeIcon size={30} />
+                <Link to="/check-in" style={{ pointerEvents: 'auto' }}>
+                  <div className="rounded-xl border-2 border-slate-200 bg-white p-5 shadow-sm transition-all duration-300 hover:border-indigo-200 hover:shadow-md cursor-pointer">
+                    <div className="mb-4 flex justify-center">
+                      <div className="flex h-16 w-16 items-center justify-center rounded-full bg-indigo-100 text-indigo-600">
+                        <QRCodeIcon size={30} />
+                      </div>
                     </div>
+                    <h3 className="mb-3 text-center text-lg font-medium text-slate-800">
+                      Check In
+                    </h3>
+                    <p className="text-center text-base text-slate-600">
+                      Scan the QR code displayed here
+                    </p>
                   </div>
-                  <h3 className="mb-3 text-center text-lg font-medium text-slate-800">
-                    Check In
-                  </h3>
-                  <p className="text-center text-base text-slate-600">
-                    Scan the QR code displayed here
-                  </p>
-                </div>
+                </Link>
               </div>
             </div>
           </div>
@@ -370,7 +379,7 @@ function ReceptionProfileTab({ userId }) {
               <div className="flex items-center gap-3">
                 <QRCodeIcon size={24} />
                 <h3 className="text-xl font-semibold text-slate-800">
-                  Hospital QR Code
+                  {COMPANY_SETTINGS.name} QR Code
                 </h3>
               </div>
               <button

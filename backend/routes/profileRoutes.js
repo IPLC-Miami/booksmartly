@@ -56,12 +56,15 @@ router.post("/upload", jwtValidation, roleExtraction, requireRole(['admin', 'cli
       .getPublicUrl(avatar_url);
     console.log("publicurldata ", publicUrlData);
     const { data: profileData, error: reportError } = await supabase
-      .from("profiles")
+      .from("auth.users")
       .update({
-        avatar_url: publicUrlData.publicUrl,
+        raw_user_meta_data: {
+          ...((await supabase.from("auth.users").select("raw_user_meta_data").eq("id", userId).single())?.data?.raw_user_meta_data || {}),
+          avatar_url: publicUrlData.publicUrl,
+        }
       })
       .eq("id", userId)
-      .select("*")
+      .select("email, raw_user_meta_data")
       .single();
 
     if (reportError) {

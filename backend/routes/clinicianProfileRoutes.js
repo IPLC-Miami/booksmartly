@@ -41,11 +41,11 @@ router.get("/getClinicianDetailsByAuthUserId/:authUserId", jwtValidation, roleEx
         .json({ error: "Clinician record fetch failed", details: clinicianError.message });
     }
 
-    // Fetch general user profile details from profiles table
+    // Fetch general user profile details from auth.users table
     const { data: userProfile, error: userProfileError } = await supabase
-      .from("profiles")
-      .select("*")
-      .eq("id", authUserId) // profiles.id is auth.users.id
+      .from("auth.users")
+      .select("email, raw_user_meta_data")
+      .eq("id", authUserId) // auth.users.id
       .single();
 
     if (userProfileError) {
@@ -89,8 +89,8 @@ router.get("/download/:clinicianTableId", jwtValidation, roleExtraction, require
     const clinicianAuthUserId = clinicianInfo.user_id;
 
     const { data: clinicianProfile, error: clinicianProfileError } = await supabase
-      .from("profiles")
-      .select("name") // Assuming 'name' field exists in profiles for the clinician's display name
+      .from("auth.users")
+      .select("email, raw_user_meta_data") // Get user data from auth.users
       .eq("id", clinicianAuthUserId)
       .single();
 
@@ -98,7 +98,7 @@ router.get("/download/:clinicianTableId", jwtValidation, roleExtraction, require
       console.error("Error fetching clinician profile name:", clinicianProfileError.message);
       // Continue without name or return error, for now, let's try to continue
     }
-    const clinicianDisplayName = clinicianProfile?.name || "N/A";
+    const clinicianDisplayName = clinicianProfile?.raw_user_meta_data?.name || clinicianProfile?.raw_user_meta_data?.full_name || clinicianProfile?.email || "N/A";
 
 
     const { data: appointments, error: appointmentsError } = await supabase

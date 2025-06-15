@@ -130,8 +130,8 @@ router.post("/book", jwtValidation, roleExtraction, requireClient, async (req, r
   }
 
   const { data: patientData, error: patientError } = await supabase
-    .from("profiles")
-    .select("*")
+    .from("auth.users")
+    .select("email, raw_user_meta_data")
     .eq("id", patientId)
     .single();
 
@@ -186,7 +186,7 @@ router.post("/book", jwtValidation, roleExtraction, requireClient, async (req, r
   console.log("Appointment booked successfully");
 
   const patientEmail = patientData.email;
-  const patientName = patientData.name;
+  const patientName = patientData.raw_user_meta_data?.name || patientData.raw_user_meta_data?.full_name || patientData.email || "Unknown User";
   const html = `
 <!DOCTYPE html>
 <html>
@@ -270,8 +270,8 @@ router.post("/updateStatus/:appointmentId", jwtValidation, roleExtraction, requi
 
   // console.log(data2?.dpctor, " ", err)
   const { data: data2, error: error2 } = await supabase
-    .from("profiles") // This fetches profile of the clinician using clinician_id from appointments2
-    .select("name")
+    .from("auth.users") // This fetches user data of the clinician using clinician_id from appointments2
+    .select("email, raw_user_meta_data")
     .eq("id", (await supabase.from("clinicians2").select("user_id").eq("id", data?.clinician_id).single())?.data?.user_id ); // Get auth.users.id from clinicians2
   const { data: data3, error: error3 } = await supabase
     .from("clinicians2") // Changed from doctors2
@@ -284,7 +284,8 @@ router.post("/updateStatus/:appointmentId", jwtValidation, roleExtraction, requi
   }
   // Construct clinicianIdentifier using clinicians2.id and name from profiles
   const clinicianAuthId = (await supabase.from("clinicians2").select("user_id").eq("id", data?.clinician_id).single())?.data?.user_id;
-  const clinicianProfileName = clinicianAuthId ? (await supabase.from("profiles").select("name").eq("id", clinicianAuthId).single())?.data?.name : "Unknown Clinician";
+  const clinicianUserData = clinicianAuthId ? (await supabase.from("auth.users").select("email, raw_user_meta_data").eq("id", clinicianAuthId).single())?.data : null;
+  const clinicianProfileName = clinicianUserData ? (clinicianUserData.raw_user_meta_data?.name || clinicianUserData.raw_user_meta_data?.full_name || clinicianUserData.email || "Unknown Clinician") : "Unknown Clinician";
   const clinicianIdentifier = `${data?.clinician_id}+${clinicianProfileName}`;
 
   console.log(clinicianIdentifier);

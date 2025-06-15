@@ -147,14 +147,12 @@ export async function deleteSchedule(scheduleId) {
  */
 export async function getDoctorSlots(filters = {}) {
   try {
-    const queryParams = new URLSearchParams();
-    
-    if (filters.clinician_id) queryParams.append('clinician_id', filters.clinician_id);
-    if (filters.schedule_id) queryParams.append('schedule_id', filters.schedule_id);
-    if (filters.date_from) queryParams.append('date_from', filters.date_from);
-    if (filters.date_to) queryParams.append('date_to', filters.date_to);
+    // Backend expects /schedules/generate-slots/:doctorId/:date format
+    if (!filters.clinician_id || !filters.date) {
+      throw new Error('clinician_id and date are required for doctor slots');
+    }
 
-    const url = `${API_URL}/schedules/generate-slots/${queryParams.toString()}`;
+    const url = `${API_URL}/schedules/generate-slots/${filters.clinician_id}/${filters.date}`;
     const response = await authenticatedFetch(url, {
       method: 'GET',
     });

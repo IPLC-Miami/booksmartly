@@ -10,7 +10,7 @@ const sendReminder = async ()=>{
         return { error: error.message };
     }
     for(const appointment of appointments){
-        const {data: patientData, error: patientError} = await supabase.from('profiles').select('email').eq('id', appointment.patient_id).single();
+        const {data: patientData, error: patientError} = await supabase.from('auth.users').select('email, raw_user_meta_data').eq('id', appointment.patient_id).single();
         if (patientError) {
             return { error: patientError.message };
         }

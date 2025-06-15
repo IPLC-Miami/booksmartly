@@ -155,18 +155,19 @@ router.get("/allNextAppointments/:receptionId", jwtValidation, roleExtraction, r
     receptionData.map(async (clinician) => {
       // clinician.id is clinicians2.id, clinician.user_id is auth.users.id
       if (clinician.user_id) { // Ensure user_id exists
-        const { data: profileData, error: profileError } = await supabase
-          .from("profiles")
-          .select("name")
-          .eq("id", clinician.user_id) // Query profiles using user_id
+        const { data: userData, error: userError } = await supabase
+          .from("auth.users")
+          .select("email, raw_user_meta_data")
+          .eq("id", clinician.user_id) // Query auth.users using user_id
           .single();
 
-        if (profileError) {
-          console.error(`Error fetching profile for clinician (user_id ${clinician.user_id}):`, profileError.message);
+        if (userError) {
+          console.error(`Error fetching user data for clinician (user_id ${clinician.user_id}):`, userError.message);
           // Decide how to handle - skip this clinician or use a placeholder name
           clinicianAuthUserMap[clinician.id] = "Name N/A";
         } else {
-          clinicianAuthUserMap[clinician.id] = profileData.name;
+          const userName = userData.raw_user_meta_data?.name || userData.raw_user_meta_data?.full_name || userData.email || "Unknown User";
+          clinicianAuthUserMap[clinician.id] = userName;
         }
       } else {
          clinicianAuthUserMap[clinician.id] = "User ID Missing";
