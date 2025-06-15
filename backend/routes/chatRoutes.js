@@ -8,7 +8,7 @@ const axios = require('axios');
 router.get('/ping', async (req, res) => {
   try {
     // Test the FastAPI health check endpoint
-    const response = await axios.get('http://localhost:8001/', {
+    const response = await axios.get('http://127.0.0.1:3001/', {
       timeout: 5000, // 5 second timeout for health check
     });
 
@@ -254,13 +254,8 @@ router.post('/faq', async (req, res) => {
     }
 
     // Forward request to FastAPI chatbot service
-    const response = await axios.post('http://localhost:8001/faq/', {
-      question: message.trim()
-    }, {
-      timeout: 30000, // 30 second timeout
-      headers: {
-        'Content-Type': 'application/json'
-      }
+    const response = await axios.get(`http://127.0.0.1:3001/faq/?query=${encodeURIComponent(message.trim())}`, {
+      timeout: 30000 // 30 second timeout
     });
 
     // Return the chatbot response

@@ -28,7 +28,7 @@ def load_faq_data(file_path):
     return df
 
 # Load FAQ data.
-file_path = "improved_faq-1.csv"
+file_path = "ml_model/chatbot/improved_faq-1.csv"
 df = load_faq_data(file_path)
 
 # Load SentenceTransformer model and create FAQ embeddings.
