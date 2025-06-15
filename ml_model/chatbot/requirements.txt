@@ -4,3 +4,5 @@ pandas
 faiss-cpu
 numpy
 sentence-transformers
+python-dotenv
+requests
