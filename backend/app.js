@@ -166,6 +166,7 @@ app.use("/testReports", testReportsRoutes);
 app.use("/uploadProfiles", profileRoutes);
 app.use("/clinicianProfileRoutes", clinicianProfileRoutes); // Updated
 app.use("/receptionProfileRoutes", receptionProfileRoutes);
+app.use("/api/receptionProfileRoutes", receptionProfileRoutes); // ADD: Mount receptionProfileRoutes under /api/receptionProfileRoutes to match frontend expectations
 app.use("/feedback", feedbackRoutes);
 app.use("/multiClinicianDashboardRoutes", multiClinicianDashboardRoutes); // Updated
 app.use("/healthWorkerRoutes", healthWorkerRoutes);
