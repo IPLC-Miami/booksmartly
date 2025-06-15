@@ -567,9 +567,13 @@ export async function updateUserProfilePicture(userId, formData) {
 }
 
 export async function chatBot(message) {
-  const response = await fetch(
-    `https://hackofiesta-5fik.onrender.com/faq/?query="${message}"`,
-  );
+  const response = await authenticatedFetch(`${API_URL}/chat/faq`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ query: message }),
+  });
 
   if (!response.ok) {
     throw new Error("Failed to fetch chatbot response");

@@ -2,6 +2,55 @@ const express = require('express');
 const router = express.Router();
 const supabase = require('../config/supabaseClient');
 const { jwtValidation, roleExtraction, requireRole, requireOwnership } = require('../middleware/auth');
+const axios = require('axios');
+
+// Ping endpoint - health check for FastAPI chatbot service (no auth required)
+router.get('/ping', async (req, res) => {
+  try {
+    // Test the FastAPI health check endpoint
+    const response = await axios.get('http://localhost:8001/', {
+      timeout: 5000, // 5 second timeout for health check
+    });
+
+    // If we get here, the service is responding
+    res.json({
+      success: true,
+      status: 'pong',
+      message: 'AI FAQ chatbot service is healthy',
+      service_response: response.data
+    });
+
+  } catch (error) {
+    console.error('Health check failed for AI FAQ chatbot:', error.message);
+    
+    // Handle different types of errors
+    if (error.code === 'ECONNREFUSED') {
+      return res.status(503).json({
+        success: false,
+        status: 'unhealthy',
+        error: 'AI FAQ service is not running',
+        details: 'Connection refused'
+      });
+    }
+    
+    if (error.code === 'ECONNABORTED') {
+      return res.status(504).json({
+        success: false,
+        status: 'unhealthy',
+        error: 'AI FAQ service timeout',
+        details: 'Health check timed out'
+      });
+    }
+
+    // Generic error
+    res.status(500).json({
+      success: false,
+      status: 'unhealthy',
+      error: 'Health check failed',
+      details: error.message
+    });
+  }
+});
 
 // Get chat messages for a specific appointment
 router.get('/:appointmentId', jwtValidation, roleExtraction, requireRole(['client', 'clinician']), requireOwnership('appointment'), async (req, res) => {
@@ -191,6 +240,69 @@ router.get('/:appointmentId/participants', jwtValidation, roleExtraction, requir
   } catch (error) {
     console.error('Error in get participants:', error);
     res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// AI FAQ Chatbot route - proxy to FastAPI service
+router.post('/faq', async (req, res) => {
+  try {
+    const { message } = req.body;
+
+    // Validate input
+    if (!message || !message.trim()) {
+      return res.status(400).json({ error: 'Message is required' });
+    }
+
+    // Forward request to FastAPI chatbot service
+    const response = await axios.post('http://localhost:8001/faq/', {
+      question: message.trim()
+    }, {
+      timeout: 30000, // 30 second timeout
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    // Return the chatbot response
+    res.json({
+      success: true,
+      data: {
+        message: response.data.answer || response.data.message || 'No response from chatbot',
+        source: 'ai_faq'
+      }
+    });
+
+  } catch (error) {
+    console.error('Error forwarding to AI FAQ chatbot:', error.message);
+    
+    // Handle different types of errors
+    if (error.code === 'ECONNREFUSED') {
+      return res.status(503).json({
+        error: 'AI FAQ service is currently unavailable',
+        details: 'Chatbot service connection refused'
+      });
+    }
+    
+    if (error.response) {
+      // FastAPI returned an error response
+      return res.status(error.response.status).json({
+        error: 'AI FAQ service error',
+        details: error.response.data?.detail || error.response.data?.message || 'Unknown error'
+      });
+    }
+    
+    if (error.code === 'ECONNABORTED') {
+      return res.status(504).json({
+        error: 'AI FAQ service timeout',
+        details: 'Request to chatbot service timed out'
+      });
+    }
+
+    // Generic error
+    res.status(500).json({
+      error: 'Internal server error',
+      details: 'Failed to process AI FAQ request'
+    });
   }
 });
 
