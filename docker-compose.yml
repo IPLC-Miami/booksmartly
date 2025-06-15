@@ -11,5 +11,21 @@ services:
     restart: unless-stopped
     command: redis-server --appendonly yes
 
+  chatbot:
+    build:
+      context: ./ml_model/chatbot
+      dockerfile: Dockerfile
+    container_name: booksmartly-chatbot
+    ports:
+      - "8003:8000"
+    environment:
+      - REDIS_DSN=redis://redis:6379
+      - GOOGLE_GEMINI_API_KEY=AIzaSyDrhgAthsqrdcRMu-obTITdvceeVeySw84
+    volumes:
+      - ./ml_model/chatbot:/app
+    depends_on:
+      - redis
+    restart: unless-stopped
+
 volumes:
   redis_data:
