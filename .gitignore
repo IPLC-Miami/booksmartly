@@ -157,3 +157,4 @@ TASK_FOR_AI.MD
 # Orchestrator files (contain secrets and sensitive information)
 .orchestrator_log.md
 .auth_spec_internal.md
+deployment-log.md
