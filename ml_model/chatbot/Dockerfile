@@ -20,5 +20,5 @@ COPY . .
 # Expose port
 EXPOSE 8000
 
-# Run the application
-CMD ["uvicorn", "main1:app", "--host", "0.0.0.0", "--port", "8000"]
+# Run the application using Python script to respect PORT env var
+CMD ["python", "main1.py"]
