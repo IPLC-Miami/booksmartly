@@ -1,12 +1,36 @@
 import React, { useEffect, useState } from "react";
 import io from "socket.io-client";
-import axios from "axios";
-// AUTHENTICATION DISABLED - supabase import removed
-// import { supabase } from "../utils/supabaseClient";
+import { supabase } from "../utils/supabaseClient";
 const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 const SOCKET_SERVER_URL = `${API_URL}`;
 const api = import.meta.env.VITE_API_BASE_URL;
+
+// Helper function to get auth headers
+async function getAuthHeaders() {
+  const { data: { session } } = await supabase.auth.getSession();
+  if (session?.access_token) {
+    return {
+      'Authorization': `Bearer ${session.access_token}`,
+      'Content-Type': 'application/json'
+    };
+  }
+  return {
+    'Content-Type': 'application/json'
+  };
+}
+
+// Authenticated fetch wrapper
+async function authenticatedFetch(url, options = {}) {
+  const headers = await getAuthHeaders();
+  return fetch(url, {
+    ...options,
+    headers: {
+      ...headers,
+      ...options.headers
+    }
+  });
+}
 
 const NoAppointmentsView = () => (
   <div className="flex h-[calc(100vh-200px)] items-center justify-center">
@@ -38,8 +62,8 @@ const NoAppointmentsView = () => (
 );
 
 const MultiDoctorDashboard = () => {
-  // Get reception ID from localStorage instead of auth token
-  const [receptionId, setReceptionId] = useState(
+  // Get clinician ID from localStorage (admin user can view all clinicians)
+  const [clinicianId, setClinicianId] = useState(
     localStorage.getItem("userId") || ""
   );
   const [clinicianQueues, setClinicianQueues] = useState({});
@@ -48,20 +72,20 @@ const MultiDoctorDashboard = () => {
 
   // Remove auth-related useEffect since we're getting ID from localStorage
 
-  const fetchCompleteReceptionClinicianQueue = async (receptionId) => {
+  const fetchCompleteReceptionClinicianQueue = async (clinicianId) => {
     setIsLoading(true);
     try {
-      const response = await axios.get(
-        `${api}/appointments/clinicianUpcomingAppointments/${receptionId}`,
+      const response = await authenticatedFetch(
+        `${api}/appointments/clinicianUpcomingAppointments/${clinicianId}`
       );
-      const clinicianData = response.data;
+      const clinicianData = await response.json();
       console.log(clinicianData);
       // Create a new object with update timestamps for each clinician
       const updatedClinicianQueues = {};
       const currentTime = new Date();
 
-      Object.entries(clinicianData).forEach(([clinicianId, patients]) => {
-        updatedClinicianQueues[clinicianId] = {
+      Object.entries(clinicianData).forEach(([clinicianIdKey, patients]) => {
+        updatedClinicianQueues[clinicianIdKey] = {
           patients,
           lastUpdate: currentTime,
         };
@@ -71,7 +95,7 @@ const MultiDoctorDashboard = () => {
       setLastUpdate(currentTime); // Keep this for the global refresh indicator
     } catch (error) {
       console.error(
-        `Error fetching queue for reception ${receptionId}:`,
+        `Error fetching queue for clinician ${clinicianId}:`,
         error,
       );
     } finally {
@@ -81,35 +105,35 @@ const MultiDoctorDashboard = () => {
 
   useEffect(() => {
     const socket = io(SOCKET_SERVER_URL);
-    socket.emit("joinReception", receptionId);
-    fetchCompleteReceptionClinicianQueue(receptionId);
+    socket.emit("joinReception", clinicianId);
+    fetchCompleteReceptionClinicianQueue(clinicianId);
 
     socket.on("clinicianQueueChanged", (data) => {
-      const { clinicianId, receptionIdFromSocket } = data;
-      if (receptionIdFromSocket == receptionId) {
-        fetchClinicianQueue(clinicianId);
+      const { clinicianId: socketClinicianId, receptionIdFromSocket } = data;
+      if (receptionIdFromSocket == clinicianId) {
+        fetchClinicianQueue(socketClinicianId);
       }
     });
 
     // Set up refresh interval
     const intervalId = setInterval(() => {
-      fetchCompleteReceptionClinicianQueue(receptionId);
+      fetchCompleteReceptionClinicianQueue(clinicianId);
     }, 60000); // Refresh every minute
 
     return () => {
       socket.disconnect();
       clearInterval(intervalId);
     };
-  }, [receptionId]);
+  }, [clinicianId]);
 
   const fetchClinicianQueue = async (clinicianId) => {
     const onlyId = clinicianId.split("+")[0];
 
     try {
-      const response = await axios.get(
-        `${api}/appointments/clinicianUpcomingAppointments/${onlyId}`,
+      const response = await authenticatedFetch(
+        `${api}/appointments/clinicianUpcomingAppointments/${onlyId}`
       );
-      const clinicianData = response.data;
+      const clinicianData = await response.json();
       const currentTime = new Date();
 
       setClinicianQueues((prevQueues) => ({
@@ -256,7 +280,7 @@ const MultiDoctorDashboard = () => {
               </div>
               <button
                 className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                onClick={() => fetchCompleteReceptionClinicianQueue(receptionId)}
+                onClick={() => fetchCompleteReceptionClinicianQueue(clinicianId)}
               >
                 Refresh
               </button>
