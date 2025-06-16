@@ -40,11 +40,11 @@ if not os.path.exists("all_tfidf_embeddings.csv"):
 else:
     print("all_tfidf_embeddings.csv already exists, skipping download")
 
-df = pd.read_csv('all_metadata.csv')
-embeddings_df = pd.read_csv('all_tfidf_embeddings.csv')
-model = joblib.load('random_forest_model.pkl')
-vectorizer = joblib.load('vectorizer.pkl')
-label_encoder = joblib.load('label_encoder.pkl')
+df = pd.read_csv('/var/www/booksmartly/ml_model/all_metadata.csv')
+embeddings_df = pd.read_csv('/var/www/booksmartly/ml_model/all_tfidf_embeddings.csv')
+model = joblib.load('/var/www/booksmartly/ml_model/random_forest_model.pkl')
+vectorizer = joblib.load('/var/www/booksmartly/ml_model/vectorizer.pkl')
+label_encoder = joblib.load('/var/www/booksmartly/ml_model/label_encoder.pkl')
 
 def remove_emojis(text: str) -> str:
     emoji_pattern = re.compile(
