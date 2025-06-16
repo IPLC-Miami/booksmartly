@@ -25,11 +25,14 @@ export const getUserRole = async (userId) => {
     // First, try to get role from user metadata (for test users and new auth system)
     const { data: { user }, error: userError } = await supabase.auth.getUser()
     if (user && user.id === userId && user.raw_user_meta_data?.role) {
+      console.log('🔍 Found role in user metadata:', user.raw_user_meta_data.role)
       return user.raw_user_meta_data.role
     }
 
     // Fallback to database tables for existing users
-    // Check if user is admin
+    // PRIORITY ORDER: admin > reception > clinician > client
+    
+    // Check if user is admin (highest priority)
     const { data: adminData, error: adminError } = await supabase
       .from('admins')
       .select('id')
@@ -37,7 +40,20 @@ export const getUserRole = async (userId) => {
       .single()
     
     if (adminData && !adminError) {
+      console.log('✅ Found admin role in database')
       return 'admin'
+    }
+
+    // Check if user is reception
+    const { data: receptionData, error: receptionError } = await supabase
+      .from('receptions')
+      .select('id')
+      .eq('user_id', userId)
+      .single()
+    
+    if (receptionData && !receptionError) {
+      console.log('✅ Found reception role in database')
+      return 'reception'
     }
 
     // Check if user is clinician
@@ -48,6 +64,7 @@ export const getUserRole = async (userId) => {
       .single()
     
     if (clinicianData && !clinicianError) {
+      console.log('✅ Found clinician role in database')
       return 'clinician'
     }
 
@@ -59,10 +76,12 @@ export const getUserRole = async (userId) => {
       .single()
     
     if (clientData && !clientError) {
+      console.log('✅ Found client role in database')
       return 'client'
     }
 
     // Default to client if no specific role found
+    console.log('⚠️ No role found, defaulting to client')
     return 'client'
   } catch (error) {
     console.error('Error getting user role:', error)
@@ -255,14 +274,19 @@ export const isClient = async () => {
   return await hasRole('client')
 }
 
-// Check if user is staff (admin or clinician)
+// Check if user is reception
+export const isReception = async () => {
+  return await hasRole('reception')
+}
+
+// Check if user is staff (admin, reception, or clinician)
 export const isStaff = async () => {
   try {
     const { user, role } = await getCurrentUserWithRole()
     
     if (!user || !role) return false
     
-    return role === 'admin' || role === 'clinician'
+    return role === 'admin' || role === 'reception' || role === 'clinician'
   } catch (error) {
     console.error('Error checking if user is staff:', error)
     return false
@@ -273,6 +297,7 @@ export const isStaff = async () => {
 export const getRoleBasedRedirect = (role) => {
   const redirectPaths = {
     admin: '/reception-dashboard',
+    reception: '/reception-dashboard',
     clinician: '/clinician-dashboard',
     client: '/client-dashboard'
   }
@@ -296,6 +321,7 @@ export default {
   isAdmin,
   isClinician,
   isClient,
+  isReception,
   isStaff,
   getRoleBasedRedirect
 }
