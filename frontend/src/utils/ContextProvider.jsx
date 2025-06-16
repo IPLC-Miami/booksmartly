@@ -58,12 +58,6 @@ const getUserRole = async (userId) => {
       console.error('API call to getRole failed:', error);
     }
 
-    // TEMPORARY FIX: Explicitly check for admin email
-    if (user && user.email === 'iplcmiami@gmail.com') {
-      console.log('🔧 TEMPORARY FIX: Assigning admin role to iplcmiami@gmail.com')
-      return 'admin'
-    }
-
     console.log('⚠️ No role in metadata, checking database tables...')
 
     // Fallback to database tables for existing users
@@ -78,6 +72,19 @@ const getUserRole = async (userId) => {
     if (adminData && !adminError) {
       console.log('✅ Found admin role in database')
       return 'admin'
+    }
+
+    // Check if user is reception
+    const { data: receptionData, error: receptionError } = await supabase
+      .from('receptions')
+      .select('id')
+      .eq('user_id', userId)
+      .single()
+    
+    console.log('🔍 Reception check:', { receptionData, receptionError })
+    if (receptionData && !receptionError) {
+      console.log('✅ Found reception role in database')
+      return 'reception'
     }
 
     // Check if user is clinician

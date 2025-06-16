@@ -124,8 +124,8 @@ router.get("/doctors", async (req, res) => {
 // SCHEDULE ROUTES
 // =============================================================================
 
-// GET /api/schedules - Get all schedules (Admin only)
-router.get("/", jwtValidation, roleExtraction, requireAdmin, async (req, res) => {
+// GET /api/schedules - Get all schedules (Admin and Reception)
+router.get("/", jwtValidation, roleExtraction, requireRole(['admin', 'reception']), async (req, res) => {
   try {
     const { data, error } = await getSchedulesWithClinicianInfo();
     
@@ -141,8 +141,8 @@ router.get("/", jwtValidation, roleExtraction, requireAdmin, async (req, res) =>
   }
 });
 
-// GET /api/schedules/:id - Get specific schedule (Admin only)
-router.get("/:id", jwtValidation, roleExtraction, requireAdmin, async (req, res) => {
+// GET /api/schedules/:id - Get specific schedule (Admin and Reception)
+router.get("/:id", jwtValidation, roleExtraction, requireRole(['admin', 'reception']), async (req, res) => {
   const { id } = req.params;
   
   try {
@@ -174,8 +174,8 @@ router.get("/:id", jwtValidation, roleExtraction, requireAdmin, async (req, res)
   }
 });
 
-// POST /api/schedules - Create new schedule (Admin only)
-router.post("/", jwtValidation, roleExtraction, requireAdmin, async (req, res) => {
+// POST /api/schedules - Create new schedule (Admin and Reception)
+router.post("/", jwtValidation, roleExtraction, requireRole(['admin', 'reception']), async (req, res) => {
   const { clinician_id, day_of_week, start_time, end_time, is_active = true } = req.body;
   
   // Validation
@@ -224,8 +224,8 @@ router.post("/", jwtValidation, roleExtraction, requireAdmin, async (req, res) =
   }
 });
 
-// PUT /api/schedules/:id - Update schedule (Admin only)
-router.put("/:id", jwtValidation, roleExtraction, requireAdmin, async (req, res) => {
+// PUT /api/schedules/:id - Update schedule (Admin and Reception)
+router.put("/:id", jwtValidation, roleExtraction, requireRole(['admin', 'reception']), async (req, res) => {
   const { id } = req.params;
   const { clinician_id, day_of_week, start_time, end_time, is_active } = req.body;
   
@@ -279,8 +279,8 @@ router.put("/:id", jwtValidation, roleExtraction, requireAdmin, async (req, res)
   }
 });
 
-// DELETE /api/schedules/:id - Delete schedule (Admin only)
-router.delete("/:id", jwtValidation, roleExtraction, requireAdmin, async (req, res) => {
+// DELETE /api/schedules/:id - Delete schedule (Admin and Reception)
+router.delete("/:id", jwtValidation, roleExtraction, requireRole(['admin', 'reception']), async (req, res) => {
   const { id } = req.params;
   
   try {
@@ -310,8 +310,8 @@ router.delete("/:id", jwtValidation, roleExtraction, requireAdmin, async (req, r
 // DOCTOR SLOTS ROUTES
 // =============================================================================
 
-// GET /api/schedules/slots - Get all doctor slots (Admin only)
-router.get("/slots", jwtValidation, roleExtraction, requireAdmin, async (req, res) => {
+// GET /api/schedules/slots - Get all doctor slots (Admin and Reception)
+router.get("/slots", jwtValidation, roleExtraction, requireRole(['admin', 'reception']), async (req, res) => {
   try {
     const filters = {};
     if (req.query.clinician_id) filters.clinician_id = req.query.clinician_id;
@@ -332,8 +332,8 @@ router.get("/slots", jwtValidation, roleExtraction, requireAdmin, async (req, re
   }
 });
 
-// GET /api/schedules/slots/:id - Get specific doctor slot (Admin only)
-router.get("/slots/:id", jwtValidation, roleExtraction, requireAdmin, async (req, res) => {
+// GET /api/schedules/slots/:id - Get specific doctor slot (Admin and Reception)
+router.get("/slots/:id", jwtValidation, roleExtraction, requireRole(['admin', 'reception']), async (req, res) => {
   const { id } = req.params;
   
   try {
@@ -374,8 +374,8 @@ router.get("/slots/:id", jwtValidation, roleExtraction, requireAdmin, async (req
   }
 });
 
-// POST /api/schedules/slots - Create new doctor slot (Admin only)
-router.post("/slots", jwtValidation, roleExtraction, requireAdmin, async (req, res) => {
+// POST /api/schedules/slots - Create new doctor slot (Admin and Reception)
+router.post("/slots", jwtValidation, roleExtraction, requireRole(['admin', 'reception']), async (req, res) => {
   const { 
     clinician_id, 
     schedule_id, 
@@ -431,8 +431,8 @@ router.post("/slots", jwtValidation, roleExtraction, requireAdmin, async (req, r
   }
 });
 
-// PUT /api/schedules/slots/:id - Update doctor slot (Admin only)
-router.put("/slots/:id", jwtValidation, roleExtraction, requireAdmin, async (req, res) => {
+// PUT /api/schedules/slots/:id - Update doctor slot (Admin and Reception)
+router.put("/slots/:id", jwtValidation, roleExtraction, requireRole(['admin', 'reception']), async (req, res) => {
   const { id } = req.params;
   const { 
     clinician_id, 
@@ -498,8 +498,8 @@ router.put("/slots/:id", jwtValidation, roleExtraction, requireAdmin, async (req
   }
 });
 
-// DELETE /api/schedules/slots/:id - Delete doctor slot (Admin only)
-router.delete("/slots/:id", jwtValidation, roleExtraction, requireAdmin, async (req, res) => {
+// DELETE /api/schedules/slots/:id - Delete doctor slot (Admin and Reception)
+router.delete("/slots/:id", jwtValidation, roleExtraction, requireRole(['admin', 'reception']), async (req, res) => {
   const { id } = req.params;
   
   try {

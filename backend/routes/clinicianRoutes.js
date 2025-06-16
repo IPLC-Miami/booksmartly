@@ -11,7 +11,7 @@ const {
 } = require("../middleware/auth");
 
 // GET /api/clinicians - Get all clinicians (Admin only)
-router.get("/", jwtValidation, roleExtraction, requireAdmin, async (req, res) => {
+router.get("/", jwtValidation, roleExtraction, requireRole(['admin', 'reception']), async (req, res) => {
   try {
     const { data, error } = await supabase
       .from("clinicians2")

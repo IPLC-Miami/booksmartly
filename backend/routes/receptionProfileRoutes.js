@@ -11,7 +11,7 @@ const path = require("path");
 
 router.get(
   "/getReceptionDetailsById/:userId",
-  jwtValidation, roleExtraction, requireRole(['admin', 'clinician']), requireOwnership('user'), async (req, res) => {
+  jwtValidation, roleExtraction, requireRole(['admin', 'clinician', 'reception']), requireOwnership('user'), async (req, res) => {
     try {
       console.time("API Call Time");
       console.log("Request body:", req.params);
@@ -34,7 +34,7 @@ router.get(
       const { data: profile, error: profileError } = await supabase
         .from("receptions") // Changed 'reception' to 'receptions'
         .select("*")
-        .eq("id", userId) // Assuming userId param is receptions.id
+        .eq("user_id", userId) // Use user_id to match auth.users.id
         .single();
       if (profileError) {
         console.error("Supabase error fetching reception details:", profileError.message);
@@ -60,7 +60,7 @@ router.get(
   }
 );
 
-router.get("/generate-qr/:userId", jwtValidation, roleExtraction, requireRole(['admin', 'clinician']), requireOwnership('user'), async (req, res) => {
+router.get("/generate-qr/:userId", jwtValidation, roleExtraction, requireRole(['admin', 'clinician', 'reception']), requireOwnership('user'), async (req, res) => {
   try {
     const { userId } = req.params;
     if (!userId) {
@@ -83,7 +83,7 @@ router.get("/generate-qr/:userId", jwtValidation, roleExtraction, requireRole(['
     const { data, error } = await supabase
       .from("receptions") // Changed 'reception' to 'receptions'
       .update({ qrcode: encryptedCode })
-      .eq("id", userId); // Assuming userId param is receptions.id
+      .eq("user_id", userId); // Use user_id to match auth.users.id
 
     if (error) {
       console.error("Supabase error updating reception qrcode:", error);
