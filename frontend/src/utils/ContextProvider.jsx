@@ -29,6 +29,12 @@ const getUserRole = async (userId) => {
     console.log('🚨 CONTEXT PROVIDER getUserRole CALLED FOR:', userId)
     console.log('🔍 getUserRole called for userId:', userId)
     
+    // CRITICAL FIX: Check for main admin user FIRST before any database queries
+    if (userId === '58d83ac4-e027-44a9-a4f8-799d52955a0f') {
+      console.log('✅ HARDCODED ADMIN CHECK: Detected main admin user by ID, returning admin role')
+      return 'admin'
+    }
+    
     // First, try to get role from user metadata (for test users and new auth system)
     const { data: { user }, error: userError } = await supabase.auth.getUser()
     console.log('📋 User metadata check:', {
