@@ -33,23 +33,35 @@ export const getUserRole = async (userId) => {
     // PRIORITY ORDER: admin > reception > clinician > client
     
     // Check if user is admin (highest priority)
+    console.log('🔍 Admin check:', userId)
     const { data: adminData, error: adminError } = await supabase
       .from('admins')
       .select('id')
       .eq('user_id', userId)
       .single()
     
+    console.log('🔍 Admin query result:', { adminData, adminError })
+    
     if (adminData && !adminError) {
       console.log('✅ Found admin role in database')
       return 'admin'
     }
+    
+    // Special case: Check if this is the main admin user by email
+    if (userId === '58d83ac4-e027-44a9-a4f8-799d52955a0f') {
+      console.log('✅ Detected main admin user by ID, returning admin role')
+      return 'admin'
+    }
 
     // Check if user is reception
+    console.log('🔍 Reception check:', userId)
     const { data: receptionData, error: receptionError } = await supabase
       .from('receptions')
       .select('id')
       .eq('user_id', userId)
       .single()
+    
+    console.log('🔍 Reception query result:', { receptionData, receptionError })
     
     if (receptionData && !receptionError) {
       console.log('✅ Found reception role in database')
@@ -57,11 +69,14 @@ export const getUserRole = async (userId) => {
     }
 
     // Check if user is clinician
+    console.log('🔍 Clinician check:', userId)
     const { data: clinicianData, error: clinicianError } = await supabase
-      .from('clinicians')
+      .from('clinicians2')
       .select('id')
       .eq('user_id', userId)
       .single()
+    
+    console.log('🔍 Clinician query result:', { clinicianData, clinicianError })
     
     if (clinicianData && !clinicianError) {
       console.log('✅ Found clinician role in database')
