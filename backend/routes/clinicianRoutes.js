@@ -13,39 +13,64 @@ const {
 // GET /api/clinicians - Get all clinicians (Admin only)
 router.get("/", jwtValidation, roleExtraction, requireRole(['admin', 'reception']), async (req, res) => {
   try {
-    const { data, error } = await supabase
+    // First get clinicians data
+    const { data: cliniciansData, error: cliniciansError } = await supabase
       .from("clinicians2")
-      .select(`
-        *,
-        profile:profiles!user_id (
-          id,
-          name,
-          email,
-          phone
-        )
-      `)
+      .select("*")
       .order('created_at', { ascending: false });
     
-    if (error) {
-      console.error("Error fetching clinicians:", error);
-      return res.status(400).json({ error: error.message });
+    if (cliniciansError) {
+      console.error("Error fetching clinicians:", cliniciansError);
+      return res.status(400).json({ error: cliniciansError.message });
     }
     
-    // Transform data to match frontend expectations
-    const transformedData = data.map(clinician => ({
-      id: clinician.id,
-      user_id: clinician.user_id,
-      name: clinician.profile?.name || 'Unknown',
-      email: clinician.profile?.email || '',
-      phone: clinician.profile?.phone || clinician.phone || '',
-      specialty: clinician.specialization || '',
-      experience_years: clinician.experience_years || 0,
-      hospital_name: clinician.hospital_name || '',
-      available_from: clinician.available_from,
-      available_to: clinician.available_to,
-      created_at: clinician.created_at,
-      updated_at: clinician.updated_at
-    }));
+    // Get user data for each clinician from auth.users
+    const transformedData = [];
+    for (const clinician of cliniciansData) {
+      try {
+        const { data: userData, error: userError } = await supabase
+          .from("auth.users")
+          .select("email, raw_user_meta_data")
+          .eq("id", clinician.user_id)
+          .single();
+        
+        if (userError) {
+          console.warn(`Could not fetch user data for clinician ${clinician.id}:`, userError);
+        }
+        
+        transformedData.push({
+          id: clinician.id,
+          user_id: clinician.user_id,
+          name: userData?.raw_user_meta_data?.name || userData?.raw_user_meta_data?.full_name || userData?.email || 'Unknown',
+          email: userData?.email || '',
+          phone: clinician.phone || '',
+          specialty: clinician.specialization || '',
+          experience_years: clinician.experience_years || 0,
+          hospital_name: clinician.hospital_name || '',
+          available_from: clinician.available_from,
+          available_to: clinician.available_to,
+          created_at: clinician.created_at,
+          updated_at: clinician.updated_at
+        });
+      } catch (userFetchError) {
+        console.warn(`Error fetching user data for clinician ${clinician.id}:`, userFetchError);
+        // Include clinician data even if user fetch fails
+        transformedData.push({
+          id: clinician.id,
+          user_id: clinician.user_id,
+          name: 'Unknown',
+          email: '',
+          phone: clinician.phone || '',
+          specialty: clinician.specialization || '',
+          experience_years: clinician.experience_years || 0,
+          hospital_name: clinician.hospital_name || '',
+          available_from: clinician.available_from,
+          available_to: clinician.available_to,
+          created_at: clinician.created_at,
+          updated_at: clinician.updated_at
+        });
+      }
+    }
     
     res.status(200).json(transformedData);
   } catch (err) {
