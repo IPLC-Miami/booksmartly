@@ -5,8 +5,7 @@ import { toast } from "sonner";
 import useGetReceptionProfileDetails from "../../hooks/useGetReceptionProfileDetails.js";
 import Loader from "../Loader";
 import { COMPANY_SETTINGS } from "../../utils/constants";
-// AUTHENTICATION DISABLED - Supabase client disabled
-// import { supabase } from "../../utils/supabaseClient";
+import { supabase } from "../../utils/supabaseClient";
 import {
   Calendar,
   Clock,
@@ -23,14 +22,25 @@ import {
 const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 async function generateNewQRCode(userId) {
-  // AUTH DISABLED - Return mock QR code
-  console.log("Authentication disabled - returning mock QR code");
-  
-  // Simulate a brief delay to mimic real API call
-  await new Promise(resolve => setTimeout(resolve, 300));
-  
-  // Return mock QR code data with timestamp to simulate refresh
-  return `MOCK-QR-CODE-${Date.now()}`;
+  if (!import.meta.env.PROD) {
+    console.warn('Authentication disabled – returning mock QR code');
+    // Simulate a brief delay to mimic real API call
+    await new Promise(resolve => setTimeout(resolve, 300));
+    // Return mock QR code data with timestamp to simulate refresh
+    return `MOCK-QR-CODE-${Date.now()}`;
+  }
+
+  const { data, error } = await supabase.functions.invoke('generate-qr-code', {
+    body: { userId },
+  });
+
+  if (error) {
+    console.error('Error generating QR code:', error);
+    toast.error('Could not generate a new QR code.');
+    return null;
+  }
+
+  return data.qrCode;
 }
 
 function ReceptionProfileTab({ userId }) {

@@ -8,7 +8,11 @@ const {
   requireRole,
   requireAdmin
 } = require('../middleware/auth');
-const { generateSlots, getDoctors } = require('../controllers/slotController');
+const {
+  listSchedules,
+  listDoctors,
+  generateSlots
+} = require('../controllers/scheduleController');
 
 // Validation middleware
 const handleValidationErrors = (req, res, next) => {
@@ -95,125 +99,9 @@ async function getDoctorSlotsWithInfo(filters = {}) {
 // SLOT GENERATION ROUTES (NEW) - MUST BE BEFORE PARAMETERIZED ROUTES
 // =============================================================================
 
-// GET /api/schedules/generate-slots/:doctorId/:date - Generate available slots for a doctor on a specific date
-router.get("/generate-slots/:doctorId/:date", [
-  param('doctorId').isUUID().withMessage('Doctor ID must be a valid UUID'),
-  param('date').isISO8601().withMessage('Date must be in ISO8601 format (YYYY-MM-DD)'),
-  handleValidationErrors
-], jwtValidation, roleExtraction, requireRole(['admin', 'reception']), async (req, res) => {
-  const { doctorId, date } = req.params;
-  
-  try {
-    const result = await generateSlots(doctorId, date);
-    
-    if (result.success) {
-      res.status(200).json(result);
-    } else {
-      res.status(400).json(result);
-    }
-  } catch (err) {
-    console.error("Unexpected error in GET /schedules/generate-slots:", err);
-    return res.status(500).json({
-      success: false,
-      error: "Internal Server Error",
-      data: null
-    });
-  }
-});
-
-// GET /api/schedules/doctors - Get all schedules with clinician names (for Schedule Management)
-router.get("/doctors", jwtValidation, roleExtraction, requireRole(['admin', 'reception']), async (req, res) => {
-  try {
-    // Get schedules with clinician information for Schedule Management component
-    const { data: schedules, error } = await supabase
-      .from("schedules")
-      .select(`
-        id,
-        clinician_id,
-        day_of_week,
-        start_time,
-        end_time,
-        is_active,
-        created_at,
-        updated_at,
-        clinician:clinicians2!clinician_id (
-          user_id,
-          specialty,
-          hospital_name,
-          consultation_fees
-        )
-      `)
-      .order('day_of_week', { ascending: true })
-      .order('start_time', { ascending: true });
-
-    if (error) {
-      console.error("Error fetching schedules:", error);
-      return res.status(400).json({ error: error.message });
-    }
-
-    // Transform data to match frontend expectations
-    const transformedSchedules = [];
-    for (const schedule of schedules) {
-      try {
-        // Get user data for clinician name
-        const { data: userData, error: userError } = await supabase
-          .from("auth.users")
-          .select("email, raw_user_meta_data")
-          .eq("id", schedule.clinician.user_id)
-          .single();
-
-        if (userError) {
-          console.warn(`Could not fetch user data for clinician ${schedule.clinician_id}:`, userError);
-        }
-
-        const clinicianName = userData?.raw_user_meta_data?.name ||
-                             userData?.raw_user_meta_data?.full_name ||
-                             userData?.email ||
-                             schedule.clinician.hospital_name ||
-                             'Unknown Clinician';
-
-        // Convert day_of_week to date format for frontend compatibility
-        const today = new Date();
-        const dayDiff = schedule.day_of_week - today.getDay();
-        const scheduleDate = new Date(today);
-        scheduleDate.setDate(today.getDate() + dayDiff);
-
-        transformedSchedules.push({
-          id: schedule.id,
-          clinician_id: schedule.clinician_id,
-          clinician_name: clinicianName,
-          date: scheduleDate.toISOString().split('T')[0], // YYYY-MM-DD format
-          start_time: schedule.start_time,
-          end_time: schedule.end_time,
-          is_available: schedule.is_active,
-          day_of_week: schedule.day_of_week,
-          created_at: schedule.created_at,
-          updated_at: schedule.updated_at
-        });
-      } catch (userFetchError) {
-        console.warn(`Error processing schedule ${schedule.id}:`, userFetchError);
-        // Include schedule even if user fetch fails
-        transformedSchedules.push({
-          id: schedule.id,
-          clinician_id: schedule.clinician_id,
-          clinician_name: schedule.clinician?.hospital_name || 'Unknown Clinician',
-          date: new Date().toISOString().split('T')[0],
-          start_time: schedule.start_time,
-          end_time: schedule.end_time,
-          is_available: schedule.is_active,
-          day_of_week: schedule.day_of_week,
-          created_at: schedule.created_at,
-          updated_at: schedule.updated_at
-        });
-      }
-    }
-
-    res.status(200).json(transformedSchedules);
-  } catch (err) {
-    console.error("Unexpected error in GET /schedules/doctors:", err);
-    return res.status(500).json({ error: "Internal Server Error" });
-  }
-});
+router.get('/', listSchedules);
+router.get('/doctors', listDoctors);
+router.get('/generate-slots/:doctorId/:date', generateSlots);
 
 // =============================================================================
 // SCHEDULE ROUTES

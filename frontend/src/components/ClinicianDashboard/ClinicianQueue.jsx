@@ -64,7 +64,6 @@ function ClinicianQueue({ userId }) {
 
   useEffect(() => {
     if (data && data.length > 0) {
-      // data[0].checked_in_status = true; // For testing purposes
       const checkedIn = data.filter((patient) => patient.checked_in_status);
       console.log("checkedIn", checkedIn);
 

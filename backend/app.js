@@ -4,6 +4,7 @@ const fs = require("fs");
 // const https = require("https");
 const http = require("http");
 const cookieParser = require("cookie-parser");
+const session = require("express-session");
 dotenv.config();
 
 // Import cache management utility for persistent module caching fix
@@ -95,25 +96,21 @@ app.use((req, res, next) => {
   next();
 });
 
-// Configure secure cookies for production
-app.use((req, res, next) => {
-  // Set secure cookie defaults for production
-  if (process.env.NODE_ENV === 'production') {
-    res.cookie = ((originalCookie) => {
-      return function(name, value, options = {}) {
-        const secureOptions = {
-          ...options,
-          secure: true,
-          sameSite: 'none',
-          httpOnly: options.httpOnly !== false, // Default to httpOnly unless explicitly set to false
-          domain: options.domain || '.iplcmiami.com'
-        };
-        return originalCookie.call(this, name, value, secureOptions);
-      };
-    })(res.cookie);
-  }
-  next();
-});
+if (process.env.NODE_ENV === 'production') {
+  app.use(
+    session({
+      secret: process.env.SESSION_SECRET,
+      resave: false,
+      saveUninitialized: true,
+      cookie: {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'none',
+        domain: '.iplcmiami.com'
+      }
+    })
+  )
+}
 
 app.use("/AiConsultation", AiConsultation);
 

@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { supabase } = require('./backend/config/supabaseClient');
+const supabase = require('./backend/config/supabaseClient');
 
 async function getTableSchema() {
   try {
@@ -9,8 +9,8 @@ async function getTableSchema() {
     const { data, error } = await supabase.rpc('exec_sql', {
       sql: `
         SELECT column_name, data_type, is_nullable, column_default
-        FROM information_schema.columns 
-        WHERE table_name = 'doctor_slots' 
+        FROM information_schema.columns
+        WHERE table_name = 'receptions'
         AND table_schema = 'public'
         ORDER BY ordinal_position;
       `
@@ -22,14 +22,14 @@ async function getTableSchema() {
       // Try alternative approach - attempt to insert a test record to see what columns are expected
       console.log('\nTrying alternative approach - attempting insert to see expected columns...');
       const { error: insertError } = await supabase
-        .from('doctor_slots')
+        .from('receptions')
         .insert({
           test: 'test'
         });
       
       console.log('Insert error (shows expected columns):', insertError);
     } else {
-      console.log('Doctor_slots table columns:');
+      console.log('Receptions table columns:');
       data.forEach(col => {
         console.log(`- ${col.column_name}: ${col.data_type} (nullable: ${col.is_nullable})`);
       });
