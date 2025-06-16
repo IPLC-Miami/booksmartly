@@ -308,29 +308,35 @@ const ScheduleManagement = () => {
 
             <label>
               <Text as="div" size="2" mb="1" weight="bold">Date</Text>
-              <TextField.Input
-                type="date"
-                value={scheduleForm.date}
-                onChange={(e) => setScheduleForm({...scheduleForm, date: e.target.value})}
-              />
+              <TextField.Root>
+                <TextField.Input
+                  type="date"
+                  value={scheduleForm.date}
+                  onChange={(e) => setScheduleForm({...scheduleForm, date: e.target.value})}
+                />
+              </TextField.Root>
             </label>
 
             <label>
               <Text as="div" size="2" mb="1" weight="bold">Start Time</Text>
-              <TextField.Input
-                type="time"
-                value={scheduleForm.start_time}
-                onChange={(e) => setScheduleForm({...scheduleForm, start_time: e.target.value})}
-              />
+              <TextField.Root>
+                <TextField.Input
+                  type="time"
+                  value={scheduleForm.start_time}
+                  onChange={(e) => setScheduleForm({...scheduleForm, start_time: e.target.value})}
+                />
+              </TextField.Root>
             </label>
 
             <label>
               <Text as="div" size="2" mb="1" weight="bold">End Time</Text>
-              <TextField.Input
-                type="time"
-                value={scheduleForm.end_time}
-                onChange={(e) => setScheduleForm({...scheduleForm, end_time: e.target.value})}
-              />
+              <TextField.Root>
+                <TextField.Input
+                  type="time"
+                  value={scheduleForm.end_time}
+                  onChange={(e) => setScheduleForm({...scheduleForm, end_time: e.target.value})}
+                />
+              </TextField.Root>
             </label>
 
             <label>
@@ -387,20 +393,24 @@ const ScheduleManagement = () => {
 
             <label>
               <Text as="div" size="2" mb="1" weight="bold">Start Time</Text>
-              <TextField.Input
-                type="time"
-                value={slotForm.start_time}
-                onChange={(e) => setSlotForm({...slotForm, start_time: e.target.value})}
-              />
+              <TextField.Root>
+                <TextField.Input
+                  type="time"
+                  value={slotForm.start_time}
+                  onChange={(e) => setSlotForm({...slotForm, start_time: e.target.value})}
+                />
+              </TextField.Root>
             </label>
 
             <label>
               <Text as="div" size="2" mb="1" weight="bold">End Time</Text>
-              <TextField.Input
-                type="time"
-                value={slotForm.end_time}
-                onChange={(e) => setSlotForm({...slotForm, end_time: e.target.value})}
-              />
+              <TextField.Root>
+                <TextField.Input
+                  type="time"
+                  value={slotForm.end_time}
+                  onChange={(e) => setSlotForm({...slotForm, end_time: e.target.value})}
+                />
+              </TextField.Root>
             </label>
 
             <label>
@@ -421,21 +431,25 @@ const ScheduleManagement = () => {
               <>
                 <label>
                   <Text as="div" size="2" mb="1" weight="bold">Patient Name</Text>
-                  <TextField.Input
-                    value={slotForm.patient_name}
-                    onChange={(e) => setSlotForm({...slotForm, patient_name: e.target.value})}
-                    placeholder="Enter patient name"
-                  />
+                  <TextField.Root>
+                    <TextField.Input
+                      value={slotForm.patient_name}
+                      onChange={(e) => setSlotForm({...slotForm, patient_name: e.target.value})}
+                      placeholder="Enter patient name"
+                    />
+                  </TextField.Root>
                 </label>
 
                 <label>
                   <Text as="div" size="2" mb="1" weight="bold">Patient Email</Text>
-                  <TextField.Input
-                    type="email"
-                    value={slotForm.patient_email}
-                    onChange={(e) => setSlotForm({...slotForm, patient_email: e.target.value})}
-                    placeholder="Enter patient email"
-                  />
+                  <TextField.Root>
+                    <TextField.Input
+                      type="email"
+                      value={slotForm.patient_email}
+                      onChange={(e) => setSlotForm({...slotForm, patient_email: e.target.value})}
+                      placeholder="Enter patient email"
+                    />
+                  </TextField.Root>
                 </label>
               </>
             )}
