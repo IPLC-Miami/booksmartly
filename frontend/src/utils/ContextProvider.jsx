@@ -23,103 +23,11 @@ export const useAuthContext = () => {
 }
 
 // Helper function to get user role from database
-const getUserRole = async (userId) => {
-  try {
-    // Debug logging for role detection
-    console.log('🚨 CONTEXT PROVIDER getUserRole CALLED FOR:', userId)
-    console.log('🔍 getUserRole called for userId:', userId)
-    
-    // First, try to get role from user metadata (for test users and new auth system)
-    const { data: { user }, error: userError } = await supabase.auth.getUser()
-    console.log('📋 User metadata check:', {
-      userId: user?.id,
-      targetUserId: userId,
-      rawMetaData: user?.raw_user_meta_data,
-      role: user?.raw_user_meta_data?.role,
-      userError
-    })
-    
-    if (user && user.id === userId && user.raw_user_meta_data?.role) {
-      console.log('✅ Found role in metadata:', user.raw_user_meta_data.role)
-      return user.raw_user_meta_data.role
-    }
-
-    // Fallback to fetching role from the backend
-    try {
-      const response = await fetch(`/api/users/getRole/${userId}`);
-      if (response.ok) {
-        const data = await response.json();
-        if (data.role) {
-          console.log('✅ Found role in database via API:', data.role);
-          return data.role;
-        }
-      }
-    } catch (error) {
-      console.error('API call to getRole failed:', error);
-    }
-
-    console.log('⚠️ No role in metadata, checking database tables...')
-
-    // Fallback to database tables for existing users
-    // Check if user is admin
-    const { data: adminData, error: adminError } = await supabase
-      .from('admins')
-      .select('id')
-      .eq('user_id', userId)
-      .single()
-    
-    console.log('🔍 Admin check:', { adminData, adminError })
-    if (adminData && !adminError) {
-      console.log('✅ Found admin role in database')
-      return 'admin'
-    }
-
-    // Check if user is reception
-    const { data: receptionData, error: receptionError } = await supabase
-      .from('receptions')
-      .select('id')
-      .eq('user_id', userId)
-      .single()
-    
-    console.log('🔍 Reception check:', { receptionData, receptionError })
-    if (receptionData && !receptionError) {
-      console.log('✅ Found reception role in database')
-      return 'reception'
-    }
-
-    // Check if user is clinician
-    const { data: clinicianData, error: clinicianError } = await supabase
-      .from('clinicians2')
-      .select('id')
-      .eq('user_id', userId)
-      .single()
-    
-    console.log('🔍 Clinician check:', { clinicianData, clinicianError })
-    if (clinicianData && !clinicianError) {
-      console.log('✅ Found clinician role in database')
-      return 'clinician'
-    }
-
-    // Check if user is client
-    const { data: clientData, error: clientError } = await supabase
-      .from('clients')
-      .select('id')
-      .eq('user_id', userId)
-      .single()
-    
-    console.log('🔍 Client check:', { clientData, clientError })
-    if (clientData && !clientError) {
-      console.log('✅ Found client role in database')
-      return 'client'
-    }
-
-    // Default to client if no specific role found
-    console.log('⚠️ No role found anywhere, defaulting to client')
-    return 'client'
-  } catch (error) {
-    console.error('❌ Error getting user role:', error)
-    return 'client'
+const getUserRole = async (user) => {
+  if (user && user.raw_user_meta_data && user.raw_user_meta_data.role) {
+    return user.raw_user_meta_data.role;
   }
+  return null;
 }
 
 // AuthContextProvider component
@@ -140,7 +48,7 @@ export const AuthContextProvider = ({ children }) => {
           setUserRole(null)
         } else if (session?.user) {
           setUser(session.user)
-          const role = await getUserRole(session.user.id)
+          const role = await getUserRole(session.user)
           setUserRole(role)
         } else {
           setUser(null)
@@ -164,7 +72,7 @@ export const AuthContextProvider = ({ children }) => {
         
         if (session?.user) {
           setUser(session.user)
-          const role = await getUserRole(session.user.id)
+          const role = await getUserRole(session.user)
           setUserRole(role)
         } else {
           setUser(null)
