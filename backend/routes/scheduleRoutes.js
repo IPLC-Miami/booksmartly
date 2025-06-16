@@ -83,7 +83,7 @@ async function getDoctorSlotsWithInfo(filters = {}) {
 // =============================================================================
 
 // GET /api/schedules/generate-slots/:doctorId/:date - Generate available slots for a doctor on a specific date
-router.get("/generate-slots/:doctorId/:date", async (req, res) => {
+router.get("/generate-slots/:doctorId/:date", jwtValidation, roleExtraction, requireRole(['admin', 'reception']), async (req, res) => {
   const { doctorId, date } = req.params;
   
   try {
@@ -105,7 +105,7 @@ router.get("/generate-slots/:doctorId/:date", async (req, res) => {
 });
 
 // GET /api/schedules/doctors - Get all available doctors with expertise tags
-router.get("/doctors", async (req, res) => {
+router.get("/doctors", jwtValidation, roleExtraction, requireRole(['admin', 'reception']), async (req, res) => {
   try {
     const result = await getDoctors();
     
