@@ -24,6 +24,7 @@
     "elevenlabs": "^1.57.0",
     "exceljs": "^4.4.0",
     "express": "^4.21.2",
+    "express-validator": "^7.2.1",
     "fs": "^0.0.1-security",
     "google-tts-api": "^2.0.2",
     "googleapis": "^146.0.0",
@@ -46,13 +47,19 @@
   },
   "jest": {
     "testEnvironment": "node",
-    "setupFilesAfterEnv": ["<rootDir>/tests/setup.js"],
+    "setupFilesAfterEnv": [
+      "<rootDir>/tests/setup.js"
+    ],
     "collectCoverageFrom": [
       "controllers/**/*.js",
       "routes/**/*.js",
       "!**/node_modules/**"
     ],
     "coverageDirectory": "coverage",
-    "coverageReporters": ["text", "lcov", "html"]
+    "coverageReporters": [
+      "text",
+      "lcov",
+      "html"
+    ]
   }
 }

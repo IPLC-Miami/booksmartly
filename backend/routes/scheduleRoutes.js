@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const supabase = require("../config/supabaseClient");
+const { body, param, validationResult } = require('express-validator');
 const {
   jwtValidation,
   roleExtraction,
@@ -8,6 +9,18 @@ const {
   requireAdmin
 } = require('../middleware/auth');
 const { generateSlots, getDoctors } = require('../controllers/slotController');
+
+// Validation middleware
+const handleValidationErrors = (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({
+      error: 'Validation failed',
+      details: errors.array()
+    });
+  }
+  next();
+};
 
 // Helper function to get schedules with clinician info
 async function getSchedulesWithClinicianInfo() {
@@ -83,7 +96,11 @@ async function getDoctorSlotsWithInfo(filters = {}) {
 // =============================================================================
 
 // GET /api/schedules/generate-slots/:doctorId/:date - Generate available slots for a doctor on a specific date
-router.get("/generate-slots/:doctorId/:date", jwtValidation, roleExtraction, requireRole(['admin', 'reception']), async (req, res) => {
+router.get("/generate-slots/:doctorId/:date", [
+  param('doctorId').isUUID().withMessage('Doctor ID must be a valid UUID'),
+  param('date').isISO8601().withMessage('Date must be in ISO8601 format (YYYY-MM-DD)'),
+  handleValidationErrors
+], jwtValidation, roleExtraction, requireRole(['admin', 'reception']), async (req, res) => {
   const { doctorId, date } = req.params;
   
   try {

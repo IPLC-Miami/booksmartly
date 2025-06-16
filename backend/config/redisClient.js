@@ -19,10 +19,8 @@ if (process.env.REDIS_HOST && process.env.REDIS_PORT) {
     enableOfflineQueue: false, // Don't queue commands if Redis is offline
   };
 
-  // Only add password if it's provided and not empty
-  if (process.env.REDIS_PASSWORD && process.env.REDIS_PASSWORD.trim() !== '') {
-    redisConfig.password = process.env.REDIS_PASSWORD;
-  }
+  // Set password to undefined if not provided to avoid Redis warnings
+  redisConfig.password = process.env.REDIS_PASSWORD || undefined;
 
   redis = new Redis(redisConfig);
 

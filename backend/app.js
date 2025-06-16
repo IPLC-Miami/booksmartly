@@ -104,7 +104,7 @@ app.use((req, res, next) => {
         const secureOptions = {
           ...options,
           secure: true,
-          sameSite: 'lax',
+          sameSite: 'none',
           httpOnly: options.httpOnly !== false, // Default to httpOnly unless explicitly set to false
           domain: options.domain || '.iplcmiami.com'
         };
@@ -231,11 +231,11 @@ app.get("/auth/redirect", async (req, res) => {
   console.log("Cached value:", value);
 })();
 
-// 404 handler for unmatched routes
-app.use(notFoundHandler);
-
 // Error handling middleware (must be last)
 app.use(errorHandler);
+
+// 404 handler for unmatched routes (must be AFTER all route definitions)
+app.use(notFoundHandler);
 
 const PORT = process.env.PORT || 8000;
 server.listen(PORT, "0.0.0.0", () =>

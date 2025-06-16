@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const supabase = require("../config/supabaseClient");
 const sendEmail = require("../services/emailService");
+const { body, param, validationResult } = require('express-validator');
 const {
   jwtValidation,
   roleExtraction,
@@ -10,6 +11,18 @@ const {
   requireClinician,
   requireOwnership
 } = require("../middleware/auth");
+
+// Validation middleware
+const handleValidationErrors = (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({
+      error: 'Validation failed',
+      details: errors.array()
+    });
+  }
+  next();
+};
 const { getIo } = require("../config/socket.js");
 const { calendar, event } = require("../services/meetScheduler");
 const {
@@ -352,7 +365,10 @@ router.get("/completedAppointments/:patientId", jwtValidation, roleExtraction, r
   console.log(processedAppointments);
   return res.json(processedAppointments);
 });
-router.get("/clinicianUpcomingAppointments/:clinicianId", jwtValidation, roleExtraction, requireClinician, requireOwnership('clinician'), async (req, res) => { // Renamed route and param
+router.get("/clinicianUpcomingAppointments/:clinicianId",
+  param('clinicianId').isUUID().withMessage('Clinician ID must be a valid UUID'),
+  handleValidationErrors,
+  jwtValidation, roleExtraction, requireClinician, requireOwnership('clinician'), async (req, res) => { // Renamed route and param
   const { clinicianId } = req.params; // Renamed param
   const { date, endTime, startTime } = req.query;
   const { data: appointments, error } = await supabase
