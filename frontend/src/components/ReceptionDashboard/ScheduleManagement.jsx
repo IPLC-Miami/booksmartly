@@ -50,15 +50,18 @@ const ScheduleManagement = () => {
   const loadData = async () => {
     try {
       setLoading(true);
-      const [schedulesData, slotsData, cliniciansData] = await Promise.all([
+      // Load schedules and clinicians first
+      const [schedulesData, cliniciansData] = await Promise.all([
         getSchedules(),
-        getDoctorSlots(),
         getClinicians()
       ]);
       
       setSchedules(schedulesData);
-      setDoctorSlots(slotsData);
       setClinicians(cliniciansData);
+      
+      // For now, don't load doctor slots without specific parameters
+      // They will be loaded when needed for specific clinicians/dates
+      setDoctorSlots([]);
     } catch (err) {
       setError('Failed to load schedule data: ' + err.message);
     } finally {
