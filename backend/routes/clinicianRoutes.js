@@ -38,10 +38,17 @@ router.get("/", jwtValidation, roleExtraction, requireRole(['admin', 'reception'
           console.warn(`Could not fetch user data for clinician ${clinician.id}:`, userError);
         }
         
+        const fullName = userData?.raw_user_meta_data?.name || userData?.raw_user_meta_data?.full_name || userData?.email || 'Unknown';
+        const nameParts = fullName.split(' ');
+        const firstName = nameParts[0] || 'Unknown';
+        const lastName = nameParts.slice(1).join(' ') || '';
+
         transformedData.push({
           id: clinician.id,
           user_id: clinician.user_id,
-          name: userData?.raw_user_meta_data?.name || userData?.raw_user_meta_data?.full_name || userData?.email || 'Unknown',
+          name: fullName,
+          first_name: firstName,
+          last_name: lastName,
           email: userData?.email || '',
           phone: clinician.phone || '',
           specialty: clinician.specialization || '',
@@ -59,6 +66,8 @@ router.get("/", jwtValidation, roleExtraction, requireRole(['admin', 'reception'
           id: clinician.id,
           user_id: clinician.user_id,
           name: 'Unknown',
+          first_name: 'Unknown',
+          last_name: '',
           email: '',
           phone: clinician.phone || '',
           specialty: clinician.specialization || '',
