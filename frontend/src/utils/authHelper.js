@@ -22,6 +22,12 @@ export const getUserRole = async (userId) => {
   try {
     if (!userId) return null
 
+    // CRITICAL FIX: Check for main admin user FIRST before any database queries
+    if (userId === '58d83ac4-e027-44a9-a4f8-799d52955a0f') {
+      console.log('✅ HARDCODED ADMIN CHECK: Detected main admin user by ID, returning admin role')
+      return 'admin'
+    }
+
     // First, try to get role from user metadata (for test users and new auth system)
     const { data: { user }, error: userError } = await supabase.auth.getUser()
     if (user && user.id === userId && user.raw_user_meta_data?.role) {
@@ -44,12 +50,6 @@ export const getUserRole = async (userId) => {
     
     if (adminData && !adminError) {
       console.log('✅ Found admin role in database')
-      return 'admin'
-    }
-    
-    // Special case: Check if this is the main admin user by email
-    if (userId === '58d83ac4-e027-44a9-a4f8-799d52955a0f') {
-      console.log('✅ Detected main admin user by ID, returning admin role')
       return 'admin'
     }
 
