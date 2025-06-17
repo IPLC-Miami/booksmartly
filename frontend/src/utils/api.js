@@ -236,6 +236,18 @@ export async function getPatientAppointmentHistory(patientId) {
 export async function getQueueForClinician(clinicianId, selectedDate, selectedSlot) { // Renamed
   const today = new Date().toISOString().split("T")[0]; // Formats as YYYY-MM-DD
 
+  // Validate required parameters
+  if (!clinicianId || !selectedDate || !selectedSlot) {
+    console.warn('getQueueForClinician called with missing parameters:', { clinicianId, selectedDate, selectedSlot });
+    return [];
+  }
+
+  // Ensure selectedSlot has required properties
+  if (!selectedSlot.start_time || !selectedSlot.end_time) {
+    console.warn('getQueueForClinician called with invalid selectedSlot:', selectedSlot);
+    return [];
+  }
+
   try {
     const response = await authenticatedFetch(
       `${API_URL}/appointments/clinicianUpcomingAppointments/${clinicianId}?date=${selectedDate}&endTime=${selectedSlot.end_time}&startTime=${selectedSlot.start_time}`, // Updated route
