@@ -5,13 +5,11 @@ DO $$
 DECLARE
     admin_user_id UUID;
 BEGIN
-    -- Check if admin user already exists
-    SELECT id INTO admin_user_id 
-    FROM auth.users 
-    WHERE email = 'iplcmiami@gmail.com';
+    -- Set the specific admin user ID from documentation
+    admin_user_id := '58d83ac4-e027-44a9-a4f8-799d52955a0f';
     
-    -- If user doesn't exist, create it
-    IF admin_user_id IS NULL THEN
+    -- Check if admin user already exists
+    IF NOT EXISTS (SELECT 1 FROM auth.users WHERE id = admin_user_id) THEN
         -- Insert into auth.users table
         INSERT INTO auth.users (
             instance_id,
@@ -50,11 +48,11 @@ BEGIN
             is_anonymous
         ) VALUES (
             '00000000-0000-0000-0000-000000000000',
-            gen_random_uuid(),
+            '58d83ac4-e027-44a9-a4f8-799d52955a0f',
             'authenticated',
             'authenticated',
             'iplcmiami@gmail.com',
-            crypt('IplcMiami2353', gen_salt('bf')),
+            crypt('admin123', gen_salt('bf')),
             NOW(),
             NULL,
             '',
@@ -95,13 +93,15 @@ BEGIN
         -- Insert into public.admins table
         INSERT INTO public.admins (
             user_id,
-            name,
+            first_name,
+            last_name,
             email,
             created_at,
             updated_at
         ) VALUES (
             admin_user_id,
-            'IPLC Miami Admin',
+            'IPLC Miami',
+            'Admin',
             'iplcmiami@gmail.com',
             NOW(),
             NOW()

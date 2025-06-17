@@ -71,7 +71,7 @@ export const getUserRole = async (userId) => {
     // Check if user is clinician
     console.log('🔍 Clinician check:', userId)
     const { data: clinicianData, error: clinicianError } = await supabase
-      .from('clinicians2')
+      .from('clinicians')
       .select('id')
       .eq('user_id', userId)
       .single()

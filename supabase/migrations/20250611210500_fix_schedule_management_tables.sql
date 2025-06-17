@@ -62,9 +62,24 @@ CREATE TABLE IF NOT EXISTS public.schedules (
 );
 
 -- =============================================================================
--- PHASE 3: CREATE DOCTOR_SLOTS TABLE (IF NOT EXISTS)
+-- PHASE 3: UPDATE DOCTOR_SLOTS TABLE (ADD MISSING COLUMNS)
 -- =============================================================================
 
+-- Add schedule_id column if it doesn't exist
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM information_schema.columns
+        WHERE table_name = 'doctor_slots'
+        AND column_name = 'schedule_id'
+        AND table_schema = 'public'
+    ) THEN
+        ALTER TABLE public.doctor_slots ADD COLUMN schedule_id uuid;
+        RAISE NOTICE 'Added schedule_id column to doctor_slots table';
+    END IF;
+END $$;
+
+-- Ensure the table exists with all required columns
 CREATE TABLE IF NOT EXISTS public.doctor_slots (
     id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
     clinician_id uuid NOT NULL,

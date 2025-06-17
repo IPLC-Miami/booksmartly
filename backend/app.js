@@ -5,6 +5,7 @@ const fs = require("fs");
 const http = require("http");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
+const RedisStore = require("connect-redis");
 dotenv.config();
 
 // Import cache management utility for persistent module caching fix
@@ -96,21 +97,32 @@ app.use((req, res, next) => {
   next();
 });
 
-if (process.env.NODE_ENV === 'production') {
-  app.use(
-    session({
-      secret: process.env.SESSION_SECRET,
-      resave: false,
-      saveUninitialized: true,
-      cookie: {
-        httpOnly: true,
-        secure: true,
-        sameSite: 'none',
-        domain: '.iplcmiami.com'
-      }
-    })
-  )
+// Configure session store with Redis fallback to MemoryStore
+const sessionConfig = {
+  secret: process.env.SESSION_SECRET || 'booksmartly-default-secret',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+    domain: process.env.NODE_ENV === 'production' ? '.iplcmiami.com' : undefined,
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+  }
+};
+
+// Use Redis store if available, otherwise fallback to MemoryStore
+if (redis) {
+  console.log('✅ Using Redis session store');
+  sessionConfig.store = new RedisStore({
+    client: redis,
+    prefix: 'booksmartly:sess:'
+  });
+} else {
+  console.warn('⚠️ Using MemoryStore for sessions - not recommended for production');
 }
+
+app.use(session(sessionConfig));
 
 app.use("/AiConsultation", AiConsultation);
 
@@ -222,11 +234,8 @@ app.get("/auth/redirect", async (req, res) => {
 //     }
 // });
 
-(async () => {
-  await setCache("go", "goa");
-  const value = await getCache("go");
-  console.log("Cached value:", value);
-})();
+// Cache test removed - was causing startup crashes when Redis not immediately available
+// Cache functionality is tested through normal application usage
 
 // Error handling middleware (must be last)
 app.use(errorHandler);

@@ -46,18 +46,25 @@ CREATE TABLE IF NOT EXISTS public.admins (
     CONSTRAINT uq_admins_user_id UNIQUE (user_id)
 );
 
--- 3. Create chat_messages table for real-time messaging with RLS
-CREATE TABLE IF NOT EXISTS public.chat_messages (
-    id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-    sender_id uuid NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
-    recipient_id uuid REFERENCES auth.users(id) ON DELETE SET NULL,
-    conversation_id uuid, -- For group conversations
-    message text NOT NULL,
-    message_type varchar(50) DEFAULT 'text', -- text, image, file, etc.
-    is_read boolean DEFAULT false,
-    created_at timestamptz DEFAULT now(),
-    updated_at timestamptz DEFAULT now()
-);
+-- 3. Update chat_messages table structure (table already exists from earlier migration)
+-- Add missing columns to existing chat_messages table
+ALTER TABLE public.chat_messages
+ADD COLUMN IF NOT EXISTS conversation_id uuid,
+ADD COLUMN IF NOT EXISTS message_type varchar(50) DEFAULT 'text',
+ADD COLUMN IF NOT EXISTS is_read boolean DEFAULT false;
+
+-- Update column names for consistency (receiver_id -> recipient_id)
+DO $$
+BEGIN
+    IF EXISTS (
+        SELECT 1 FROM information_schema.columns
+        WHERE table_name = 'chat_messages'
+        AND column_name = 'receiver_id'
+        AND table_schema = 'public'
+    ) THEN
+        ALTER TABLE public.chat_messages RENAME COLUMN receiver_id TO recipient_id;
+    END IF;
+END $$;
 
 -- 4. Fix prescriptions table references (if needed)
 ALTER TABLE public.prescriptions
