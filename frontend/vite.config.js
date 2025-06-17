@@ -27,6 +27,7 @@ export default ({ mode }) => {
       }
     },
     build: {
+      sourcemap: false, // Disable source maps to fix source map errors
       rollupOptions: {
         external: ['dotenv'],
         output: {

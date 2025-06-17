@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { supabase } from './supabaseClient'
+import { getUserRole as getComprehensiveUserRole } from './authHelper'
 
 // Create AuthContext
 const AuthContext = createContext({
@@ -24,10 +25,21 @@ export const useAuthContext = () => {
 
 // Helper function to get user role from database
 const getUserRole = async (user) => {
-  if (user && user.raw_user_meta_data && user.raw_user_meta_data.role) {
-    return user.raw_user_meta_data.role;
+  if (!user) return null;
+  
+  // Use the comprehensive role detection from authHelper
+  try {
+    const role = await getComprehensiveUserRole(user.id);
+    console.log('🔍 Role detected for user:', user.email, 'Role:', role);
+    return role;
+  } catch (error) {
+    console.error('Error getting user role:', error);
+    // Fallback to metadata if available
+    if (user.raw_user_meta_data && user.raw_user_meta_data.role) {
+      return user.raw_user_meta_data.role;
+    }
+    return null;
   }
-  return null;
 }
 
 // AuthContextProvider component
