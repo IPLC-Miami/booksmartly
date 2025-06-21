@@ -2,9 +2,7 @@ name: Deploy to VPS
 
 on:
   push:
-    branches: [ hotfix/jun-16-backend-auth-routes ]
-  pull_request:
-    branches: [ hotfix/jun-16-backend-auth-routes ]
+    branches: [ "hotfix/jun-16-backend-auth-routes" ]
 
 jobs:
   deploy:
@@ -20,7 +18,7 @@ jobs:
         cache: 'npm'
     
     - name: Install dependencies
-      run: npm ci
+      run: npm ci --production
     
     - name: Build if build script exists
       run: npm run build --if-present
@@ -34,6 +32,6 @@ jobs:
         script: |
           cd /var/www/booksmartly
           git pull origin hotfix/jun-16-backend-auth-routes
-          npm ci
+          npm ci --production
           npm run build --if-present
           pm2 reload ecosystem.config.js --update-env
