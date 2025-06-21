@@ -121,8 +121,6 @@ backend/scripts/
 # Backend environment and config files
 backend/.env*
 backend/controllers/
-backend/middleware/
-backend/utils/
 
 # Frontend documentation
 frontend/src/docs/
