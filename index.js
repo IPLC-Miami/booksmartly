@@ -19,7 +19,6 @@ const jwt = require("jsonwebtoken");
 const createTokens = require("./createTokens");
 const createAdminTokens = require("./createAdminTokens");
 const passport = require("passport");
-const FacebookStrategy = require("passport-facebook").Strategy;
 const parseUrl = require("parseurl");
 const getMainImage = require("./getMainImage");
 const cron = require("node-cron");
@@ -592,43 +591,6 @@ const server = new ApolloServer({
   playground: process.env.NODE_ENV === "production" ? false : true,
 });
 
-passport.use(
-  new FacebookStrategy(
-    {
-      clientID: `${process.env.FACEBOOK_APP_ID}`,
-      clientSecret: `${process.env.FACEBOOK_APP_SECRET}`,
-      callbackURL:
-        process.env.NODE_ENV === "production"
-          ? `${process.env.PRODUCTION_SERVER_URL}/api/auth/facebook/callback`
-          : `http://localhost:${port}/api/auth/facebook/callback`,
-      profileFields: [
-        "emails",
-        "first_name",
-        "last_name",
-        "picture.type(small)",
-      ],
-      passReqToCallback: true,
-    },
-    (req, accessToken, refreshToken, profile, done) => {
-      if (accessToken) {
-        req.isAuth = true;
-        req.facebookAccessToken = accessToken;
-        req.facebookProfile = profile._json;
-      } else {
-        req.isAuth = false;
-      }
-      return done();
-    }
-  )
-);
-
-app.get(
-  "/api/auth/facebook",
-  passport.authenticate("facebook", {
-    authType: "rerequest",
-    scope: ["email"],
-  })
-);
 
 // Set guest consent form cookie upon accessing link from appointment email
 app.get("/api/:id/consentform", async (req, res) => {
