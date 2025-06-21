@@ -642,133 +642,137 @@ app.get("/api/:id/consentform", async (req, res) => {
   }
 });
 
-app.get("/api/auth/facebook/callback", (req, res, next) => {
-  passport.authenticate("facebook", async (err, user, info) => {
-    if (err) {
-      return next(err);
-    }
+if (process.env.FB_APP_ID && process.env.FB_APP_SECRET) {
+  const FacebookStrategy = require("passport-facebook").Strategy;
+  
+  app.get("/api/auth/facebook/callback", (req, res, next) => {
+    passport.authenticate("facebook", async (err, user, info) => {
+      if (err) {
+        return next(err);
+      }
 
-    let client;
+      let client;
 
-    client = await Client.findOne({ email: req.facebookProfile.email });
+      client = await Client.findOne({ email: req.facebookProfile.email });
 
-    if (!client) {
-      client = await Client.create({
-        _id: new mongoose.mongo.ObjectID(),
-        email: req.facebookProfile.email,
-        firstName: req.facebookProfile.first_name,
-        lastName: req.facebookProfile.last_name,
-      });
-    }
-
-    const generateDummyToken = (client) => {
-      const token = jwt.sign(
-        {
-          id: client._id,
-          picture: req.facebookProfile.picture.data.url,
-          auth: true,
-        },
-        process.env.JWT_SECRET_KEY_DUMMY,
-        { expiresIn: "60d" }
-      );
-      return token;
-    };
-
-    const generateAccessToken = (client) => {
-      const token = jwt.sign(
-        {
-          id: client._id,
-          email: client.email,
-          phoneNumber: client.phoneNumber,
-          firstName: client.firstName,
-          lastName: client.lastName,
-          tokenCount: client.tokenCount,
-        },
-        process.env.JWT_SECRET_KEY_ACCESS,
-        { expiresIn: "60d" }
-      );
-      return token;
-    };
-
-    const accessToken = generateAccessToken(client);
-    const dummyToken = generateDummyToken(client);
-
-    if (client) {
-      req.isAuth = true;
-      if (client.phoneNumber) {
-        res.clearCookie("temporary-facebook-access-token", {
-          domain:
-            process.env.NODE_ENV === "production"
-              ? process.env.PRODUCTION_CLIENT_ROOT
-              : "localhost",
-        });
-        res.clearCookie("temporary-facebook-dummy-token", {
-          domain:
-            process.env.NODE_ENV === "production"
-              ? process.env.PRODUCTION_CLIENT_ROOT
-              : "localhost",
-        });
-
-        res.cookie("access-token", accessToken, {
-          maxAge: 1000 * 60 * 60 * 24 * 60,
-          httpOnly: true,
-          secure: process.env.NODE_ENV === "production" ? true : false,
-          domain:
-            process.env.NODE_ENV === "production"
-              ? process.env.PRODUCTION_CLIENT_ROOT
-              : "localhost",
-        });
-
-        res.cookie("dummy-token", dummyToken, {
-          maxAge: 1000 * 60 * 60 * 24 * 60,
-          httpOnly: false,
-          secure: process.env.NODE_ENV === "production" ? true : false,
-          domain:
-            process.env.NODE_ENV === "production"
-              ? process.env.PRODUCTION_CLIENT_ROOT
-              : "localhost",
-        });
-      } else {
-        res.cookie("temporary-facebook-access-token", accessToken, {
-          maxAge: 1000 * 60 * 15,
-          httpOnly: true,
-          secure: process.env.NODE_ENV === "production" ? true : false,
-          domain:
-            process.env.NODE_ENV === "production"
-              ? process.env.PRODUCTION_CLIENT_ROOT
-              : "localhost",
-        });
-
-        res.cookie("temporary-facebook-dummy-token", dummyToken, {
-          maxAge: 1000 * 60 * 15,
-          httpOnly: false,
-          secure: process.env.NODE_ENV === "production" ? true : false,
-          domain:
-            process.env.NODE_ENV === "production"
-              ? process.env.PRODUCTION_CLIENT_ROOT
-              : "localhost",
+      if (!client) {
+        client = await Client.create({
+          _id: new mongoose.mongo.ObjectID(),
+          email: req.facebookProfile.email,
+          firstName: req.facebookProfile.first_name,
+          lastName: req.facebookProfile.last_name,
         });
       }
 
-      res.redirect(
-        `${
-          process.env.NODE_ENV === "production"
-            ? process.env.PRODUCTION_CLIENT_URL
-            : "http://localhost:3000"
-        }/account/clientprofile`
-      );
-    } else {
-      req.isAuth = false;
-      res.redirect(
-        `${
-          process.env.NODE_ENV === "production"
-            ? process.env.PRODUCTION_CLIENT_URL
-            : "http://localhost:3000"
-        }/account/login`
-      );
-    }
-  })(req, res, next);
-});
+      const generateDummyToken = (client) => {
+        const token = jwt.sign(
+          {
+            id: client._id,
+            picture: req.facebookProfile.picture.data.url,
+            auth: true,
+          },
+          process.env.JWT_SECRET_KEY_DUMMY,
+          { expiresIn: "60d" }
+        );
+        return token;
+      };
+
+      const generateAccessToken = (client) => {
+        const token = jwt.sign(
+          {
+            id: client._id,
+            email: client.email,
+            phoneNumber: client.phoneNumber,
+            firstName: client.firstName,
+            lastName: client.lastName,
+            tokenCount: client.tokenCount,
+          },
+          process.env.JWT_SECRET_KEY_ACCESS,
+          { expiresIn: "60d" }
+        );
+        return token;
+      };
+
+      const accessToken = generateAccessToken(client);
+      const dummyToken = generateDummyToken(client);
+
+      if (client) {
+        req.isAuth = true;
+        if (client.phoneNumber) {
+          res.clearCookie("temporary-facebook-access-token", {
+            domain:
+              process.env.NODE_ENV === "production"
+                ? process.env.PRODUCTION_CLIENT_ROOT
+                : "localhost",
+          });
+          res.clearCookie("temporary-facebook-dummy-token", {
+            domain:
+              process.env.NODE_ENV === "production"
+                ? process.env.PRODUCTION_CLIENT_ROOT
+                : "localhost",
+          });
+
+          res.cookie("access-token", accessToken, {
+            maxAge: 1000 * 60 * 60 * 24 * 60,
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production" ? true : false,
+            domain:
+              process.env.NODE_ENV === "production"
+                ? process.env.PRODUCTION_CLIENT_ROOT
+                : "localhost",
+          });
+
+          res.cookie("dummy-token", dummyToken, {
+            maxAge: 1000 * 60 * 60 * 24 * 60,
+            httpOnly: false,
+            secure: process.env.NODE_ENV === "production" ? true : false,
+            domain:
+              process.env.NODE_ENV === "production"
+                ? process.env.PRODUCTION_CLIENT_ROOT
+                : "localhost",
+          });
+        } else {
+          res.cookie("temporary-facebook-access-token", accessToken, {
+            maxAge: 1000 * 60 * 15,
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production" ? true : false,
+            domain:
+              process.env.NODE_ENV === "production"
+                ? process.env.PRODUCTION_CLIENT_ROOT
+                : "localhost",
+          });
+
+          res.cookie("temporary-facebook-dummy-token", dummyToken, {
+            maxAge: 1000 * 60 * 15,
+            httpOnly: false,
+            secure: process.env.NODE_ENV === "production" ? true : false,
+            domain:
+              process.env.NODE_ENV === "production"
+                ? process.env.PRODUCTION_CLIENT_ROOT
+                : "localhost",
+          });
+        }
+
+        res.redirect(
+          `${
+            process.env.NODE_ENV === "production"
+              ? process.env.PRODUCTION_CLIENT_URL
+              : "http://localhost:3000"
+          }/account/clientprofile`
+        );
+      } else {
+        req.isAuth = false;
+        res.redirect(
+          `${
+            process.env.NODE_ENV === "production"
+              ? process.env.PRODUCTION_CLIENT_URL
+              : "http://localhost:3000"
+          }/account/login`
+        );
+      }
+    })(req, res, next);
+  });
+}
 
 app.get("/", (req, res) => {
   res.send("The Glow Labs server is up and running!");
