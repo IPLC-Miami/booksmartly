@@ -1,14 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const passport = require('passport');
-const { googleCb, facebookCb } = require('../services/auth');
+const { googleAuth, googleCallback, facebookAuth, facebookCallback } = require('../services/auth');
 
 // Google authentication routes
-router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
-router.get('/google/callback', googleCb);
+router.get('/google', googleAuth);
+router.get('/google/callback', googleCallback);
 
 // Facebook authentication routes
-router.get('/facebook', passport.authenticate('facebook'));
-router.get('/facebook/callback', facebookCb);
+router.get('/facebook', facebookAuth);
+router.get('/facebook/callback', facebookCallback);
 
 module.exports = router;

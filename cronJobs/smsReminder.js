@@ -1,15 +1,19 @@
 const cron = require('node-cron');
 
-// This is a placeholder for the actual Twilio SMS sending logic.
-const sendSmsReminders = () => {
-  console.log('Sending SMS reminders...');
-  // In a real application, you would query your database for upcoming appointments
-  // and use the Twilio SDK to send SMS messages to the recipients.
-};
+function registerTwilioReminderJob() {
+  if (process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN) {
+    // Schedule task to run every day at 9:00 AM
+    cron.schedule('0 9 * * *', () => {
+      console.log('Running daily SMS reminder job...');
+      // Add your Twilio logic here, e.g.,:
+      // const client = require('twilio')(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
+      // client.messages.create({ ... });
+    });
+  } else {
+    console.info('[Cron] Twilio SMS reminder job disabled – env vars missing');
+  }
+}
 
-// Schedule the cron job to run every day at a specific time (e.g., 9:00 AM).
-cron.schedule('0 9 * * *', () => {
-  sendSmsReminders();
-});
+registerTwilioReminderJob();
 
-console.log('SMS reminder cron job scheduled.');
+module.exports = { registerTwilioReminderJob };
