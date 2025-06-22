@@ -7,7 +7,7 @@
     "start": "node backend/app.js",
     "dev": "nodemon backend/app.js",
     "test": "jest",
-    "test:schema": "NODE_ENV=test jest --passWithNoTests",
+    "test:schema": "jest tests/schema.test.js",
     "test:store": "jest Client/src/tests/store.test.js",
     "build:stats": "webpack --json > Client/dist/stats.json"
   },
@@ -64,11 +64,11 @@
   "jest": {
     "testEnvironment": "node",
     "setupFilesAfterEnv": [
-      "<rootDir>/tests/setup.js"
+      "<rootDir>/backend/tests/setup.js"
     ],
     "collectCoverageFrom": [
-      "controllers/**/*.js",
-      "routes/**/*.js",
+      "backend/controllers/**/*.js",
+      "backend/routes/**/*.js",
       "!**/node_modules/**"
     ],
     "coverageDirectory": "coverage",
