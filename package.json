@@ -7,7 +7,8 @@
     "start": "node backend/app.js",
     "dev": "nodemon backend/app.js",
     "test": "jest",
-    "test:schema": "NODE_ENV=test jest --passWithNoTests"
+    "test:schema": "NODE_ENV=test jest --passWithNoTests",
+    "test:store": "jest frontend/src/tests/store.test.js"
   },
   "dependencies": {
     "@google-cloud/pubsub": "^2.18.0",
