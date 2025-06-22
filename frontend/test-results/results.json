@@ -124,7 +124,7 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "failed",
-                      "duration": 12459,
+                      "duration": 12172,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at loginAsAdmin (c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-clinicians.spec.cjs:14:14)\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-clinicians.spec.cjs:35:5",
@@ -148,7 +148,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-22T20:01:43.867Z",
+                      "startTime": "2025-06-22T22:34:45.694Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -179,10 +179,10 @@
                       }
                     },
                     {
-                      "workerIndex": 7,
+                      "workerIndex": 8,
                       "parallelIndex": 0,
                       "status": "failed",
-                      "duration": 12042,
+                      "duration": 11974,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at loginAsAdmin (c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-clinicians.spec.cjs:14:14)\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-clinicians.spec.cjs:35:5",
@@ -206,7 +206,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 1,
-                      "startTime": "2025-06-22T20:01:58.304Z",
+                      "startTime": "2025-06-22T22:34:59.471Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -240,7 +240,7 @@
                       "workerIndex": 13,
                       "parallelIndex": 0,
                       "status": "failed",
-                      "duration": 12226,
+                      "duration": 11698,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at loginAsAdmin (c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-clinicians.spec.cjs:14:14)\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-clinicians.spec.cjs:35:5",
@@ -264,7 +264,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 2,
-                      "startTime": "2025-06-22T20:02:12.045Z",
+                      "startTime": "2025-06-22T22:35:12.985Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -316,10 +316,10 @@
                   "projectName": "production-chrome",
                   "results": [
                     {
-                      "workerIndex": 15,
+                      "workerIndex": 16,
                       "parallelIndex": 0,
                       "status": "failed",
-                      "duration": 12046,
+                      "duration": 11500,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at loginAsAdmin (c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-clinicians.spec.cjs:14:14)\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-clinicians.spec.cjs:35:5",
@@ -343,7 +343,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-22T20:02:26.541Z",
+                      "startTime": "2025-06-22T22:35:26.367Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -374,10 +374,10 @@
                       }
                     },
                     {
-                      "workerIndex": 19,
+                      "workerIndex": 20,
                       "parallelIndex": 0,
                       "status": "failed",
-                      "duration": 11792,
+                      "duration": 11521,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at loginAsAdmin (c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-clinicians.spec.cjs:14:14)\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-clinicians.spec.cjs:35:5",
@@ -401,7 +401,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 1,
-                      "startTime": "2025-06-22T20:02:40.798Z",
+                      "startTime": "2025-06-22T22:35:39.450Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -432,10 +432,10 @@
                       }
                     },
                     {
-                      "workerIndex": 23,
+                      "workerIndex": 24,
                       "parallelIndex": 0,
                       "status": "failed",
-                      "duration": 12197,
+                      "duration": 11948,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at loginAsAdmin (c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-clinicians.spec.cjs:14:14)\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-clinicians.spec.cjs:35:5",
@@ -459,7 +459,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 2,
-                      "startTime": "2025-06-22T20:02:54.121Z",
+                      "startTime": "2025-06-22T22:35:52.379Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -511,10 +511,10 @@
                   "projectName": "production-chrome",
                   "results": [
                     {
-                      "workerIndex": 27,
+                      "workerIndex": 28,
                       "parallelIndex": 0,
                       "status": "failed",
-                      "duration": 11995,
+                      "duration": 12064,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at loginAsAdmin (c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-clinicians.spec.cjs:14:14)\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-clinicians.spec.cjs:35:5",
@@ -538,7 +538,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-22T20:03:08.476Z",
+                      "startTime": "2025-06-22T22:36:05.860Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -572,7 +572,7 @@
                       "workerIndex": 31,
                       "parallelIndex": 0,
                       "status": "failed",
-                      "duration": 11932,
+                      "duration": 11482,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at loginAsAdmin (c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-clinicians.spec.cjs:14:14)\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-clinicians.spec.cjs:35:5",
@@ -596,7 +596,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 1,
-                      "startTime": "2025-06-22T20:03:22.677Z",
+                      "startTime": "2025-06-22T22:36:20.191Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -630,7 +630,7 @@
                       "workerIndex": 35,
                       "parallelIndex": 0,
                       "status": "failed",
-                      "duration": 11844,
+                      "duration": 11449,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at loginAsAdmin (c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-clinicians.spec.cjs:14:14)\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-clinicians.spec.cjs:35:5",
@@ -654,7 +654,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 2,
-                      "startTime": "2025-06-22T20:03:36.449Z",
+                      "startTime": "2025-06-22T22:36:32.875Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -709,7 +709,7 @@
                       "workerIndex": 39,
                       "parallelIndex": 0,
                       "status": "failed",
-                      "duration": 11944,
+                      "duration": 11380,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at loginAsAdmin (c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-clinicians.spec.cjs:14:14)\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-clinicians.spec.cjs:35:5",
@@ -733,7 +733,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-22T20:03:50.059Z",
+                      "startTime": "2025-06-22T22:36:45.379Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -764,10 +764,10 @@
                       }
                     },
                     {
-                      "workerIndex": 43,
+                      "workerIndex": 42,
                       "parallelIndex": 0,
                       "status": "failed",
-                      "duration": 12002,
+                      "duration": 11386,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at loginAsAdmin (c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-clinicians.spec.cjs:14:14)\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-clinicians.spec.cjs:35:5",
@@ -791,7 +791,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 1,
-                      "startTime": "2025-06-22T20:04:03.921Z",
+                      "startTime": "2025-06-22T22:36:58.177Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -822,10 +822,10 @@
                       }
                     },
                     {
-                      "workerIndex": 47,
+                      "workerIndex": 45,
                       "parallelIndex": 0,
                       "status": "failed",
-                      "duration": 12102,
+                      "duration": 11438,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at loginAsAdmin (c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-clinicians.spec.cjs:14:14)\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-clinicians.spec.cjs:35:5",
@@ -849,7 +849,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 2,
-                      "startTime": "2025-06-22T20:04:17.400Z",
+                      "startTime": "2025-06-22T22:37:10.804Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -904,7 +904,7 @@
                       "workerIndex": 50,
                       "parallelIndex": 0,
                       "status": "failed",
-                      "duration": 12216,
+                      "duration": 11816,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at loginAsAdmin (c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-clinicians.spec.cjs:14:14)\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-clinicians.spec.cjs:35:5",
@@ -928,7 +928,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-22T20:04:31.171Z",
+                      "startTime": "2025-06-22T22:37:23.446Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -962,7 +962,7 @@
                       "workerIndex": 54,
                       "parallelIndex": 0,
                       "status": "failed",
-                      "duration": 12002,
+                      "duration": 11584,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at loginAsAdmin (c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-clinicians.spec.cjs:14:14)\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-clinicians.spec.cjs:35:5",
@@ -986,7 +986,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 1,
-                      "startTime": "2025-06-22T20:04:45.324Z",
+                      "startTime": "2025-06-22T22:37:36.627Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -1017,10 +1017,10 @@
                       }
                     },
                     {
-                      "workerIndex": 57,
+                      "workerIndex": 56,
                       "parallelIndex": 0,
                       "status": "failed",
-                      "duration": 11909,
+                      "duration": 11494,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at loginAsAdmin (c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-clinicians.spec.cjs:14:14)\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-clinicians.spec.cjs:35:5",
@@ -1044,7 +1044,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 2,
-                      "startTime": "2025-06-22T20:04:59.012Z",
+                      "startTime": "2025-06-22T22:37:49.463Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -1096,10 +1096,10 @@
                   "projectName": "production-chrome",
                   "results": [
                     {
-                      "workerIndex": 62,
+                      "workerIndex": 60,
                       "parallelIndex": 0,
                       "status": "failed",
-                      "duration": 11849,
+                      "duration": 11473,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at loginAsAdmin (c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-clinicians.spec.cjs:14:14)\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-clinicians.spec.cjs:35:5",
@@ -1123,7 +1123,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-22T20:05:12.843Z",
+                      "startTime": "2025-06-22T22:38:02.391Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -1157,7 +1157,7 @@
                       "workerIndex": 65,
                       "parallelIndex": 0,
                       "status": "failed",
-                      "duration": 11914,
+                      "duration": 11563,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at loginAsAdmin (c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-clinicians.spec.cjs:14:14)\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-clinicians.spec.cjs:35:5",
@@ -1181,7 +1181,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 1,
-                      "startTime": "2025-06-22T20:05:26.182Z",
+                      "startTime": "2025-06-22T22:38:15.058Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -1212,10 +1212,10 @@
                       }
                     },
                     {
-                      "workerIndex": 69,
+                      "workerIndex": 68,
                       "parallelIndex": 0,
                       "status": "failed",
-                      "duration": 12087,
+                      "duration": 11581,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at loginAsAdmin (c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-clinicians.spec.cjs:14:14)\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-clinicians.spec.cjs:35:5",
@@ -1239,7 +1239,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 2,
-                      "startTime": "2025-06-22T20:05:39.835Z",
+                      "startTime": "2025-06-22T22:38:27.523Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -1291,10 +1291,10 @@
                   "projectName": "production-chrome",
                   "results": [
                     {
-                      "workerIndex": 72,
+                      "workerIndex": 71,
                       "parallelIndex": 0,
                       "status": "failed",
-                      "duration": 12221,
+                      "duration": 11667,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at loginAsAdmin (c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-clinicians.spec.cjs:14:14)\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-clinicians.spec.cjs:35:5",
@@ -1318,7 +1318,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-22T20:05:54.294Z",
+                      "startTime": "2025-06-22T22:38:40.201Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -1349,10 +1349,10 @@
                       }
                     },
                     {
-                      "workerIndex": 77,
+                      "workerIndex": 76,
                       "parallelIndex": 0,
                       "status": "failed",
-                      "duration": 11998,
+                      "duration": 11821,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at loginAsAdmin (c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-clinicians.spec.cjs:14:14)\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-clinicians.spec.cjs:35:5",
@@ -1376,7 +1376,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 1,
-                      "startTime": "2025-06-22T20:06:08.402Z",
+                      "startTime": "2025-06-22T22:38:53.163Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -1407,10 +1407,10 @@
                       }
                     },
                     {
-                      "workerIndex": 80,
+                      "workerIndex": 79,
                       "parallelIndex": 0,
                       "status": "failed",
-                      "duration": 12066,
+                      "duration": 11720,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at loginAsAdmin (c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-clinicians.spec.cjs:14:14)\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-clinicians.spec.cjs:35:5",
@@ -1434,7 +1434,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 2,
-                      "startTime": "2025-06-22T20:06:22.473Z",
+                      "startTime": "2025-06-22T22:39:06.320Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -1486,10 +1486,10 @@
                   "projectName": "production-chrome",
                   "results": [
                     {
-                      "workerIndex": 84,
+                      "workerIndex": 82,
                       "parallelIndex": 0,
                       "status": "failed",
-                      "duration": 12249,
+                      "duration": 11656,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at loginAsAdmin (c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-clinicians.spec.cjs:14:14)\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-clinicians.spec.cjs:35:5",
@@ -1513,7 +1513,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-22T20:06:37.185Z",
+                      "startTime": "2025-06-22T22:39:19.758Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -1544,10 +1544,10 @@
                       }
                     },
                     {
-                      "workerIndex": 89,
+                      "workerIndex": 87,
                       "parallelIndex": 0,
                       "status": "failed",
-                      "duration": 11843,
+                      "duration": 11571,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at loginAsAdmin (c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-clinicians.spec.cjs:14:14)\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-clinicians.spec.cjs:35:5",
@@ -1571,7 +1571,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 1,
-                      "startTime": "2025-06-22T20:06:50.912Z",
+                      "startTime": "2025-06-22T22:39:32.525Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -1605,7 +1605,7 @@
                       "workerIndex": 92,
                       "parallelIndex": 0,
                       "status": "failed",
-                      "duration": 12063,
+                      "duration": 11376,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at loginAsAdmin (c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-clinicians.spec.cjs:14:14)\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-clinicians.spec.cjs:35:5",
@@ -1629,7 +1629,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 2,
-                      "startTime": "2025-06-22T20:07:04.215Z",
+                      "startTime": "2025-06-22T22:39:45.729Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -1701,7 +1701,7 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "failed",
-                      "duration": 12627,
+                      "duration": 12171,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at loginAsAdmin (c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-schedule.spec.cjs:14:14)\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-schedule.spec.cjs:35:5",
@@ -1725,7 +1725,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-22T20:01:43.857Z",
+                      "startTime": "2025-06-22T22:34:45.626Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -1756,10 +1756,10 @@
                       }
                     },
                     {
-                      "workerIndex": 8,
+                      "workerIndex": 7,
                       "parallelIndex": 1,
                       "status": "failed",
-                      "duration": 11961,
+                      "duration": 11958,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at loginAsAdmin (c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-schedule.spec.cjs:14:14)\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-schedule.spec.cjs:35:5",
@@ -1783,7 +1783,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 1,
-                      "startTime": "2025-06-22T20:01:58.446Z",
+                      "startTime": "2025-06-22T22:34:59.413Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -1814,10 +1814,10 @@
                       }
                     },
                     {
-                      "workerIndex": 14,
-                      "parallelIndex": 1,
+                      "workerIndex": 12,
+                      "parallelIndex": 5,
                       "status": "failed",
-                      "duration": 12246,
+                      "duration": 11622,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at loginAsAdmin (c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-schedule.spec.cjs:14:14)\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-schedule.spec.cjs:35:5",
@@ -1841,7 +1841,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 2,
-                      "startTime": "2025-06-22T20:02:12.081Z",
+                      "startTime": "2025-06-22T22:35:11.658Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -1893,10 +1893,10 @@
                   "projectName": "production-chrome",
                   "results": [
                     {
-                      "workerIndex": 16,
-                      "parallelIndex": 1,
+                      "workerIndex": 15,
+                      "parallelIndex": 2,
                       "status": "failed",
-                      "duration": 12069,
+                      "duration": 11493,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at loginAsAdmin (c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-schedule.spec.cjs:14:14)\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-schedule.spec.cjs:35:5",
@@ -1920,7 +1920,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-22T20:02:26.554Z",
+                      "startTime": "2025-06-22T22:35:24.583Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -1951,10 +1951,10 @@
                       }
                     },
                     {
-                      "workerIndex": 20,
-                      "parallelIndex": 1,
+                      "workerIndex": 19,
+                      "parallelIndex": 2,
                       "status": "failed",
-                      "duration": 11771,
+                      "duration": 11547,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at loginAsAdmin (c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-schedule.spec.cjs:14:14)\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-schedule.spec.cjs:35:5",
@@ -1978,7 +1978,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 1,
-                      "startTime": "2025-06-22T20:02:40.852Z",
+                      "startTime": "2025-06-22T22:35:37.306Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -2009,10 +2009,10 @@
                       }
                     },
                     {
-                      "workerIndex": 24,
-                      "parallelIndex": 1,
+                      "workerIndex": 23,
+                      "parallelIndex": 2,
                       "status": "failed",
-                      "duration": 12191,
+                      "duration": 11547,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at loginAsAdmin (c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-schedule.spec.cjs:14:14)\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-schedule.spec.cjs:35:5",
@@ -2036,7 +2036,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 2,
-                      "startTime": "2025-06-22T20:02:54.150Z",
+                      "startTime": "2025-06-22T22:35:50.152Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -2088,10 +2088,10 @@
                   "projectName": "production-chrome",
                   "results": [
                     {
-                      "workerIndex": 28,
-                      "parallelIndex": 1,
+                      "workerIndex": 27,
+                      "parallelIndex": 2,
                       "status": "failed",
-                      "duration": 11947,
+                      "duration": 11586,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at loginAsAdmin (c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-schedule.spec.cjs:14:14)\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-schedule.spec.cjs:35:5",
@@ -2115,7 +2115,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-22T20:03:08.469Z",
+                      "startTime": "2025-06-22T22:36:03.709Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -2146,10 +2146,10 @@
                       }
                     },
                     {
-                      "workerIndex": 30,
-                      "parallelIndex": 1,
+                      "workerIndex": 29,
+                      "parallelIndex": 2,
                       "status": "failed",
-                      "duration": 11920,
+                      "duration": 11572,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at loginAsAdmin (c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-schedule.spec.cjs:14:14)\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-schedule.spec.cjs:35:5",
@@ -2173,7 +2173,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 1,
-                      "startTime": "2025-06-22T20:03:22.600Z",
+                      "startTime": "2025-06-22T22:36:17.581Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -2205,9 +2205,9 @@
                     },
                     {
                       "workerIndex": 34,
-                      "parallelIndex": 1,
+                      "parallelIndex": 2,
                       "status": "failed",
-                      "duration": 11833,
+                      "duration": 11627,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at loginAsAdmin (c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-schedule.spec.cjs:14:14)\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-schedule.spec.cjs:35:5",
@@ -2231,7 +2231,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 2,
-                      "startTime": "2025-06-22T20:03:36.303Z",
+                      "startTime": "2025-06-22T22:36:30.678Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -2284,9 +2284,9 @@
                   "results": [
                     {
                       "workerIndex": 38,
-                      "parallelIndex": 1,
+                      "parallelIndex": 2,
                       "status": "failed",
-                      "duration": 11927,
+                      "duration": 11496,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at loginAsAdmin (c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-schedule.spec.cjs:14:14)\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-schedule.spec.cjs:35:5",
@@ -2310,7 +2310,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-22T20:03:50.013Z",
+                      "startTime": "2025-06-22T22:36:43.568Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -2341,10 +2341,10 @@
                       }
                     },
                     {
-                      "workerIndex": 42,
-                      "parallelIndex": 1,
+                      "workerIndex": 41,
+                      "parallelIndex": 2,
                       "status": "failed",
-                      "duration": 11998,
+                      "duration": 11335,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at loginAsAdmin (c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-schedule.spec.cjs:14:14)\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-schedule.spec.cjs:35:5",
@@ -2368,7 +2368,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 1,
-                      "startTime": "2025-06-22T20:04:03.832Z",
+                      "startTime": "2025-06-22T22:36:56.158Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -2399,10 +2399,10 @@
                       }
                     },
                     {
-                      "workerIndex": 46,
-                      "parallelIndex": 1,
+                      "workerIndex": 44,
+                      "parallelIndex": 2,
                       "status": "failed",
-                      "duration": 11718,
+                      "duration": 11414,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at loginAsAdmin (c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-schedule.spec.cjs:14:14)\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-schedule.spec.cjs:35:5",
@@ -2426,7 +2426,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 2,
-                      "startTime": "2025-06-22T20:04:17.159Z",
+                      "startTime": "2025-06-22T22:37:08.622Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -2479,9 +2479,9 @@
                   "results": [
                     {
                       "workerIndex": 49,
-                      "parallelIndex": 1,
+                      "parallelIndex": 2,
                       "status": "failed",
-                      "duration": 12027,
+                      "duration": 11402,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at loginAsAdmin (c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-schedule.spec.cjs:14:14)\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-schedule.spec.cjs:35:5",
@@ -2505,7 +2505,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-22T20:04:30.833Z",
+                      "startTime": "2025-06-22T22:37:21.501Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -2536,10 +2536,10 @@
                       }
                     },
                     {
-                      "workerIndex": 53,
-                      "parallelIndex": 1,
+                      "workerIndex": 52,
+                      "parallelIndex": 2,
                       "status": "failed",
-                      "duration": 11854,
+                      "duration": 11368,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at loginAsAdmin (c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-schedule.spec.cjs:14:14)\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-schedule.spec.cjs:35:5",
@@ -2563,7 +2563,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 1,
-                      "startTime": "2025-06-22T20:04:44.965Z",
+                      "startTime": "2025-06-22T22:37:34.724Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -2594,10 +2594,10 @@
                       }
                     },
                     {
-                      "workerIndex": 56,
-                      "parallelIndex": 1,
+                      "workerIndex": 55,
+                      "parallelIndex": 2,
                       "status": "failed",
-                      "duration": 11824,
+                      "duration": 11489,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at loginAsAdmin (c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-schedule.spec.cjs:14:14)\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-schedule.spec.cjs:35:5",
@@ -2621,7 +2621,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 2,
-                      "startTime": "2025-06-22T20:04:58.771Z",
+                      "startTime": "2025-06-22T22:37:47.257Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -2673,10 +2673,10 @@
                   "projectName": "production-chrome",
                   "results": [
                     {
-                      "workerIndex": 61,
-                      "parallelIndex": 1,
+                      "workerIndex": 59,
+                      "parallelIndex": 2,
                       "status": "failed",
-                      "duration": 11853,
+                      "duration": 11581,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at loginAsAdmin (c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-schedule.spec.cjs:14:14)\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-schedule.spec.cjs:35:5",
@@ -2700,7 +2700,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-22T20:05:12.597Z",
+                      "startTime": "2025-06-22T22:38:00.111Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -2732,9 +2732,9 @@
                     },
                     {
                       "workerIndex": 64,
-                      "parallelIndex": 1,
+                      "parallelIndex": 2,
                       "status": "failed",
-                      "duration": 11650,
+                      "duration": 11645,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at loginAsAdmin (c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-schedule.spec.cjs:14:14)\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-schedule.spec.cjs:35:5",
@@ -2758,7 +2758,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 1,
-                      "startTime": "2025-06-22T20:05:25.948Z",
+                      "startTime": "2025-06-22T22:38:13.001Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -2789,10 +2789,10 @@
                       }
                     },
                     {
-                      "workerIndex": 68,
-                      "parallelIndex": 1,
+                      "workerIndex": 66,
+                      "parallelIndex": 2,
                       "status": "failed",
-                      "duration": 12012,
+                      "duration": 11454,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at loginAsAdmin (c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-schedule.spec.cjs:14:14)\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-schedule.spec.cjs:35:5",
@@ -2816,7 +2816,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 2,
-                      "startTime": "2025-06-22T20:05:39.499Z",
+                      "startTime": "2025-06-22T22:38:25.953Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -2868,10 +2868,10 @@
                   "projectName": "production-chrome",
                   "results": [
                     {
-                      "workerIndex": 71,
-                      "parallelIndex": 1,
+                      "workerIndex": 70,
+                      "parallelIndex": 2,
                       "status": "failed",
-                      "duration": 12019,
+                      "duration": 11658,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at loginAsAdmin (c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-schedule.spec.cjs:14:14)\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-schedule.spec.cjs:35:5",
@@ -2895,7 +2895,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-22T20:05:53.925Z",
+                      "startTime": "2025-06-22T22:38:38.684Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -2926,10 +2926,10 @@
                       }
                     },
                     {
-                      "workerIndex": 76,
-                      "parallelIndex": 1,
+                      "workerIndex": 75,
+                      "parallelIndex": 2,
                       "status": "failed",
-                      "duration": 11844,
+                      "duration": 11516,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at loginAsAdmin (c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-schedule.spec.cjs:14:14)\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-schedule.spec.cjs:35:5",
@@ -2953,7 +2953,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 1,
-                      "startTime": "2025-06-22T20:06:07.727Z",
+                      "startTime": "2025-06-22T22:38:51.839Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -2984,10 +2984,10 @@
                       }
                     },
                     {
-                      "workerIndex": 79,
-                      "parallelIndex": 1,
+                      "workerIndex": 78,
+                      "parallelIndex": 2,
                       "status": "failed",
-                      "duration": 12140,
+                      "duration": 11468,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at loginAsAdmin (c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-schedule.spec.cjs:14:14)\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-schedule.spec.cjs:35:5",
@@ -3011,7 +3011,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 2,
-                      "startTime": "2025-06-22T20:06:21.516Z",
+                      "startTime": "2025-06-22T22:39:05.043Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -3063,10 +3063,10 @@
                   "projectName": "production-chrome",
                   "results": [
                     {
-                      "workerIndex": 83,
-                      "parallelIndex": 1,
+                      "workerIndex": 81,
+                      "parallelIndex": 2,
                       "status": "failed",
-                      "duration": 12306,
+                      "duration": 11706,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at loginAsAdmin (c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-schedule.spec.cjs:14:14)\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-schedule.spec.cjs:35:5",
@@ -3090,7 +3090,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-22T20:06:36.003Z",
+                      "startTime": "2025-06-22T22:39:18.071Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -3121,10 +3121,10 @@
                       }
                     },
                     {
-                      "workerIndex": 88,
-                      "parallelIndex": 1,
+                      "workerIndex": 86,
+                      "parallelIndex": 2,
                       "status": "failed",
-                      "duration": 11693,
+                      "duration": 11512,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at loginAsAdmin (c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-schedule.spec.cjs:14:14)\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-schedule.spec.cjs:35:5",
@@ -3148,7 +3148,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 1,
-                      "startTime": "2025-06-22T20:06:50.303Z",
+                      "startTime": "2025-06-22T22:39:31.334Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -3180,9 +3180,9 @@
                     },
                     {
                       "workerIndex": 91,
-                      "parallelIndex": 1,
+                      "parallelIndex": 2,
                       "status": "failed",
-                      "duration": 11878,
+                      "duration": 11455,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at loginAsAdmin (c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-schedule.spec.cjs:14:14)\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\admin-schedule.spec.cjs:35:5",
@@ -3206,7 +3206,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 2,
-                      "startTime": "2025-06-22T20:07:03.620Z",
+                      "startTime": "2025-06-22T22:39:44.392Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -3280,7 +3280,7 @@
                       "workerIndex": 2,
                       "parallelIndex": 2,
                       "status": "failed",
-                      "duration": 18118,
+                      "duration": 17543,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\auth.spec.cjs:28:18",
@@ -3308,7 +3308,7 @@
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-22T20:01:43.847Z",
+                      "startTime": "2025-06-22T22:34:45.693Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -3342,7 +3342,7 @@
                       "workerIndex": 10,
                       "parallelIndex": 2,
                       "status": "failed",
-                      "duration": 17518,
+                      "duration": 16852,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\auth.spec.cjs:28:18",
@@ -3370,7 +3370,7 @@
                       ],
                       "stderr": [],
                       "retry": 1,
-                      "startTime": "2025-06-22T20:02:04.327Z",
+                      "startTime": "2025-06-22T22:35:04.705Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -3401,10 +3401,10 @@
                       }
                     },
                     {
-                      "workerIndex": 12,
-                      "parallelIndex": 5,
+                      "workerIndex": 14,
+                      "parallelIndex": 1,
                       "status": "failed",
-                      "duration": 17609,
+                      "duration": 17165,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\auth.spec.cjs:28:18",
@@ -3432,7 +3432,7 @@
                       ],
                       "stderr": [],
                       "retry": 2,
-                      "startTime": "2025-06-22T20:02:22.114Z",
+                      "startTime": "2025-06-22T22:35:22.855Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -3487,9 +3487,9 @@
                   "results": [
                     {
                       "workerIndex": 21,
-                      "parallelIndex": 4,
+                      "parallelIndex": 1,
                       "status": "failed",
-                      "duration": 17031,
+                      "duration": 16735,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\auth.spec.cjs:28:18",
@@ -3517,7 +3517,7 @@
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-22T20:02:41.700Z",
+                      "startTime": "2025-06-22T22:35:41.538Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -3549,9 +3549,9 @@
                     },
                     {
                       "workerIndex": 25,
-                      "parallelIndex": 4,
+                      "parallelIndex": 1,
                       "status": "failed",
-                      "duration": 16947,
+                      "duration": 17528,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\auth.spec.cjs:28:18",
@@ -3579,7 +3579,7 @@
                       ],
                       "stderr": [],
                       "retry": 1,
-                      "startTime": "2025-06-22T20:03:00.248Z",
+                      "startTime": "2025-06-22T22:35:59.653Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -3610,10 +3610,10 @@
                       }
                     },
                     {
-                      "workerIndex": 29,
-                      "parallelIndex": 4,
+                      "workerIndex": 30,
+                      "parallelIndex": 1,
                       "status": "failed",
-                      "duration": 17433,
+                      "duration": 16839,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\auth.spec.cjs:28:18",
@@ -3641,7 +3641,7 @@
                       ],
                       "stderr": [],
                       "retry": 2,
-                      "startTime": "2025-06-22T20:03:18.599Z",
+                      "startTime": "2025-06-22T22:36:19.115Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -3696,9 +3696,9 @@
                   "results": [
                     {
                       "workerIndex": 36,
-                      "parallelIndex": 4,
+                      "parallelIndex": 1,
                       "status": "failed",
-                      "duration": 17222,
+                      "duration": 16633,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\auth.spec.cjs:28:18",
@@ -3726,7 +3726,7 @@
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-22T20:03:37.483Z",
+                      "startTime": "2025-06-22T22:36:37.112Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -3758,9 +3758,9 @@
                     },
                     {
                       "workerIndex": 40,
-                      "parallelIndex": 4,
+                      "parallelIndex": 1,
                       "status": "failed",
-                      "duration": 17094,
+                      "duration": 17071,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\auth.spec.cjs:28:18",
@@ -3788,7 +3788,7 @@
                       ],
                       "stderr": [],
                       "retry": 1,
-                      "startTime": "2025-06-22T20:03:56.435Z",
+                      "startTime": "2025-06-22T22:36:55.020Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -3819,10 +3819,10 @@
                       }
                     },
                     {
-                      "workerIndex": 45,
-                      "parallelIndex": 4,
+                      "workerIndex": 46,
+                      "parallelIndex": 1,
                       "status": "failed",
-                      "duration": 17132,
+                      "duration": 16693,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\auth.spec.cjs:28:18",
@@ -3850,7 +3850,7 @@
                       ],
                       "stderr": [],
                       "retry": 2,
-                      "startTime": "2025-06-22T20:04:15.334Z",
+                      "startTime": "2025-06-22T22:37:13.608Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -3903,9 +3903,9 @@
                   "results": [
                     {
                       "workerIndex": 51,
-                      "parallelIndex": 4,
+                      "parallelIndex": 1,
                       "status": "failed",
-                      "duration": 17037,
+                      "duration": 16970,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\auth.spec.cjs:68:16",
@@ -3933,7 +3933,7 @@
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-22T20:04:33.855Z",
+                      "startTime": "2025-06-22T22:37:31.591Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -3964,10 +3964,10 @@
                       }
                     },
                     {
-                      "workerIndex": 55,
-                      "parallelIndex": 4,
+                      "workerIndex": 57,
+                      "parallelIndex": 1,
                       "status": "failed",
-                      "duration": 16860,
+                      "duration": 16893,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\auth.spec.cjs:68:16",
@@ -3995,7 +3995,7 @@
                       ],
                       "stderr": [],
                       "retry": 1,
-                      "startTime": "2025-06-22T20:04:52.349Z",
+                      "startTime": "2025-06-22T22:37:49.712Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -4026,10 +4026,10 @@
                       }
                     },
                     {
-                      "workerIndex": 60,
-                      "parallelIndex": 4,
+                      "workerIndex": 62,
+                      "parallelIndex": 1,
                       "status": "failed",
-                      "duration": 17266,
+                      "duration": 16958,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\auth.spec.cjs:68:16",
@@ -4057,7 +4057,7 @@
                       ],
                       "stderr": [],
                       "retry": 2,
-                      "startTime": "2025-06-22T20:05:10.831Z",
+                      "startTime": "2025-06-22T22:38:07.854Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -4109,10 +4109,10 @@
                   "projectName": "production-chrome",
                   "results": [
                     {
-                      "workerIndex": 66,
-                      "parallelIndex": 4,
+                      "workerIndex": 67,
+                      "parallelIndex": 1,
                       "status": "failed",
-                      "duration": 17100,
+                      "duration": 16617,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\auth.spec.cjs:118:16",
@@ -4140,7 +4140,7 @@
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-22T20:05:29.341Z",
+                      "startTime": "2025-06-22T22:38:26.063Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -4171,10 +4171,10 @@
                       }
                     },
                     {
-                      "workerIndex": 70,
-                      "parallelIndex": 4,
+                      "workerIndex": 72,
+                      "parallelIndex": 1,
                       "status": "failed",
-                      "duration": 17245,
+                      "duration": 16617,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\auth.spec.cjs:118:16",
@@ -4202,7 +4202,7 @@
                       ],
                       "stderr": [],
                       "retry": 1,
-                      "startTime": "2025-06-22T20:05:47.739Z",
+                      "startTime": "2025-06-22T22:38:43.898Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -4233,10 +4233,10 @@
                       }
                     },
                     {
-                      "workerIndex": 75,
-                      "parallelIndex": 4,
+                      "workerIndex": 77,
+                      "parallelIndex": 1,
                       "status": "failed",
-                      "duration": 17525,
+                      "duration": 17278,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\auth.spec.cjs:118:16",
@@ -4264,7 +4264,7 @@
                       ],
                       "stderr": [],
                       "retry": 2,
-                      "startTime": "2025-06-22T20:06:06.858Z",
+                      "startTime": "2025-06-22T22:39:01.899Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -4316,10 +4316,10 @@
                   "projectName": "production-chrome",
                   "results": [
                     {
-                      "workerIndex": 81,
-                      "parallelIndex": 4,
+                      "workerIndex": 83,
+                      "parallelIndex": 1,
                       "status": "failed",
-                      "duration": 9767,
+                      "duration": 8857,
                       "error": {
                         "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nLocator: locator(':root')\nExpected pattern: \u001b[32m/login/\u001b[39m\nReceived string:  \u001b[31m\"https://booksmartly.iplcmiami.com/reception-dashboard\"\u001b[39m\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator(':root')\u001b[22m\n\u001b[2m    9 × locator resolved to <html>…</html>\u001b[22m\n\u001b[2m      - unexpected value \"https://booksmartly.iplcmiami.com/reception-dashboard\"\u001b[22m\n",
                         "stack": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nLocator: locator(':root')\nExpected pattern: \u001b[32m/login/\u001b[39m\nReceived string:  \u001b[31m\"https://booksmartly.iplcmiami.com/reception-dashboard\"\u001b[39m\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator(':root')\u001b[22m\n\u001b[2m    9 × locator resolved to <html>…</html>\u001b[22m\n\u001b[2m      - unexpected value \"https://booksmartly.iplcmiami.com/reception-dashboard\"\u001b[22m\n\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\auth.spec.cjs:165:24",
@@ -4347,7 +4347,7 @@
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-22T20:06:25.783Z",
+                      "startTime": "2025-06-22T22:39:20.462Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -4379,9 +4379,9 @@
                     },
                     {
                       "workerIndex": 85,
-                      "parallelIndex": 4,
+                      "parallelIndex": 1,
                       "status": "failed",
-                      "duration": 9138,
+                      "duration": 8894,
                       "error": {
                         "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nLocator: locator(':root')\nExpected pattern: \u001b[32m/login/\u001b[39m\nReceived string:  \u001b[31m\"https://booksmartly.iplcmiami.com/reception-dashboard\"\u001b[39m\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator(':root')\u001b[22m\n\u001b[2m    9 × locator resolved to <html>…</html>\u001b[22m\n\u001b[2m      - unexpected value \"https://booksmartly.iplcmiami.com/reception-dashboard\"\u001b[22m\n",
                         "stack": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nLocator: locator(':root')\nExpected pattern: \u001b[32m/login/\u001b[39m\nReceived string:  \u001b[31m\"https://booksmartly.iplcmiami.com/reception-dashboard\"\u001b[39m\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator(':root')\u001b[22m\n\u001b[2m    9 × locator resolved to <html>…</html>\u001b[22m\n\u001b[2m      - unexpected value \"https://booksmartly.iplcmiami.com/reception-dashboard\"\u001b[22m\n\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\auth.spec.cjs:165:24",
@@ -4409,7 +4409,7 @@
                       ],
                       "stderr": [],
                       "retry": 1,
-                      "startTime": "2025-06-22T20:06:37.884Z",
+                      "startTime": "2025-06-22T22:39:30.769Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -4440,10 +4440,10 @@
                       }
                     },
                     {
-                      "workerIndex": 87,
-                      "parallelIndex": 4,
+                      "workerIndex": 89,
+                      "parallelIndex": 1,
                       "status": "failed",
-                      "duration": 9173,
+                      "duration": 8944,
                       "error": {
                         "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nLocator: locator(':root')\nExpected pattern: \u001b[32m/login/\u001b[39m\nReceived string:  \u001b[31m\"https://booksmartly.iplcmiami.com/reception-dashboard\"\u001b[39m\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator(':root')\u001b[22m\n\u001b[2m    9 × locator resolved to <html>…</html>\u001b[22m\n\u001b[2m      - unexpected value \"https://booksmartly.iplcmiami.com/reception-dashboard\"\u001b[22m\n",
                         "stack": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nLocator: locator(':root')\nExpected pattern: \u001b[32m/login/\u001b[39m\nReceived string:  \u001b[31m\"https://booksmartly.iplcmiami.com/reception-dashboard\"\u001b[39m\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator(':root')\u001b[22m\n\u001b[2m    9 × locator resolved to <html>…</html>\u001b[22m\n\u001b[2m      - unexpected value \"https://booksmartly.iplcmiami.com/reception-dashboard\"\u001b[22m\n\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\auth.spec.cjs:165:24",
@@ -4471,7 +4471,7 @@
                       ],
                       "stderr": [],
                       "retry": 2,
-                      "startTime": "2025-06-22T20:06:48.988Z",
+                      "startTime": "2025-06-22T22:39:41.326Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -4543,7 +4543,7 @@
                       "workerIndex": 3,
                       "parallelIndex": 3,
                       "status": "timedOut",
-                      "duration": 47659,
+                      "duration": 46993,
                       "error": {
                         "message": "\u001b[31mTest timeout of 45000ms exceeded while running \"beforeEach\" hook.\u001b[39m",
                         "stack": "\u001b[31mTest timeout of 45000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\booking-flow.spec.cjs:12:8",
@@ -4575,7 +4575,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-22T20:01:43.880Z",
+                      "startTime": "2025-06-22T22:34:45.752Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -4609,7 +4609,7 @@
                       "workerIndex": 18,
                       "parallelIndex": 3,
                       "status": "timedOut",
-                      "duration": 49026,
+                      "duration": 49057,
                       "error": {
                         "message": "\u001b[31mTest timeout of 45000ms exceeded while running \"beforeEach\" hook.\u001b[39m",
                         "stack": "\u001b[31mTest timeout of 45000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\booking-flow.spec.cjs:12:8",
@@ -4641,7 +4641,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 1,
-                      "startTime": "2025-06-22T20:02:34.065Z",
+                      "startTime": "2025-06-22T22:35:34.145Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -4675,7 +4675,7 @@
                       "workerIndex": 33,
                       "parallelIndex": 3,
                       "status": "timedOut",
-                      "duration": 47859,
+                      "duration": 47737,
                       "error": {
                         "message": "\u001b[31mTest timeout of 45000ms exceeded while running \"beforeEach\" hook.\u001b[39m",
                         "stack": "\u001b[31mTest timeout of 45000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\booking-flow.spec.cjs:12:8",
@@ -4707,7 +4707,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 2,
-                      "startTime": "2025-06-22T20:03:25.461Z",
+                      "startTime": "2025-06-22T22:36:25.098Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -4759,10 +4759,10 @@
                   "projectName": "production-chrome",
                   "results": [
                     {
-                      "workerIndex": 44,
+                      "workerIndex": 47,
                       "parallelIndex": 3,
                       "status": "timedOut",
-                      "duration": 47452,
+                      "duration": 47398,
                       "error": {
                         "message": "\u001b[31mTest timeout of 45000ms exceeded while running \"beforeEach\" hook.\u001b[39m",
                         "stack": "\u001b[31mTest timeout of 45000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\booking-flow.spec.cjs:12:8",
@@ -4794,7 +4794,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-22T20:04:15.293Z",
+                      "startTime": "2025-06-22T22:37:14.086Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -4825,10 +4825,10 @@
                       }
                     },
                     {
-                      "workerIndex": 59,
+                      "workerIndex": 61,
                       "parallelIndex": 3,
                       "status": "timedOut",
-                      "duration": 49351,
+                      "duration": 47430,
                       "error": {
                         "message": "\u001b[31mTest timeout of 45000ms exceeded while running \"beforeEach\" hook.\u001b[39m",
                         "stack": "\u001b[31mTest timeout of 45000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\booking-flow.spec.cjs:12:8",
@@ -4860,7 +4860,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 1,
-                      "startTime": "2025-06-22T20:05:04.094Z",
+                      "startTime": "2025-06-22T22:38:02.749Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -4891,10 +4891,10 @@
                       }
                     },
                     {
-                      "workerIndex": 73,
+                      "workerIndex": 74,
                       "parallelIndex": 3,
                       "status": "timedOut",
-                      "duration": 48222,
+                      "duration": 46913,
                       "error": {
                         "message": "\u001b[31mTest timeout of 45000ms exceeded while running \"beforeEach\" hook.\u001b[39m",
                         "stack": "\u001b[31mTest timeout of 45000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\booking-flow.spec.cjs:12:8",
@@ -4926,7 +4926,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 2,
-                      "startTime": "2025-06-22T20:05:55.395Z",
+                      "startTime": "2025-06-22T22:38:51.711Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -4978,10 +4978,10 @@
                   "projectName": "production-chrome",
                   "results": [
                     {
-                      "workerIndex": 86,
+                      "workerIndex": 88,
                       "parallelIndex": 3,
                       "status": "timedOut",
-                      "duration": 48103,
+                      "duration": 46856,
                       "error": {
                         "message": "\u001b[31mTest timeout of 45000ms exceeded while running \"beforeEach\" hook.\u001b[39m",
                         "stack": "\u001b[31mTest timeout of 45000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\booking-flow.spec.cjs:12:8",
@@ -5013,7 +5013,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-22T20:06:45.265Z",
+                      "startTime": "2025-06-22T22:39:39.897Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -5047,7 +5047,7 @@
                       "workerIndex": 94,
                       "parallelIndex": 0,
                       "status": "timedOut",
-                      "duration": 47923,
+                      "duration": 46856,
                       "error": {
                         "message": "\u001b[31mTest timeout of 45000ms exceeded while running \"beforeEach\" hook.\u001b[39m",
                         "stack": "\u001b[31mTest timeout of 45000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\booking-flow.spec.cjs:12:8",
@@ -5079,7 +5079,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 1,
-                      "startTime": "2025-06-22T20:07:34.920Z",
+                      "startTime": "2025-06-22T22:40:27.884Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -5113,7 +5113,7 @@
                       "workerIndex": 95,
                       "parallelIndex": 0,
                       "status": "timedOut",
-                      "duration": 48374,
+                      "duration": 46813,
                       "error": {
                         "message": "\u001b[31mTest timeout of 45000ms exceeded while running \"beforeEach\" hook.\u001b[39m",
                         "stack": "\u001b[31mTest timeout of 45000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\booking-flow.spec.cjs:12:8",
@@ -5145,7 +5145,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 2,
-                      "startTime": "2025-06-22T20:08:24.194Z",
+                      "startTime": "2025-06-22T22:41:15.882Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -5200,7 +5200,7 @@
                       "workerIndex": 96,
                       "parallelIndex": 0,
                       "status": "timedOut",
-                      "duration": 47935,
+                      "duration": 46729,
                       "error": {
                         "message": "\u001b[31mTest timeout of 45000ms exceeded while running \"beforeEach\" hook.\u001b[39m",
                         "stack": "\u001b[31mTest timeout of 45000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\booking-flow.spec.cjs:12:8",
@@ -5232,7 +5232,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-22T20:09:13.903Z",
+                      "startTime": "2025-06-22T22:42:03.834Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -5266,7 +5266,7 @@
                       "workerIndex": 97,
                       "parallelIndex": 0,
                       "status": "timedOut",
-                      "duration": 47888,
+                      "duration": 46888,
                       "error": {
                         "message": "\u001b[31mTest timeout of 45000ms exceeded while running \"beforeEach\" hook.\u001b[39m",
                         "stack": "\u001b[31mTest timeout of 45000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\booking-flow.spec.cjs:12:8",
@@ -5298,7 +5298,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 1,
-                      "startTime": "2025-06-22T20:10:03.208Z",
+                      "startTime": "2025-06-22T22:42:51.689Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -5332,7 +5332,7 @@
                       "workerIndex": 98,
                       "parallelIndex": 0,
                       "status": "timedOut",
-                      "duration": 48208,
+                      "duration": 46838,
                       "error": {
                         "message": "\u001b[31mTest timeout of 45000ms exceeded while running \"beforeEach\" hook.\u001b[39m",
                         "stack": "\u001b[31mTest timeout of 45000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\booking-flow.spec.cjs:12:8",
@@ -5364,7 +5364,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 2,
-                      "startTime": "2025-06-22T20:10:52.559Z",
+                      "startTime": "2025-06-22T22:43:39.844Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -5419,7 +5419,7 @@
                       "workerIndex": 99,
                       "parallelIndex": 0,
                       "status": "timedOut",
-                      "duration": 47836,
+                      "duration": 46671,
                       "error": {
                         "message": "\u001b[31mTest timeout of 45000ms exceeded while running \"beforeEach\" hook.\u001b[39m",
                         "stack": "\u001b[31mTest timeout of 45000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\booking-flow.spec.cjs:12:8",
@@ -5451,7 +5451,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-22T20:11:42.615Z",
+                      "startTime": "2025-06-22T22:44:27.825Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -5485,7 +5485,7 @@
                       "workerIndex": 100,
                       "parallelIndex": 0,
                       "status": "timedOut",
-                      "duration": 48046,
+                      "duration": 46889,
                       "error": {
                         "message": "\u001b[31mTest timeout of 45000ms exceeded while running \"beforeEach\" hook.\u001b[39m",
                         "stack": "\u001b[31mTest timeout of 45000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\booking-flow.spec.cjs:12:8",
@@ -5517,7 +5517,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 1,
-                      "startTime": "2025-06-22T20:12:31.911Z",
+                      "startTime": "2025-06-22T22:45:15.659Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -5551,7 +5551,7 @@
                       "workerIndex": 101,
                       "parallelIndex": 0,
                       "status": "timedOut",
-                      "duration": 48174,
+                      "duration": 46858,
                       "error": {
                         "message": "\u001b[31mTest timeout of 45000ms exceeded while running \"beforeEach\" hook.\u001b[39m",
                         "stack": "\u001b[31mTest timeout of 45000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\booking-flow.spec.cjs:12:8",
@@ -5583,7 +5583,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 2,
-                      "startTime": "2025-06-22T20:13:21.542Z",
+                      "startTime": "2025-06-22T22:46:03.691Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -5638,7 +5638,7 @@
                       "workerIndex": 102,
                       "parallelIndex": 0,
                       "status": "timedOut",
-                      "duration": 48154,
+                      "duration": 46577,
                       "error": {
                         "message": "\u001b[31mTest timeout of 45000ms exceeded while running \"beforeEach\" hook.\u001b[39m",
                         "stack": "\u001b[31mTest timeout of 45000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\booking-flow.spec.cjs:12:8",
@@ -5670,7 +5670,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-22T20:14:11.392Z",
+                      "startTime": "2025-06-22T22:46:51.675Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -5704,7 +5704,7 @@
                       "workerIndex": 103,
                       "parallelIndex": 0,
                       "status": "timedOut",
-                      "duration": 48018,
+                      "duration": 47441,
                       "error": {
                         "message": "\u001b[31mTest timeout of 45000ms exceeded while running \"beforeEach\" hook.\u001b[39m",
                         "stack": "\u001b[31mTest timeout of 45000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\booking-flow.spec.cjs:12:8",
@@ -5736,7 +5736,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 1,
-                      "startTime": "2025-06-22T20:15:01.026Z",
+                      "startTime": "2025-06-22T22:47:39.308Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -5770,7 +5770,7 @@
                       "workerIndex": 104,
                       "parallelIndex": 0,
                       "status": "timedOut",
-                      "duration": 48102,
+                      "duration": 47022,
                       "error": {
                         "message": "\u001b[31mTest timeout of 45000ms exceeded while running \"beforeEach\" hook.\u001b[39m",
                         "stack": "\u001b[31mTest timeout of 45000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\booking-flow.spec.cjs:12:8",
@@ -5802,7 +5802,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 2,
-                      "startTime": "2025-06-22T20:15:50.721Z",
+                      "startTime": "2025-06-22T22:48:28.048Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -5857,7 +5857,7 @@
                       "workerIndex": 105,
                       "parallelIndex": 0,
                       "status": "timedOut",
-                      "duration": 48439,
+                      "duration": 46876,
                       "error": {
                         "message": "\u001b[31mTest timeout of 45000ms exceeded while running \"beforeEach\" hook.\u001b[39m",
                         "stack": "\u001b[31mTest timeout of 45000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\booking-flow.spec.cjs:12:8",
@@ -5889,7 +5889,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-22T20:16:40.538Z",
+                      "startTime": "2025-06-22T22:49:16.413Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -5923,7 +5923,7 @@
                       "workerIndex": 106,
                       "parallelIndex": 0,
                       "status": "timedOut",
-                      "duration": 47884,
+                      "duration": 46843,
                       "error": {
                         "message": "\u001b[31mTest timeout of 45000ms exceeded while running \"beforeEach\" hook.\u001b[39m",
                         "stack": "\u001b[31mTest timeout of 45000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\booking-flow.spec.cjs:12:8",
@@ -5955,7 +5955,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 1,
-                      "startTime": "2025-06-22T20:17:31.090Z",
+                      "startTime": "2025-06-22T22:50:04.588Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -5989,7 +5989,7 @@
                       "workerIndex": 107,
                       "parallelIndex": 0,
                       "status": "timedOut",
-                      "duration": 48090,
+                      "duration": 46790,
                       "error": {
                         "message": "\u001b[31mTest timeout of 45000ms exceeded while running \"beforeEach\" hook.\u001b[39m",
                         "stack": "\u001b[31mTest timeout of 45000ms exceeded while running \"beforeEach\" hook.\u001b[39m\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\booking-flow.spec.cjs:12:8",
@@ -6021,7 +6021,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 2,
-                      "startTime": "2025-06-22T20:18:20.503Z",
+                      "startTime": "2025-06-22T22:50:52.593Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -6086,7 +6086,7 @@
                   "workerIndex": 4,
                   "parallelIndex": 4,
                   "status": "passed",
-                  "duration": 4115,
+                  "duration": 3821,
                   "errors": [],
                   "stdout": [
                     {
@@ -6158,7 +6158,7 @@
                   ],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2025-06-22T20:01:43.905Z",
+                  "startTime": "2025-06-22T22:34:45.666Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -6202,12 +6202,12 @@
                       "workerIndex": 5,
                       "parallelIndex": 5,
                       "status": "passed",
-                      "duration": 3946,
+                      "duration": 3608,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-22T20:01:43.852Z",
+                      "startTime": "2025-06-22T22:34:45.670Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -6236,12 +6236,12 @@
                       "workerIndex": 5,
                       "parallelIndex": 5,
                       "status": "passed",
-                      "duration": 415,
+                      "duration": 443,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-22T20:01:48.252Z",
+                      "startTime": "2025-06-22T22:34:49.549Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -6270,12 +6270,12 @@
                       "workerIndex": 5,
                       "parallelIndex": 5,
                       "status": "passed",
-                      "duration": 903,
+                      "duration": 1029,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-22T20:01:48.674Z",
+                      "startTime": "2025-06-22T22:34:50.001Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -6304,12 +6304,12 @@
                       "workerIndex": 5,
                       "parallelIndex": 5,
                       "status": "passed",
-                      "duration": 866,
+                      "duration": 870,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-22T20:01:49.581Z",
+                      "startTime": "2025-06-22T22:34:51.034Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -6338,7 +6338,7 @@
                       "workerIndex": 5,
                       "parallelIndex": 5,
                       "status": "failed",
-                      "duration": 4434,
+                      "duration": 4267,
                       "error": {
                         "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoHaveLength\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected length: \u001b[32m0\u001b[39m\nReceived length: \u001b[31m1\u001b[39m\nReceived array:  \u001b[31m[\"Failed to load resource: the server responded with a status of 403 (Forbidden)\"]\u001b[39m",
                         "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoHaveLength\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected length: \u001b[32m0\u001b[39m\nReceived length: \u001b[31m1\u001b[39m\nReceived array:  \u001b[31m[\"Failed to load resource: the server responded with a status of 403 (Forbidden)\"]\u001b[39m\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\fixes-validation.spec.cjs:247:28",
@@ -6366,7 +6366,7 @@
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-22T20:01:50.450Z",
+                      "startTime": "2025-06-22T22:34:51.908Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -6400,7 +6400,7 @@
                       "workerIndex": 6,
                       "parallelIndex": 5,
                       "status": "failed",
-                      "duration": 4561,
+                      "duration": 4424,
                       "error": {
                         "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoHaveLength\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected length: \u001b[32m0\u001b[39m\nReceived length: \u001b[31m1\u001b[39m\nReceived array:  \u001b[31m[\"Failed to load resource: the server responded with a status of 403 (Forbidden)\"]\u001b[39m",
                         "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoHaveLength\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected length: \u001b[32m0\u001b[39m\nReceived length: \u001b[31m1\u001b[39m\nReceived array:  \u001b[31m[\"Failed to load resource: the server responded with a status of 403 (Forbidden)\"]\u001b[39m\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\fixes-validation.spec.cjs:247:28",
@@ -6428,7 +6428,7 @@
                       ],
                       "stderr": [],
                       "retry": 1,
-                      "startTime": "2025-06-22T20:01:56.655Z",
+                      "startTime": "2025-06-22T22:34:57.798Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -6462,7 +6462,7 @@
                       "workerIndex": 9,
                       "parallelIndex": 5,
                       "status": "failed",
-                      "duration": 4342,
+                      "duration": 4597,
                       "error": {
                         "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoHaveLength\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected length: \u001b[32m0\u001b[39m\nReceived length: \u001b[31m1\u001b[39m\nReceived array:  \u001b[31m[\"Failed to load resource: the server responded with a status of 403 (Forbidden)\"]\u001b[39m",
                         "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoHaveLength\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected length: \u001b[32m0\u001b[39m\nReceived length: \u001b[31m1\u001b[39m\nReceived array:  \u001b[31m[\"Failed to load resource: the server responded with a status of 403 (Forbidden)\"]\u001b[39m\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\fixes-validation.spec.cjs:247:28",
@@ -6490,7 +6490,7 @@
                       ],
                       "stderr": [],
                       "retry": 2,
-                      "startTime": "2025-06-22T20:02:03.221Z",
+                      "startTime": "2025-06-22T22:35:03.913Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -6545,16 +6545,16 @@
                       "workerIndex": 12,
                       "parallelIndex": 5,
                       "status": "passed",
-                      "duration": 1146,
+                      "duration": 1038,
                       "errors": [],
                       "stdout": [
                         {
-                          "text": "Performance Metrics: {\n  domContentLoaded: \u001b[33m0.10000002384185791\u001b[39m,\n  loadComplete: \u001b[33m0\u001b[39m,\n  firstPaint: \u001b[33m200\u001b[39m,\n  firstContentfulPaint: \u001b[33m200\u001b[39m\n}\n"
+                          "text": "Performance Metrics: {\n  domContentLoaded: \u001b[33m0.09999990463256836\u001b[39m,\n  loadComplete: \u001b[33m0\u001b[39m,\n  firstPaint: \u001b[33m200\u001b[39m,\n  firstContentfulPaint: \u001b[33m200\u001b[39m\n}\n"
                         }
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-22T20:02:09.581Z",
+                      "startTime": "2025-06-22T22:35:09.928Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -6609,7 +6609,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-22T20:01:48.426Z",
+                      "startTime": "2025-06-22T22:34:49.827Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -6655,7 +6655,7 @@
                       "workerIndex": 4,
                       "parallelIndex": 4,
                       "status": "failed",
-                      "duration": 17340,
+                      "duration": 16714,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\reception-dashboard.spec.cjs:20:16",
@@ -6683,7 +6683,7 @@
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-22T20:01:48.437Z",
+                      "startTime": "2025-06-22T22:34:49.836Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -6717,7 +6717,7 @@
                       "workerIndex": 11,
                       "parallelIndex": 4,
                       "status": "failed",
-                      "duration": 17927,
+                      "duration": 17507,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\reception-dashboard.spec.cjs:20:16",
@@ -6745,7 +6745,7 @@
                       ],
                       "stderr": [],
                       "retry": 1,
-                      "startTime": "2025-06-22T20:02:07.323Z",
+                      "startTime": "2025-06-22T22:35:07.736Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -6777,9 +6777,9 @@
                     },
                     {
                       "workerIndex": 17,
-                      "parallelIndex": 2,
+                      "parallelIndex": 4,
                       "status": "failed",
-                      "duration": 17021,
+                      "duration": 16759,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\reception-dashboard.spec.cjs:20:16",
@@ -6807,7 +6807,7 @@
                       ],
                       "stderr": [],
                       "retry": 2,
-                      "startTime": "2025-06-22T20:02:27.622Z",
+                      "startTime": "2025-06-22T22:35:26.731Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -6860,9 +6860,9 @@
                   "results": [
                     {
                       "workerIndex": 22,
-                      "parallelIndex": 2,
+                      "parallelIndex": 4,
                       "status": "failed",
-                      "duration": 17005,
+                      "duration": 16728,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\reception-dashboard.spec.cjs:20:16",
@@ -6890,7 +6890,7 @@
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-22T20:02:46.208Z",
+                      "startTime": "2025-06-22T22:35:44.705Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -6922,9 +6922,9 @@
                     },
                     {
                       "workerIndex": 26,
-                      "parallelIndex": 2,
+                      "parallelIndex": 4,
                       "status": "failed",
-                      "duration": 17704,
+                      "duration": 17886,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\reception-dashboard.spec.cjs:20:16",
@@ -6952,7 +6952,7 @@
                       ],
                       "stderr": [],
                       "retry": 1,
-                      "startTime": "2025-06-22T20:03:04.478Z",
+                      "startTime": "2025-06-22T22:36:03.339Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -6984,9 +6984,9 @@
                     },
                     {
                       "workerIndex": 32,
-                      "parallelIndex": 2,
+                      "parallelIndex": 4,
                       "status": "failed",
-                      "duration": 17145,
+                      "duration": 16841,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\reception-dashboard.spec.cjs:20:16",
@@ -7014,7 +7014,7 @@
                       ],
                       "stderr": [],
                       "retry": 2,
-                      "startTime": "2025-06-22T20:03:24.532Z",
+                      "startTime": "2025-06-22T22:36:23.489Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -7067,9 +7067,9 @@
                   "results": [
                     {
                       "workerIndex": 37,
-                      "parallelIndex": 2,
+                      "parallelIndex": 4,
                       "status": "failed",
-                      "duration": 17103,
+                      "duration": 16772,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\reception-dashboard.spec.cjs:20:16",
@@ -7097,7 +7097,7 @@
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-22T20:03:43.348Z",
+                      "startTime": "2025-06-22T22:36:41.825Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -7128,10 +7128,10 @@
                       }
                     },
                     {
-                      "workerIndex": 41,
-                      "parallelIndex": 2,
+                      "workerIndex": 43,
+                      "parallelIndex": 4,
                       "status": "failed",
-                      "duration": 17089,
+                      "duration": 16721,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\reception-dashboard.spec.cjs:20:16",
@@ -7159,7 +7159,7 @@
                       ],
                       "stderr": [],
                       "retry": 1,
-                      "startTime": "2025-06-22T20:04:02.504Z",
+                      "startTime": "2025-06-22T22:36:59.661Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -7191,9 +7191,9 @@
                     },
                     {
                       "workerIndex": 48,
-                      "parallelIndex": 2,
+                      "parallelIndex": 4,
                       "status": "failed",
-                      "duration": 17486,
+                      "duration": 17222,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\reception-dashboard.spec.cjs:20:16",
@@ -7221,7 +7221,7 @@
                       ],
                       "stderr": [],
                       "retry": 2,
-                      "startTime": "2025-06-22T20:04:21.016Z",
+                      "startTime": "2025-06-22T22:37:17.479Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -7273,10 +7273,10 @@
                   "projectName": "production-chrome",
                   "results": [
                     {
-                      "workerIndex": 52,
-                      "parallelIndex": 2,
+                      "workerIndex": 53,
+                      "parallelIndex": 4,
                       "status": "failed",
-                      "duration": 17587,
+                      "duration": 16653,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\reception-dashboard.spec.cjs:20:16",
@@ -7304,7 +7304,7 @@
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-22T20:04:40.114Z",
+                      "startTime": "2025-06-22T22:37:36.270Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -7336,9 +7336,9 @@
                     },
                     {
                       "workerIndex": 58,
-                      "parallelIndex": 2,
+                      "parallelIndex": 4,
                       "status": "failed",
-                      "duration": 17158,
+                      "duration": 16621,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\reception-dashboard.spec.cjs:20:16",
@@ -7366,7 +7366,7 @@
                       ],
                       "stderr": [],
                       "retry": 1,
-                      "startTime": "2025-06-22T20:04:59.342Z",
+                      "startTime": "2025-06-22T22:37:54.184Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -7398,9 +7398,9 @@
                     },
                     {
                       "workerIndex": 63,
-                      "parallelIndex": 2,
+                      "parallelIndex": 4,
                       "status": "failed",
-                      "duration": 16754,
+                      "duration": 16682,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\reception-dashboard.spec.cjs:20:16",
@@ -7428,7 +7428,7 @@
                       ],
                       "stderr": [],
                       "retry": 2,
-                      "startTime": "2025-06-22T20:05:17.984Z",
+                      "startTime": "2025-06-22T22:38:12.180Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -7480,10 +7480,10 @@
                   "projectName": "production-chrome",
                   "results": [
                     {
-                      "workerIndex": 67,
-                      "parallelIndex": 2,
+                      "workerIndex": 69,
+                      "parallelIndex": 4,
                       "status": "failed",
-                      "duration": 17932,
+                      "duration": 16771,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\reception-dashboard.spec.cjs:20:16",
@@ -7511,7 +7511,7 @@
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-22T20:05:36.031Z",
+                      "startTime": "2025-06-22T22:38:29.955Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -7542,10 +7542,10 @@
                       }
                     },
                     {
-                      "workerIndex": 74,
-                      "parallelIndex": 2,
+                      "workerIndex": 73,
+                      "parallelIndex": 4,
                       "status": "failed",
-                      "duration": 17331,
+                      "duration": 17366,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\reception-dashboard.spec.cjs:20:16",
@@ -7573,7 +7573,7 @@
                       ],
                       "stderr": [],
                       "retry": 1,
-                      "startTime": "2025-06-22T20:05:55.829Z",
+                      "startTime": "2025-06-22T22:38:47.977Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -7604,10 +7604,10 @@
                       }
                     },
                     {
-                      "workerIndex": 78,
-                      "parallelIndex": 2,
+                      "workerIndex": 80,
+                      "parallelIndex": 4,
                       "status": "failed",
-                      "duration": 17282,
+                      "duration": 16709,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\reception-dashboard.spec.cjs:20:16",
@@ -7635,7 +7635,7 @@
                       ],
                       "stderr": [],
                       "retry": 2,
-                      "startTime": "2025-06-22T20:06:14.964Z",
+                      "startTime": "2025-06-22T22:39:06.567Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -7687,10 +7687,10 @@
                   "projectName": "production-chrome",
                   "results": [
                     {
-                      "workerIndex": 82,
-                      "parallelIndex": 2,
+                      "workerIndex": 84,
+                      "parallelIndex": 4,
                       "status": "failed",
-                      "duration": 17346,
+                      "duration": 17028,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\reception-dashboard.spec.cjs:20:16",
@@ -7718,7 +7718,7 @@
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-22T20:06:34.015Z",
+                      "startTime": "2025-06-22T22:39:24.608Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -7750,9 +7750,9 @@
                     },
                     {
                       "workerIndex": 90,
-                      "parallelIndex": 2,
+                      "parallelIndex": 4,
                       "status": "failed",
-                      "duration": 17343,
+                      "duration": 16642,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\reception-dashboard.spec.cjs:20:16",
@@ -7780,7 +7780,7 @@
                       ],
                       "stderr": [],
                       "retry": 1,
-                      "startTime": "2025-06-22T20:06:52.749Z",
+                      "startTime": "2025-06-22T22:39:42.937Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -7812,9 +7812,9 @@
                     },
                     {
                       "workerIndex": 93,
-                      "parallelIndex": 2,
+                      "parallelIndex": 0,
                       "status": "failed",
-                      "duration": 17365,
+                      "duration": 16767,
                       "error": {
                         "message": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n",
                         "stack": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"email\"]') to be visible\u001b[22m\n\n    at c:\\Users\\Peter Darley\\Desktop\\DEV\\BookSmartly\\frontend\\tests\\reception-dashboard.spec.cjs:20:16",
@@ -7842,7 +7842,7 @@
                       ],
                       "stderr": [],
                       "retry": 2,
-                      "startTime": "2025-06-22T20:07:11.408Z",
+                      "startTime": "2025-06-22T22:40:00.785Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -7888,8 +7888,8 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2025-06-22T20:01:42.098Z",
-    "duration": 1046748.2,
+    "startTime": "2025-06-22T22:34:43.753Z",
+    "duration": 1015853.654,
     "expected": 6,
     "skipped": 1,
     "unexpected": 36,
