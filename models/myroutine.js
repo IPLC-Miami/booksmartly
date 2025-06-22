@@ -5,7 +5,7 @@ const MyRoutineSchema = new Schema({
   morningCleanser: [
     {
       _id: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: 'ObjectId',
         required: true,
         auto: true,
       },
@@ -18,7 +18,7 @@ const MyRoutineSchema = new Schema({
   morningToner: [
     {
       _id: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: 'ObjectId',
         required: true,
         auto: true,
       },
@@ -31,7 +31,7 @@ const MyRoutineSchema = new Schema({
   morningSerum: [
     {
       _id: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: 'ObjectId',
         required: true,
         auto: true,
       },
@@ -44,7 +44,7 @@ const MyRoutineSchema = new Schema({
   morningMoisturizer: [
     {
       _id: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: 'ObjectId',
         required: true,
         auto: true,
       },
@@ -57,7 +57,7 @@ const MyRoutineSchema = new Schema({
   morningSPF: [
     {
       _id: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: 'ObjectId',
         required: true,
         auto: true,
       },
@@ -70,7 +70,7 @@ const MyRoutineSchema = new Schema({
   morningRX: [
     {
       _id: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: 'ObjectId',
         required: true,
         auto: true,
       },
@@ -83,7 +83,7 @@ const MyRoutineSchema = new Schema({
   morningEyeCream: [
     {
       _id: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: 'ObjectId',
         required: true,
         auto: true,
       },
@@ -96,7 +96,7 @@ const MyRoutineSchema = new Schema({
   eveningOilCleanser: [
     {
       _id: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: 'ObjectId',
         required: true,
         auto: true,
       },
@@ -109,7 +109,7 @@ const MyRoutineSchema = new Schema({
   eveningCleanser: [
     {
       _id: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: 'ObjectId',
         required: true,
         auto: true,
       },
@@ -122,7 +122,7 @@ const MyRoutineSchema = new Schema({
   eveningExfoliator: [
     {
       _id: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: 'ObjectId',
         required: true,
         auto: true,
       },
@@ -135,7 +135,7 @@ const MyRoutineSchema = new Schema({
   eveningTreatmentMask: [
     {
       _id: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: 'ObjectId',
         required: true,
         auto: true,
       },
@@ -148,7 +148,7 @@ const MyRoutineSchema = new Schema({
   eveningToner: [
     {
       _id: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: 'ObjectId',
         required: true,
         auto: true,
       },
@@ -161,7 +161,7 @@ const MyRoutineSchema = new Schema({
   eveningSerum: [
     {
       _id: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: 'ObjectId',
         required: true,
         auto: true,
       },
@@ -174,7 +174,7 @@ const MyRoutineSchema = new Schema({
   eveningMoisturizer: [
     {
       _id: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: 'ObjectId',
         required: true,
         auto: true,
       },
@@ -187,7 +187,7 @@ const MyRoutineSchema = new Schema({
   eveningNightMask: [
     {
       _id: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: 'ObjectId',
         required: true,
         auto: true,
       },
@@ -200,7 +200,7 @@ const MyRoutineSchema = new Schema({
   eveningOil: [
     {
       _id: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: 'ObjectId',
         required: true,
         auto: true,
       },
@@ -213,7 +213,7 @@ const MyRoutineSchema = new Schema({
   eveningSpotTreatment: [
     {
       _id: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: 'ObjectId',
         required: true,
         auto: true,
       },
@@ -226,7 +226,7 @@ const MyRoutineSchema = new Schema({
   eveningRX: [
     {
       _id: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: 'ObjectId',
         required: true,
         auto: true,
       },
@@ -239,7 +239,7 @@ const MyRoutineSchema = new Schema({
   eveningEyeCream: [
     {
       _id: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: 'ObjectId',
         required: true,
         auto: true,
       },

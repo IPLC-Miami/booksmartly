@@ -4,15 +4,14 @@ const AppointmentType = require("../types/AppointmentType");
 const AddOnInput = require("../types/inputs/AddOnInput");
 const ClientInput = require("../types/inputs/ClientInput");
 const TreatmentInput = require("../types/inputs/TreatmentInput");
-const Client = require("../../models/client");
-const Appointment = require("../../models/appointment");
 const moment = require("moment");
-const mjmlUtils = require("mjml-utils");
 const nodemailer = require("nodemailer");
 const jwt = require("jsonwebtoken");
-const Notification = require("../../models/notification");
 const createNotificationFunction = require("./notifications/createNotificationFunction");
-const Employee = require("../../models/employee");
+const Client = mongoose.model("Client");
+const Appointment = mongoose.model("Appointment");
+const Notification = mongoose.model("Notification");
+const Employee = mongoose.model("Employee");
 
 // Used to normalize phone numbers for use by Twilio
 const phone = require("phone");

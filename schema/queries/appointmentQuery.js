@@ -2,7 +2,7 @@ const graphql = require("graphql");
 const ClientInput = require("../types/inputs/ClientInput");
 const AppointmentType = require("../types/AppointmentType");
 const Appointment = require("../../models/appointment");
-const { UserInputError } = require("apollo-server");
+const { UserInputError } = require("apollo-server-express");
 
 const { GraphQLString, GraphQLInt } = graphql;
 

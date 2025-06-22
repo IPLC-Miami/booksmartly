@@ -4,7 +4,7 @@ const EmployeeType = require("../types/EmployeeType");
 const Employee = require("../../models/employee");
 const Notification = require("../../models/notification");
 const jwt = require("jsonwebtoken");
-const { UserInputError } = require("apollo-server");
+const { UserInputError } = require("apollo-server-express");
 const createNotificationFunction = require("./notifications/createNotificationFunction");
 
 const { GraphQLID } = graphql;

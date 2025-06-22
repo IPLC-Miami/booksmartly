@@ -2,7 +2,7 @@ const graphql = require("graphql");
 const mongoose = require("mongoose");
 const ClientType = require("../types/ClientType");
 const Client = require("../../models/client");
-const { UserInputError } = require("apollo-server");
+const { UserInputError } = require("apollo-server-express");
 const {
   validateRegistration,
 } = require("../../validation/validateRegistration");

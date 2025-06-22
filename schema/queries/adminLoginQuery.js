@@ -4,7 +4,7 @@ const Employee = require("../../models/employee");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const createAdminTokens = require("../../createAdminTokens");
-const { UserInputError } = require("apollo-server");
+const { UserInputError } = require("apollo-server-express");
 
 // Hide usernames and passwords
 require("dotenv").config();

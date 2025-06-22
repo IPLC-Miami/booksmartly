@@ -4,7 +4,6 @@ const Schema = mongoose.Schema;
 const currentDate = new Date().toISOString();
 
 const EmployeeSchema = new Schema({
-  _id: mongoose.Schema.Types.ObjectId,
   firstName: String,
   lastName: String,
   email: String,

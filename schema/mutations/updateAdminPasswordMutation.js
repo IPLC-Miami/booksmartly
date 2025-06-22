@@ -1,7 +1,7 @@
 const graphql = require("graphql");
 const EmployeeType = require("../types/EmployeeType");
 const Employee = require("../../models/employee");
-const { UserInputError } = require("apollo-server");
+const { UserInputError } = require("apollo-server-express");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 

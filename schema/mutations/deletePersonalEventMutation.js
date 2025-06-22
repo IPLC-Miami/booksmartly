@@ -5,7 +5,7 @@ const PersonalEventType = require("../types/PersonalEventType");
 const PersonalEvent = require("../../models/personalevent");
 const Employee = require("../../models/employee");
 const Notification = require("../../models/notification");
-const { UserInputError } = require("apollo-server");
+const { UserInputError } = require("apollo-server-express");
 const createNotificationFunction = require("./notifications/createNotificationFunction");
 
 const { GraphQLID } = graphql;

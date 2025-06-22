@@ -3,7 +3,7 @@ const AppointmentType = require("../types/AppointmentType");
 const Appointment = require("../../models/appointment");
 const moment = require("moment");
 const jwt = require("jsonwebtoken");
-const { UserInputError } = require("apollo-server");
+const { UserInputError } = require("apollo-server-express");
 
 const { GraphQLString, GraphQLID, GraphQLList } = graphql;
 

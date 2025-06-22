@@ -4,7 +4,7 @@ const Client = require("../../models/client");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const createTokens = require("../../createTokens");
-const { UserInputError } = require("apollo-server");
+const { UserInputError } = require("apollo-server-express");
 
 // Hide usernames and passwords
 require("dotenv").config();

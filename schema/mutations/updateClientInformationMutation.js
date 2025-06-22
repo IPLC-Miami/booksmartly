@@ -2,7 +2,7 @@ const graphql = require("graphql");
 const ClientType = require("../types/ClientType");
 const Client = require("../../models/client");
 const jwt = require("jsonwebtoken");
-const { UserInputError } = require("apollo-server");
+const { UserInputError } = require("apollo-server-express");
 
 const { GraphQLString } = graphql;
 

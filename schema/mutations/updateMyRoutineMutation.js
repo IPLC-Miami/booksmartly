@@ -3,7 +3,7 @@ const MyRoutineFieldsInputType = require("../types/inputs/MyRoutineFieldsInputTy
 const MyRoutineType = require("../types/MyRoutineType");
 const Client = require("../../models/client");
 const jwt = require("jsonwebtoken");
-const { UserInputError } = require("apollo-server");
+const { UserInputError } = require("apollo-server-express");
 
 const { GraphQLList } = graphql;
 

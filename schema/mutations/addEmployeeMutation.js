@@ -1,7 +1,6 @@
 const graphql = require("graphql");
 const mongoose = require("mongoose");
 const generator = require("generate-password");
-const mjmlUtils = require("mjml-utils");
 const nodemailer = require("nodemailer");
 const EmployeeType = require("../types/EmployeeType");
 const Employee = require("../../models/employee");

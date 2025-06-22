@@ -1,12 +1,9 @@
 const mongoose = require("mongoose");
-const Client = require("./client");
 const Schema = mongoose.Schema;
-const addOnSchema = require("./addon");
 
 const currentDate = new Date().toISOString();
 
 const AppointmentSchema = new Schema({
-  _id: mongoose.Schema.Types.ObjectId,
   date: String,
   startTime: String,
   morningOrEvening: String,
@@ -15,10 +12,10 @@ const AppointmentSchema = new Schema({
   price: Number,
   createdAt: { type: Date, default: currentDate },
   bookedWithCardSquareID: String,
-  client: Client.schema.obj,
+  client: { type: mongoose.Schema.Types.ObjectId, ref: 'Client' },
   esthetician: String,
   treatments: [{ name: String, price: Number, duration: Number }],
-  addOns: [addOnSchema.schema.obj],
+  addOns: [{ type: mongoose.Schema.Types.ObjectId, ref: 'AddOn' }],
   confirmed: { type: Boolean, default: false },
   notes: String,
 });

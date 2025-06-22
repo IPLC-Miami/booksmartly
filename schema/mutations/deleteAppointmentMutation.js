@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const Appointment = require("../../models/appointment");
 const AppointmentType = require("../types/AppointmentType");
 const Employee = require("../../models/employee");
-const { UserInputError } = require("apollo-server");
+const { UserInputError } = require("apollo-server-express");
 const Notification = require("../../models/notification");
 const createNotificationFunction = require("./notifications/createNotificationFunction");
 
