@@ -1,0 +1,9 @@
+require('../../models/addon');
+require('../../models/appointment');
+require('../../models/client');
+require('../../models/consentform');
+require('../../models/employee');
+require('../../models/myroutine');
+require('../../models/notification');
+require('../../models/personalevent');
+require('../../models/treatment');

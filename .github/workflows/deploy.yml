@@ -39,8 +39,6 @@ jobs:
         key: ${{ secrets.VPS_SSH_KEY }}
         script: |
           rm -rf /var/www/booksmartly/backend
-          rm -rf /var/www/booksmartly/supabase
-          rm -f /var/www/booksmartly/backend/config/supabaseClient.js
           cd /var/www/booksmartly
           git pull origin hotfix/jun-16-backend-auth-routes
           npm ci --production
