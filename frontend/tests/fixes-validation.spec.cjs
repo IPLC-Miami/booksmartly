@@ -99,9 +99,8 @@ test.describe('BookSmartly Fixes Validation', () => {
     
     // Check for authentication-related cookies
     const authCookies = cookies.filter(cookie => 
-      cookie.name.includes('auth') || 
-      cookie.name.includes('session') || 
-      cookie.name.includes('supabase') ||
+      cookie.name.includes('auth') ||
+      cookie.name.includes('session') ||
       cookie.name.includes('access_token')
     );
 

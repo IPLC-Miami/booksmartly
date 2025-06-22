@@ -140,7 +140,7 @@ npx playwright show-report
 2. **Authentication Failures**
    - Verify test user accounts exist in production database
    - Check if passwords have been changed
-   - Ensure Supabase authentication is working
+   - Ensure authentication is working
 
 3. **Element Not Found**
    - Production UI may differ from local development

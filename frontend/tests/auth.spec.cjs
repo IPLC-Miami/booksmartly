@@ -49,42 +49,6 @@ test.describe('Authentication Flow', () => {
       // Wait a bit for any console logs to appear
       await page.waitForTimeout(2000);
       
-      // Debug: Check user metadata and role detection in browser
-      const debugInfo = await page.evaluate(async () => {
-        try {
-          // Access the global supabase client that should be available
-          if (window.supabase) {
-            const { data: { user }, error } = await window.supabase.auth.getUser();
-            if (error) {
-              return { error: error.message };
-            }
-            
-            // Also try to get the role using the same logic as ContextProvider
-            let detectedRole = null;
-            if (user && user.raw_user_meta_data?.role) {
-              detectedRole = user.raw_user_meta_data.role;
-            } else {
-              detectedRole = 'client'; // default fallback
-            }
-            
-            return {
-              id: user?.id,
-              email: user?.email,
-              raw_user_meta_data: user?.raw_user_meta_data,
-              user_metadata: user?.user_metadata,
-              app_metadata: user?.app_metadata,
-              detectedRole: detectedRole,
-              hasRoleInMetadata: !!user?.raw_user_meta_data?.role
-            };
-          } else {
-            return { error: "Supabase client not found on window object" };
-          }
-        } catch (err) {
-          return { error: `Evaluation failed: ${err.message}` };
-        }
-      });
-      
-      console.log(`Debug info for ${user.email}:`, JSON.stringify(debugInfo, null, 2));
       
       // For now, just verify we're on some dashboard
       await expect(page).toHaveURL(/\/.*dashboard/);
