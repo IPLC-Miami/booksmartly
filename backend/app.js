@@ -28,6 +28,7 @@ const { oauth2client, refreshAccessToken } = require("./config/googleClient");
 require("./services/cronJob.js");
 const { redis, setCache, getCache } = require("./config/redisClient.js");
 const { initSocket } = require("./config/socket"); // import your socket module
+const passport = require('./services/auth');
 
 const userRoutes = require("./routes/userRoutes");
 const authRoutes = require("./routes/authRoutes");
@@ -122,6 +123,8 @@ if (redis) {
 }
 
 app.use(session(sessionConfig));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use("/AiConsultation", AiConsultation);
 

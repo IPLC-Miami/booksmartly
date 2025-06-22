@@ -1,7 +1,7 @@
 
 ## Introduction
 
-**BookSmartly** is a **smart and accessible** clinician appointment platform that **bridges healthcare gaps** for **underserved communities** by reducing wait times and streamlining scheduling. It helps patients **connect with clinicians effortlessly** while enabling **efficient queue management** in hospitals and clinics. Powered by **Supabase**, BookSmartly ensures **secure authentication, real-time syncing, and seamless healthcare access**.
+**BookSmartly** is a **smart and accessible** clinician appointment platform that **bridges healthcare gaps** for **underserved communities** by reducing wait times and streamlining scheduling. It helps patients **connect with clinicians effortlessly** while enabling **efficient queue management** in hospitals and clinics. BookSmartly ensures **secure authentication, real-time syncing, and seamless healthcare access**.
 
 🌐 **Deployed Project Link** -  [https://aryamagarwal.github.io/BookSmartly](https://aryamagarwal.github.io/BookSmartly)
 
@@ -32,7 +32,6 @@
 - Users receive an **email verification link** upon sign-up.
 - After verification, they can log in using **email-password authentication**.
 - **Role-based access control (RBAC)** for patients and clinicians.
-- Secure session handling via **Supabase Auth**.
 - Post-login redirection to the **profile dashboard** for additional details.
 - **Forgot Password** feature for secure password recovery.
 
@@ -55,7 +54,7 @@ Booking an appointment follows a structured **multi-step process** ensuring accu
 #### **Slot Selection**
 
 - **Automated dynamic slot generation** based on real-time clinician availability.
-- **Real-time slot updates** to **prevent double booking**, powered by **Supabase**.
+- **Real-time slot updates** to **prevent double booking**.
 - **Date picker** for selecting the consultation date.
 - Displays **clinician profiles** with expertise tags, enabling users to make informed decisions.
 
@@ -114,7 +113,7 @@ The **Clinician Dashboard** provides an intelligent scheduling system for health
 
 ### 5. Dynamic Queue Updates
 
-- **Instant queue synchronization** using **Supabase real-time database**.
+- **Instant queue synchronization** using **Web Sockets**.
 - **Future enhancement**: Instant patient notifications when their turn approaches.
 - **Redis-based caching** for efficient queue management, enhancing scalability and responsiveness.
 
@@ -165,9 +164,9 @@ The **Clinician Dashboard** provides an intelligent scheduling system for health
 ## Technology Stack
 
 - **Frontend:** React, Vite, Tailwind CSS
-- **Backend:** Supabase (**PostgreSQL, Authentication, Real-time Database**), Node.js, Express.js, FastAPI
+- **Backend:** Node.js, Express.js, FastAPI, Mongoose
 - **Machine Learning:** Python, Faiss, Sentence Transformers, Scikit-learn, Hugging Face Transformers, NLTK, TextBlob
-- **Authentication:** Supabase Auth
+- **Authentication:** JWT, Passport
 - **Caching & Performance:** Redis for **high-speed data retrieval and scalability**
 - **Data Fetching & State Management:** **TanStack React Query** for optimized client-server synchronization
 - **Email Services:** Nodemailer for **automated email handling, including OTP-based authentication**
@@ -204,7 +203,7 @@ These upgrades enhance efficiency, patient experience, and overall system effect
 ---
 ## Conclusion
 
-BookSmartly **revolutionizes clinician appointment booking** with a **high-performance, AI-powered, and real-time platform** designed for both **patients and clinicians**. Utilizing **Supabase for real-time updates, authentication, and secure data management**, BookSmartly ensures **seamless reliability and ease of use**. With **ML-driven clinician recommendations, intelligent queue management, Redis caching for scalability, and digital prescriptions**, BookSmartly stands as a **cutting-edge solution improving healthcare accessibility and efficiency**.  
+BookSmartly **revolutionizes clinician appointment booking** with a **high-performance, AI-powered, and real-time platform** designed for both **patients and clinicians**. BookSmartly ensures **seamless reliability and ease of use**. With **ML-driven clinician recommendations, intelligent queue management, Redis caching for scalability, and digital prescriptions**, BookSmartly stands as a **cutting-edge solution improving healthcare accessibility and efficiency**.
 
 
 ---
@@ -488,9 +487,8 @@ try {
   console.error(`Redis GET error for ${cacheKey}:`, redisErr.message);
 }
 
-// ... (Supabase lookup logic) ...
 
-// After successful Supabase lookup and before returning response:
+// After successful database lookup and before returning response:
 if (roleInfo) {
   try {
     await setCache(cacheKey, roleInfo, 60); // Cache for 60 seconds
@@ -501,5 +499,5 @@ if (roleInfo) {
 }
 ```
 
-If Redis is down or a key is not found, the code gracefully falls back to Supabase.
+If Redis is down or a key is not found, the code gracefully falls back to the database.
 "# Auto-deploy test - $(date)" 

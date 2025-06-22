@@ -8,7 +8,8 @@
     "dev": "nodemon app.js",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "test:schema": "jest"
   },
   "author": "",
   "license": "ISC",
@@ -43,6 +44,9 @@
     "uuid": "^11.1.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.27.4",
+    "@babel/preset-env": "^7.27.2",
+    "babel-jest": "^29.7.0",
     "jest": "^29.7.0",
     "supertest": "^6.3.3"
   },
@@ -61,6 +65,9 @@
       "text",
       "lcov",
       "html"
+    ],
+    "transformIgnorePatterns": [
+      "/node_modules/(?!datebook)/"
     ]
   }
 }

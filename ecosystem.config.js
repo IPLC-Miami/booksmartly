@@ -1,8 +1,8 @@
 module.exports = {
   apps: [{
     name: 'booksmartly-backend',
-    script: 'app.js',
-    cwd: '/var/www/booksmartly/backend',
+    script: 'index.js',
+    cwd: '/var/www/booksmartly',
     instances: 1,
     autorestart: true,
     watch: false,

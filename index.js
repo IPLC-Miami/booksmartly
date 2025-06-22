@@ -27,6 +27,7 @@ const { v4: uuidv4 } = require("uuid");
 const http = require("http");
 const { ApiError, Environment } = require("square");
 const SquareClient = require("square").Client;
+const setSecurityHeaders = require("./backend/middleware/securityHeaders");
 
 // Used to normalize phone numbers for use by Twilio
 const phone = require("phone");
@@ -39,6 +40,7 @@ require("dotenv").config();
 
 const app = express();
 
+app.use(setSecurityHeaders);
 app.use(cookieParser());
 
 // Compress all responses
@@ -628,7 +630,7 @@ app.get("/api/:id/consentform", async (req, res) => {
 
 if (process.env.FB_APP_ID && process.env.FB_APP_SECRET) {
   const FacebookStrategy = require("passport-facebook").Strategy;
-  
+
   app.get("/api/auth/facebook/callback", (req, res, next) => {
     passport.authenticate("facebook", async (err, user, info) => {
       if (err) {
@@ -727,6 +729,156 @@ if (process.env.FB_APP_ID && process.env.FB_APP_SECRET) {
           });
 
           res.cookie("temporary-facebook-dummy-token", dummyToken, {
+            maxAge: 1000 * 60 * 15,
+            httpOnly: false,
+            secure: process.env.NODE_ENV === "production" ? true : false,
+            domain:
+              process.env.NODE_ENV === "production"
+                ? process.env.PRODUCTION_CLIENT_ROOT
+                : "localhost",
+          });
+        }
+
+        res.redirect(
+          `${
+            process.env.NODE_ENV === "production"
+              ? process.env.PRODUCTION_CLIENT_URL
+              : "http://localhost:3000"
+          }/account/clientprofile`
+        );
+      } else {
+        req.isAuth = false;
+        res.redirect(
+          `${
+            process.env.NODE_ENV === "production"
+              ? process.env.PRODUCTION_CLIENT_URL
+              : "http://localhost:3000"
+          }/account/login`
+        );
+      }
+    })(req, res, next);
+  });
+}
+
+if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
+  const GoogleStrategy = require("passport-google-oauth20").Strategy;
+
+  passport.use(
+    new GoogleStrategy(
+      {
+        clientID: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        callbackURL: "/api/auth/google/callback",
+      },
+      (accessToken, refreshToken, profile, done) => {
+        return done(null, profile);
+      }
+    )
+  );
+
+  app.get(
+    "/api/auth/google",
+    passport.authenticate("google", { scope: ["profile", "email"] })
+  );
+
+  app.get("/api/auth/google/callback", (req, res, next) => {
+    passport.authenticate("google", async (err, user, info) => {
+      if (err) {
+        return next(err);
+      }
+
+      let client;
+
+      client = await Client.findOne({ email: user.emails[0].value });
+
+      if (!client) {
+        client = await Client.create({
+          _id: new mongoose.mongo.ObjectID(),
+          email: user.emails[0].value,
+          firstName: user.name.givenName,
+          lastName: user.name.familyName,
+        });
+      }
+
+      const generateDummyToken = (client) => {
+        const token = jwt.sign(
+          {
+            id: client._id,
+            picture: user.photos[0].value,
+            auth: true,
+          },
+          process.env.JWT_SECRET_KEY_DUMMY,
+          { expiresIn: "60d" }
+        );
+        return token;
+      };
+
+      const generateAccessToken = (client) => {
+        const token = jwt.sign(
+          {
+            id: client._id,
+            email: client.email,
+            phoneNumber: client.phoneNumber,
+            firstName: client.firstName,
+            lastName: client.lastName,
+            tokenCount: client.tokenCount,
+          },
+          process.env.JWT_SECRET_KEY_ACCESS,
+          { expiresIn: "60d" }
+        );
+        return token;
+      };
+
+      const accessToken = generateAccessToken(client);
+      const dummyToken = generateDummyToken(client);
+
+      if (client) {
+        req.isAuth = true;
+        if (client.phoneNumber) {
+          res.clearCookie("temporary-google-access-token", {
+            domain:
+              process.env.NODE_ENV === "production"
+                ? process.env.PRODUCTION_CLIENT_ROOT
+                : "localhost",
+          });
+          res.clearCookie("temporary-google-dummy-token", {
+            domain:
+              process.env.NODE_ENV === "production"
+                ? process.env.PRODUCTION_CLIENT_ROOT
+                : "localhost",
+          });
+
+          res.cookie("access-token", accessToken, {
+            maxAge: 1000 * 60 * 60 * 24 * 60,
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production" ? true : false,
+            domain:
+              process.env.NODE_ENV === "production"
+                ? process.env.PRODUCTION_CLIENT_ROOT
+                : "localhost",
+          });
+
+          res.cookie("dummy-token", dummyToken, {
+            maxAge: 1000 * 60 * 60 * 24 * 60,
+            httpOnly: false,
+            secure: process.env.NODE_ENV === "production" ? true : false,
+            domain:
+              process.env.NODE_ENV === "production"
+                ? process.env.PRODUCTION_CLIENT_ROOT
+                : "localhost",
+          });
+        } else {
+          res.cookie("temporary-google-access-token", accessToken, {
+            maxAge: 1000 * 60 * 15,
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production" ? true : false,
+            domain:
+              process.env.NODE_ENV === "production"
+                ? process.env.PRODUCTION_CLIENT_ROOT
+                : "localhost",
+          });
+
+          res.cookie("temporary-google-dummy-token", dummyToken, {
             maxAge: 1000 * 60 * 15,
             httpOnly: false,
             secure: process.env.NODE_ENV === "production" ? true : false,

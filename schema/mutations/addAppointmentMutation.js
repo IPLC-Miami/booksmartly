@@ -7,12 +7,6 @@ const TreatmentInput = require("../types/inputs/TreatmentInput");
 const Client = require("../../models/client");
 const Appointment = require("../../models/appointment");
 const moment = require("moment");
-const {
-  ICalendar,
-  YahooCalendar,
-  GoogleCalendar,
-  OutlookCalendar,
-} = require("datebook");
 const mjmlUtils = require("mjml-utils");
 const nodemailer = require("nodemailer");
 const jwt = require("jsonwebtoken");
@@ -47,6 +41,13 @@ const addAppointmentMutation = {
     notes: { type: GraphQLString },
   },
   async resolve(parent, args, context) {
+    const {
+      ICalendar,
+      YahooCalendar,
+      GoogleCalendar,
+      OutlookCalendar,
+    } = await import("datebook");
+
     const foundClient = await Client.findOne({
       email: args.client[0].email,
       phoneNumber: args.client[0].phoneNumber,

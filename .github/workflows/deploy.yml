@@ -23,12 +23,11 @@ jobs:
     - name: Build if build script exists
       run: npm run build --if-present
     
-    - name: Install frontend dependencies
-      run: npm ci --prefix frontend
-      
-    - name: Build frontend
-      run: npm run build --prefix frontend
-    
+    - name: Build Client
+      run: |
+        cd Client
+        npm ci
+        npm run build
     - name: Deploy to VPS
       uses: appleboy/ssh-action@v0.1.5
       with:
@@ -40,5 +39,7 @@ jobs:
           git pull origin hotfix/jun-16-backend-auth-routes
           npm ci --production
           npm run build --if-present
-          rsync -av --delete frontend/build/ /var/www/booksmartly/client/
+    - name: Copy static
+      run: rsync -a Client/build/ $DEPLOY_USER@$VPS:/var/www/booksmartly/client
           pm2 reload ecosystem.config.js --update-env
+          echo "$(date) - GlowLabs migration fully live - $(git rev-parse HEAD)" >> /var/log/booksmartly/progress.log
