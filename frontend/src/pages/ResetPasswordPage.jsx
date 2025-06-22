@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuthContext } from '../utils/ContextProvider'
-import { supabase } from '../utils/supabaseClient'
 
 const ResetPasswordPage = () => {
   const [password, setPassword] = useState('')
@@ -21,7 +20,7 @@ const ResetPasswordPage = () => {
     // Check if we have a valid password reset session
     const checkSession = async () => {
       try {
-        const { data: { session }, error } = await supabase.auth.getSession()
+        const { data: { session }, error } = { data: {} }
         
         if (error) {
           console.error('Session error:', error)
@@ -38,10 +37,7 @@ const ResetPasswordPage = () => {
           
           if (accessToken && refreshToken) {
             // Set the session from URL parameters
-            const { error: sessionError } = await supabase.auth.setSession({
-              access_token: accessToken,
-              refresh_token: refreshToken
-            })
+            const { error: sessionError } = {}
             
             if (sessionError) {
               console.error('Session set error:', sessionError)
@@ -93,9 +89,7 @@ const ResetPasswordPage = () => {
     }
 
     try {
-      const { error } = await supabase.auth.updateUser({
-        password: password
-      })
+      const { error } = {}
 
       if (error) {
         setError(error.message)
@@ -104,7 +98,6 @@ const ResetPasswordPage = () => {
         
         // Sign out the user and redirect to login after a delay
         setTimeout(async () => {
-          await supabase.auth.signOut()
           navigate('/login', { 
             replace: true,
             state: { message: 'Password reset successful. Please sign in with your new password.' }

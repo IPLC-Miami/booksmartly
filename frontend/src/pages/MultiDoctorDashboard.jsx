@@ -1,24 +1,11 @@
 import React, { useEffect, useState } from "react";
 import io from "socket.io-client";
-import { supabase } from "../utils/supabaseClient";
 const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 const SOCKET_SERVER_URL = `${API_URL}`;
 const api = import.meta.env.VITE_API_BASE_URL;
 
 // Helper function to get auth headers
-async function getAuthHeaders() {
-  const { data: { session } } = await supabase.auth.getSession();
-  if (session?.access_token) {
-    return {
-      'Authorization': `Bearer ${session.access_token}`,
-      'Content-Type': 'application/json'
-    };
-  }
-  return {
-    'Content-Type': 'application/json'
-  };
-}
 
 // Authenticated fetch wrapper
 async function authenticatedFetch(url, options = {}) {

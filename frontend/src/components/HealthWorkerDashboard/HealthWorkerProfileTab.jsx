@@ -2,8 +2,6 @@ import { Avatar, Badge, Code, Flex } from "@radix-ui/themes";
 import { useEffect, useState } from "react";
 import useGetReceptionProfileDetails from "../../hooks/useGetReceptionProfileDetails.js";
 import Loader from "../Loader.jsx";
-// AUTHENTICATION DISABLED - Supabase client disabled
-// import { supabase } from "../../utils/supabaseClient.js";
 import { useNavigate } from "react-router-dom";
 import { data } from "autoprefixer";
 import { toast } from "sonner";
@@ -50,7 +48,6 @@ function HealthWorkerProfileTab({ userId }) {
   //     const {
   //       data: { user },
   //       error,
-  //     } = await supabase.auth.getUser();
   //     if (user) setUserId(user.id);
   //     if (error) console.error("Error fetching user:", error);
   //   };

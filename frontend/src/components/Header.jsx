@@ -55,7 +55,6 @@ function Header() {
   }, []);
   const handleLogout = async () => {
     try {
-      // Clear localStorage instead of signing out from Supabase
       localStorage.removeItem("userId");
       localStorage.removeItem("userRole");
       setUserId(null);

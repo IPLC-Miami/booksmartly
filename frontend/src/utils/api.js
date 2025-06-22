@@ -1,4 +1,3 @@
-import { supabase } from './supabaseClient.js';
 
 // Use relative URL for development to enable Vite proxy
 const API_URL = import.meta.env.DEV
@@ -7,13 +6,6 @@ const API_URL = import.meta.env.DEV
 
 // Helper function to get auth headers
 async function getAuthHeaders() {
-  const { data: { session } } = await supabase.auth.getSession();
-  if (session?.access_token) {
-    return {
-      'Authorization': `Bearer ${session.access_token}`,
-      'Content-Type': 'application/json'
-    };
-  }
   return {
     'Content-Type': 'application/json'
   };

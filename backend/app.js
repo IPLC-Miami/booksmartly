@@ -11,8 +11,7 @@ dotenv.config();
 // Import cache management utility for persistent module caching fix
 const {
   purgeAllDevelopmentCache,
-  setupDevelopmentWatchers,
-  purgeAuthMiddlewareCache
+  setupDevelopmentWatchers
 } = require("./utils/cacheManager");
 
 // Purge all cached modules at startup to prevent persistent caching issues
@@ -55,7 +54,7 @@ const multiClinicianDashboardRoutes = require("./routes/multiClinicianDashboardR
 const cors = require("cors");
 
 // Import middleware
-const { errorHandler, notFoundHandler } = require("./middleware/errorHandler");
+const { errorHandler, notFoundHandler } = require("./middleware/errorMiddleware.js");
 // const fs = require("fs");
 // connectDB();
 
@@ -82,7 +81,7 @@ app.use((req, res, next) => {
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
     "font-src 'self' https://fonts.gstatic.com; " +
     "img-src 'self' data: blob: https: https://static.vecteezy.com; " +
-    "connect-src 'self' https://api.iplcmiami.com https://*.supabase.co wss://*.supabase.co https://www.google-analytics.com; " +
+    "connect-src 'self' https://api.iplcmiami.com wss://booksmartly.iplcmiami.com https://maps.googleapis.com https://*.squarecdn.com https://www.google-analytics.com; " +
     "frame-src 'self'; " +
     "object-src 'none'; " +
     "base-uri 'self';"
@@ -126,19 +125,6 @@ app.use(session(sessionConfig));
 
 app.use("/AiConsultation", AiConsultation);
 
-// Cache-busting middleware for runtime cache clearing
-app.use((req, res, next) => {
-  // Add cache purge endpoint for development debugging
-  if (req.path === '/dev/purge-cache' && process.env.NODE_ENV !== 'production') {
-    console.log("🧹 Manual cache purge requested via /dev/purge-cache");
-    purgeAuthMiddlewareCache();
-    return res.json({
-      success: true,
-      message: "Authentication middleware cache purged successfully"
-    });
-  }
-  next();
-});
 
 app.use(async (req, res, next) => {
   try {

@@ -5,8 +5,6 @@ import useUserRoleById from "../hooks/useUserRoleById";
 import { getQueueForClinician, getHistoryForClinician, getPatientAppointments, getPatientAppointmentHistory } from '../utils/api';
 import { useQuery } from '@tanstack/react-query';
 import ChatWidget from '../components/ChatWidget';
-// AUTHENTICATION DISABLED - Supabase client disabled
-// import { supabase } from '../utils/supabaseClient';
 
 function ChatPage() {
   const [role, setRole] = useState(null);

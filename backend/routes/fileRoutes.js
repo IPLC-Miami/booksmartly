@@ -1,21 +1,27 @@
 const express = require('express');
 const router = express.Router();
-const { upload, uploadFile, downloadFile, deleteFile, listFiles } = require('../controllers/fileController');
-const { jwtValidation, roleExtraction, requireRole, requireClinician, requireOwnership } = require('../middleware/auth');
 
-// POST /api/files/upload - Upload files to Supabase Storage
-// Requires clinician or admin role
-router.post('/upload', jwtValidation, roleExtraction, requireClinician, upload.single('file'), uploadFile);
+// #################################################################################################
+// #
+// #   THIS ENTIRE ROUTE FILE IS A LEGACY COMPONENT FROM THE OLD SUPABASE STACK.
+// #
+// #   IT HAS BEEN TEMPORARILY STUBBED OUT TO ALLOW THE BACKEND TO START.
+// #
+// #   THE LOGIC HERE NEEDS TO BE RE-IMPLEMENTED USING THE NEW MERN STACK
+// #   (MongoDB/Mongoose, Express, React, Node.js) AND THE NEW AUTHENTICATION SYSTEM.
+// #
+// #################################################################################################
 
-// GET /api/files/download/:key - Generate signed download URLs
-// Requires authentication and appropriate role
-router.get('/download/:key', jwtValidation, roleExtraction, requireRole(['client', 'clinician', 'admin']), downloadFile);
+const placeholderResponse = (req, res) => {
+  res.status(501).json({
+    message: "Not Implemented",
+    note: "This endpoint is pending migration from the legacy Supabase architecture.",
+  });
+};
 
-// DELETE /api/files/:key - Delete files (clinician/admin only)
-router.delete('/:key', jwtValidation, roleExtraction, requireClinician, deleteFile);
-
-// GET /api/files/patient/:patientId - List files for a patient
-// Requires authentication and ownership validation
-router.get('/patient/:patientId', jwtValidation, roleExtraction, requireRole(['client', 'clinician', 'admin']), requireOwnership('client'), listFiles);
+router.post('/upload', placeholderResponse);
+router.get('/download/:key', placeholderResponse);
+router.delete('/:key', placeholderResponse);
+router.get('/patient/:patientId', placeholderResponse);
 
 module.exports = router;

@@ -1,9 +1,8 @@
-import { supabase } from './supabaseClient'
 
 // Get current user from Supabase
 export const getCurrentUser = async () => {
   try {
-    const { data: { user }, error } = await supabase.auth.getUser()
+    const { data: { user }, error } = { data: {} }
     
     if (error) {
       console.error('Error getting current user:', error)
@@ -29,7 +28,7 @@ export const getUserRole = async (userId) => {
     }
 
     // First, try to get role from user metadata (for test users and new auth system)
-    const { data: { user }, error: userError } = await supabase.auth.getUser()
+    const { data: { user }, error: userError } = { data: {} }
     if (user && user.id === userId && user.raw_user_meta_data?.role) {
       console.log('🔍 Found role in user metadata:', user.raw_user_meta_data.role)
       return user.raw_user_meta_data.role
@@ -40,11 +39,7 @@ export const getUserRole = async (userId) => {
     
     // Check if user is admin (highest priority)
     console.log('🔍 Admin check:', userId)
-    const { data: adminData, error: adminError } = await supabase
-      .from('admins')
-      .select('id')
-      .eq('user_id', userId)
-      .single()
+    const { data: adminData, error: adminError } = {}
     
     console.log('🔍 Admin query result:', { adminData, adminError })
     
@@ -55,11 +50,7 @@ export const getUserRole = async (userId) => {
 
     // Check if user is reception
     console.log('🔍 Reception check:', userId)
-    const { data: receptionData, error: receptionError } = await supabase
-      .from('receptions')
-      .select('id')
-      .eq('user_id', userId)
-      .single()
+    const { data: receptionData, error: receptionError } = {}
     
     console.log('🔍 Reception query result:', { receptionData, receptionError })
     
@@ -70,11 +61,7 @@ export const getUserRole = async (userId) => {
 
     // Check if user is clinician
     console.log('🔍 Clinician check:', userId)
-    const { data: clinicianData, error: clinicianError } = await supabase
-      .from('clinicians')
-      .select('id')
-      .eq('user_id', userId)
-      .single()
+    const { data: clinicianData, error: clinicianError } = {}
     
     console.log('🔍 Clinician query result:', { clinicianData, clinicianError })
     
@@ -84,11 +71,7 @@ export const getUserRole = async (userId) => {
     }
 
     // Check if user is client
-    const { data: clientData, error: clientError } = await supabase
-      .from('clients')
-      .select('id')
-      .eq('user_id', userId)
-      .single()
+    const { data: clientData, error: clientError } = {}
     
     if (clientData && !clientError) {
       console.log('✅ Found client role in database')
@@ -121,7 +104,7 @@ export const getCurrentUserWithRole = async () => {
 // Check if user is authenticated
 export const isAuthenticated = async () => {
   try {
-    const { data: { session }, error } = await supabase.auth.getSession()
+    const { data: { session }, error } = { data: {} }
     
     if (error) {
       console.error('Error checking authentication:', error)
@@ -138,10 +121,7 @@ export const isAuthenticated = async () => {
 // Sign in with email and password
 export const signInWithEmail = async (email, password) => {
   try {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password
-    })
+    const { data, error } = {}
 
     if (error) {
       throw error
@@ -157,11 +137,7 @@ export const signInWithEmail = async (email, password) => {
 // Sign up with email and password
 export const signUpWithEmail = async (email, password, options = {}) => {
   try {
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options
-    })
+    const { data, error } = {}
 
     if (error) {
       throw error
@@ -177,7 +153,7 @@ export const signUpWithEmail = async (email, password, options = {}) => {
 // Sign out
 export const signOut = async () => {
   try {
-    const { error } = await supabase.auth.signOut()
+    const { error } = {}
     
     if (error) {
       throw error
@@ -193,9 +169,7 @@ export const signOut = async () => {
 // Reset password
 export const resetPassword = async (email) => {
   try {
-    const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/reset-password`
-    })
+    const { data, error } = {}
 
     if (error) {
       throw error
@@ -211,9 +185,7 @@ export const resetPassword = async (email) => {
 // Update password
 export const updatePassword = async (newPassword) => {
   try {
-    const { data, error } = await supabase.auth.updateUser({
-      password: newPassword
-    })
+    const { data, error } = {}
 
     if (error) {
       throw error
@@ -229,7 +201,7 @@ export const updatePassword = async (newPassword) => {
 // Get auth token
 export const getAuthToken = async () => {
   try {
-    const { data: { session }, error } = await supabase.auth.getSession()
+    const { data: { session }, error } = { data: {} }
     
     if (error) {
       console.error('Error getting auth token:', error)
@@ -246,7 +218,7 @@ export const getAuthToken = async () => {
 // Refresh session
 export const refreshSession = async () => {
   try {
-    const { data, error } = await supabase.auth.refreshSession()
+    const { data, error } = {}
     
     if (error) {
       console.error('Error refreshing session:', error)

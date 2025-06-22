@@ -125,9 +125,8 @@ backend/controllers/
 # Frontend documentation
 frontend/src/docs/
 
-# SQL files (except official Supabase migrations)
+# SQL files
 *.sql
-!supabase/migrations/*.sql
 
 # Temporary development files
 final-verification.js
@@ -157,14 +156,6 @@ TASK_FOR_AI.MD
 .auth_spec_internal.md
 deployment-log.md
 
-# Supabase local development files (contain secrets and should not be committed)
-supabase/.branches
-supabase/.temp
-supabase/.env*
-supabase/seed.sql
-supabase/functions/
-supabase/migrations/
-supabase/tests/
 
 # VS Code settings that may contain secrets
 .vscode/settings.json

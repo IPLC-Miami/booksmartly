@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../utils/ContextProvider'
-import { supabase } from '../utils/supabaseClient'
 
 const AccountVerification = () => {
   const [email, setEmail] = useState('')
@@ -57,13 +56,7 @@ const AccountVerification = () => {
     }
 
     try {
-      const { error } = await supabase.auth.resend({
-        type: 'signup',
-        email: email,
-        options: {
-          emailRedirectTo: `${window.location.origin}/account-verified`
-        }
-      })
+      const { error } = {}
 
       if (error) {
         setError(error.message)

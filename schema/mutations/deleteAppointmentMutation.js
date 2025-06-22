@@ -2,7 +2,7 @@ const graphql = require("graphql");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const Appointment = require("../../models/appointment");
-const AppointmentInput = require("../types/inputs/AppointmentInput");
+const AppointmentType = require("../types/AppointmentType");
 const Employee = require("../../models/employee");
 const { UserInputError } = require("apollo-server");
 const Notification = require("../../models/notification");
@@ -13,7 +13,7 @@ const { GraphQLID } = graphql;
 const UPDATED_EMPLOYEE = "getUpdatedEmployee";
 
 const deleteAppointmentMutation = {
-  type: AppointmentInput,
+  type: AppointmentType,
   args: {
     _id: { type: GraphQLID },
   },
@@ -113,9 +113,7 @@ const deleteAppointmentMutation = {
             employee: updatedEmployeeRes,
           });
 
-          return {
-            _id: args._id,
-          };
+          return deletedAppointment;
         }
       } else {
         if (adminAccessToken) {
@@ -190,10 +188,7 @@ const deleteAppointmentMutation = {
             employee: updatedEmployeeRes,
           });
 
-          return {
-            _id: args._id,
-            ...updatedEmployeeRes,
-          };
+          return deletedAppointment;
         } else {
           return null;
         }

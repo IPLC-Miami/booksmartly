@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
-import { supabase } from './supabaseClient'
 import { getUserRole as getComprehensiveUserRole } from './authHelper'
 
 // Create AuthContext
@@ -52,7 +51,7 @@ export const AuthContextProvider = ({ children }) => {
     // Get initial session
     const getInitialSession = async () => {
       try {
-        const { data: { session }, error } = await supabase.auth.getSession()
+        const { data: { session }, error } = { data: {} }
         
         if (error) {
           console.error('Error getting session:', error)
@@ -78,22 +77,7 @@ export const AuthContextProvider = ({ children }) => {
     getInitialSession()
 
     // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        console.log('Auth state changed:', event, session?.user?.email)
-        
-        if (session?.user) {
-          setUser(session.user)
-          const role = await getUserRole(session.user)
-          setUserRole(role)
-        } else {
-          setUser(null)
-          setUserRole(null)
-        }
-        
-        setLoading(false)
-      }
-    )
+    const { data: { subscription } } = { data: {} }
 
     return () => {
       subscription?.unsubscribe()
@@ -103,10 +87,7 @@ export const AuthContextProvider = ({ children }) => {
   // Sign in function
   const signIn = async (email, password) => {
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password
-      })
+      const { data, error } = {}
 
       if (error) {
         throw error
@@ -122,11 +103,7 @@ export const AuthContextProvider = ({ children }) => {
   // Sign up function
   const signUp = async (email, password, options = {}) => {
     try {
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options
-      })
+      const { data, error } = {}
 
       if (error) {
         throw error
@@ -142,7 +119,7 @@ export const AuthContextProvider = ({ children }) => {
   // Sign out function
   const signOut = async () => {
     try {
-      const { error } = await supabase.auth.signOut()
+      const { error } = {}
       
       if (error) {
         throw error
@@ -160,9 +137,7 @@ export const AuthContextProvider = ({ children }) => {
   // Reset password function
   const resetPassword = async (email) => {
     try {
-      const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/reset-password`
-      })
+      const { data, error } = {}
 
       if (error) {
         throw error
@@ -178,9 +153,7 @@ export const AuthContextProvider = ({ children }) => {
   // Update password function
   const updatePassword = async (newPassword) => {
     try {
-      const { data, error } = await supabase.auth.updateUser({
-        password: newPassword
-      })
+      const { data, error } = {}
 
       if (error) {
         throw error

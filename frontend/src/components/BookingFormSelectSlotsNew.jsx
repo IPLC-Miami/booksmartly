@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import useGetDoctors from "../hooks/useGetDoctors";
 import useGenerateSlots from "../hooks/useGenerateSlots";
 import DoctorSlotCard from "./DoctorSlotCard";
-import { supabase } from "../utils/supabaseClient";
 
 function BookingFormSelectSlotsNew({
   formData,
@@ -48,32 +47,6 @@ function BookingFormSelectSlotsNew({
     }
   }, []);
 
-  // Real-time slot updates using Supabase
-  useEffect(() => {
-    if (!selectedDoctor?.id || !formData.selectedDate) return;
-
-    const channel = supabase
-      .channel('public:doctor_slots')
-      .on(
-        'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'doctor_slots',
-          filter: `doctor_id=eq.${selectedDoctor.id}`
-        },
-        (payload) => {
-          console.log('Real-time slot update:', payload);
-          // Refetch slots when there are changes to the selected doctor's slots
-          refetchSlots();
-        }
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, [selectedDoctor?.id, formData.selectedDate, refetchSlots]);
 
   // Map ML API specialization to database specializations
   const mapSpecializationToDatabase = (mlSpecialization) => {

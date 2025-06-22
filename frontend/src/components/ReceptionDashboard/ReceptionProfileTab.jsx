@@ -5,7 +5,6 @@ import { toast } from "sonner";
 import useGetReceptionProfileDetails from "../../hooks/useGetReceptionProfileDetails.js";
 import Loader from "../Loader";
 import { COMPANY_SETTINGS } from "../../utils/constants";
-import { supabase } from "../../utils/supabaseClient";
 import {
   Calendar,
   Clock,
@@ -30,9 +29,6 @@ async function generateNewQRCode(userId) {
     return `MOCK-QR-CODE-${Date.now()}`;
   }
 
-  const { data, error } = await supabase.functions.invoke('generate-qr-code', {
-    body: { userId },
-  });
 
   if (error) {
     console.error('Error generating QR code:', error);

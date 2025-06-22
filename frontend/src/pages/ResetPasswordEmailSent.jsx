@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../utils/ContextProvider'
-import { supabase } from '../utils/supabaseClient'
 
 const ResetPasswordEmailSent = () => {
   const [loading, setLoading] = useState(false)
@@ -44,9 +43,7 @@ const ResetPasswordEmailSent = () => {
     setSuccess('')
 
     try {
-      const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/reset-password`
-      })
+      const { error } = {}
 
       if (error) {
         setError(error.message)

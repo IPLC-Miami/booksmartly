@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { supabase } from '../utils/supabaseClient'
 
 /**
  * Custom hook for handling password reset functionality
@@ -29,7 +28,7 @@ export const useResetPassword = () => {
         options.redirectTo = `${window.location.origin}/reset-password`
       }
 
-      const { data, error } = await supabase.auth.resetPasswordForEmail(email, options)
+      const { data, error } = {}
 
       if (error) {
         setError(error.message)
@@ -59,9 +58,7 @@ export const useResetPassword = () => {
     setSuccess(null)
 
     try {
-      const { data, error } = await supabase.auth.updateUser({
-        password: newPassword
-      })
+      const { data, error } = {}
 
       if (error) {
         setError(error.message)
@@ -103,7 +100,7 @@ export const useResetPassword = () => {
         options.options = { emailRedirectTo: `${window.location.origin}/account-verified` }
       }
 
-      const { data, error } = await supabase.auth.resend(options)
+      const { data, error } = {}
 
       if (error) {
         setError(error.message)
@@ -128,7 +125,7 @@ export const useResetPassword = () => {
    */
   const checkResetSession = async () => {
     try {
-      const { data: { session }, error } = await supabase.auth.getSession()
+      const { data: { session }, error } = { data: {} }
       
       if (error) {
         console.error('Session check error:', error)
@@ -150,10 +147,7 @@ export const useResetPassword = () => {
    */
   const setSessionFromTokens = async (accessToken, refreshToken) => {
     try {
-      const { data, error } = await supabase.auth.setSession({
-        access_token: accessToken,
-        refresh_token: refreshToken
-      })
+      const { data, error } = {}
 
       if (error) {
         console.error('Session set error:', error)

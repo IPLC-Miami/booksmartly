@@ -392,7 +392,6 @@ export default Home;
 // import { Button } from "@radix-ui/themes";
 // import Features from "../components/Features";
 // import { useNavigate } from "react-router-dom";
-// import { supabase } from "../utils/supabaseClient";
 // import ChatBot from "../components/ChatBot/ChatBot";
 
 // function Home() {

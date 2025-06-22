@@ -45,30 +45,6 @@ function purgeCache(moduleName) {
 }
 
 /**
- * Purges all authentication middleware modules from cache
- * Specifically targets the problematic middleware files
- */
-function purgeAuthMiddlewareCache() {
-  console.log('🔄 Purging authentication middleware cache...');
-  
-  const path = require('path');
-  const backendDir = path.resolve(__dirname, '..');
-  
-  const middlewareModules = [
-    path.join(backendDir, 'middleware/auth/routeProtection.js'),
-    path.join(backendDir, 'middleware/auth/roleExtraction.js'),
-    path.join(backendDir, 'middleware/auth/jwtValidation.js'),
-    path.join(backendDir, 'middleware/auth/index.js')
-  ];
-  
-  middlewareModules.forEach(moduleName => {
-    purgeCache(moduleName);
-  });
-  
-  console.log('✅ Authentication middleware cache purge complete');
-}
-
-/**
  * Purges cache for all route modules to ensure fresh loading
  */
 function purgeRouteCache() {
@@ -98,7 +74,6 @@ function purgeRouteCache() {
 function purgeAllDevelopmentCache() {
   console.log('🧹 Starting comprehensive development cache purge...');
   
-  purgeAuthMiddlewareCache();
   purgeRouteCache();
   
   console.log('✅ Comprehensive cache purge complete');
@@ -117,13 +92,7 @@ function setupDevelopmentWatchers(watchPaths = []) {
   const fs = require('fs');
   const path = require('path');
   
-  const defaultWatchPaths = [
-    './middleware/auth/routeProtection.js',
-    './middleware/auth/roleExtraction.js',
-    './middleware/auth/jwtValidation.js'
-  ];
-  
-  const pathsToWatch = watchPaths.length > 0 ? watchPaths : defaultWatchPaths;
+  const pathsToWatch = watchPaths.length > 0 ? watchPaths : [];
   
   pathsToWatch.forEach(filePath => {
     try {
@@ -143,7 +112,6 @@ function setupDevelopmentWatchers(watchPaths = []) {
 
 module.exports = {
   purgeCache,
-  purgeAuthMiddlewareCache,
   purgeRouteCache,
   purgeAllDevelopmentCache,
   setupDevelopmentWatchers

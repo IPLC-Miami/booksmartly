@@ -1,5 +1,5 @@
 const graphql = require("graphql");
-const AppointmentInput = require("../types/inputs/AppointmentInput");
+const AppointmentType = require("../types/AppointmentType");
 const Appointment = require("../../models/appointment");
 const Notification = require("../../models/notification");
 const createNotificationFunction = require("./notifications/createNotificationFunction");
@@ -12,7 +12,7 @@ const { GraphQLID } = graphql;
 const UPDATED_EMPLOYEE = "getUpdatedEmployee";
 
 const confirmAppointmentMutation = {
-  type: AppointmentInput,
+  type: AppointmentType,
   args: {
     _id: { type: GraphQLID },
   },
@@ -114,23 +114,7 @@ const confirmAppointmentMutation = {
       employee: updatedEmployeeRes,
     });
 
-    return {
-      ...appt_res,
-      ...updatedEmployeeRes,
-      createdAt: appt_res.createdAt,
-      esthetician: appt_res.esthetician,
-      date: appt_res.date,
-      startTime: appt_res.startTime,
-      morningOrEvening: appt_res.morningOrEvening,
-      endTime: appt_res.endTime,
-      duration: appt_res.duration,
-      price: appt_res.price,
-      treatments: appt_res.treatments,
-      addOns: appt_res.addOns,
-      bookedWithCardSquareID: appt_res.bookedWithCardSquareID,
-      notes: appt_res.notes,
-      confirmed: appt_res.confirmed,
-    };
+    return appt_res;
   },
 };
 
