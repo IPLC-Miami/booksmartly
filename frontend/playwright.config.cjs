@@ -6,15 +6,23 @@ module.exports = {
   testDir: './tests',
   timeout: 45000,
   retries: 2,
-  webServer: {
-    command: 'node ../index.js',
-    url: 'http://localhost:4000/graphql',
-    timeout: 120 * 1000,
-    reuseExistingServer: !process.env.CI,
-    env: {
-      DOTENV_CONFIG_PATH: path.resolve(__dirname, '..', '.env'),
+  webServer: [
+    {
+      command: 'node ../index.js',
+      url: 'http://localhost:4000/graphql',
+      timeout: 120 * 1000,
+      reuseExistingServer: !process.env.CI,
+      env: {
+        DOTENV_CONFIG_PATH: path.resolve(__dirname, '..', '.env'),
+      },
     },
-  },
+    {
+      command: 'npm run dev',
+      url: 'http://localhost:3000',
+      timeout: 120 * 1000,
+      reuseExistingServer: !process.env.CI,
+    },
+  ],
   use: {
     headless: true,
     baseURL: process.env.PLAYWRIGHT_BASE_URL || 'http://localhost:3000',
@@ -55,7 +63,7 @@ module.exports = {
       name: 'production-chrome',
       use: {
         ...require('@playwright/test').devices['Desktop Chrome'],
-        baseURL: 'https://booksmartly.iplcmiami.com',
+        baseURL: 'http://localhost:3000',
       },
       testMatch: process.env.NODE_ENV === 'production' ? '**/*.spec.cjs' : undefined,
     },
@@ -63,7 +71,7 @@ module.exports = {
       name: 'production-firefox',
       use: {
         ...require('@playwright/test').devices['Desktop Firefox'],
-        baseURL: 'https://booksmartly.iplcmiami.com',
+        baseURL: 'http://localhost:3000',
       },
       testMatch: process.env.NODE_ENV === 'production' ? '**/*.spec.cjs' : undefined,
     },
@@ -71,7 +79,7 @@ module.exports = {
       name: 'production-safari',
       use: {
         ...require('@playwright/test').devices['Desktop Safari'],
-        baseURL: 'https://booksmartly.iplcmiami.com',
+        baseURL: 'http://localhost:3000',
       },
       testMatch: process.env.NODE_ENV === 'production' ? '**/*.spec.cjs' : undefined,
     },
