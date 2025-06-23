@@ -8,12 +8,13 @@ module.exports = {
   retries: 2,
   webServer: [
     {
-      command: 'node ../index.js',
+      command: 'node index.js',
       url: 'http://localhost:4000/graphql',
       timeout: 120 * 1000,
       reuseExistingServer: !process.env.CI,
+      cwd: path.resolve(__dirname, '..'),
       env: {
-        DOTENV_CONFIG_PATH: path.resolve(__dirname, '..', '.env'),
+        NODE_ENV: 'development',
       },
     },
     {
@@ -21,6 +22,7 @@ module.exports = {
       url: 'http://localhost:3000',
       timeout: 120 * 1000,
       reuseExistingServer: !process.env.CI,
+      cwd: __dirname,
     },
   ],
   use: {

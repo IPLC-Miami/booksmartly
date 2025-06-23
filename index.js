@@ -692,6 +692,14 @@ if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
   });
 }
 
+// Import route handlers
+const authRoutes = require('./backend/routes/auth');
+const squareRoutes = require('./backend/routes/square');
+
+// Use route handlers
+app.use('/api/auth', authRoutes);
+app.use('/api/square', squareRoutes);
+
 app.get("/", (req, res) => {
   res.send("The Glow Labs server is up and running!");
 });
@@ -699,8 +707,7 @@ app.get("/", (req, res) => {
 // Connect to MongoDB with Mongoose
 mongoose
   .connect(
-    `mongodb+srv://${process.env.MONGO_DB_USERNAME}:${process.env.MONGO_DB_PASSWORD}@glowlabs-qo7rk.mongodb.net/test?retryWrites=true&w=majority`,
-    { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }
+    process.env.MONGODB_URI || `mongodb+srv://${process.env.MONGO_DB_USERNAME}:${process.env.MONGO_DB_PASSWORD}@glowlabs-qo7rk.mongodb.net/test?retryWrites=true&w=majority`
   )
   .then(() => {
     console.log("Connected to MongoDB");
