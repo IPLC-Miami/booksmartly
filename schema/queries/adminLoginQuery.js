@@ -3,7 +3,7 @@ const AuthType = require("../types/AuthType");
 const Employee = require("../../models/employee");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const createAdminTokens = require("../../createAdminTokens");
+const createAdminTokens = require("../../backend/utils/createAdminTokens");
 const { UserInputError } = require("apollo-server-express");
 
 
