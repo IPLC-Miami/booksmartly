@@ -6,7 +6,7 @@ const { UserInputError } = require("apollo-server-express");
 const {
   validateRegistration,
 } = require("../../validation/validateRegistration");
-const createTokens = require("../../backend/util/createTokens");
+const createTokens = require("../utils/createTokens");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
