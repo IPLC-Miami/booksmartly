@@ -6,14 +6,8 @@ const dotenv = require('dotenv');
 // It's configured to not throw an error if the .env file is missing
 dotenv.config({ path: path.resolve(__dirname, '.env') });
 
-const express = require("express");
-const compression = require("compression");
-const { ApolloServer } = require("apollo-server-express");
-const schema = require("./schema/schema");
-const pubsub = require("./backend/services/pubsub");
-const mongoose = require("mongoose");
-const cors = require("cors");
-const cookieParser = require("cookie-parser");
+// Register all Mongoose models before any other modules are loaded
+// This prevents MissingSchemaError in Jest/Playwright test environments
 require("./models/addon");
 require("./models/appointment");
 require("./models/client");
@@ -23,6 +17,15 @@ require("./models/myroutine");
 require("./models/notification");
 require("./models/personalevent");
 require("./models/treatment");
+
+const express = require("express");
+const compression = require("compression");
+const { ApolloServer } = require("apollo-server-express");
+const schema = require("./schema/schema");
+const pubsub = require("./backend/services/pubsub");
+const mongoose = require("mongoose");
+const cors = require("cors");
+const cookieParser = require("cookie-parser");
 const Appointment = require("./models/appointment");
 const Client = require("./models/client");
 const Employee = require("./models/employee");
