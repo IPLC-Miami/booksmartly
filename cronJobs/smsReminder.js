@@ -2,7 +2,6 @@ const cron = require('node-cron');
 
 if (!process.env.TWILIO_ACCOUNT_SID) {
   console.log(`[${new Date().toISOString()}] Cron job skipped: TWILIO_ACCOUNT_SID not found in environment.`);
-  process.exit(0);
 }
 
 function registerTwilioReminderJob() {
