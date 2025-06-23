@@ -1,5 +1,5 @@
 // tests/auth.spec.cjs
-const { test, expect } = require('@playwright/test');
+const { test, expect } = require('./fixtures/network-mocks');
 
 const admin = { email: 'iplcmiami@gmail.com', password: 'Iplcmiami1', dashboard: '/reception-dashboard' };
 const client = { email: 'pdarleyjr@gmail.com', password: 'Iplcmiami1', dashboard: '/client-dashboard' };
