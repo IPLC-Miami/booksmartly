@@ -1,12 +1,10 @@
 const express = require("express");
-const dotenv = require("dotenv");
 const fs = require("fs");
 // const https = require("https");
 const http = require("http");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const RedisStore = require("connect-redis");
-dotenv.config();
 
 // Import cache management utility for persistent module caching fix
 const {

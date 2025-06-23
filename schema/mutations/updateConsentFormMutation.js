@@ -10,8 +10,6 @@ const createNotificationFunction = require("./notifications/createNotificationFu
 
 const { GraphQLString, GraphQLBoolean, GraphQLNonNull } = graphql;
 
-// Hide usernames and passwords
-require("dotenv").config();
 
 const UPDATED_EMPLOYEE = "getUpdatedEmployee";
 

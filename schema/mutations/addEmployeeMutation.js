@@ -8,8 +8,6 @@ const Notification = require("../../models/notification");
 const jwt = require("jsonwebtoken");
 const createNotificationFunction = require("./notifications/createNotificationFunction");
 
-// Hide usernames and passwords
-require("dotenv").config();
 
 const { GraphQLString, GraphQLList, GraphQLNonNull } = graphql;
 

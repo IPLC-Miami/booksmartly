@@ -3,8 +3,6 @@ const Employee = require("../../models/employee");
 const jwt = require("jsonwebtoken");
 const { UserInputError } = require("apollo-server-express");
 
-// Hide usernames and passwords
-require("dotenv").config();
 
 const UPDATED_EMPLOYEE = "getUpdatedEmployee";
 

@@ -10,8 +10,6 @@ const createTokens = require("../../createTokens");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
-// Hide usernames and passwords
-require("dotenv").config();
 
 const { GraphQLString, GraphQLNonNull } = graphql;
 

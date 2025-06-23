@@ -16,8 +16,6 @@ const Employee = mongoose.model("Employee");
 // Used to normalize phone numbers for use by Twilio
 const phone = require("phone");
 
-// Hide usernames and passwords
-require("dotenv").config();
 
 const { GraphQLString, GraphQLInt, GraphQLList, GraphQLNonNull } = graphql;
 

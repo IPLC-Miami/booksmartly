@@ -1,7 +1,4 @@
 const Redis = require('ioredis');
-const dotenv = require('dotenv');
-
-dotenv.config(); // Load environment variables
 
 let redis;
 let redisAvailable = false;

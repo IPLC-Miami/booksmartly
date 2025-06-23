@@ -4,8 +4,6 @@ const Employee = require("../models/employee");
 
 const { GraphQLObjectType, GraphQLID } = graphql;
 
-// Hide usernames and passwords
-require("dotenv").config();
 
 const UPDATED_EMPLOYEE = "getUpdatedEmployee";
 

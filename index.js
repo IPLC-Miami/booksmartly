@@ -1,3 +1,11 @@
+const path = require('path');
+const dotenv = require('dotenv');
+
+// Centralized .env configuration
+// This will load the .env file's variables into process.env
+// It's configured to not throw an error if the .env file is missing
+dotenv.config({ path: path.resolve(__dirname, '.env') });
+
 const express = require("express");
 const compression = require("compression");
 const { ApolloServer } = require("apollo-server-express");
@@ -6,15 +14,6 @@ const pubsub = require("./backend/services/pubsub");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-require("./models/addon");
-require("./models/appointment");
-require("./models/client");
-require("./models/consentform");
-require("./models/employee");
-require("./models/myroutine");
-require("./models/notification");
-require("./models/personalevent");
-require("./models/treatment");
 require("./models/addon");
 require("./models/appointment");
 require("./models/client");
@@ -49,9 +48,6 @@ const phone = require("phone");
 
 // Fix Puppeteer memory leak issue
 process.setMaxListeners(Infinity);
-
-// Hide usernames and passwords
-require("dotenv").config();
 
 const app = express();
 

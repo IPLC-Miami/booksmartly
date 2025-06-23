@@ -3,8 +3,6 @@ const Client = require("../../models/client");
 const jwt = require("jsonwebtoken");
 const { UserInputError } = require("apollo-server-express");
 
-// Hide usernames and passwords
-require("dotenv").config();
 
 const updateClientsInvalidateTokensMutation = {
   type: ClientType,

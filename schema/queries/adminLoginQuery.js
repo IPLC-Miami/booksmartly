@@ -6,8 +6,6 @@ const bcrypt = require("bcryptjs");
 const createAdminTokens = require("../../createAdminTokens");
 const { UserInputError } = require("apollo-server-express");
 
-// Hide usernames and passwords
-require("dotenv").config();
 
 const { GraphQLString } = graphql;
 

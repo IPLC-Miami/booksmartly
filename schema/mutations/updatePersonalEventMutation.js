@@ -10,8 +10,6 @@ const jwt = require("jsonwebtoken");
 
 const { GraphQLString, GraphQLBoolean, GraphQLID, GraphQLInt } = graphql;
 
-// Hide usernames and passwords
-require("dotenv").config();
 
 const UPDATED_EMPLOYEE = "getUpdatedEmployee";
 
