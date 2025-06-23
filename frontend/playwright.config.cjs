@@ -1,9 +1,20 @@
 // playwright.config.cjs
+const path = require('path');
+
 /** @type {import('@playwright/test').PlaywrightTestConfig} */
 module.exports = {
   testDir: './tests',
   timeout: 45000,
   retries: 2,
+  webServer: {
+    command: 'node ../index.js',
+    url: 'http://localhost:4000/graphql',
+    timeout: 120 * 1000,
+    reuseExistingServer: !process.env.CI,
+    env: {
+      DOTENV_CONFIG_PATH: path.resolve(__dirname, '..', '.env'),
+    },
+  },
   use: {
     headless: true,
     baseURL: process.env.PLAYWRIGHT_BASE_URL || 'http://localhost:3000',
