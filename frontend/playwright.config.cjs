@@ -6,24 +6,47 @@ module.exports = {
   retries: 2,
   use: {
     headless: true,
-    baseURL: 'https://booksmartly.iplcmiami.com',
+    baseURL: process.env.PLAYWRIGHT_BASE_URL || 'http://localhost:3000',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
-    trace: 'retain-on-failure'
+    trace: 'retain-on-failure',
+    extraHTTPHeaders: {
+      'X-Test-Environment': process.env.NODE_ENV || 'development',
+      'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'
+    }
   },
   reporter: [
     ['list'],
     ['html', { outputFolder: 'playwright-report' }],
     ['json', { outputFile: 'test-results/results.json' }]
   ],
-  // Production-focused configuration
+  // Environment-based configuration
   projects: [
+    // Local development projects
+    {
+      name: 'local-chrome',
+      use: {
+        ...require('@playwright/test').devices['Desktop Chrome'],
+        baseURL: 'http://localhost:3000',
+      },
+      testMatch: process.env.NODE_ENV === 'development' ? '**/*.spec.cjs' : undefined,
+    },
+    {
+      name: 'local-firefox',
+      use: {
+        ...require('@playwright/test').devices['Desktop Firefox'],
+        baseURL: 'http://localhost:3000',
+      },
+      testMatch: process.env.NODE_ENV === 'development' ? '**/*.spec.cjs' : undefined,
+    },
+    // Production projects
     {
       name: 'production-chrome',
       use: {
         ...require('@playwright/test').devices['Desktop Chrome'],
         baseURL: 'https://booksmartly.iplcmiami.com',
       },
+      testMatch: process.env.NODE_ENV === 'production' ? '**/*.spec.cjs' : undefined,
     },
     {
       name: 'production-firefox',
@@ -31,6 +54,7 @@ module.exports = {
         ...require('@playwright/test').devices['Desktop Firefox'],
         baseURL: 'https://booksmartly.iplcmiami.com',
       },
+      testMatch: process.env.NODE_ENV === 'production' ? '**/*.spec.cjs' : undefined,
     },
     {
       name: 'production-safari',
@@ -38,6 +62,7 @@ module.exports = {
         ...require('@playwright/test').devices['Desktop Safari'],
         baseURL: 'https://booksmartly.iplcmiami.com',
       },
+      testMatch: process.env.NODE_ENV === 'production' ? '**/*.spec.cjs' : undefined,
     },
   ],
 };
