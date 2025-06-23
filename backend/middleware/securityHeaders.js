@@ -8,6 +8,7 @@ const setSecurityHeaders = (req, res, next) => {
     "https://*.squarecdn.com",
     "https://connect.squareup.com",
     "https://connect.squareupsandbox.com",
+    "https://sandbox.dev.squarecdn.com",
     "https://accounts.google.com",
     "https://oauth2.googleapis.com",
     "https://www.googleapis.com",
@@ -53,7 +54,7 @@ const setSecurityHeaders = (req, res, next) => {
   
   // Additional security headers
   res.setHeader('X-Content-Type-Options', 'nosniff');
-  res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+  res.setHeader('X-Frame-Options', 'DENY');
   res.setHeader('X-XSS-Protection', '1; mode=block');
   res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
   res.setHeader('Permissions-Policy', 'geolocation=(), microphone=(), camera=()');
