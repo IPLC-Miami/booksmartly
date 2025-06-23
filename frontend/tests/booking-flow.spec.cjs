@@ -1,4 +1,5 @@
 const { test, expect } = require('@playwright/test');
+const { setupNetworkMocks } = require('./fixtures/mockNetwork.js');
 
 test.describe('Booking Flow End-to-End Tests', () => {
   const baseURL = 'https://booksmartly.iplcmiami.com';
@@ -10,6 +11,9 @@ test.describe('Booking Flow End-to-End Tests', () => {
   };
 
   test.beforeEach(async ({ page }) => {
+    // Set up network mocking
+    await setupNetworkMocks(page);
+    
     // Navigate to the application
     await page.goto(baseURL);
     

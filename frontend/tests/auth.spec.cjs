@@ -1,5 +1,6 @@
 // tests/auth.spec.cjs
-const { test, expect } = require('./fixtures/network-mocks');
+const { test, expect } = require('@playwright/test');
+const { setupNetworkMocks } = require('./fixtures/mockNetwork.js');
 
 const admin = { email: 'iplcmiami@gmail.com', password: 'Iplcmiami1', dashboard: '/reception-dashboard' };
 const client = { email: 'pdarleyjr@gmail.com', password: 'Iplcmiami1', dashboard: '/client-dashboard' };
@@ -7,6 +8,9 @@ const clinician = { email: 'adarley23@gmail.com', password: 'Iplcmiami1', dashbo
 
 test.describe('Authentication Flow', () => {
   test.beforeEach(async ({ page }) => {
+    // Set up network mocking
+    await setupNetworkMocks(page);
+    
     // Set up console logging for debugging
     page.on('console', msg => {
       console.log(`BROWSER ${msg.type().toUpperCase()}: ${msg.text()}`);

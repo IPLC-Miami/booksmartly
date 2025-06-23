@@ -1,10 +1,14 @@
 // tests/reception-dashboard.spec.cjs
 const { test, expect } = require('@playwright/test');
+const { setupNetworkMocks } = require('./fixtures/mockNetwork.js');
 
 const admin = { email: 'iplcmiami@gmail.com', password: 'Iplcmiami1', dashboard: '/reception-dashboard' };
 
 test.describe('Reception Dashboard', () => {
   test.beforeEach(async ({ page }) => {
+    // Set up network mocking
+    await setupNetworkMocks(page);
+    
     // Set up console logging for debugging
     page.on('console', msg => {
       console.log(`BROWSER ${msg.type().toUpperCase()}: ${msg.text()}`);

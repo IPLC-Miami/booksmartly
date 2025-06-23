@@ -8,32 +8,33 @@ module.exports = {
   retries: 2,
   webServer: [
     {
-      command: 'node index.js',
-      url: 'http://localhost:4000/graphql',
-      timeout: 120 * 1000,
+      command: 'node backend/app.js',
+      url: 'http://localhost:8000/graphql',
+      timeout: 120_000,
       reuseExistingServer: !process.env.CI,
-      cwd: path.resolve(__dirname, '..'),
-      env: {
-        NODE_ENV: 'development',
-      },
+      cwd: path.resolve(__dirname, '..')
     },
     {
       command: 'npm run dev',
       url: 'http://localhost:3000',
-      timeout: 120 * 1000,
+      timeout: 120_000,
       reuseExistingServer: !process.env.CI,
-      cwd: __dirname,
-    },
+      cwd: path.resolve(__dirname, '.')
+    }
   ],
   use: {
     headless: true,
-    baseURL: process.env.PLAYWRIGHT_BASE_URL || 'http://localhost:3000',
+    baseURL: 'http://localhost:3000',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
     trace: 'retain-on-failure',
     extraHTTPHeaders: {
+      'x-test-auth': 'true',
       'X-Test-Environment': process.env.NODE_ENV || 'development',
       'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'
+    },
+    env: {
+      SQUARE_MODE: 'sandbox'
     }
   },
   reporter: [
