@@ -1,5 +1,5 @@
-import React from 'react'
-import { Navigate, useLocation } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { useAuthContext } from './ContextProvider'
 
 // Basic protected route component
@@ -16,8 +16,8 @@ export const ProtectedRoute = ({ children }) => {
   }
 
   if (!user) {
-    // Redirect to login with return path
-    return <Navigate to="/login" state={{ from: location }} replace />
+    // Redirect to login with return path (relative path works with basename)
+    return <Navigate to="login" state={{ from: location }} replace />
   }
 
   return children
@@ -37,19 +37,19 @@ export const RoleBasedRoute = ({ children, allowedRoles = [] }) => {
   }
 
   if (!user) {
-    // Redirect to login with return path
-    return <Navigate to="/login" state={{ from: location }} replace />
+    // Redirect to login with return path (relative path works with basename)
+    return <Navigate to="login" state={{ from: location }} replace />
   }
 
   if (allowedRoles.length > 0 && !allowedRoles.includes(userRole)) {
-    // Redirect to appropriate dashboard based on role
+    // Redirect to appropriate dashboard based on role (relative paths work with basename)
     const dashboardRoutes = {
-      admin: '/reception-dashboard',
-      clinician: '/clinician-dashboard',
-      client: '/client-dashboard'
+      admin: 'reception-dashboard',
+      clinician: 'clinician-dashboard',
+      client: 'client-dashboard'
     }
     
-    const redirectPath = dashboardRoutes[userRole] || '/client-dashboard'
+    const redirectPath = dashboardRoutes[userRole] || 'client-dashboard'
     return <Navigate to={redirectPath} replace />
   }
 
@@ -57,11 +57,11 @@ export const RoleBasedRoute = ({ children, allowedRoles = [] }) => {
 }
 
 // Enhanced protected route with role checking and custom redirects
-export const EnhancedProtectedRoute = ({ 
-  children, 
-  allowedRoles = [], 
+export const EnhancedProtectedRoute = ({
+  children,
+  allowedRoles = [],
   redirectPath = null,
-  requireAuth = true 
+  requireAuth = true
 }) => {
   const { user, userRole, loading } = useAuthContext()
   const location = useLocation()
@@ -76,23 +76,25 @@ export const EnhancedProtectedRoute = ({
 
   // If auth is required but user is not authenticated
   if (requireAuth && !user) {
-    return <Navigate to="/login" state={{ from: location }} replace />
+    return <Navigate to="login" state={{ from: location }} replace />
   }
 
   // If user is authenticated but doesn't have required role
   if (user && allowedRoles.length > 0 && !allowedRoles.includes(userRole)) {
     if (redirectPath) {
-      return <Navigate to={redirectPath} replace />
+      // Handle both absolute and relative redirect paths
+      const finalRedirectPath = redirectPath.startsWith('/') ? redirectPath.substring(1) : redirectPath
+      return <Navigate to={finalRedirectPath} replace />
     }
     
-    // Default role-based redirects
+    // Default role-based redirects (relative paths work with basename)
     const dashboardRoutes = {
-      admin: '/reception-dashboard',
-      clinician: '/clinician-dashboard',
-      client: '/client-dashboard'
+      admin: 'reception-dashboard',
+      clinician: 'clinician-dashboard',
+      client: 'client-dashboard'
     }
     
-    const defaultRedirect = dashboardRoutes[userRole] || '/client-dashboard'
+    const defaultRedirect = dashboardRoutes[userRole] || 'client-dashboard'
     return <Navigate to={defaultRedirect} replace />
   }
 
@@ -112,14 +114,14 @@ export const PublicRoute = ({ children }) => {
   }
 
   if (user) {
-    // Redirect authenticated users to their dashboard
+    // Redirect authenticated users to their dashboard (relative paths work with basename)
     const dashboardRoutes = {
-      admin: '/reception-dashboard',
-      clinician: '/clinician-dashboard',
-      client: '/client-dashboard'
+      admin: 'reception-dashboard',
+      clinician: 'clinician-dashboard',
+      client: 'client-dashboard'
     }
     
-    const redirectPath = dashboardRoutes[userRole] || '/client-dashboard'
+    const redirectPath = dashboardRoutes[userRole] || 'client-dashboard'
     return <Navigate to={redirectPath} replace />
   }
 

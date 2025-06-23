@@ -1,5 +1,15 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
-import { getUserRole as getComprehensiveUserRole } from './authHelper'
+import {
+  getCurrentUser,
+  getUserRole as getComprehensiveUserRole,
+  isAuthenticated,
+  signInWithEmail,
+  signUpWithEmail,
+  signOut as authSignOut,
+  resetPassword as authResetPassword,
+  updatePassword as authUpdatePassword,
+  getAuthToken
+} from './authHelper'
 
 // Create AuthContext
 const AuthContext = createContext({
@@ -22,22 +32,25 @@ export const useAuthContext = () => {
   return context
 }
 
-// Helper function to get user role from database
+// Helper function to get user role from JWT token
 const getUserRole = async (user) => {
   if (!user) return null;
   
-  // Use the comprehensive role detection from authHelper
   try {
+    // The role should be in the JWT token already
+    if (user.role) {
+      console.log('🔍 Role detected for user:', user.email, 'Role:', user.role);
+      return user.role;
+    }
+    
+    // Fallback to comprehensive role detection if needed
     const role = await getComprehensiveUserRole(user.id);
     console.log('🔍 Role detected for user:', user.email, 'Role:', role);
     return role;
   } catch (error) {
     console.error('Error getting user role:', error);
-    // Fallback to metadata if available
-    if (user.raw_user_meta_data && user.raw_user_meta_data.role) {
-      return user.raw_user_meta_data.role;
-    }
-    return null;
+    // Default role if detection fails
+    return 'client';
   }
 }
 
@@ -48,121 +61,128 @@ export const AuthContextProvider = ({ children }) => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Get initial session
+    // Get initial session from localStorage token
     const getInitialSession = async () => {
       try {
-        const { data: { session }, error } = { data: {} }
-        
-        if (error) {
-          console.error('Error getting session:', error)
-          setUser(null)
-          setUserRole(null)
-        } else if (session?.user) {
-          setUser(session.user)
-          const role = await getUserRole(session.user)
-          setUserRole(role)
+        if (isAuthenticated()) {
+          const currentUser = getCurrentUser();
+          if (currentUser) {
+            setUser(currentUser);
+            const role = await getUserRole(currentUser);
+            setUserRole(role);
+            console.log('🔐 Initial session loaded:', currentUser.email, 'Role:', role);
+          } else {
+            setUser(null);
+            setUserRole(null);
+          }
         } else {
-          setUser(null)
-          setUserRole(null)
+          setUser(null);
+          setUserRole(null);
         }
       } catch (error) {
-        console.error('Error in getInitialSession:', error)
-        setUser(null)
-        setUserRole(null)
+        console.error('Error in getInitialSession:', error);
+        setUser(null);
+        setUserRole(null);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
     }
 
-    getInitialSession()
-
-    // Listen for auth changes
-    const { data: { subscription } } = { data: {} }
-
-    return () => {
-      subscription?.unsubscribe()
-    }
+    getInitialSession();
   }, [])
 
   // Sign in function
   const signIn = async (email, password) => {
     try {
-      const { data, error } = {}
-
-      if (error) {
-        throw error
+      console.log('🔐 Attempting sign in for:', email);
+      const response = await signInWithEmail(email, password);
+      
+      if (response.success && response.token) {
+        // Get user from token
+        const currentUser = getCurrentUser();
+        if (currentUser) {
+          setUser(currentUser);
+          const role = await getUserRole(currentUser);
+          setUserRole(role);
+          console.log('🔐 Sign in successful:', currentUser.email, 'Role:', role);
+        }
+        return { data: response, error: null };
+      } else {
+        console.error('🔐 Sign in failed:', response.error || response.message);
+        return { data: null, error: response.error || response.message || 'Login failed' };
       }
-
-      return { data, error: null }
     } catch (error) {
-      console.error('Sign in error:', error)
-      return { data: null, error }
+      console.error('🔐 Sign in error:', error);
+      return { data: null, error: error.message || 'Login failed' };
     }
   }
 
   // Sign up function
   const signUp = async (email, password, options = {}) => {
     try {
-      const { data, error } = {}
-
-      if (error) {
-        throw error
+      console.log('🔐 Attempting sign up for:', email);
+      const response = await signUpWithEmail(email, password, options);
+      
+      if (response.success) {
+        return { data: response, error: null };
+      } else {
+        console.error('🔐 Sign up failed:', response.error || response.message);
+        return { data: null, error: response.error || response.message || 'Signup failed' };
       }
-
-      return { data, error: null }
     } catch (error) {
-      console.error('Sign up error:', error)
-      return { data: null, error }
+      console.error('🔐 Sign up error:', error);
+      return { data: null, error: error.message || 'Signup failed' };
     }
   }
 
   // Sign out function
   const signOut = async () => {
     try {
-      const { error } = {}
-      
-      if (error) {
-        throw error
-      }
-
-      setUser(null)
-      setUserRole(null)
-      return { error: null }
+      console.log('🔐 Signing out user:', user?.email);
+      authSignOut(); // Remove token from localStorage
+      setUser(null);
+      setUserRole(null);
+      console.log('🔐 Sign out successful');
+      return { error: null };
     } catch (error) {
-      console.error('Sign out error:', error)
-      return { error }
+      console.error('🔐 Sign out error:', error);
+      return { error: error.message || 'Logout failed' };
     }
   }
 
   // Reset password function
   const resetPassword = async (email) => {
     try {
-      const { data, error } = {}
-
-      if (error) {
-        throw error
+      console.log('🔐 Attempting password reset for:', email);
+      const response = await authResetPassword(email);
+      
+      if (response.success) {
+        return { data: response, error: null };
+      } else {
+        console.error('🔐 Password reset failed:', response.error || response.message);
+        return { data: null, error: response.error || response.message || 'Password reset failed' };
       }
-
-      return { data, error: null }
     } catch (error) {
-      console.error('Reset password error:', error)
-      return { data: null, error }
+      console.error('🔐 Reset password error:', error);
+      return { data: null, error: error.message || 'Password reset failed' };
     }
   }
 
   // Update password function
   const updatePassword = async (newPassword) => {
     try {
-      const { data, error } = {}
-
-      if (error) {
-        throw error
+      console.log('🔐 Attempting password update for user:', user?.email);
+      const response = await authUpdatePassword(newPassword);
+      
+      if (response.success) {
+        return { data: response, error: null };
+      } else {
+        console.error('🔐 Password update failed:', response.error || response.message);
+        return { data: null, error: response.error || response.message || 'Password update failed' };
       }
-
-      return { data, error: null }
     } catch (error) {
-      console.error('Update password error:', error)
-      return { data: null, error }
+      console.error('🔐 Update password error:', error);
+      return { data: null, error: error.message || 'Password update failed' };
     }
   }
 

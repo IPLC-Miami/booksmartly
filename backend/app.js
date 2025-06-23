@@ -28,26 +28,28 @@ const { redis, setCache, getCache } = require("./config/redisClient.js");
 const { initSocket } = require("./config/socket"); // import your socket module
 const passport = require('./services/auth');
 
-const userRoutes = require("./routes/userRoutes");
-const authRoutes = require("./routes/authRoutes");
-const clinicianRoutes = require("./routes/clinicianRoutes"); // Updated
-const appointmentRoutes = require("./routes/appointmentRoutes");
-const prescriptionRoutes = require("./routes/prescriptionRoutes");
-const testReportsRoutes = require("./routes/testReportsRoutes");
-const clinicianProfileRoutes = require("./routes/clinicianProfileRoutes"); // Updated
-const receptionProfileRoutes = require("./routes/receptionProfileRoutes.js");
-const feedbackRoutes = require("./routes/feedbackRoutes");
-const healthWorkerRoutes = require("./routes/healthWorkerRoutes.js");
-const AiConsultation = require("./routes/AiConsultation.js");
-const fileRoutes = require("./routes/fileRoutes");
-const chatRoutes = require("./routes/chatRoutes");
-const billingRoutes = require("./routes/billingRoutes");
-const analyticsRoutes = require("./routes/analyticsRoutes");
-const scheduleRoutes = require("./routes/scheduleRoutes");
+// Available routes
+const authRoutes = require("./routes/auth");
+const squareRoutes = require("./routes/square");
 
-// connectDB();
-const profileRoutes = require("./routes/profileRoutes");
-const multiClinicianDashboardRoutes = require("./routes/multiClinicianDashboardRoutes"); // Updated
+// TODO: Re-enable these routes when files are created
+// const userRoutes = require("./routes/userRoutes");
+// const clinicianRoutes = require("./routes/clinicianRoutes");
+// const appointmentRoutes = require("./routes/appointmentRoutes");
+// const prescriptionRoutes = require("./routes/prescriptionRoutes");
+// const testReportsRoutes = require("./routes/testReportsRoutes");
+// const clinicianProfileRoutes = require("./routes/clinicianProfileRoutes");
+// const receptionProfileRoutes = require("./routes/receptionProfileRoutes.js");
+// const feedbackRoutes = require("./routes/feedbackRoutes");
+// const healthWorkerRoutes = require("./routes/healthWorkerRoutes.js");
+// const AiConsultation = require("./routes/AiConsultation.js");
+// const fileRoutes = require("./routes/fileRoutes");
+// const chatRoutes = require("./routes/chatRoutes");
+// const billingRoutes = require("./routes/billingRoutes");
+// const analyticsRoutes = require("./routes/analyticsRoutes");
+// const scheduleRoutes = require("./routes/scheduleRoutes");
+// const profileRoutes = require("./routes/profileRoutes");
+// const multiClinicianDashboardRoutes = require("./routes/multiClinicianDashboardRoutes");
 // const {getAuthUrl , getAuthToken} = require("./config/googleClient");
 // const {oauth2client} = require("./config/googleClient");
 const cors = require("cors");
@@ -124,8 +126,8 @@ app.use(session(sessionConfig));
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use("/AiConsultation", AiConsultation);
-
+// TODO: Re-enable when AiConsultation route is available
+// app.use("/AiConsultation", AiConsultation);
 
 app.use(async (req, res, next) => {
   try {
@@ -146,31 +148,36 @@ app.use(async (req, res, next) => {
     next();
   }
 });
+
 // Routes
 app.get("/", (req, res) => res.send("Hello World"));
 
+// Available routes
 app.use("/auth", authRoutes);
-app.use("/api/auth", authRoutes); // ADD: Mount authRoutes under /api/auth to match frontend expectations
-app.use("/users", userRoutes);
-app.use("/api/users", userRoutes); // ADD: Mount userRoutes under /api/users to match frontend expectations
-app.use("/clinicians", clinicianRoutes); // Updated
-app.use("/api/clinicians", clinicianRoutes); // ADD: Mount clinicianRoutes under /api/clinicians to match frontend expectations
-app.use("/appointments", appointmentRoutes);
-app.use("/api/appointments", appointmentRoutes); // ADD: Mount appointmentRoutes under /api/appointments to match frontend expectations
-app.use("/prescriptions", prescriptionRoutes);
-app.use("/testReports", testReportsRoutes);
-app.use("/uploadProfiles", profileRoutes);
-app.use("/clinicianProfileRoutes", clinicianProfileRoutes); // Updated
-app.use("/receptionProfileRoutes", receptionProfileRoutes);
-app.use("/api/receptionProfileRoutes", receptionProfileRoutes); // ADD: Mount receptionProfileRoutes under /api/receptionProfileRoutes to match frontend expectations
-app.use("/feedback", feedbackRoutes);
-app.use("/multiClinicianDashboardRoutes", multiClinicianDashboardRoutes); // Updated
-app.use("/healthWorkerRoutes", healthWorkerRoutes);
-app.use("/api/files", fileRoutes);
-app.use("/api/chat", chatRoutes);
-app.use("/api/billing", billingRoutes);
-app.use("/api/analytics", analyticsRoutes);
-app.use("/api/schedules", scheduleRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/square", squareRoutes);
+
+// TODO: Re-enable these routes when files are created
+// app.use("/users", userRoutes);
+// app.use("/api/users", userRoutes);
+// app.use("/clinicians", clinicianRoutes);
+// app.use("/api/clinicians", clinicianRoutes);
+// app.use("/appointments", appointmentRoutes);
+// app.use("/api/appointments", appointmentRoutes);
+// app.use("/prescriptions", prescriptionRoutes);
+// app.use("/testReports", testReportsRoutes);
+// app.use("/uploadProfiles", profileRoutes);
+// app.use("/clinicianProfileRoutes", clinicianProfileRoutes);
+// app.use("/receptionProfileRoutes", receptionProfileRoutes);
+// app.use("/api/receptionProfileRoutes", receptionProfileRoutes);
+// app.use("/feedback", feedbackRoutes);
+// app.use("/multiClinicianDashboardRoutes", multiClinicianDashboardRoutes);
+// app.use("/healthWorkerRoutes", healthWorkerRoutes);
+// app.use("/api/files", fileRoutes);
+// app.use("/api/chat", chatRoutes);
+// app.use("/api/billing", billingRoutes);
+// app.use("/api/analytics", analyticsRoutes);
+// app.use("/api/schedules", scheduleRoutes);
 
 // const options = {
 //   key: fs.readFileSync("certs/key.pem"),

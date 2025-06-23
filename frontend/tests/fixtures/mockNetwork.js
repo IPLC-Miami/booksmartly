@@ -1,5 +1,5 @@
 // Mock network responses for Playwright tests
-export const mockNetworkResponses = {
+const mockNetworkResponses = {
   // Square payment endpoints
   '/api/square/env': {
     status: 200,
@@ -16,6 +16,20 @@ export const mockNetworkResponses = {
     body: { success: true, message: 'OTP verified successfully' }
   },
   
+  // Authentication endpoints
+  '/api/auth/login': {
+    status: 401,
+    body: { error: 'Invalid credentials' }
+  },
+  '/api/auth/register': {
+    status: 200,
+    body: { success: true, message: 'User registered successfully' }
+  },
+  '/api/auth/logout': {
+    status: 200,
+    body: { success: true, message: 'Logged out successfully' }
+  },
+  
   // GraphQL endpoint
   '/graphql': {
     status: 200,
@@ -24,7 +38,7 @@ export const mockNetworkResponses = {
 };
 
 // Helper function to setup network mocking in tests
-export async function setupNetworkMocks(page) {
+async function setupNetworkMocks(page) {
   await page.route('**/api/**', async (route) => {
     const url = route.request().url();
     const pathname = new URL(url).pathname;
@@ -40,4 +54,18 @@ export async function setupNetworkMocks(page) {
       await route.continue();
     }
   });
+  
+  // Also mock GraphQL endpoint
+  await page.route('**/graphql', async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({ data: {} })
+    });
+  });
 }
+
+module.exports = {
+  setupNetworkMocks,
+  mockNetworkResponses
+};

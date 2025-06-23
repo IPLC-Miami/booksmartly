@@ -27,10 +27,10 @@ const createNoOpSquareClient = () => {
 const createSquareClient = () => {
   const client = new Client({
     accessToken: process.env.SQUARE_ACCESS_TOKEN,
-    environment: process.env.SQUARE_ENVIRONMENT === 'production' ? Environment.Production : Environment.Sandbox,
+    environment: process.env.SQUARE_MODE === 'production' ? Environment.Production : Environment.Sandbox,
   });
   
-  console.info(`[Square] Initialized in ${process.env.SQUARE_ENVIRONMENT || 'sandbox'} mode`);
+  console.info(`[Square] Initialized in ${process.env.SQUARE_MODE || 'sandbox'} mode`);
   return client;
 };
 

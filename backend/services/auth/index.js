@@ -50,8 +50,8 @@ passport.use(new LocalStrategy({
       email: 'admin@booksmartly.com',
       name: 'Admin User',
       provider: 'local',
-      // This is bcrypt hash for 'password123'
-      passwordHash: '$2b$10$rOzJqQjQjQjQjQjQjQjQjOzJqQjQjQjQjQjQjQjQjOzJqQjQjQjQjQ'
+      // This is bcrypt hash for 'admin123'
+      passwordHash: '$2b$10$iNyvbyuJAPevEEJjDKXFlutYG4GDlOs/wTELWED4UQKiI5QrW7shy'
     };
     
     if (email === mockUser.email) {
