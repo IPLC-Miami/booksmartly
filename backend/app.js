@@ -155,7 +155,7 @@ app.get("/", (req, res) => res.send("Hello World"));
 // Available routes
 app.use("/auth", authRoutes);
 app.use("/api/auth", authRoutes);
-app.use("/api/square", squareRoutes);
+app.use("/api/integrations/square", squareRoutes);
 
 // TODO: Re-enable these routes when files are created
 // app.use("/users", userRoutes);

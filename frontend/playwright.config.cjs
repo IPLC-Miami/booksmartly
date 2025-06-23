@@ -6,25 +6,16 @@ module.exports = {
   testDir: './tests',
   timeout: 45000,
   retries: 2,
-  webServer: [
-    {
-      command: 'node backend/app.js',
-      url: 'http://localhost:8000/graphql',
-      timeout: 120_000,
-      reuseExistingServer: !process.env.CI,
-      cwd: path.resolve(__dirname, '..')
-    },
-    {
-      command: 'npm run dev',
-      url: 'http://localhost:3000',
-      timeout: 120_000,
-      reuseExistingServer: !process.env.CI,
-      cwd: path.resolve(__dirname, '.')
-    }
-  ],
+  webServer: {
+    command: 'npm run dev',
+    url: 'http://localhost:5173',
+    timeout: 120_000,
+    reuseExistingServer: !process.env.CI,
+    cwd: path.resolve(__dirname)
+  },
   use: {
     headless: true,
-    baseURL: 'http://localhost:3000',
+    baseURL: 'http://localhost:5173',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
     trace: 'retain-on-failure',
@@ -49,7 +40,7 @@ module.exports = {
       name: 'local-chrome',
       use: {
         ...require('@playwright/test').devices['Desktop Chrome'],
-        baseURL: 'http://localhost:3000',
+        baseURL: 'http://localhost:5173',
       },
       testMatch: process.env.NODE_ENV === 'development' ? '**/*.spec.cjs' : undefined,
     },
@@ -57,7 +48,7 @@ module.exports = {
       name: 'local-firefox',
       use: {
         ...require('@playwright/test').devices['Desktop Firefox'],
-        baseURL: 'http://localhost:3000',
+        baseURL: 'http://localhost:5173',
       },
       testMatch: process.env.NODE_ENV === 'development' ? '**/*.spec.cjs' : undefined,
     },
@@ -66,7 +57,7 @@ module.exports = {
       name: 'production-chrome',
       use: {
         ...require('@playwright/test').devices['Desktop Chrome'],
-        baseURL: 'http://localhost:3000',
+        baseURL: 'http://localhost:5173',
       },
       testMatch: process.env.NODE_ENV === 'production' ? '**/*.spec.cjs' : undefined,
     },
@@ -74,7 +65,7 @@ module.exports = {
       name: 'production-firefox',
       use: {
         ...require('@playwright/test').devices['Desktop Firefox'],
-        baseURL: 'http://localhost:3000',
+        baseURL: 'http://localhost:5173',
       },
       testMatch: process.env.NODE_ENV === 'production' ? '**/*.spec.cjs' : undefined,
     },
@@ -82,7 +73,7 @@ module.exports = {
       name: 'production-safari',
       use: {
         ...require('@playwright/test').devices['Desktop Safari'],
-        baseURL: 'http://localhost:3000',
+        baseURL: 'http://localhost:5173',
       },
       testMatch: process.env.NODE_ENV === 'production' ? '**/*.spec.cjs' : undefined,
     },

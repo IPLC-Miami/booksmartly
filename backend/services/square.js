@@ -1,4 +1,4 @@
-const { Client, Environment } = require('squareup');
+const { Client, Environment } = require('@square/square');
 
 // Returns a no-op Square client that logs warnings and returns mock responses
 const createNoOpSquareClient = () => {
@@ -35,7 +35,7 @@ const createSquareClient = () => {
 };
 
 // Create a real Square client only if credentials are set, otherwise create a no-op client
-const squareClient = (process.env.SQUARE_ACCESS_TOKEN && process.env.SQUARE_APPLICATION_ID)
+const squareClient = (process.env.SQUARE_ACCESS_TOKEN && process.env.SQUARE_APP_ID)
   ? createSquareClient()
   : createNoOpSquareClient();
 
