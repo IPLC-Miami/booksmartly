@@ -1,7 +1,6 @@
 const passport = require('passport');
 
 require('../services/auth/google');
-require('../services/auth/facebook');
 
 passport.serializeUser((user, done) => {
   done(null, user.id);

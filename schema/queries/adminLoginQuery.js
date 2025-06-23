@@ -44,12 +44,6 @@ const adminLoginQuery = {
                 ? process.env.PRODUCTION_CLIENT_ROOT
                 : "localhost",
           });
-          context.res.clearCookie("temporary-facebook-dummy-token", {
-            domain:
-              process.env.NODE_ENV === "production"
-                ? process.env.PRODUCTION_CLIENT_ROOT
-                : "localhost",
-          });
 
           const generateAdminDummyToken = (employee) => {
             const token = jwt.sign(
@@ -175,12 +169,6 @@ const adminLoginQuery = {
               : "localhost",
         });
         context.res.clearCookie("refresh-token", {
-          domain:
-            process.env.NODE_ENV === "production"
-              ? process.env.PRODUCTION_CLIENT_ROOT
-              : "localhost",
-        });
-        context.res.clearCookie("temporary-facebook-dummy-token", {
           domain:
             process.env.NODE_ENV === "production"
               ? process.env.PRODUCTION_CLIENT_ROOT

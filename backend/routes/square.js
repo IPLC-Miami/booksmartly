@@ -1,5 +1,9 @@
 const express = require('express');
 const router = express.Router();
+const { getSquareEnv } = require('../controllers/squareController');
+
+// Get Square environment
+router.get('/env', getSquareEnv);
 
 router.get('/diagnostic', (req, res) => {
   res.json({

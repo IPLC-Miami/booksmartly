@@ -16,8 +16,6 @@ const updateClientInformationMutation = {
     password: { type: GraphQLString },
   },
   async resolve(parent, args, context) {
-    const temporaryFacebookAccessToken =
-      context.cookies["temporary-facebook-access-token"];
     const accessToken = context.cookies["access-token"];
 
     let matchedClient;
@@ -27,22 +25,13 @@ const updateClientInformationMutation = {
     if (!context.isAuth) {
       throw new UserInputError("User is not authenticated.");
     } else {
-      if (temporaryFacebookAccessToken) {
+      if (accessToken) {
         client = await Client.findOne({
-          _id: jwt.decode(temporaryFacebookAccessToken).id.toString(),
+          _id: jwt.decode(accessToken).id.toString(),
         });
         filter = {
-          _id: jwt.decode(temporaryFacebookAccessToken).id.toString(),
+          _id: jwt.decode(accessToken).id.toString(),
         };
-      } else {
-        if (accessToken) {
-          client = await Client.findOne({
-            _id: jwt.decode(accessToken).id.toString(),
-          });
-          filter = {
-            _id: jwt.decode(accessToken).id.toString(),
-          };
-        }
       }
 
       const update = {
