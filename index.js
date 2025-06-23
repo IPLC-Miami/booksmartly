@@ -1,8 +1,5 @@
 const express = require("express");
 const compression = require("compression");
-const { graphqlHTTP } = require("express-graphql");
-const expressPlayground =
-  require("graphql-playground-middleware-express").default;
 const { ApolloServer } = require("apollo-server-express");
 const schema = require("./schema/schema");
 const pubsub = require("./backend/services/pubsub");
@@ -876,14 +873,15 @@ app.use(async (req, res, next) => {
 
 const httpServer = http.createServer(app);
 
-server.applyMiddleware({ app, path: "/graphql" });
-server.installSubscriptionHandlers(httpServer);
+async function startServer() {
+  await server.start();
+  server.applyMiddleware({ app, path: "/graphql" });
 
-httpServer.listen(port, () => {
-  console.log(
-    `🚀 Server ready at http://localhost:${port}${server.graphqlPath}`
-  );
-  console.log(
-    `🚀 Subscriptions ready at ws://localhost:${port}${server.subscriptionsPath}`
-  );
-});
+  httpServer.listen(port, () => {
+    console.log(
+      `🚀 Server ready at http://localhost:${port}${server.graphqlPath}`
+    );
+  });
+}
+
+startServer();
