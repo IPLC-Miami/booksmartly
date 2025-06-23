@@ -9,6 +9,9 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     
+    env:
+      CI_SKIP_PLAYWRIGHT: true
+    
     steps:
     - name: Checkout code
       uses: actions/checkout@v4

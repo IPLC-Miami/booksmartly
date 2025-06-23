@@ -1,6 +1,11 @@
 {
   "name": "booksmartly-glowlabs",
   "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
   "description": "BookSmartly backend powered by GlowLabs",
   "main": "backend/app.js",
   "scripts": {
@@ -9,7 +14,7 @@
     "test": "jest",
     "test:schema": "jest tests/schema.test.js",
     "test:store": "jest Client/src/tests/store.test.js",
-    "build:stats": "webpack --json > Client/dist/stats.json"
+    "build": "npm --workspace frontend run build"
   },
   "dependencies": {
     "@google-cloud/pubsub": "^2.18.0",

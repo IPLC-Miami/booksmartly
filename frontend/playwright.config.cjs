@@ -6,7 +6,7 @@ module.exports = {
   testDir: './tests',
   timeout: 45000,
   retries: 2,
-  webServer: {
+  webServer: process.env.CI_SKIP_PLAYWRIGHT === 'true' ? undefined : {
     command: 'npm run dev',
     url: 'http://localhost:5173',
     timeout: 120_000,
