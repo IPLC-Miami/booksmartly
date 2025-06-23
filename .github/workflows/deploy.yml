@@ -2,7 +2,7 @@ name: Deploy to VPS
 
 on:
   push:
-    branches: [ "hotfix/jun-16-backend-auth-routes" ]
+    branches: [ "main" ]
 
 jobs:
   deploy:
@@ -26,11 +26,12 @@ jobs:
     - name: Build if build script exists
       run: npm run build --if-present
     
-    - name: Build Client
+    - name: Build Frontend
       run: |
-        cd Client
+        cd frontend
         npm ci
         npm run build
+        
     - name: Deploy to VPS
       uses: appleboy/ssh-action@v0.1.5
       with:
@@ -38,14 +39,14 @@ jobs:
         username: ${{ secrets.VPS_USERNAME }}
         key: ${{ secrets.VPS_SSH_KEY }}
         script: |
-          rm -rf /var/www/booksmartly/backend
           cd /var/www/booksmartly
-          git pull origin hotfix/jun-16-backend-auth-routes
+          git pull origin main
           npm ci --production
+          cd frontend
+          npm ci
+          npm run build
+          cd ..
           pm2 reload ecosystem.config.js --update-env
-
-    - name: Copy static
-      run: rsync -a Client/build/ ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }}:/var/www/booksmartly/client
 
     - name: Log success
       uses: appleboy/ssh-action@v0.1.5
@@ -54,4 +55,4 @@ jobs:
         username: ${{ secrets.VPS_USERNAME }}
         key: ${{ secrets.VPS_SSH_KEY }}
         script: |
-          ssh $DEPLOY_USER@$VPS "echo '2025-06-22 – GlowLabs migration fully live – $(git rev-parse --short HEAD)' >> /var/log/booksmartly/progress.log"
+          echo '2025-06-23 – Main branch deployment completed – $(git rev-parse --short HEAD)' >> /var/log/booksmartly/progress.log

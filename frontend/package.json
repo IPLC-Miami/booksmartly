@@ -9,18 +9,7 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview",
-    "test": "playwright test --project=production-chrome",
-    "test:headed": "playwright test --project=production-chrome --headed",
-    "test:ui": "playwright test --ui",
-    "test:production": "playwright test",
-    "test:production:chrome": "playwright test --project=production-chrome",
-    "test:production:firefox": "playwright test --project=production-firefox",
-    "test:production:safari": "playwright test --project=production-safari",
-    "test:auth": "playwright test auth.spec.cjs --project=production-chrome",
-    "test:admin": "playwright test admin-schedule.spec.cjs admin-clinicians.spec.cjs --project=production-chrome",
-    "test:booking": "playwright test booking-flow.spec.cjs --project=production-chrome",
-    "test:install": "playwright install"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@fontsource-variable/noto-sans-mono": "^5.1.1",
@@ -64,7 +53,6 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "@playwright/test": "^1.52.0",
     "@tailwindcss/typography": "^0.5.16",
     "@tanstack/react-query-devtools": "^5.51.1",
     "@types/react": "^18.3.3",
