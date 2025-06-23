@@ -6,12 +6,10 @@ module.exports = {
   testDir: './tests',
   timeout: 45000,
   retries: 2,
-  webServer: process.env.CI_SKIP_PLAYWRIGHT === 'true' ? undefined : {
+  webServer: {
     command: 'npm run dev',
-    url: 'http://localhost:5173',
-    timeout: 120_000,
+    port: 5173,
     reuseExistingServer: !process.env.CI,
-    cwd: path.resolve(__dirname)
   },
   use: {
     headless: true,

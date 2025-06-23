@@ -246,3 +246,5 @@ server.listen(PORT, "0.0.0.0", () =>
 //   console.log(`Server is running on https://localhost:${PORT}`);
 // });
 
+
+app.use('/api/integrations/square', require('./routes/square'));
