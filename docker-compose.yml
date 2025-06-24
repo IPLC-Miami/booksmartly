@@ -1,31 +1,12 @@
-version: '3.8'
-
 services:
-  redis:
-    image: redis:7-alpine
-    container_name: booksmartly-redis
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis_data:/data
-    restart: unless-stopped
-    command: redis-server --appendonly yes
-
-  chatbot:
+  booksmartly:
     build:
-      context: ./ml_model/chatbot
+      context: .
       dockerfile: Dockerfile
-    container_name: booksmartly-chatbot
     ports:
-      - "8003:8000"
-    environment:
-      - REDIS_DSN=redis://redis:6379
-      - GOOGLE_GEMINI_API_KEY=AIzaSyDrhgAthsqrdcRMu-obTITdvceeVeySw84
+      - "4000:4000"
     volumes:
-      - ./ml_model/chatbot:/app
-    depends_on:
-      - redis
-    restart: unless-stopped
-
-volumes:
-  redis_data:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    command: >
+      bash -c "npm install && npm start"
