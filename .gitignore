@@ -52,7 +52,6 @@ Thumbs.db
 
 # Package managers
 yarn.lock
-package-lock.json
 
 # Temporary files
 .tmp/
@@ -163,4 +162,3 @@ deployment-log.md
 # Local environment files
 .env*
 !.env.example
-"frontend/.env.production"  
