@@ -705,7 +705,6 @@ app.use("/api/integrations/square", require("./backend/routes/square"));
 app.get("/", (req, res) => {
   res.send("The Glow Labs server is up and running!");
 });
-});
 
 // Connect to MongoDB with Mongoose
 mongoose
