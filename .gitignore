@@ -120,7 +120,6 @@ backend/scripts/
 
 # Backend environment and config files
 backend/.env*
-backend/controllers/
 
 # Frontend documentation
 frontend/src/docs/
@@ -164,3 +163,4 @@ deployment-log.md
 # Local environment files
 .env*
 !.env.example
+"frontend/.env.production"  
