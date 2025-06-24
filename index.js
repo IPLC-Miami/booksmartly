@@ -707,7 +707,7 @@ app.get("/", (req, res) => {
 // Connect to MongoDB with Mongoose
 mongoose
   .connect(
-    process.env.MONGODB_URI || `mongodb+srv://${process.env.MONGO_DB_USERNAME}:${process.env.MONGO_DB_PASSWORD}@glowlabs-qo7rk.mongodb.net/test?retryWrites=true&w=majority`
+    process.env.DATABASE_URL
   )
   .then(() => {
     console.log("Connected to MongoDB");
