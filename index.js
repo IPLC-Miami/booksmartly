@@ -20,6 +20,7 @@ require("./models/treatment");
 
 const express = require("express");
 const compression = require("compression");
+require('dotenv').config({ path: require('path').resolve(__dirname, './backend/.env') });
 const { ApolloServer } = require("apollo-server-express");
 const schema = require("./schema/schema");
 const pubsub = require("./backend/services/pubsub");
@@ -699,9 +700,11 @@ const squareRoutes = require('./backend/routes/square');
 // Use route handlers
 app.use('/api/auth', authRoutes);
 app.use('/api/square', squareRoutes);
+app.use("/api/integrations/square", require("./backend/routes/square"));
 
 app.get("/", (req, res) => {
   res.send("The Glow Labs server is up and running!");
+});
 });
 
 // Connect to MongoDB with Mongoose
