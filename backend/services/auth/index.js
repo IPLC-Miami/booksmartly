@@ -1,6 +1,8 @@
 const passport = require('passport');
 const bcrypt = require('bcrypt');
 const noop = (_req, _res, next) => next();
+const mongoose = require('mongoose');
+const Client = require('../../models/client');
 
 // Guarded initialization for Google OAuth
 if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET && process.env.GOOGLE_CLIENT_ID !== '__DISABLED__') {
@@ -36,34 +38,45 @@ passport.use(new LocalStrategy({
   passwordField: 'password'
 }, async (email, password, done) => {
   try {
-    // TODO: Replace with actual database lookup
-    // This is a placeholder - in production, you would:
-    // 1. Query your database for a user with this email
-    // 2. Compare the provided password with the stored hash
-    // 3. Return the user object if authentication succeeds
-    
     console.info(`[Auth] Local login attempt for: ${email}`);
     
-    // Mock user for development - replace with real database query
-    const mockUser = {
-      id: 1,
-      email: 'admin@booksmartly.com',
-      name: 'Admin User',
-      provider: 'local',
-      // This is bcrypt hash for 'admin123'
-      passwordHash: '$2b$10$iNyvbyuJAPevEEJjDKXFlutYG4GDlOs/wTELWED4UQKiI5QrW7shy'
-    };
+    // Query the Client model for the user
+    const client = await Client.findOne({ email: email.toLowerCase() });
     
-    if (email === mockUser.email) {
-      const isValid = await bcrypt.compare(password, mockUser.passwordHash);
-      if (isValid) {
-        const { passwordHash, ...userWithoutPassword } = mockUser;
-        return done(null, userWithoutPassword);
-      }
+    if (!client) {
+      console.info(`[Auth] No client found with email: ${email}`);
+      return done(null, false, { message: 'No registered client found with this email.' });
     }
     
-    return done(null, false, { message: 'Invalid email or password' });
+    // Check if password exists (some clients might have OAuth only)
+    if (!client.password) {
+      console.info(`[Auth] Client has no password set: ${email}`);
+      return done(null, false, { message: 'Please use social login or reset your password.' });
+    }
+    
+    // Compare password with stored hash
+    const isValid = await bcrypt.compare(password, client.password);
+    
+    if (!isValid) {
+      console.info(`[Auth] Invalid password for: ${email}`);
+      return done(null, false, { message: 'Invalid password' });
+    }
+    
+    // Return user object without password
+    const user = {
+      id: client._id.toString(),
+      email: client.email,
+      name: `${client.firstName} ${client.lastName}`,
+      firstName: client.firstName,
+      lastName: client.lastName,
+      role: client.admin ? 'admin' : 'client',
+      provider: 'local'
+    };
+    
+    console.info(`[Auth] Successful login for: ${email}`);
+    return done(null, user);
   } catch (error) {
+    console.error('[Auth] Error during authentication:', error);
     return done(error);
   }
 }));
@@ -75,20 +88,25 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser(async (id, done) => {
   try {
-    // TODO: Replace with actual database lookup
-    // Mock user lookup - replace with real database query
-    const mockUser = {
-      id: 1,
-      email: 'admin@booksmartly.com',
-      name: 'Admin User',
+    // Query the Client model
+    const client = await Client.findById(id);
+    
+    if (!client) {
+      return done(null, false);
+    }
+    
+    // Return user object without password
+    const user = {
+      id: client._id.toString(),
+      email: client.email,
+      name: `${client.firstName} ${client.lastName}`,
+      firstName: client.firstName,
+      lastName: client.lastName,
+      role: client.admin ? 'admin' : 'client',
       provider: 'local'
     };
     
-    if (id == mockUser.id) {
-      return done(null, mockUser);
-    }
-    
-    return done(null, false);
+    return done(null, user);
   } catch (error) {
     return done(error);
   }
