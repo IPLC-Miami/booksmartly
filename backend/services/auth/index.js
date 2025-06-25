@@ -2,7 +2,7 @@ const passport = require('passport');
 const bcrypt = require('bcrypt');
 const noop = (_req, _res, next) => next();
 const mongoose = require('mongoose');
-const Client = require('../../models/client');
+const Client = require('../../../models/client');
 
 // Guarded initialization for Google OAuth
 if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET && process.env.GOOGLE_CLIENT_ID !== '__DISABLED__') {
