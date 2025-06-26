@@ -22,3 +22,29 @@ yarn-debug.log*
 yarn-error.log*
 
 node_modules/
+
+# Docker
+*.log
+logs/
+docker-compose.override.yml
+docker-compose.yml.backup.*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+Thumbs.db
+ehthumbs.db
+
+# Deployment
+ops/secrets.env
+deployment.log
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp

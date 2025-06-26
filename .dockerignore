@@ -1,0 +1,55 @@
+# Node modules
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Git
+.git/
+.gitignore
+
+# Environment files
+.env
+.env.*
+
+# Documentation
+README.md
+*.md
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# Docker
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# Client build artifacts (since this is for server)
+Client/build/
+Client/node_modules/
+
+# Logs
+logs/
+*.log
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# Testing
+coverage/
+.nyc_output/
+
+# CI/CD
+.github/
+ops/

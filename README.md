@@ -1,211 +1,413 @@
-[![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
+# GlowLabs - Beauty Salon Management Platform
 
-<!-- PROJECT LOGO -->
-<br />
-<p align="center">
-  <a href="https://github.com/amamenko/GlowLabs">
-    <img src="Client/src/images/GlowLabsCroppedLogo.jpg" alt="Logo" width="350" />
-  </a>
+GlowLabs is a comprehensive beauty salon management platform built with Node.js, Express, GraphQL, and React. This repository contains the complete dockerized application with CI/CD pipeline for deployment to Hostinger VPS.
 
-  <h3 align="center">Glow Labs Facial Bar - CRUD Application</h3>
+## 🏗️ Architecture
 
-  <p align="center">
-    MERN stack appointment scheduling and employee/client management application
-    <br />
-    <br />
-    <a href="https://glow-labs.vercel.app">View Demo</a>
-     ·
-    <a href="https://www.youtube.com/watch?v=6skXNTfSanQ">Watch Video Demo</a>
-    ·
-    <a href="https://github.com/amamenko/GlowLabs/issues">Report Issue</a> 
-  </p>
-</p>
+**Monolithic Structure:**
+- **Server**: Node.js/Express with Apollo GraphQL server (Port 4000)
+- **Client**: React SPA with Nginx reverse proxy (Port 80)
+- **Database**: MongoDB Atlas (External)
+- **Containerization**: Docker with multi-stage builds
+- **Deployment**: GitHub Actions CI/CD to Hostinger VPS
 
-## Background
+## 📋 Prerequisites
 
-Glow Labs, a small business, has been using [Square](https://squareup.com/us/en) for booking appointments, managing clients and employees, and as a point of sale (POS) system. Its website, built by using [Wix](https://www.wix.com/), displays its Square booking workflow
-in an iframe. It has also been using [WaiverForever](https://www.waiverforever.com/) for handling consent forms - clients are not able to receive copies.
-
-Square Appointments does not charge a monthly subscription fee if there is only one staff member. However, [a monthly charge of $50 for 2-5 members and $90 for 6-11 members (and even more for even larger teams)](https://squareup.com/help/us/en/article/6238-square-appointments-faqs) is incurred.
-Glow Labs has several staff members and therefore has to pay a monthly fee. Square's [POS](https://squareup.com/us/en/point-of-sale/software) system is free to use and there are no setup fees or monthly subscription fees.
-
-Ideally, appointments, consent forms, and profile management would all be handled on the same domain. Also, sensitive client-entered credit card information should be handled securely and integrated with Square's POS system.
-
-## Functionality
-
-<p align="center">
-<a href="https://glow-labs.vercel.app">
-    <img  src="Client/src/images/GL_Responsive.png" alt="Glow Labs Skin Care Responsiveness Demo Screenshots" />
-</a>
-</span>
-<br/ >
-<br />
-
-This is a MERN (MongoDB, Express, React, Node.js) stack application that uses [Redux](https://github.com/reduxjs/redux) for state management and [Apollo Client](https://www.npmjs.com/package/apollo-boost) to fetch data from a MongoDB database via [GraphQL](https://graphql.org/). It has some of the following features:
-
-<strong>Responsive design, SEO, and performance optimizations by means of:</strong>
-
-- Custom, effective meta tags with [metatags.io](https://metatags.io/) and favicons with [favicon.io](https://favicon.io/).
-- SVG compression using [SVGOMG](https://jakearchibald.github.io/svgomg/), static site image compression using [Squoosh](https://squoosh.app/), and user-uploaded image compression using [browser-image-compression](https://www.npmjs.com/package/browser-image-compression) and [LZString](https://github.com/pieroxy/lz-string)).
-- Lazy loading and SVG stroke-dashoffset animation triggers and animation on landing page with the [Intersection Observer API](https://www.npmjs.com/package/react-intersection-observer) and [react-spring](https://www.npmjs.com/package/react-spring).
-- [Code-splitting](https://reactjs.org/docs/code-splitting.html) along shopping cart routes and authenticated user routes.
-
-<strong>Guest clients are able to:</strong>
-
-- Add and remove facial treatments and add-ons (certain combinations disallowed) from their shopping cart.
-- Select a staff member they would like their service with (or, if no preference, select a random staff member).
-- Choose an available time and date for their appointment.
-- Fill out contact information and any appointment notes.
-- Submit credit card information securely through a [Square Payment Form](https://github.com/square/react-square-payment-form) to hold their appointment. This form is an iframe (no credit card information is stored on Glow Labs' MongoDB database. Rather, this information goes to Square's POS).
-- Book selected appointments and receive:
-  - Confirmation and reminder texts via [Twilio](https://www.npmjs.com/package/twilio) and [node-cron](https://www.npmjs.com/package/node-cron) (to which they can reply to confirm their appointment).
-  - Confirmation emails (created using the [MJML](https://github.com/mjmlio/mjml) markup language) via [Nodemailer](https://www.npmjs.com/package/nodemailer).
-  - Link to fill out and sign a consent form.
-- Log in or create an account by entering details or using [Passport](https://www.npmjs.com/package/passport-facebook) to authenticate with Facebook via OAuth 2.0. Authentication is done by [JSON Web Tokens](https://jwt.io/introduction/) and [HttpOnly](https://owasp.org/www-community/HttpOnly) access and refresh cookies, as well as an additional client-visible "dummy" cookie after validation.
-
-<strong>Authenticated clients are able to do all of the above, as well as:</strong>
-
-- See upcoming and past appointments.
-- Cancel an upcoming appointment.
-- Save their credit card information for future bookings, if they wish (again, this card information is not saved to Glow Labs' MongoDB database, but is queried from [Square](https://github.com/square/square-nodejs-sdk)).
-- Download PDF copies of their latest consent forms via [React-PDF](https://www.npmjs.com/package/react-pdf).
-
-<strong>Authenticated staff members are able to:</strong>
-
-- Receive real-time relevant activity updates such as new bookings or cancellations in their employee dashboard via GraphQL [subscriptions](https://www.apollographql.com/docs/react/data/subscriptions/) powered by [Google Cloud Pub/Sub](https://cloud.google.com/pubsub/docs/overview).
-- View all clients and staff members and each individual's upcoming and past appointments, as well as PDF copies of client consent forms, if present.
-- Update client and their own profile photos by uploading a photo or taking a photo with a [webcam](https://github.com/MABelanger/react-html5-camera-photo).
-- Add, delete, or update appointments and personal events in their own calendar.
-
-<strong>Authenticated staff members with "admin" status are also able to:</strong>
-
-- Add new staff members.
-- Delete clients and staff members.
-- Update all clients' and staff members' profile photos.
-- View and manage all staff members' calendars.
-
-## Deployment
-
-Server deployed via [AWS EC2](https://aws.amazon.com/ec2/) instance with [NGINX](https://www.nginx.com/) and SSL secured with [Let's Encrypt](https://letsencrypt.org/). Client-side deployed with [Vercel](https://vercel.com/). Custom domain from [Freenom](https://www.freenom.com/) with DNS routing by [Cloudflare](https://www.cloudflare.com/).
-
-## Local Development
-
-To develop this project locally, follow the steps below.
-
-### Prerequisites
-
-You will need to have the following software installed:
-
-- npm
+### Local Development
+- Node.js 18+
+- npm or yarn
 - Git
-- Node.js
 
-### Installation
+### Docker Deployment
+- Docker 20.10+
+- Docker Compose 2.0+
 
-1. Create a [Google Maps Platform](https://developers.google.com/maps/gmp-get-started) billing account, create a project, enable the Google Maps API, and get an [API key](https://developers.google.com/maps/documentation/javascript/get-api-key).
-2. Enable the [Google Pub/Sub API](https://cloud.google.com/pubsub) for that same project, add a new topic with a name of your choosing, and then add a new subscription with the name "getUpdatedEmployee." Leave the delivery type as "Pull."
-3. Create a new [Square Developer](https://squareup.com/signup?country_code=us&v=developers) account, create a new application, and get its Sandbox credentials.
-4. Create a [Twilio](https://www.twilio.com/try-twilio) account and get its account SID and authorization token.
-5. Create a [Facebook for Developers](https://developers.facebook.com/) account, register a new application, and get its ID and secret.
-6. Create a [MongoDB](https://account.mongodb.com/account/register) account, create a new database, and get its connection string to connect to [Mongoose](https://mongoosejs.com/docs/).
-7. Clone the Github repository.
-   ```sh
-   git clone https://github.com/amamenko/GlowLabs.git
-   ```
-8. Install all client-side NPM packages.
-   ```sh
-   cd Client
-   npm install
-   ```
-9. Enter your Google Maps API token and Square Sandbox application details as client-side environment variables.
-   ```sh
-   REACT_APP_GOOGLE_MAPS_API_KEY=YOUR GOOGLE MAPS API KEY
-   REACT_APP_SQUARE_SANDBOX_APPLICATION_ID=YOUR SQUARE SANDBOX APPLICATION ID
-   REACT_APP_SQUARE_SANDBOX_LOCATION_ID=YOUR SQUARE SANDBOX LOCATION ID
-   REACT_APP_SQUARE_SANDBOX_ACCESS_TOKEN=YOUR SQUARE SANDBOX ACCESS TOKEN
-   ```
-10. Install all server-side NPM packages.
-    ```sh
-    cd ..
-    npm install
-    ```
-11. Enter your Square Sandbox, Twilio, Facebook for Developers, Google Cloud, and MongoDB credentials as server-side environment variables. Also enter your own Nodemailer email/password combinations and JSON Web Token secret keys as environment variables.
-    ```sh
-     SQUARE_SANDBOX_ACCESS_TOKEN=YOUR SQUARE SANDBOX ACCESS TOKEN
-     TWILIO_ACCOUNT_SID=YOUR TWILIO ACCOUNT SID
-     TWILIO_AUTH_TOKEN=YOUR TWILIO AUTH TOKEN
-     GLOW_LABS_TEXT_NUMBER=YOUR TWILIO TEXTING NUMBER
-     TWILIO_TEST_TEXT_NUMBER=YOUR OUTBOUND TEST TEXT NUMBER
-     FACEBOOK_APP_ID=YOUR FACEBOOK APP ID
-     FACEBOOK_APP_SECRET=YOUR FACEBOOK APP SECRET
-     JWT_SECRET_KEY_DUMMY=YOUR DUMMY JWT KEY
-     JWT_SECRET_KEY_ACCESS=YOUR ACCESS JWT KEY
-     JWT_SECRET_KEY_REFRESH=YOUR REFRESH JWT KEY
-     MONGO_DB_USERNAME=YOUR MONGODB USERNAME
-     MONGO_DB_PASSWORD=YOUR MONGODB PASSWORD
-     GOOGLE_PUB_SUB_PROJECT_ID=YOUR GOOGLE CLOUD PUB/SUB PROJECT ID
-     GOOGLE_PUB_SUB_CLIENT_EMAIL=YOUR GOOGLE CLOUD PUB/SUB CLIENT EMAIL
-     GOOGLE_PUB_SUB_PRIVATE_KEY_PART_ONE=PART ONE OF YOUR GOOGLE CLOUD PUB/SUB PRIVATE KEY
-     GOOGLE_PUB_SUB_PRIVATE_KEY_PART_TWO=PART TWO OF YOUR GOOGLE CLOUD PUB/SUB PRIVATE KEY
-     GLOW_LABS_EMAIL=YOUR EMAIL
-     GLOW_LABS_EMAIL_APP_PASSWORD=YOUR EMAIL PASSWORD
-    ```
-12. Build for production.
-    ```sh
-    npm run build
-    ```
+### Production Deployment
+- Hostinger VPS with Ubuntu/Debian
+- GitHub repository with Actions enabled
+- MongoDB Atlas cluster
 
-<!-- CONTRIBUTING -->
+## 🚀 Quick Start
 
-## Contributing
+### Local Development
 
-Contributions are welcome!
+1. **Clone the repository:**
+```bash
+git clone https://github.com/IPLC-Miami/booksmartly.git
+cd booksmartly
+```
 
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/MyFeature`)
-3. Commit your Changes (`git commit -m 'Add my feature'`)
-4. Push to the Branch (`git push origin feature/MyFeature`)
-5. Open a Pull Request
+2. **Install server dependencies:**
+```bash
+npm install
+```
 
-<!-- LICENSE -->
+3. **Install client dependencies:**
+```bash
+cd Client
+npm install
+cd ..
+```
 
-## License
+4. **Configure environment:**
+```bash
+cp .env.example .env
+# Edit .env with your configuration
+```
 
-Distributed under the MIT License. See `LICENSE.txt` for more information.
+5. **Start development servers:**
 
-<!-- CONTACT -->
+**Server (Terminal 1):**
+```bash
+npm start
+# Server runs on http://localhost:4000
+# GraphQL Playground: http://localhost:4000/graphql
+```
 
-## Contact
+**Client (Terminal 2):**
+```bash
+cd Client
+npm start
+# Client runs on http://localhost:3000
+```
 
-Avraham (Avi) Mamenko - avimamenko@gmail.com
+### Docker Development
 
-Project Link: [https://github.com/amamenko/GlowLabs](https://github.com/amamenko/GlowLabs)
+1. **Build and run with Docker Compose:**
+```bash
+docker-compose up --build
+```
 
-<!-- ACKNOWLEDGEMENTS -->
+2. **Access the application:**
+- Client: http://localhost
+- Server: http://localhost:4000
+- GraphQL: http://localhost:4000/graphql
 
-## Acknowledgements
+3. **Stop the application:**
+```bash
+docker-compose down
+```
 
-- Glow Labs
-- [Square Developer](https://developer.squareup.com/us/en)
-- [Facebook for Developers](https://developers.facebook.com/)
-- [Twilio](https://www.npmjs.com/package/twilio)
-- [Nodemailer](https://www.npmjs.com/package/nodemailer)
-- [MJML](https://github.com/mjmlio/mjml)
-- [Moment.js](https://github.com/moment/moment)
-- [Google Maps API](https://developers.google.com/maps/)
-- [React-PDF](https://www.npmjs.com/package/react-pdf)
-- [React Icons](https://react-icons.github.io/react-icons)
-- [react-spring](https://www.npmjs.com/package/react-spring)
-- [Tippy.js for React](https://www.npmjs.com/package/@tippyjs/react)
-- [React Burger Menu](https://github.com/negomi/react-burger-menu)
-- [node-cron](https://www.npmjs.com/package/node-cron)
-- [Best-README-Template](https://github.com/othneildrew/Best-README-Template)
+## 🐳 Docker Configuration
 
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+### Services
 
-[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
-[license-url]: https://github.com/amamenko/GlowLabs/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://www.linkedin.com/in/avrahammamenko
+#### GlowLabs Server
+- **Base Image**: node:18-alpine
+- **Port**: 4000
+- **Health Check**: HTTP endpoint monitoring
+- **Environment**: Production optimized
+- **Security**: Non-root user, minimal attack surface
+
+#### GlowLabs Client
+- **Build Stage**: node:18-alpine (React build)
+- **Runtime Stage**: nginx:alpine
+- **Port**: 80
+- **Features**: Gzip compression, security headers, SPA routing
+- **Health Check**: Nginx status monitoring
+
+### Build Commands
+
+```bash
+# Build server image
+docker build -t glowlabs-server .
+
+# Build client image
+docker build -t glowlabs-client ./Client
+
+# Build both with compose
+docker-compose build
+```
+
+## 🔄 CI/CD Pipeline
+
+### GitHub Actions Workflow
+
+The CI/CD pipeline automatically:
+
+1. **Builds** multi-architecture Docker images (amd64/arm64)
+2. **Pushes** images to GitHub Container Registry (GHCR)
+3. **Deploys** to production VPS via SSH
+4. **Verifies** deployment health
+5. **Rolls back** on failure
+
+### Required GitHub Secrets
+
+Configure these secrets in your GitHub repository:
+
+```bash
+VPS_SSH_KEY    # Private SSH key for VPS access
+VPS_IP         # VPS IP address
+GITHUB_TOKEN   # Automatically provided by GitHub
+```
+
+### Triggering Deployment
+
+Push to `main` or `main-clean` branches:
+
+```bash
+git add .
+git commit -m "Deploy new features"
+git push origin main
+```
+
+## 🖥️ VPS Deployment
+
+### Initial VPS Setup
+
+1. **Run the hardening script:**
+```bash
+# On your VPS as root
+curl -sSL https://raw.githubusercontent.com/IPLC-Miami/booksmartly/main/ops/vps_hardening.sh | bash
+```
+
+2. **Configure environment:**
+```bash
+cd /opt/glowlabs
+cp .env.template .env
+nano .env  # Add your configuration
+```
+
+3. **Add SSH key for GitHub Actions:**
+```bash
+# On your local machine, copy your public key
+cat ~/.ssh/id_rsa.pub
+
+# On VPS, add to authorized_keys
+echo "your-public-key-here" >> /root/.ssh/authorized_keys
+```
+
+### Manual Deployment
+
+If you need to deploy manually:
+
+```bash
+# On VPS
+cd /opt/glowlabs
+docker-compose pull
+docker-compose up -d --remove-orphans
+```
+
+### Monitoring
+
+Check deployment status:
+
+```bash
+# Container status
+docker-compose ps
+
+# Service logs
+docker-compose logs -f
+
+# Health check logs
+tail -f /opt/glowlabs/logs/health_check.log
+```
+
+## 🔧 Configuration
+
+### Environment Variables
+
+Create `.env` file with these variables:
+
+```bash
+# Application
+NODE_ENV=production
+PORT=4000
+
+# Database
+MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/database
+
+# Authentication
+JWT_SECRET=your-super-secure-jwt-secret
+
+# Square Payments
+SQUARE_APPLICATION_ID=your-square-app-id
+SQUARE_ACCESS_TOKEN=your-square-access-token
+SQUARE_ENVIRONMENT=production
+
+# Email Service
+EMAIL_SERVICE=your-email-service
+EMAIL_USER=your-email-user
+EMAIL_PASS=your-email-password
+```
+
+### Database Setup
+
+1. **Create MongoDB Atlas cluster**
+2. **Configure network access** (allow VPS IP)
+3. **Create database user** with read/write permissions
+4. **Update connection string** in `.env`
+
+## 🛠️ Development Guide
+
+### Project Structure
+
+```
+booksmartly/
+├── index.js              # Main server file
+├── package.json          # Server dependencies
+├── Dockerfile            # Server container config
+├── docker-compose.yml    # Multi-service orchestration
+├── Client/               # React frontend
+│   ├── src/             # React source code
+│   ├── public/          # Static assets
+│   ├── package.json     # Client dependencies
+│   ├── Dockerfile       # Client container config
+│   └── nginx.conf       # Nginx configuration
+├── .github/workflows/   # CI/CD pipeline
+├── ops/                 # Deployment scripts
+└── docs/               # Documentation
+```
+
+### API Endpoints
+
+#### GraphQL
+- **Endpoint**: `/graphql`
+- **Playground**: `/graphql` (development only)
+
+#### REST Endpoints
+- Health check: `GET /health`
+- File uploads: `POST /upload`
+
+### Development Workflow
+
+1. **Create feature branch:**
+```bash
+git checkout -b feature/new-feature
+```
+
+2. **Make changes and test locally:**
+```bash
+npm start          # Test server
+cd Client && npm start  # Test client
+```
+
+3. **Test with Docker:**
+```bash
+docker-compose up --build
+```
+
+4. **Commit and push:**
+```bash
+git add .
+git commit -m "Add new feature"
+git push origin feature/new-feature
+```
+
+5. **Create pull request** to `main` branch
+
+## 🔍 Troubleshooting
+
+### Common Issues
+
+#### Build Failures
+```bash
+# Clear Docker cache
+docker system prune -a
+
+# Rebuild without cache
+docker-compose build --no-cache
+```
+
+#### Connection Issues
+```bash
+# Check container logs
+docker-compose logs glowlabs-server
+docker-compose logs glowlabs-client
+
+# Check network connectivity
+docker network ls
+docker network inspect booksmartly_glowlabs-network
+```
+
+#### Deployment Failures
+```bash
+# Check VPS logs
+ssh root@your-vps-ip "journalctl -u docker -n 50"
+
+# Manual deployment
+ssh root@your-vps-ip "cd /opt/glowlabs && docker-compose up -d"
+```
+
+### Performance Monitoring
+
+```bash
+# Container resource usage
+docker stats
+
+# Application logs
+docker-compose logs -f --tail=100
+
+# System monitoring on VPS
+htop
+df -h
+free -h
+```
+
+## 🔒 Security
+
+### Implemented Security Measures
+
+- **Container Security**: Non-root users, minimal base images
+- **Network Security**: UFW firewall, fail2ban protection
+- **Application Security**: JWT authentication, input validation
+- **Transport Security**: HTTPS ready (configure reverse proxy)
+- **Data Security**: Environment variable isolation
+
+### Security Best Practices
+
+1. **Regularly update** base images and dependencies
+2. **Monitor** container vulnerabilities
+3. **Backup** database regularly
+4. **Rotate** JWT secrets periodically
+5. **Monitor** application logs for suspicious activity
+
+## 📊 Monitoring & Logging
+
+### Health Checks
+
+- **Server**: HTTP endpoint monitoring every 30s
+- **Client**: Nginx status check every 30s
+- **Database**: Connection health in application logs
+
+### Log Management
+
+- **Application logs**: Docker container logs
+- **System logs**: VPS system journal
+- **Access logs**: Nginx access logs
+- **Security logs**: fail2ban logs
+
+### Backup Strategy
+
+```bash
+# Database backup (run regularly)
+mongodump --uri="your-mongodb-uri" --out=/opt/glowlabs/backups/
+
+# Configuration backup
+tar -czf /opt/glowlabs/backups/config-$(date +%Y%m%d).tar.gz /opt/glowlabs/.env
+```
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🆘 Support
+
+For support and questions:
+- Create an issue in the GitHub repository
+- Check the troubleshooting section above
+- Review application logs for error details
+
+---
+
+**Last Updated**: January 2025
+**Version**: 2.0.0
+**Deployment Status**: Production Ready ✅
