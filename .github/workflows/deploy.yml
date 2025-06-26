@@ -1,61 +1,247 @@
-name: Deploy to VPS
+name: GlowLabs CI/CD Pipeline
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ main, main-clean ]
+  pull_request:
+    branches: [ main, main-clean ]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME_SERVER: ${{ github.repository }}/glowlabs-server
+  IMAGE_NAME_CLIENT: ${{ github.repository }}/glowlabs-client
 
 jobs:
-  deploy:
+  build-and-push:
     runs-on: ubuntu-latest
-    
-    env:
-      CI_SKIP_PLAYWRIGHT: true
+    permissions:
+      contents: read
+      packages: write
+    outputs:
+      server-image: ${{ steps.meta-server.outputs.tags }}
+      client-image: ${{ steps.meta-client.outputs.tags }}
     
     steps:
-    - uses: actions/checkout@v3
-    
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18'
-        cache: 'npm'
-    
-    - name: Test schema
-      run: npm run test:schema
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
-    - name: Install dependencies
-      run: npm ci --production
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+      with:
+        platforms: linux/amd64,linux/arm64
+
+    - name: Log in to Container Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    # Build and push server image
+    - name: Extract metadata for server
+      id: meta-server
+      uses: docker/metadata-action@v5
+      with:
+        images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_SERVER }}
+        tags: |
+          type=ref,event=branch
+          type=ref,event=pr
+          type=sha,prefix={{branch}}-
+          type=raw,value=latest,enable={{is_default_branch}}
+
+    - name: Build and push server image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        file: ./Dockerfile
+        platforms: linux/amd64,linux/arm64
+        push: true
+        tags: ${{ steps.meta-server.outputs.tags }}
+        labels: ${{ steps.meta-server.outputs.labels }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+
+    # Build and push client image
+    - name: Extract metadata for client
+      id: meta-client
+      uses: docker/metadata-action@v5
+      with:
+        images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_CLIENT }}
+        tags: |
+          type=ref,event=branch
+          type=ref,event=pr
+          type=sha,prefix={{branch}}-
+          type=raw,value=latest,enable={{is_default_branch}}
+
+    - name: Build and push client image
+      uses: docker/build-push-action@v5
+      with:
+        context: ./Client
+        file: ./Client/Dockerfile
+        platforms: linux/amd64,linux/arm64
+        push: true
+        tags: ${{ steps.meta-client.outputs.tags }}
+        labels: ${{ steps.meta-client.outputs.labels }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/main-clean'
     
-    - name: Build if build script exists
-      run: npm run build --if-present
-    
-    - name: Build Frontend
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup SSH key
       run: |
-        cd frontend
-        npm ci
-        npm run build
-        
-    - name: Deploy to VPS
-      uses: appleboy/ssh-action@v0.1.5
-      with:
-        host: ${{ secrets.VPS_HOST }}
-        username: ${{ secrets.VPS_USERNAME }}
-        key: ${{ secrets.VPS_SSH_KEY }}
-        script: |
-          cd /var/www/booksmartly
-          git pull origin main
-          npm ci --production
-          cd frontend
-          npm ci
-          npm run build
-          cd ..
-          pm2 reload ecosystem.config.js --update-env
+        mkdir -p ~/.ssh
+        echo "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H ${{ secrets.VPS_IP }} >> ~/.ssh/known_hosts
 
-    - name: Log success
-      uses: appleboy/ssh-action@v0.1.5
-      with:
-        host: ${{ secrets.VPS_HOST }}
-        username: ${{ secrets.VPS_USERNAME }}
-        key: ${{ secrets.VPS_SSH_KEY }}
-        script: |
-          echo '2025-06-23 – Main branch deployment completed – $(git rev-parse --short HEAD)' >> /var/log/booksmartly/progress.log
+    - name: Deploy to VPS
+      run: |
+        ssh -o StrictHostKeyChecking=no root@${{ secrets.VPS_IP }} << 'EOF'
+          # Set error handling
+          set -e
+          
+          # Navigate to application directory
+          cd /opt/glowlabs || { echo "Application directory not found"; exit 1; }
+          
+          # Create backup of current deployment
+          if [ -f docker-compose.yml ]; then
+            echo "Creating backup of current deployment..."
+            cp docker-compose.yml docker-compose.yml.backup.$(date +%Y%m%d_%H%M%S)
+          fi
+          
+          # Login to GitHub Container Registry
+          echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+          
+          # Pull latest images
+          echo "Pulling latest images..."
+          docker pull ${{ needs.build-and-push.outputs.server-image }}
+          docker pull ${{ needs.build-and-push.outputs.client-image }}
+          
+          # Update docker-compose.yml with new image tags
+          cat > docker-compose.yml << 'EOL'
+        version: '3.8'
+        
+        services:
+          glowlabs-server:
+            image: ${{ needs.build-and-push.outputs.server-image }}
+            container_name: glowlabs-server
+            restart: unless-stopped
+            ports:
+              - "4000:4000"
+            environment:
+              - NODE_ENV=production
+              - PORT=4000
+            env_file:
+              - .env
+            volumes:
+              - ./logs:/app/logs
+            networks:
+              - glowlabs-network
+            healthcheck:
+              test: ["CMD", "node", "-e", "const http = require('http'); const options = { host: 'localhost', port: 4000, timeout: 2000 }; const request = http.request(options, (res) => { console.log('Health check passed'); process.exit(0); }); request.on('error', () => { console.log('Health check failed'); process.exit(1); }); request.end();"]
+              interval: 30s
+              timeout: 10s
+              retries: 3
+              start_period: 40s
+        
+          glowlabs-client:
+            image: ${{ needs.build-and-push.outputs.client-image }}
+            container_name: glowlabs-client
+            restart: unless-stopped
+            ports:
+              - "80:80"
+              - "443:443"
+            depends_on:
+              glowlabs-server:
+                condition: service_healthy
+            networks:
+              - glowlabs-network
+            healthcheck:
+              test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/"]
+              interval: 30s
+              timeout: 5s
+              retries: 3
+              start_period: 20s
+        
+        networks:
+          glowlabs-network:
+            driver: bridge
+        
+        volumes:
+          logs:
+            driver: local
+        EOL
+          
+          # Deploy with zero-downtime strategy
+          echo "Starting deployment..."
+          docker-compose pull
+          docker-compose up -d --remove-orphans
+          
+          # Wait for services to be healthy
+          echo "Waiting for services to be healthy..."
+          timeout=300
+          elapsed=0
+          while [ $elapsed -lt $timeout ]; do
+            if docker-compose ps | grep -q "healthy"; then
+              echo "Services are healthy!"
+              break
+            fi
+            echo "Waiting for services to become healthy... ($elapsed/$timeout seconds)"
+            sleep 10
+            elapsed=$((elapsed + 10))
+          done
+          
+          if [ $elapsed -ge $timeout ]; then
+            echo "Health check timeout! Rolling back..."
+            if [ -f docker-compose.yml.backup.* ]; then
+              latest_backup=$(ls -t docker-compose.yml.backup.* | head -n1)
+              mv "$latest_backup" docker-compose.yml
+              docker-compose up -d --remove-orphans
+            fi
+            exit 1
+          fi
+          
+          # Clean up old images
+          echo "Cleaning up old images..."
+          docker image prune -f
+          
+          # Remove old backups (keep last 5)
+          ls -t docker-compose.yml.backup.* 2>/dev/null | tail -n +6 | xargs rm -f 2>/dev/null || true
+          
+          echo "Deployment completed successfully!"
+        EOF
+
+    - name: Verify deployment
+      run: |
+        echo "Verifying deployment..."
+        sleep 30
+        
+        # Check server health
+        if curl -f -s --max-time 10 http://${{ secrets.VPS_IP }}:4000/graphql; then
+          echo "✅ Server is responding"
+        else
+          echo "❌ Server health check failed"
+          exit 1
+        fi
+        
+        # Check client health
+        if curl -f -s --max-time 10 http://${{ secrets.VPS_IP }}/; then
+          echo "✅ Client is responding"
+        else
+          echo "❌ Client health check failed"
+          exit 1
+        fi
+        
+        echo "🚀 Deployment verification completed successfully!"
+
+    - name: Cleanup SSH
+      if: always()
+      run: |
+        rm -f ~/.ssh/id_rsa
