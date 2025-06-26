@@ -52,8 +52,8 @@ jobs:
     - name: Build and push server image
       uses: docker/build-push-action@v5
       with:
-        context: .
-        file: ./Dockerfile
+        context: ./backend
+        file: ./backend/Dockerfile
         platforms: linux/amd64,linux/arm64
         push: true
         tags: ${{ steps.meta-server.outputs.tags }}
@@ -76,8 +76,8 @@ jobs:
     - name: Build and push client image
       uses: docker/build-push-action@v5
       with:
-        context: ./Client
-        file: ./Client/Dockerfile
+        context: ./frontend
+        file: ./frontend/Dockerfile
         platforms: linux/amd64,linux/arm64
         push: true
         tags: ${{ steps.meta-client.outputs.tags }}

@@ -24,7 +24,7 @@ COPY . .
 # Install dependencies.
 RUN npm install
 
-EXPOSE 5000
+EXPOSE 4000
 
 # Run the web service on container startup.
 ENTRYPOINT [ "node", "app.js" ]

@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  glowlabs-server:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: glowlabs-server
+    restart: unless-stopped
+    ports:
+      - "3001:4000"
+    environment:
+      - NODE_ENV=production
+      - PORT=4000
+    env_file:
+      - .env
+    volumes:
+      - ./logs:/app/logs
+    networks:
+      - glowlabs-network
+    healthcheck:
+      test: ["CMD", "node", "-e", "const http = require('http'); const options = { host: 'localhost', port: 4000, timeout: 2000 }; const request = http.request(options, (res) => { console.log('Health check passed'); process.exit(0); }); request.on('error', () => { console.log('Health check failed'); process.exit(1); }); request.end();"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  glowlabs-client:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: glowlabs-client
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    depends_on:
+      glowlabs-server:
+        condition: service_healthy
+    networks:
+      - glowlabs-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+
+networks:
+  glowlabs-network:
+    driver: bridge
+
+volumes:
+  logs:
+    driver: local
