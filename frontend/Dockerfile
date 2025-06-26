@@ -1,14 +1,17 @@
 # Multi-stage build for React frontend
 FROM node:18-alpine AS builder
 
+# Install git (needed for git-based dependencies)
+RUN apk add --no-cache git
+
 # Set working directory
 WORKDIR /app
 
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies
-RUN npm ci --only=production
+# Install dependencies (including dev dependencies needed for build)
+RUN npm ci
 
 # Copy source code
 COPY . .
