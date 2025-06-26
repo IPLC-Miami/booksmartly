@@ -3,8 +3,8 @@ version: '3.8'
 services:
   glowlabs-server:
     build:
-      context: ./backend
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: backend/Dockerfile
     container_name: glowlabs-server
     restart: unless-stopped
     ports:
