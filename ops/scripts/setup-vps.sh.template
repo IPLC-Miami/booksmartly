@@ -1,0 +1,70 @@
+#!/bin/bash
+# VPS Initial Setup Script for Booksmartly
+# This script should be run on a fresh VPS to set up the initial environment
+
+set -e
+
+echo "🚀 Starting Booksmartly VPS setup..."
+
+# Update system packages
+echo "📦 Updating system packages..."
+apt-get update && apt-get upgrade -y
+
+# Install required packages
+echo "🔧 Installing required packages..."
+apt-get install -y \
+    docker.io \
+    docker-compose \
+    nginx \
+    certbot \
+    python3-certbot-nginx \
+    ufw \
+    fail2ban \
+    unattended-upgrades \
+    htop \
+    curl \
+    wget \
+    git
+
+# Start and enable Docker
+echo "🐳 Setting up Docker..."
+systemctl start docker
+systemctl enable docker
+usermod -aG docker root
+
+# Create application directory
+echo "📁 Creating application directory..."
+mkdir -p /opt/booksmartly
+cd /opt/booksmartly
+
+# Set up firewall rules
+echo "🔒 Configuring firewall..."
+ufw default deny incoming
+ufw default allow outgoing
+ufw allow ssh
+ufw allow 80/tcp
+ufw allow 443/tcp
+ufw allow 3000/tcp  # Frontend (if needed for direct access)
+ufw allow 3001/tcp  # Backend (if needed for direct access)
+ufw --force enable
+
+# Configure fail2ban
+echo "🛡️ Setting up fail2ban..."
+systemctl enable fail2ban
+systemctl start fail2ban
+
+# Set up automatic updates
+echo "🔄 Configuring automatic updates..."
+echo 'Unattended-Upgrade::Automatic-Reboot "false";' >> /etc/apt/apt.conf.d/50unattended-upgrades
+
+# Generate DH parameters for SSL
+echo "🔐 Generating DH parameters for SSL..."
+if [ ! -f /etc/ssl/certs/dhparam.pem ]; then
+    openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
+fi
+
+echo "✅ VPS setup completed!"
+echo "Next steps:"
+echo "1. Set up SSL certificates: certbot --nginx -d booksmartly.app -d www.booksmartly.app"
+echo "2. Copy your .env file to /opt/booksmartly/"
+echo "3. Run your first deployment"

@@ -1,4 +1,4 @@
-name: GlowLabs CI/CD Pipeline
+name: Booksmartly CI/CD Pipeline
 
 on:
   push:
@@ -8,8 +8,8 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME_SERVER: ${{ github.repository }}/glowlabs-server
-  IMAGE_NAME_CLIENT: ${{ github.repository }}/glowlabs-client
+  IMAGE_NAME_SERVER: ${{ github.repository }}/booksmartly-server
+  IMAGE_NAME_CLIENT: ${{ github.repository }}/booksmartly-client
 
 jobs:
   build-and-push:
@@ -101,6 +101,25 @@ jobs:
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan -H ${{ secrets.VPS_IP }} >> ~/.ssh/known_hosts
 
+    - name: Sync VPS-only configurations
+      run: |
+        echo "Syncing VPS-only configurations..."
+        
+        # Sync nginx templates to VPS
+        rsync -avz --delete ops/nginx/ root@${{ secrets.VPS_IP }}:/etc/nginx/sites-available/
+        
+        # Test nginx configuration and reload if valid
+        ssh root@${{ secrets.VPS_IP }} << 'EOF'
+          echo "Testing nginx configuration..."
+          if nginx -t; then
+            echo "✅ Nginx configuration is valid, reloading..."
+            systemctl reload nginx
+          else
+            echo "❌ Nginx configuration test failed!"
+            exit 1
+          fi
+        EOF
+
     - name: Deploy to VPS
       run: |
         ssh -o StrictHostKeyChecking=no root@${{ secrets.VPS_IP }} << 'EOF'
@@ -108,7 +127,7 @@ jobs:
           set -e
           
           # Navigate to application directory
-          cd /opt/glowlabs || { echo "Application directory not found"; exit 1; }
+          cd /opt/booksmartly || { echo "Application directory not found"; exit 1; }
           
           # Create backup of current deployment
           if [ -f docker-compose.yml ]; then
@@ -129,9 +148,9 @@ jobs:
         version: '3.8'
         
         services:
-          glowlabs-server:
+          booksmartly-server:
             image: ${{ needs.build-and-push.outputs.server-image }}
-            container_name: glowlabs-server
+            container_name: booksmartly-server
             restart: unless-stopped
             ports:
               - "3001:4000"
@@ -143,7 +162,7 @@ jobs:
             volumes:
               - ./logs:/app/logs
             networks:
-              - glowlabs-network
+              - booksmartly-network
             healthcheck:
               test: ["CMD", "node", "-e", "const http = require('http'); const options = { host: 'localhost', port: 4000, timeout: 2000 }; const request = http.request(options, (res) => { console.log('Health check passed'); process.exit(0); }); request.on('error', () => { console.log('Health check failed'); process.exit(1); }); request.end();"]
               interval: 30s
@@ -151,17 +170,17 @@ jobs:
               retries: 3
               start_period: 40s
         
-          glowlabs-client:
+          booksmartly-client:
             image: ${{ needs.build-and-push.outputs.client-image }}
-            container_name: glowlabs-client
+            container_name: booksmartly-client
             restart: unless-stopped
             ports:
               - "3000:80"
             depends_on:
-              glowlabs-server:
+              booksmartly-server:
                 condition: service_healthy
             networks:
-              - glowlabs-network
+              - booksmartly-network
             healthcheck:
               test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/"]
               interval: 30s
@@ -170,7 +189,7 @@ jobs:
               start_period: 20s
         
         networks:
-          glowlabs-network:
+          booksmartly-network:
             driver: bridge
         
         volumes:
@@ -222,8 +241,8 @@ jobs:
         echo "Verifying deployment..."
         sleep 30
         
-        # Check server health
-        if curl -f -s --max-time 10 http://${{ secrets.VPS_IP }}:4000/graphql; then
+        # Check server health (adjust endpoint as needed for your GraphQL setup)
+        if curl -f -s --max-time 10 http://${{ secrets.VPS_IP }}:3001/health || curl -f -s --max-time 10 http://${{ secrets.VPS_IP }}:3001/graphql; then
           echo "✅ Server is responding"
         else
           echo "❌ Server health check failed"
@@ -231,7 +250,7 @@ jobs:
         fi
         
         # Check client health
-        if curl -f -s --max-time 10 http://${{ secrets.VPS_IP }}/; then
+        if curl -f -s --max-time 10 http://${{ secrets.VPS_IP }}:3000/ || curl -f -s --max-time 10 https://booksmartly.app/; then
           echo "✅ Client is responding"
         else
           echo "❌ Client health check failed"

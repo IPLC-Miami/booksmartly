@@ -162,3 +162,13 @@ deployment-log.md
 # Local environment files
 .env*
 !.env.example
+
+# Never commit host-only configs (VPS separation)
+/etc/
+*.crt
+*.key
+/var/log/
+*.pem
+/opt/
+systemd/
+letsencrypt/
