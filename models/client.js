@@ -11,6 +11,7 @@ const ClientSchema = new Schema({
   phoneNumber: String,
   password: String,
   profilePicture: String,
+  admin: { type: Boolean, default: false },
   unsavedSquareCardIDs: { type: Array, default: [] },
   tokenCount: { type: Number, default: 0 },
   consentForm: { type: mongoose.Schema.Types.ObjectId, ref: 'ConsentForm' },
