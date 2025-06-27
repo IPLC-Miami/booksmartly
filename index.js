@@ -20,7 +20,6 @@ require("./models/treatment");
 
 const express = require("express");
 const compression = require("compression");
-require('dotenv').config({ path: require('path').resolve(__dirname, './backend/.env') });
 const { ApolloServer } = require("apollo-server-express");
 const schema = require("./schema/schema");
 const pubsub = require("./backend/services/pubsub");
@@ -702,6 +701,11 @@ app.use('/api/auth', authRoutes);
 app.use('/api/square', squareRoutes);
 app.use("/api/integrations/square", require("./backend/routes/square"));
 
+// Health check endpoint for Docker
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "healthy", timestamp: new Date().toISOString() });
+});
+
 app.get("/", (req, res) => {
   res.send("The Glow Labs server is up and running!");
 });
@@ -884,6 +888,9 @@ const httpServer = http.createServer(app);
 async function startServer() {
   await server.start();
   server.applyMiddleware({ app, path: "/graphql" });
+  
+  // Install subscription handlers for WebSocket support
+  server.installSubscriptionHandlers(httpServer);
 
   httpServer.listen(port, () => {
     console.log(
